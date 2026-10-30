@@ -7,7 +7,6 @@ package View;
 import Model.Usuario;
 import View.MenuPadrao;
 import View.TelaHome;
-import View.TelaPerfilUsuarios;
 import View.TelaProdutos;
 import View.Tela_Funcionarios_RH;
 import javax.swing.JOptionPane;

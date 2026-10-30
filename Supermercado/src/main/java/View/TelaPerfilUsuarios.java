@@ -4,8 +4,27 @@
  */
 package View;
 import Model.Usuario;
+import View.AlterarSenha;
 import View.MenuPadrao;
+import View.MenuPadrao;
+import View.RecuperacaoSenha;
+import View.TelaCaixa;
+import View.TelaEntregas;
+import View.TelaEstoque;
+import View.TelaFinanceiro;
+import View.TelaFornecedoresTerceirizados;
+import View.TelaGerenciamentoProdutos;
+import View.TelaHome;
+import View.TelaLoginUsuarios;
+import View.TelaPdvRealizacao;
 import View.TelaPedidos;
+import View.TelaPedidos;
+import View.TelaProdutos;
+import View.TelaSolicitacao;
+import View.TelaVendaPagamentos;
+import View.TelaVendas;
+import View.Tela_Funcionarios_RH;
+import View.TelasClientes;
 import javax.swing.JOptionPane;
 
 public class TelaPerfilUsuarios extends javax.swing.JFrame {
@@ -140,65 +159,103 @@ public void navegar(String idtela) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         areaPerfil = new javax.swing.JTabbedPane();
-        areaCadastroDeUsuario = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbUsuarios = new javax.swing.JTable();
-        btnCadastroUsuarioNovo = new javax.swing.JButton();
-        areaPermissoes = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbControlePermissoes = new javax.swing.JTable();
-        btnSalvarPermissoes = new javax.swing.JButton();
-        btnControlePermissoes = new javax.swing.JButton();
-        areaBloqueioDesbloqueio = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbBoqueioDesbloqueio = new javax.swing.JTable();
         areaHistoricoAcesso = new javax.swing.JPanel();
         cbHistoricoAcesso = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbHistoricoAcessos = new javax.swing.JTable();
-        areaPerfisdeAcesso = new javax.swing.JPanel();
-        areaAdministrado = new javax.swing.JPanel();
-        lbAdministrador = new javax.swing.JLabel();
-        tfAdministrado = new javax.swing.JTextField();
-        btnAdministradoPermissoes = new javax.swing.JButton();
-        areaGerenteLoja = new javax.swing.JPanel();
-        lbGerenteLoja = new javax.swing.JLabel();
-        tfGerenteLoja = new javax.swing.JTextField();
-        btnGerenteLojaPermissoes = new javax.swing.JButton();
-        areaOperadorCaixa = new javax.swing.JPanel();
-        lbOperadorCaixa = new javax.swing.JLabel();
-        tfOperadorCaixa = new javax.swing.JTextField();
-        btnOpperadorCaixaPermissoes = new javax.swing.JButton();
-        areaRepositor = new javax.swing.JPanel();
-        lbRepositor = new javax.swing.JLabel();
-        tfRepositor = new javax.swing.JTextField();
-        btnRepositorPermisoes = new javax.swing.JButton();
-        areaRegistroAtividade = new javax.swing.JPanel();
-        cbRegistroAtividade = new javax.swing.JComboBox<>();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        areaRegistrodeAtividades = new javax.swing.JTable();
+        areaCadastroDeUsuario = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbUsuarios = new javax.swing.JTable();
+        btnCadastroUsuarioNovo = new javax.swing.JButton();
         areaPerfilUsuario = new javax.swing.JPanel();
         lbNomePerfil = new javax.swing.JLabel();
         lbNomeCompletoPerfil = new javax.swing.JLabel();
         lbEmailPerfil = new javax.swing.JLabel();
-        lbLojaPerfil = new javax.swing.JLabel();
         tfNomecompletoPerfil = new javax.swing.JTextField();
-        tfLojaPerfil = new javax.swing.JTextField();
         tfEmailPerfil = new javax.swing.JTextField();
-        lbCargoPerfil = new javax.swing.JLabel();
+        lbSenhaPerfil = new javax.swing.JLabel();
         lbTelefonePerfil = new javax.swing.JLabel();
         tfCargoPerfil = new javax.swing.JTextField();
-        tfPerfilAcessoPerfil = new javax.swing.JTextField();
-        lbPerfilAcessoPerfil = new javax.swing.JLabel();
         ffTelefonePerfil = new javax.swing.JFormattedTextField();
         btnSalvarAlteracoesPerfil = new javax.swing.JButton();
+        cbTipoUsuario = new javax.swing.JComboBox<>();
+        lbTipoUsuario = new javax.swing.JLabel();
+        areaPermissoes = new javax.swing.JPanel();
+        cbTipoFuncionarioAreaPermissoes = new javax.swing.JComboBox<>();
+        chbTelaEstoque = new javax.swing.JCheckBox();
+        lbFuncionarioAreaPermissoes = new javax.swing.JLabel();
+        chbTelaCompras = new javax.swing.JCheckBox();
+        chbTelaClientes = new javax.swing.JCheckBox();
+        chbTelaPromocoes = new javax.swing.JCheckBox();
+        chbTelaProdutos = new javax.swing.JCheckBox();
+        chbTelaCaixa = new javax.swing.JCheckBox();
+        chbTelaVendas = new javax.swing.JCheckBox();
+        chbTelaPDV = new javax.swing.JCheckBox();
+        chbTelaPedidos = new javax.swing.JCheckBox();
+        chbTelaEntregas = new javax.swing.JCheckBox();
+        chbTelaRH = new javax.swing.JCheckBox();
+        chbTelaFinaceiro = new javax.swing.JCheckBox();
+        chbTelaRelatorios = new javax.swing.JCheckBox();
+        btnAtualizaAreaPermissoes = new javax.swing.JButton();
+        btnSalvarAreaAcesso = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         areaPerfil.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         areaPerfil.setMaximumSize(new java.awt.Dimension(1920, 1080));
         areaPerfil.setPreferredSize(new java.awt.Dimension(1700, 800));
+
+        areaHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        cbHistoricoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        tbHistoricoAcessos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Data Acesso", "Horario Acesso", "Terminal", "Dispositivo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tbHistoricoAcessos);
+
+        javax.swing.GroupLayout areaHistoricoAcessoLayout = new javax.swing.GroupLayout(areaHistoricoAcesso);
+        areaHistoricoAcesso.setLayout(areaHistoricoAcessoLayout);
+        areaHistoricoAcessoLayout.setHorizontalGroup(
+            areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaHistoricoAcessoLayout.createSequentialGroup()
+                .addContainerGap(1318, Short.MAX_VALUE)
+                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(159, 159, 159))
+            .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        areaHistoricoAcessoLayout.setVerticalGroup(
+            areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
+                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        areaPerfil.addTab("Histórico de acessos", areaHistoricoAcesso);
 
         areaCadastroDeUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
@@ -214,9 +271,17 @@ public void navegar(String idtela) {
                 {null, null, null, null, null}
             },
             new String [] {
-                "USUÁRIO", "CARGO", "PERFIL DE ACESSO", "LOJA", "STATUS"
+                "Nome", "CPF", "Email", "Senha", "Bloqueio"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbUsuarios);
 
         btnCadastroUsuarioNovo.setText("Novo Usuário");
@@ -229,8 +294,8 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadastroUsuarioNovo)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 883, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1471, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 72, Short.MAX_VALUE))
         );
         areaCadastroDeUsuarioLayout.setVerticalGroup(
             areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,355 +303,11 @@ public void navegar(String idtela) {
                 .addGap(29, 29, 29)
                 .addComponent(btnCadastroUsuarioNovo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Cadastro de Usuário", areaCadastroDeUsuario);
-
-        areaPermissoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        tbControlePermissoes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "PERMISSÃO", "ADMINISTRADOR", "GERENTE DA LOJA", "OPERADOR DE CAIXA", "REPOSITOR"
-            }
-        ));
-        jScrollPane2.setViewportView(tbControlePermissoes);
-
-        btnSalvarPermissoes.setText("Salvar alterções de permissões");
-
-        btnControlePermissoes.setText("Comparar todos os perfis");
-
-        javax.swing.GroupLayout areaPermissoesLayout = new javax.swing.GroupLayout(areaPermissoes);
-        areaPermissoes.setLayout(areaPermissoesLayout);
-        areaPermissoesLayout.setHorizontalGroup(
-            areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPermissoesLayout.createSequentialGroup()
-                .addContainerGap(903, Short.MAX_VALUE)
-                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPermissoesLayout.createSequentialGroup()
-                        .addComponent(btnControlePermissoes)
-                        .addGap(153, 153, 153))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPermissoesLayout.createSequentialGroup()
-                        .addComponent(btnSalvarPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPermissoesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))))
-        );
-        areaPermissoesLayout.setVerticalGroup(
-            areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPermissoesLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(btnControlePermissoes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btnSalvarPermissoes)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Área Permissões", areaPermissoes);
-
-        areaBloqueioDesbloqueio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        tbBoqueioDesbloqueio.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "USUÁRIO", "STATUS", "MOTIVO DE BLOQUEIO", "ÚLTIMA AÇÃO", "null"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tbBoqueioDesbloqueio);
-
-        javax.swing.GroupLayout areaBloqueioDesbloqueioLayout = new javax.swing.GroupLayout(areaBloqueioDesbloqueio);
-        areaBloqueioDesbloqueio.setLayout(areaBloqueioDesbloqueioLayout);
-        areaBloqueioDesbloqueioLayout.setHorizontalGroup(
-            areaBloqueioDesbloqueioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaBloqueioDesbloqueioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(862, Short.MAX_VALUE))
-        );
-        areaBloqueioDesbloqueioLayout.setVerticalGroup(
-            areaBloqueioDesbloqueioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaBloqueioDesbloqueioLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(414, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Bloqueio e desbloqueio de usuário", areaBloqueioDesbloqueio);
-
-        areaHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        cbHistoricoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        tbHistoricoAcessos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "DATA E HORA", "USUÁRIO", "TERMINAL", "DISPOSITIVOS", "STATUS"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Double.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(tbHistoricoAcessos);
-
-        javax.swing.GroupLayout areaHistoricoAcessoLayout = new javax.swing.GroupLayout(areaHistoricoAcesso);
-        areaHistoricoAcesso.setLayout(areaHistoricoAcessoLayout);
-        areaHistoricoAcessoLayout.setHorizontalGroup(
-            areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(159, 159, 159))
-            .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 889, Short.MAX_VALUE))
-        );
-        areaHistoricoAcessoLayout.setVerticalGroup(
-            areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
-                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Histórico de acessos", areaHistoricoAcesso);
-
-        areaPerfisdeAcesso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        lbAdministrador.setText("Administrador");
-
-        btnAdministradoPermissoes.setText("Ver permissões");
-
-        javax.swing.GroupLayout areaAdministradoLayout = new javax.swing.GroupLayout(areaAdministrado);
-        areaAdministrado.setLayout(areaAdministradoLayout);
-        areaAdministradoLayout.setHorizontalGroup(
-            areaAdministradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaAdministradoLayout.createSequentialGroup()
-                .addComponent(lbAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(areaAdministradoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(areaAdministradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfAdministrado)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaAdministradoLayout.createSequentialGroup()
-                        .addGap(0, 60, Short.MAX_VALUE)
-                        .addComponent(btnAdministradoPermissoes)))
-                .addContainerGap())
-        );
-        areaAdministradoLayout.setVerticalGroup(
-            areaAdministradoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaAdministradoLayout.createSequentialGroup()
-                .addComponent(lbAdministrador)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfAdministrado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAdministradoPermissoes)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        lbGerenteLoja.setText("Gerente da Loja");
-
-        btnGerenteLojaPermissoes.setText("Ver permissões");
-
-        javax.swing.GroupLayout areaGerenteLojaLayout = new javax.swing.GroupLayout(areaGerenteLoja);
-        areaGerenteLoja.setLayout(areaGerenteLojaLayout);
-        areaGerenteLojaLayout.setHorizontalGroup(
-            areaGerenteLojaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaGerenteLojaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(areaGerenteLojaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaGerenteLojaLayout.createSequentialGroup()
-                        .addComponent(lbGerenteLoja, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(29, Short.MAX_VALUE))
-                    .addComponent(tfGerenteLoja)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaGerenteLojaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGerenteLojaPermissoes)
-                .addContainerGap())
-        );
-        areaGerenteLojaLayout.setVerticalGroup(
-            areaGerenteLojaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaGerenteLojaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbGerenteLoja)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfGerenteLoja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(btnGerenteLojaPermissoes))
-        );
-
-        lbOperadorCaixa.setText("Operador Caixa");
-
-        btnOpperadorCaixaPermissoes.setText("Ver Permissões");
-
-        javax.swing.GroupLayout areaOperadorCaixaLayout = new javax.swing.GroupLayout(areaOperadorCaixa);
-        areaOperadorCaixa.setLayout(areaOperadorCaixaLayout);
-        areaOperadorCaixaLayout.setHorizontalGroup(
-            areaOperadorCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaOperadorCaixaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(areaOperadorCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaOperadorCaixaLayout.createSequentialGroup()
-                        .addComponent(lbOperadorCaixa)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(tfOperadorCaixa)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaOperadorCaixaLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
-                .addComponent(btnOpperadorCaixaPermissoes)
-                .addContainerGap())
-        );
-        areaOperadorCaixaLayout.setVerticalGroup(
-            areaOperadorCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaOperadorCaixaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbOperadorCaixa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfOperadorCaixa)
-                .addGap(18, 18, 18)
-                .addComponent(btnOpperadorCaixaPermissoes))
-        );
-
-        lbRepositor.setText("Repositor");
-
-        btnRepositorPermisoes.setText("Ver permissões");
-
-        javax.swing.GroupLayout areaRepositorLayout = new javax.swing.GroupLayout(areaRepositor);
-        areaRepositor.setLayout(areaRepositorLayout);
-        areaRepositorLayout.setHorizontalGroup(
-            areaRepositorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaRepositorLayout.createSequentialGroup()
-                .addGroup(areaRepositorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbRepositor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfRepositor)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaRepositorLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnRepositorPermisoes)))
-                .addContainerGap())
-        );
-        areaRepositorLayout.setVerticalGroup(
-            areaRepositorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaRepositorLayout.createSequentialGroup()
-                .addComponent(lbRepositor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfRepositor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRepositorPermisoes)
-                .addGap(0, 9, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout areaPerfisdeAcessoLayout = new javax.swing.GroupLayout(areaPerfisdeAcesso);
-        areaPerfisdeAcesso.setLayout(areaPerfisdeAcessoLayout);
-        areaPerfisdeAcessoLayout.setHorizontalGroup(
-            areaPerfisdeAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfisdeAcessoLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(areaPerfisdeAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(areaRepositor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(areaAdministrado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(43, 43, 43)
-                .addComponent(areaGerenteLoja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(areaOperadorCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(888, Short.MAX_VALUE))
-        );
-        areaPerfisdeAcessoLayout.setVerticalGroup(
-            areaPerfisdeAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfisdeAcessoLayout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addGroup(areaPerfisdeAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaPerfisdeAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(areaGerenteLoja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(areaAdministrado, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(areaOperadorCaixa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
-                .addComponent(areaRepositor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(523, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Perfis de Acesso", areaPerfisdeAcesso);
-
-        areaRegistroAtividade.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        cbRegistroAtividade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        areaRegistrodeAtividades.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "DATA E HORA", "USUÁRIO", "AÇÃO", "MÓDULO", "DETALHES"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Double.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(areaRegistrodeAtividades);
-
-        javax.swing.GroupLayout areaRegistroAtividadeLayout = new javax.swing.GroupLayout(areaRegistroAtividade);
-        areaRegistroAtividade.setLayout(areaRegistroAtividadeLayout);
-        areaRegistroAtividadeLayout.setHorizontalGroup(
-            areaRegistroAtividadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaRegistroAtividadeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(areaRegistroAtividadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaRegistroAtividadeLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cbRegistroAtividade, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1562, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        areaRegistroAtividadeLayout.setVerticalGroup(
-            areaRegistroAtividadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaRegistroAtividadeLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(cbRegistroAtividade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(472, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Registro de atividades", areaRegistroAtividade);
 
         areaPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
@@ -596,15 +317,15 @@ public void navegar(String idtela) {
 
         lbEmailPerfil.setText("E-mail completo");
 
-        lbLojaPerfil.setText("Loja/ Unidade");
-
-        lbCargoPerfil.setText("Cargo");
+        lbSenhaPerfil.setText("Senha");
 
         lbTelefonePerfil.setText("Telefone");
 
-        lbPerfilAcessoPerfil.setText("Perfil de acesso");
-
         btnSalvarAlteracoesPerfil.setText("Salvar Alteracões");
+
+        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lbTipoUsuario.setText("Tipo de Usuário");
 
         javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
         areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
@@ -613,57 +334,61 @@ public void navegar(String idtela) {
             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbNomeCompletoPerfil)))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbEmailPerfil)
-                            .addComponent(lbLojaPerfil)
-                            .addComponent(tfLojaPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfPerfilAcessoPerfil)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
+                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                        .addComponent(lbEmailPerfil)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                                        .addGap(179, 179, 179)))
+                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbTelefonePerfil)
+                                    .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbPerfilAcessoPerfil)
-                        .addGap(0, 1175, Short.MAX_VALUE))
-                    .addComponent(ffTelefonePerfil))
-                .addContainerGap())
+                        .addGap(12, 12, 12)
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbNomeCompletoPerfil)
+                            .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(179, 179, 179)
+                        .addComponent(lbSenhaPerfil)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(lbNomePerfil))
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfCargoPerfil)
-                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbTelefonePerfil)
-                                    .addComponent(lbCargoPerfil))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(12, 12, 12))
+                        .addGap(157, 157, 157)
+                        .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         areaPerfilUsuarioLayout.setVerticalGroup(
             areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(lbNomePerfil)
-                .addGap(28, 28, 28)
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbCargoPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbNomePerfil)
+                        .addGap(34, 34, 34)
                         .addComponent(lbNomeCompletoPerfil)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbSenhaPerfil)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(33, 33, 33)
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEmailPerfil)
@@ -672,30 +397,165 @@ public void navegar(String idtela) {
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addGap(55, 55, 55)
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbLojaPerfil)
-                    .addComponent(lbPerfilAcessoPerfil))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfLojaPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfPerfilAcessoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                    .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57)
                 .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(434, Short.MAX_VALUE))
+                .addContainerGap(436, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Perfil do Usuário", areaPerfilUsuario);
+
+        areaPermissoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        cbTipoFuncionarioAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        cbTipoFuncionarioAreaPermissoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        chbTelaEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaEstoque.setText("Tela Estoque");
+
+        lbFuncionarioAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbFuncionarioAreaPermissoes.setText("Funcionário");
+
+        chbTelaCompras.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaCompras.setText("Tela  Compras");
+
+        chbTelaClientes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaClientes.setText("Tela Clientes");
+
+        chbTelaPromocoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaPromocoes.setText("Tela Promoções");
+
+        chbTelaProdutos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaProdutos.setText("Tela Produtos");
+
+        chbTelaCaixa.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaCaixa.setText("Tela Caixa");
+
+        chbTelaVendas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaVendas.setText("Tela Vendas");
+
+        chbTelaPDV.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaPDV.setText("Tela PDV");
+
+        chbTelaPedidos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaPedidos.setText("Tela Pedidos");
+
+        chbTelaEntregas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaEntregas.setText("Tela Entregas");
+
+        chbTelaRH.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaRH.setText("Tela RH");
+
+        chbTelaFinaceiro.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaFinaceiro.setText("Tela Finaceiro");
+
+        chbTelaRelatorios.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        chbTelaRelatorios.setText("Tela Relatorio");
+
+        btnAtualizaAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnAtualizaAreaPermissoes.setText("Altualizar");
+
+        btnSalvarAreaAcesso.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnSalvarAreaAcesso.setText("Salvar");
+
+        javax.swing.GroupLayout areaPermissoesLayout = new javax.swing.GroupLayout(areaPermissoes);
+        areaPermissoes.setLayout(areaPermissoesLayout);
+        areaPermissoesLayout.setHorizontalGroup(
+            areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaPermissoesLayout.createSequentialGroup()
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(areaPermissoesLayout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chbTelaVendas)
+                            .addGroup(areaPermissoesLayout.createSequentialGroup()
+                                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chbTelaProdutos)
+                                    .addComponent(chbTelaEstoque)
+                                    .addComponent(chbTelaCompras)
+                                    .addComponent(chbTelaClientes)
+                                    .addComponent(chbTelaPromocoes)
+                                    .addComponent(chbTelaCaixa))
+                                .addGap(306, 306, 306)
+                                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chbTelaRelatorios)
+                                    .addComponent(chbTelaFinaceiro)
+                                    .addComponent(chbTelaRH)
+                                    .addComponent(chbTelaEntregas)
+                                    .addComponent(chbTelaPedidos)
+                                    .addComponent(chbTelaPDV)))))
+                    .addGroup(areaPermissoesLayout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(383, 383, 383)
+                        .addComponent(btnAtualizaAreaPermissoes))
+                    .addGroup(areaPermissoesLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(757, Short.MAX_VALUE))
+        );
+        areaPermissoesLayout.setVerticalGroup(
+            areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPermissoesLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(96, 96, 96)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaProdutos)
+                    .addComponent(chbTelaPDV))
+                .addGap(42, 42, 42)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaEstoque)
+                    .addComponent(chbTelaPedidos))
+                .addGap(46, 46, 46)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaCompras)
+                    .addComponent(chbTelaEntregas))
+                .addGap(40, 40, 40)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaClientes)
+                    .addComponent(chbTelaRH))
+                .addGap(34, 34, 34)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaPromocoes)
+                    .addComponent(chbTelaFinaceiro))
+                .addGap(39, 39, 39)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbTelaCaixa)
+                    .addComponent(chbTelaRelatorios))
+                .addGap(36, 36, 36)
+                .addComponent(chbTelaVendas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtualizaAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(146, 146, 146))
+        );
+
+        areaPerfil.addTab("Área Permissões", areaPermissoes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 1574, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 1549, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -729,58 +589,47 @@ public void navegar(String idtela) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel areaAdministrado;
-    private javax.swing.JPanel areaBloqueioDesbloqueio;
     private javax.swing.JPanel areaCadastroDeUsuario;
-    private javax.swing.JPanel areaGerenteLoja;
     private javax.swing.JPanel areaHistoricoAcesso;
-    private javax.swing.JPanel areaOperadorCaixa;
     private javax.swing.JTabbedPane areaPerfil;
     private javax.swing.JPanel areaPerfilUsuario;
-    private javax.swing.JPanel areaPerfisdeAcesso;
     private javax.swing.JPanel areaPermissoes;
-    private javax.swing.JPanel areaRegistroAtividade;
-    private javax.swing.JTable areaRegistrodeAtividades;
-    private javax.swing.JPanel areaRepositor;
-    private javax.swing.JButton btnAdministradoPermissoes;
+    private javax.swing.JButton btnAtualizaAreaPermissoes;
     private javax.swing.JButton btnCadastroUsuarioNovo;
-    private javax.swing.JButton btnControlePermissoes;
-    private javax.swing.JButton btnGerenteLojaPermissoes;
-    private javax.swing.JButton btnOpperadorCaixaPermissoes;
-    private javax.swing.JButton btnRepositorPermisoes;
     private javax.swing.JButton btnSalvarAlteracoesPerfil;
-    private javax.swing.JButton btnSalvarPermissoes;
+    private javax.swing.JButton btnSalvarAreaAcesso;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbHistoricoAcesso;
-    private javax.swing.JComboBox<String> cbRegistroAtividade;
+    private javax.swing.JComboBox<String> cbTipoFuncionarioAreaPermissoes;
+    private javax.swing.JComboBox<String> cbTipoUsuario;
+    private javax.swing.JCheckBox chbTelaCaixa;
+    private javax.swing.JCheckBox chbTelaClientes;
+    private javax.swing.JCheckBox chbTelaCompras;
+    private javax.swing.JCheckBox chbTelaEntregas;
+    private javax.swing.JCheckBox chbTelaEstoque;
+    private javax.swing.JCheckBox chbTelaFinaceiro;
+    private javax.swing.JCheckBox chbTelaPDV;
+    private javax.swing.JCheckBox chbTelaPedidos;
+    private javax.swing.JCheckBox chbTelaProdutos;
+    private javax.swing.JCheckBox chbTelaPromocoes;
+    private javax.swing.JCheckBox chbTelaRH;
+    private javax.swing.JCheckBox chbTelaRelatorios;
+    private javax.swing.JCheckBox chbTelaVendas;
     private javax.swing.JFormattedTextField ffTelefonePerfil;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JLabel lbAdministrador;
-    private javax.swing.JLabel lbCargoPerfil;
     private javax.swing.JLabel lbEmailPerfil;
-    private javax.swing.JLabel lbGerenteLoja;
-    private javax.swing.JLabel lbLojaPerfil;
+    private javax.swing.JLabel lbFuncionarioAreaPermissoes;
     private javax.swing.JLabel lbNomeCompletoPerfil;
     private javax.swing.JLabel lbNomePerfil;
-    private javax.swing.JLabel lbOperadorCaixa;
-    private javax.swing.JLabel lbPerfilAcessoPerfil;
-    private javax.swing.JLabel lbRepositor;
+    private javax.swing.JLabel lbSenhaPerfil;
     private javax.swing.JLabel lbTelefonePerfil;
-    private javax.swing.JTable tbBoqueioDesbloqueio;
-    private javax.swing.JTable tbControlePermissoes;
+    private javax.swing.JLabel lbTipoUsuario;
     private javax.swing.JTable tbHistoricoAcessos;
     private javax.swing.JTable tbUsuarios;
-    private javax.swing.JTextField tfAdministrado;
     private javax.swing.JTextField tfCargoPerfil;
     private javax.swing.JTextField tfEmailPerfil;
-    private javax.swing.JTextField tfGerenteLoja;
-    private javax.swing.JTextField tfLojaPerfil;
     private javax.swing.JTextField tfNomecompletoPerfil;
-    private javax.swing.JTextField tfOperadorCaixa;
-    private javax.swing.JTextField tfPerfilAcessoPerfil;
-    private javax.swing.JTextField tfRepositor;
     // End of variables declaration//GEN-END:variables
 }

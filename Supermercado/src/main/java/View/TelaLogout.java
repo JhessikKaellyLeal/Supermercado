@@ -36,15 +36,19 @@ public class TelaLogout extends javax.swing.JPanel {
 
         lbLogotipoEncerramento.setText("jLabel1");
 
+        lbEncerramentoSessão.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         lbEncerramentoSessão.setText("Encerrar Sessão?");
 
         taEncerrarSessao.setColumns(20);
+        taEncerrarSessao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         taEncerrarSessao.setRows(5);
         taEncerrarSessao.setText("Você está saindo do terminal \nCAIXA-ADM como Admistrador.\nAlterações não serão perdidas.");
         jScrollPane1.setViewportView(taEncerrarSessao);
 
+        btnCancelarEncerrarSessao.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnCancelarEncerrarSessao.setText("Cancelar");
 
+        btnSairEncerrarSessao.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnSairEncerrarSessao.setText("Sair agora");
 
         javax.swing.GroupLayout areaEncerramentoLayout = new javax.swing.GroupLayout(areaEncerramento);
@@ -54,36 +58,38 @@ public class TelaLogout extends javax.swing.JPanel {
             .addGroup(areaEncerramentoLayout.createSequentialGroup()
                 .addGroup(areaEncerramentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(areaEncerramentoLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(areaEncerramentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbEncerramentoSessão)
-                            .addGroup(areaEncerramentoLayout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(lbLogotipoEncerramento))))
-                    .addGroup(areaEncerramentoLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addContainerGap()
                         .addComponent(btnCancelarEncerrarSessao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSairEncerrarSessao))
                     .addGroup(areaEncerramentoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGroup(areaEncerramentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(areaEncerramentoLayout.createSequentialGroup()
+                                .addGap(103, 103, 103)
+                                .addComponent(lbEncerramentoSessão))
+                            .addGroup(areaEncerramentoLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(areaEncerramentoLayout.createSequentialGroup()
+                                .addGap(194, 194, 194)
+                                .addComponent(lbLogotipoEncerramento)))
+                        .addGap(0, 44, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         areaEncerramentoLayout.setVerticalGroup(
             areaEncerramentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaEncerramentoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(lbLogotipoEncerramento)
                 .addGap(18, 18, 18)
                 .addComponent(lbEncerramentoSessão)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94)
                 .addGroup(areaEncerramentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarEncerrarSessao)
                     .addComponent(btnSairEncerrarSessao))
-                .addContainerGap())
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -91,16 +97,15 @@ public class TelaLogout extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(87, Short.MAX_VALUE)
-                .addComponent(areaEncerramento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
+                .addGap(0, 73, Short.MAX_VALUE)
+                .addComponent(areaEncerramento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(32, 32, 32)
                 .addComponent(areaEncerramento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

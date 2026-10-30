@@ -40,12 +40,18 @@ public class RecuperacaoSenha extends javax.swing.JPanel {
 
         lbNomeSupermercadoRecuperar.setText("jLabel2");
 
+        lbEmailRecuperarSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         lbEmailRecuperarSenha.setText("E-mail cadastrado");
 
+        tfEmailCadatradoRecuperarSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        btnEnviarCodigoRecuperarSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnEnviarCodigoRecuperarSenha.setText("Enviar código");
 
+        btnVoltaLoginRecuperarSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnVoltaLoginRecuperarSenha.setText("Volta ao login");
 
+        lbInformacoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbInformacoes.setText("Informe o e-mail cadastrado.  Enviaremos um código de verificação de 6 digitos.");
 
         javax.swing.GroupLayout areaRecuperarSenhaLayout = new javax.swing.GroupLayout(areaRecuperarSenha);
@@ -56,28 +62,29 @@ public class RecuperacaoSenha extends javax.swing.JPanel {
                 .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(spRecuperarSenha, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
+                        .addGap(211, 211, 211)
                         .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
-                                .addGap(121, 121, 121)
-                                .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbNomeSupermercadoRecuperar)
-                                    .addComponent(lbLogotipoRecuperarSenha)))
-                            .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lbEmailRecuperarSenha))
-                            .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(tfEmailCadatradoRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnVoltaLoginRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnEnviarCodigoRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 70, Short.MAX_VALUE)))
+                            .addComponent(lbLogotipoRecuperarSenha)
+                            .addComponent(lbNomeSupermercadoRecuperar))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaRecuperarSenhaLayout.createSequentialGroup()
+                .addGap(0, 8, Short.MAX_VALUE)
+                .addComponent(lbInformacoes))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaRecuperarSenhaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVoltaLoginRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnviarCodigoRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(176, 176, 176))
             .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(areaRecuperarSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(tfEmailCadatradoRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(lbEmailRecuperarSenha)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         areaRecuperarSenhaLayout.setVerticalGroup(
@@ -85,21 +92,21 @@ public class RecuperacaoSenha extends javax.swing.JPanel {
             .addGroup(areaRecuperarSenhaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbLogotipoRecuperarSenha)
-                .addGap(22, 22, 22)
+                .addGap(28, 28, 28)
                 .addComponent(lbNomeSupermercadoRecuperar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbEmailRecuperarSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(tfEmailCadatradoRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(64, 64, 64)
                 .addComponent(btnEnviarCodigoRecuperarSenha)
-                .addGap(18, 18, 18)
+                .addGap(52, 52, 52)
                 .addComponent(btnVoltaLoginRecuperarSenha)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -107,16 +114,16 @@ public class RecuperacaoSenha extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addGap(16, 16, 16)
                 .addComponent(areaRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(areaRecuperarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

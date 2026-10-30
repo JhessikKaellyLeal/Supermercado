@@ -13,7 +13,6 @@ import View.TelaHome;
 import View.TelaLoginUsuarios;
 import View.TelaPdvRealizacao;
 import View.TelaPedidos;
-import View.TelaPerfilUsuarios;
 import View.TelaProdutos;
 import View.TelaSolicitacao;
 import View.TelaVendas;
