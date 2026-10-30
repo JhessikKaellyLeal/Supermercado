@@ -187,8 +187,6 @@ public void navegar(String idtela) {
         cbxTipoDescontoCD = new javax.swing.JComboBox<>();
         lbTipoDescontoCD = new javax.swing.JLabel();
         lbValorDescontoCD = new javax.swing.JLabel();
-        rbtnValorDescontoAtivaCD = new javax.swing.JRadioButton();
-        rbtnValorDescontoInativaCD = new javax.swing.JRadioButton();
         spnValorDescontoCD = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
         lbValorMinimoCD = new javax.swing.JLabel();
@@ -335,6 +333,7 @@ public void navegar(String idtela) {
 
         btnBuscarProdutoCategoriaCP.setBackground(new java.awt.Color(204, 204, 204));
         btnBuscarProdutoCategoriaCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnBuscarProdutoCategoriaCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnBuscarProdutoCategoriaCP.setText("Buscar");
         btnBuscarProdutoCategoriaCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -386,13 +385,13 @@ public void navegar(String idtela) {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel16)
-                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbQtdeMinima)
                     .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,11 +415,21 @@ public void navegar(String idtela) {
         lbDataInicioCP.setText("Data de Inicio:");
 
         ftfDataInicioCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        try {
+            ftfDataInicioCP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfDataInicioCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbDataFimCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDataFimCP.setText("Data de Fim:");
 
+        try {
+            ftfDataFimCP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfDataFimCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbRegrasObservacoesCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -480,40 +489,47 @@ public void navegar(String idtela) {
 
         btnNovoCP.setBackground(new java.awt.Color(204, 204, 204));
         btnNovoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnNovoCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\+.png")); // NOI18N
         btnNovoCP.setText("Novo");
         btnNovoCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnSalvarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnSalvarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSalvarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCP.setText("Salvar");
         btnSalvarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnEditarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEditarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EDITAR.png")); // NOI18N
         btnEditarCP.setText("Editar");
         btnEditarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEditarCP.addActionListener(this::btnEditarCPActionPerformed);
 
         btnExcluirCP.setBackground(new java.awt.Color(204, 204, 204));
         btnExcluirCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnExcluirCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EXCLUIR.png")); // NOI18N
         btnExcluirCP.setText("Excluir");
         btnExcluirCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnExcluirCP.addActionListener(this::btnExcluirCPActionPerformed);
 
         btnLimparCP.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparCP.setText("Limpar");
         btnLimparCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparCP.addActionListener(this::btnLimparCPActionPerformed);
 
         btnPesquisarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarCP.setText("Pesquisar");
         btnPesquisarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarCP.addActionListener(this::btnPesquisarCPActionPerformed);
 
         btnVoltarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarCP.setText("Voltar");
         btnVoltarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarCP.addActionListener(this::btnVoltarCPActionPerformed);
@@ -609,7 +625,7 @@ public void navegar(String idtela) {
                     .addComponent(btnVoltarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro De Pomoção", pnCadastroPromocoes);
@@ -634,14 +650,6 @@ public void navegar(String idtela) {
         lbValorDescontoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbValorDescontoCD.setText("Valor do Desconto:");
 
-        rbtnValorDescontoAtivaCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        rbtnValorDescontoAtivaCD.setText("Ativa");
-        rbtnValorDescontoAtivaCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        rbtnValorDescontoInativaCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        rbtnValorDescontoInativaCD.setText("Inativa");
-        rbtnValorDescontoInativaCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         spnValorDescontoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spnValorDescontoCD.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, null, 1.0d));
         spnValorDescontoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -665,10 +673,6 @@ public void navegar(String idtela) {
                         .addComponent(lbValorDescontoCD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(83, 83, 83)
-                .addComponent(rbtnValorDescontoAtivaCD, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(rbtnValorDescontoInativaCD)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -685,9 +689,7 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbValorDescontoCD)
-                    .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtnValorDescontoAtivaCD)
-                    .addComponent(rbtnValorDescontoInativaCD))
+                    .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -776,10 +778,20 @@ public void navegar(String idtela) {
         lbDataInicioCD.setText("Data de Inicio:");
 
         tfDataInicioCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        try {
+            tfDataInicioCD.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         lbDataFimCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDataFimCD.setText("Data de Fim:");
 
+        try {
+            tfDataFimCD.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         tfDataFimCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbObservacoesDescricaoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -838,40 +850,47 @@ public void navegar(String idtela) {
 
         btnNovoCD.setBackground(new java.awt.Color(204, 204, 204));
         btnNovoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnNovoCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\+.png")); // NOI18N
         btnNovoCD.setText("Novo");
         btnNovoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnSalvarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnSalvarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSalvarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCD.setText("Salvar");
         btnSalvarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnEditarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEditarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EDITAR.png")); // NOI18N
         btnEditarCD.setText("Editar");
         btnEditarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEditarCD.addActionListener(this::btnEditarCDActionPerformed);
 
         btnExcluirCD.setBackground(new java.awt.Color(204, 204, 204));
         btnExcluirCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnExcluirCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EXCLUIR.png")); // NOI18N
         btnExcluirCD.setText("Excluir");
         btnExcluirCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnExcluirCD.addActionListener(this::btnExcluirCDActionPerformed);
 
         btnLimparCD.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparCD.setText("Limpar");
         btnLimparCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparCD.addActionListener(this::btnLimparCDActionPerformed);
 
         btnPesquisarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarCD.setText("Pesquisar");
         btnPesquisarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarCD.addActionListener(this::btnPesquisarCDActionPerformed);
 
         btnVoltarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarCD.setText("Voltar");
         btnVoltarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarCD.addActionListener(this::btnVoltarCDActionPerformed);
@@ -985,6 +1004,18 @@ public void navegar(String idtela) {
 
         lbPeriodoEntreHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbPeriodoEntreHP.setText("Período entre:");
+
+        try {
+            tfPeriodoDeHP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tfPeriodoAteHP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         lbAteHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbAteHP.setText("Até");
@@ -1127,30 +1158,35 @@ public void navegar(String idtela) {
 
         btnImprimirHP.setBackground(new java.awt.Color(204, 204, 204));
         btnImprimirHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnImprimirHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\document.png")); // NOI18N
         btnImprimirHP.setText("Imprimir");
         btnImprimirHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnImprimirHP.addActionListener(this::btnImprimirHPActionPerformed);
 
         btnExportarCSVHP.setBackground(new java.awt.Color(204, 204, 204));
         btnExportarCSVHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnExportarCSVHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\csv.png")); // NOI18N
         btnExportarCSVHP.setText("Exportar para CSV");
         btnExportarCSVHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnExportarCSVHP.addActionListener(this::btnExportarCSVHPActionPerformed);
 
         btnLimparHP.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparHP.setText("Limpar Filtros");
         btnLimparHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparHP.addActionListener(this::btnLimparHPActionPerformed);
 
         btnPesquisarHP.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarHP.setText("Pesquisar");
         btnPesquisarHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarHP.addActionListener(this::btnPesquisarHPActionPerformed);
 
         btnVoltarHP.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarHP.setText("Voltar");
         btnVoltarHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarHP.addActionListener(this::btnVoltarHPActionPerformed);
@@ -1449,8 +1485,6 @@ public void navegar(String idtela) {
     private javax.swing.JRadioButton rbtnAtivasFinalizadasHP;
     private javax.swing.JRadioButton rbtnStatusAtivoCP;
     private javax.swing.JRadioButton rbtnStatusInativoCP;
-    private javax.swing.JRadioButton rbtnValorDescontoAtivaCD;
-    private javax.swing.JRadioButton rbtnValorDescontoInativaCD;
     private javax.swing.JSpinner spnDescontoCP;
     private javax.swing.JSpinner spnLimiteClienteCD;
     private javax.swing.JSpinner spnQtdMaxUsosCD;
