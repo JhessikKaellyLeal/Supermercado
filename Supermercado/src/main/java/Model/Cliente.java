@@ -1,27 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Cliente {
- private int  intervaloDias;
- private String nome, cpf, rh, dataNascimento, genero, email, telefone, senha;
- private boolean status;
 
+    private int idcliente;
+    private String nome;
+    private String cpf;
+    private String rg;
+    private String dataNascimento;
+    private String genero;
+    private String email;
+    private String telefone;
+    private int status;
+    private String senha;
+
+    // Construtor vazio
     public Cliente() {
     }
 
-    public int getIntervaloDias() {
-        return intervaloDias;
+    // Construtor completo
+    public Cliente(int idcliente, String nome, String cpf, String rg,
+            String dataNascimento, String genero, String email,
+            String telefone, int status, String senha) {
+
+        this.idcliente = idcliente;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+        this.email = email;
+        this.telefone = telefone;
+        this.status = status;
+        this.senha = senha;
     }
 
-    public void setIntervaloDias(int intervaloDias) {
-        this.intervaloDias = intervaloDias;
+    // Getters e Setters
+
+    public int getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
     }
 
     public String getNome() {
@@ -40,12 +60,12 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public String getRh() {
-        return rh;
+    public String getRg() {
+        return rg;
     }
 
-    public void setRh(String rh) {
-        this.rh = rh;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
     public String getDataNascimento() {
@@ -80,6 +100,14 @@ public class Cliente {
         this.telefone = telefone;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -87,13 +115,4 @@ public class Cliente {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
- 
 }
