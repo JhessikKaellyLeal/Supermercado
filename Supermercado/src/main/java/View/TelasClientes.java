@@ -41,6 +41,8 @@ public class TelasClientes extends javax.swing.JFrame {
          
          //exibe a tela inicial dentro do menu
          menu.mostrarTela(new TelasClientes(usuario));
+         this.setExtendedState(TelasClientes.MAXIMIZED_BOTH);
+   
         
     }
     
