@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Model.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioController {
     
@@ -162,6 +164,38 @@ public Usuario login(String email, String senha) {
             return false;
         }
     }
+    public List<Object[]> listarFuncionariosCombo() {
+
+    List<Object[]> lista = new ArrayList<>();
+
+    String sql = "SELECT idusuario, nome "
+            + "FROM usuario "
+            + "WHERE Funcionario_idFuncionario IS NOT NULL "
+            + "ORDER BY nome";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            Object[] dados = {
+                rs.getInt("idusuario"),
+                rs.getString("nome")
+            };
+
+            lista.add(dados);
+        }
+
+    } catch (SQLException e) {
+
+        throw new RuntimeException(
+            "Erro ao consultar funcionários: " + e.getMessage()
+        );
+    }
+
+    return lista;
+}
 }
 
 

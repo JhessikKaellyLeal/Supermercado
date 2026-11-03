@@ -8,12 +8,12 @@ package Model;
  *
  * @author AntônioVieira
  */
-public class Funcinario {
+public class Funcionario {
   private int  idFuncionario, cargos_idcargos, setores_idsetores, turnos_idturnos; 
    private String  nome, dataNascimento, cpf, telefone, dataAdmissao;
-   private boolean statusFuncionario;
+   private int statusFuncionario;
 
-    public Funcinario() {
+    public Funcionario() {
     }
 
     public int getIdFuncionario() {
@@ -88,11 +88,11 @@ public class Funcinario {
         this.dataAdmissao = dataAdmissao;
     }
 
-    public boolean isStatusFuncionario() {
+    public int isStatusFuncionario() {
         return statusFuncionario;
     }
 
-    public void setStatusFuncionario(boolean statusFuncionario) {
+    public void setStatusFuncionario(int statusFuncionario) {
         this.statusFuncionario = statusFuncionario;
     }
   

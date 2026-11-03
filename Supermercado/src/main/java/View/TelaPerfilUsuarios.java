@@ -3,29 +3,60 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+import Conection.Conexao;
+import Control.FuncionarioController;
+import Control.UsuarioController;
 import Model.Usuario;
+import View.AlterarSenha;
 import View.AlterarSenha;
 import View.MenuPadrao;
 import View.MenuPadrao;
+import View.MenuPadrao;
+import View.RecuperacaoSenha;
 import View.RecuperacaoSenha;
 import View.TelaCaixa;
+import View.TelaCaixa;
+import View.TelaEntregas;
 import View.TelaEntregas;
 import View.TelaEstoque;
+import View.TelaEstoque;
+import View.TelaFinanceiro;
 import View.TelaFinanceiro;
 import View.TelaFornecedoresTerceirizados;
+import View.TelaFornecedoresTerceirizados;
+import View.TelaGerenciamentoProdutos;
 import View.TelaGerenciamentoProdutos;
 import View.TelaHome;
+import View.TelaHome;
 import View.TelaLoginUsuarios;
+import View.TelaLoginUsuarios;
+import View.TelaPdvRealizacao;
 import View.TelaPdvRealizacao;
 import View.TelaPedidos;
 import View.TelaPedidos;
+import View.TelaPedidos;
+import View.TelaProdutos;
 import View.TelaProdutos;
 import View.TelaSolicitacao;
+import View.TelaSolicitacao;
+import View.TelaVendaPagamentos;
 import View.TelaVendaPagamentos;
 import View.TelaVendas;
+import View.TelaVendas;
+import View.Tela_Funcionarios_RH;
 import View.Tela_Funcionarios_RH;
 import View.TelasClientes;
+import View.TelasClientes;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import Control.HistoricoAcessoController;
+import Control.PermissoesController;
+import Model.Funcionario;
+import java.util.List;
 
 public class TelaPerfilUsuarios extends javax.swing.JFrame {
     
@@ -36,6 +67,13 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
   
     public TelaPerfilUsuarios(Usuario usuario) {
         initComponents();
+      
+       listarFuncionariosCombo();
+        DefaultTableModel modelo = new DefaultTableModel();
+
+ 
+
+tbUsuarios.setModel(modelo);
           this.usuario= usuario;
         MenuPadrao.instalar(
         this,
@@ -43,10 +81,12 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
         "inicio",
         this::navegar,
         this::dispose
+                
     );
         
        
     }
+  
 
     // MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
@@ -146,10 +186,84 @@ public void navegar(String idtela) {
 }
 
 
+ 
+ private void listarHistoricoAcessos() {
 
-    
-    
-    
+   
+    try {
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbHistoricoAcessos.getModel();
+
+        modelo.setRowCount(0);
+
+        HistoricoAcessosController controller =
+                new HistoricoAcessosController();
+
+        for (Object[] dados : controller.listarTodos()) {
+
+            modelo.addRow(dados);
+
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar histórico de acessos: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+ 
+
+private void listarFuncionariosCombo() {
+
+    cbHistoricoAcesso.removeAllItems();
+    cbTipoFuncionarioAreaPermissoes.removeAllItems();
+
+    FuncionarioController controller = new FuncionarioController();
+
+    try {
+
+        for (Funcionario funcionario : controller.listar()) {
+
+            String nome = funcionario.getNome();
+
+            cbHistoricoAcesso.addItem(nome);
+
+            cbTipoFuncionarioAreaPermissoes.addItem(nome);
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao listar funcionários: " + e.getMessage()
+        );
+    }
+}
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,19 +284,6 @@ public void navegar(String idtela) {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbUsuarios = new javax.swing.JTable();
         btnCadastroUsuarioNovo = new javax.swing.JButton();
-        areaPerfilUsuario = new javax.swing.JPanel();
-        lbNomePerfil = new javax.swing.JLabel();
-        lbNomeCompletoPerfil = new javax.swing.JLabel();
-        lbEmailPerfil = new javax.swing.JLabel();
-        tfNomecompletoPerfil = new javax.swing.JTextField();
-        tfEmailPerfil = new javax.swing.JTextField();
-        lbSenhaPerfil = new javax.swing.JLabel();
-        lbTelefonePerfil = new javax.swing.JLabel();
-        tfCargoPerfil = new javax.swing.JTextField();
-        ffTelefonePerfil = new javax.swing.JFormattedTextField();
-        btnSalvarAlteracoesPerfil = new javax.swing.JButton();
-        cbTipoUsuario = new javax.swing.JComboBox<>();
-        lbTipoUsuario = new javax.swing.JLabel();
         areaPermissoes = new javax.swing.JPanel();
         cbTipoFuncionarioAreaPermissoes = new javax.swing.JComboBox<>();
         chbTelaEstoque = new javax.swing.JCheckBox();
@@ -201,6 +302,19 @@ public void navegar(String idtela) {
         chbTelaRelatorios = new javax.swing.JCheckBox();
         btnAtualizaAreaPermissoes = new javax.swing.JButton();
         btnSalvarAreaAcesso = new javax.swing.JButton();
+        areaPerfilUsuario = new javax.swing.JPanel();
+        lbNomePerfil = new javax.swing.JLabel();
+        lbNomeCompletoPerfil = new javax.swing.JLabel();
+        lbEmailPerfil = new javax.swing.JLabel();
+        tfNomecompletoPerfil = new javax.swing.JTextField();
+        tfEmailPerfil = new javax.swing.JTextField();
+        lbSenhaPerfil = new javax.swing.JLabel();
+        lbTelefonePerfil = new javax.swing.JLabel();
+        tfCargoPerfil = new javax.swing.JTextField();
+        ffTelefonePerfil = new javax.swing.JFormattedTextField();
+        btnSalvarAlteracoesPerfil = new javax.swing.JButton();
+        cbTipoUsuario = new javax.swing.JComboBox<>();
+        lbTipoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -210,8 +324,11 @@ public void navegar(String idtela) {
 
         areaHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
+        cbHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         cbHistoricoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbHistoricoAcesso.addActionListener(this::cbHistoricoAcessoActionPerformed);
 
+        tbHistoricoAcessos.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         tbHistoricoAcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -237,28 +354,30 @@ public void navegar(String idtela) {
         areaHistoricoAcesso.setLayout(areaHistoricoAcessoLayout);
         areaHistoricoAcessoLayout.setHorizontalGroup(
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(1318, Short.MAX_VALUE)
-                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(159, 159, 159))
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaHistoricoAcessoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
         );
         areaHistoricoAcessoLayout.setVerticalGroup(
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         areaPerfil.addTab("Histórico de acessos", areaHistoricoAcesso);
 
         areaCadastroDeUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
+        tbUsuarios.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -284,6 +403,7 @@ public void navegar(String idtela) {
         });
         jScrollPane1.setViewportView(tbUsuarios);
 
+        btnCadastroUsuarioNovo.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnCadastroUsuarioNovo.setText("Novo Usuário");
 
         javax.swing.GroupLayout areaCadastroDeUsuarioLayout = new javax.swing.GroupLayout(areaCadastroDeUsuario);
@@ -293,125 +413,29 @@ public void navegar(String idtela) {
             .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCadastroUsuarioNovo)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1471, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 72, Short.MAX_VALUE))
+                    .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1471, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCadastroUsuarioNovo))
+                .addGap(0, 66, Short.MAX_VALUE))
         );
         areaCadastroDeUsuarioLayout.setVerticalGroup(
             areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(btnCadastroUsuarioNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Cadastro de Usuário", areaCadastroDeUsuario);
 
-        areaPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        lbNomePerfil.setText("jLabel1");
-
-        lbNomeCompletoPerfil.setText("Nome completo");
-
-        lbEmailPerfil.setText("E-mail completo");
-
-        lbSenhaPerfil.setText("Senha");
-
-        lbTelefonePerfil.setText("Telefone");
-
-        btnSalvarAlteracoesPerfil.setText("Salvar Alteracões");
-
-        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lbTipoUsuario.setText("Tipo de Usuário");
-
-        javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
-        areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
-        areaPerfilUsuarioLayout.setHorizontalGroup(
-            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
-                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                        .addComponent(lbEmailPerfil)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                                        .addGap(179, 179, 179)))
-                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbTelefonePerfil)
-                                    .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNomeCompletoPerfil)
-                            .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(179, 179, 179)
-                        .addComponent(lbSenhaPerfil)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(45, 45, 45))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(lbNomePerfil))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        areaPerfilUsuarioLayout.setVerticalGroup(
-            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbNomePerfil)
-                        .addGap(34, 34, 34)
-                        .addComponent(lbNomeCompletoPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbSenhaPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(33, 33, 33)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbEmailPerfil)
-                    .addComponent(lbTelefonePerfil))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
-                .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Perfil do Usuário", areaPerfilUsuario);
-
         areaPermissoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         cbTipoFuncionarioAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         cbTipoFuncionarioAreaPermissoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoFuncionarioAreaPermissoes.addActionListener(this::cbTipoFuncionarioAreaPermissoesActionPerformed);
 
         chbTelaEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         chbTelaEstoque.setText("Tela Estoque");
@@ -436,9 +460,11 @@ public void navegar(String idtela) {
 
         chbTelaVendas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         chbTelaVendas.setText("Tela Vendas");
+        chbTelaVendas.addActionListener(this::chbTelaVendasActionPerformed);
 
         chbTelaPDV.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         chbTelaPDV.setText("Tela PDV");
+        chbTelaPDV.addActionListener(this::chbTelaPDVActionPerformed);
 
         chbTelaPedidos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         chbTelaPedidos.setText("Tela Pedidos");
@@ -457,9 +483,11 @@ public void navegar(String idtela) {
 
         btnAtualizaAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnAtualizaAreaPermissoes.setText("Altualizar");
+        btnAtualizaAreaPermissoes.addActionListener(this::btnAtualizaAreaPermissoesActionPerformed);
 
         btnSalvarAreaAcesso.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnSalvarAreaAcesso.setText("Salvar");
+        btnSalvarAreaAcesso.addActionListener(this::btnSalvarAreaAcessoActionPerformed);
 
         javax.swing.GroupLayout areaPermissoesLayout = new javax.swing.GroupLayout(areaPermissoes);
         areaPermissoes.setLayout(areaPermissoesLayout);
@@ -486,18 +514,17 @@ public void navegar(String idtela) {
                                     .addComponent(chbTelaRH)
                                     .addComponent(chbTelaEntregas)
                                     .addComponent(chbTelaPedidos)
-                                    .addComponent(chbTelaPDV)))))
-                    .addGroup(areaPermissoesLayout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(383, 383, 383)
-                        .addComponent(btnAtualizaAreaPermissoes))
+                                    .addComponent(chbTelaPDV)))
+                            .addGroup(areaPermissoesLayout.createSequentialGroup()
+                                .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(385, 385, 385)
+                                .addComponent(btnAtualizaAreaPermissoes))))
                     .addGroup(areaPermissoesLayout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(757, Short.MAX_VALUE))
+                .addContainerGap(765, Short.MAX_VALUE))
         );
         areaPermissoesLayout.setVerticalGroup(
             areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -506,7 +533,7 @@ public void navegar(String idtela) {
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(96, 96, 96)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaProdutos)
                     .addComponent(chbTelaPDV))
@@ -531,40 +558,169 @@ public void navegar(String idtela) {
                     .addComponent(chbTelaCaixa)
                     .addComponent(chbTelaRelatorios))
                 .addGap(36, 36, 36)
-                .addComponent(chbTelaVendas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(areaPermissoesLayout.createSequentialGroup()
+                        .addComponent(chbTelaVendas)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnAtualizaAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(146, 146, 146))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Área Permissões", areaPermissoes);
+
+        areaPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        lbNomePerfil.setText("jLabel1");
+
+        lbNomeCompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbNomeCompletoPerfil.setText("Nome completo");
+
+        lbEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbEmailPerfil.setText("E-mail completo");
+
+        tfNomecompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        tfEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        lbSenhaPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbSenhaPerfil.setText("Senha");
+
+        lbTelefonePerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTelefonePerfil.setText("Telefone");
+
+        btnSalvarAlteracoesPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnSalvarAlteracoesPerfil.setText("Salvar Alteracões");
+
+        cbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTipoUsuario.setText("Tipo de Usuário");
+
+        javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
+        areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
+        areaPerfilUsuarioLayout.setHorizontalGroup(
+            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbNomeCompletoPerfil)
+                    .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfEmailPerfil)
+                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbEmailPerfil)
+                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                        .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(176, 176, 176)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbTelefonePerfil)
+                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbSenhaPerfil)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(lbNomePerfil)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        areaPerfilUsuarioLayout.setVerticalGroup(
+            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbSenhaPerfil)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(lbTelefonePerfil)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbNomePerfil)
+                        .addGap(28, 28, 28)
+                        .addComponent(lbNomeCompletoPerfil)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(lbEmailPerfil)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(193, 193, 193)
+                .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(273, Short.MAX_VALUE))
+        );
+
+        areaPerfil.addTab("Perfil do Usuário", areaPerfilUsuario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
                 .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 1549, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbHistoricoAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHistoricoAcessoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbHistoricoAcessoActionPerformed
+
+    private void chbTelaPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbTelaPDVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbTelaPDVActionPerformed
+
+    private void chbTelaVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbTelaVendasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbTelaVendasActionPerformed
+
+    private void btnSalvarAreaAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarAreaAcessoActionPerformed
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_btnSalvarAreaAcessoActionPerformed
+
+    private void btnAtualizaAreaPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaAreaPermissoesActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_btnAtualizaAreaPermissoesActionPerformed
+
+    private void cbTipoFuncionarioAreaPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoFuncionarioAreaPermissoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbTipoFuncionarioAreaPermissoesActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+     public static void main(String args[]) {
          Usuario usuario = new Usuario();
         
         /* Set the Nimbus look and feel */
@@ -572,6 +728,7 @@ public void navegar(String idtela) {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -581,6 +738,7 @@ public void navegar(String idtela) {
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
+            
         }
         //</editor-fold>
 
@@ -632,4 +790,8 @@ public void navegar(String idtela) {
     private javax.swing.JTextField tfEmailPerfil;
     private javax.swing.JTextField tfNomecompletoPerfil;
     // End of variables declaration//GEN-END:variables
+
+    
+
+  
 }
