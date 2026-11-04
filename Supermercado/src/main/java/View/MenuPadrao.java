@@ -48,7 +48,11 @@ private static final String[][] OPCOES = {
 
     public MenuPadrao() {
     }
-
+public void abrirTela(JFrame telaAtual, JFrame proximaTela) {
+    proximaTela.setLocationRelativeTo(null);
+    proximaTela.setVisible(true);
+    telaAtual.dispose();
+}
     
     // aoNavegar recebe qual opção foi clicada. Cada projeto define suas telas.
     // aoSair define o que acontece no botão Sair.
