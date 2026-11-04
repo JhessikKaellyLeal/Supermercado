@@ -37,8 +37,9 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="abasClientes" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="abasClientes" min="-2" pref="2882" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -92,7 +93,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
                       <Component id="painelDadosCliente" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="2053" max="32767" attributes="0"/>
+                      <EmptySpace pref="1946" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -319,7 +320,7 @@
                           <Component id="painelConsultaClientes1" min="-2" pref="1374" max="-2" attributes="0"/>
                           <Component id="painelConsultaClientes" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="1593" max="32767" attributes="0"/>
+                      <EmptySpace pref="1486" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1937,7 +1938,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="1702" max="32767" attributes="0"/>
+                      <EmptySpace pref="1595" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
