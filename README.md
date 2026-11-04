@@ -66,3 +66,40 @@ Desenvolver uma solução integrada para gerenciamento de supermercado, aplicand
 
 O projeto também proporciona a aplicação prática de conhecimentos em desenvolvimento de sistemas, modelagem de banco de dados e construção de interfaces gráficas.
 
+
+# Início
+
+# Produtos
+
+# Gerenciamento de Produtos
+
+# Estoque
+
+# Fornecedores
+
+# Clientes
+
+# Pedidos
+
+# Entregas
+
+# Vendas
+
+# PDV
+
+# Venda e Pagamentos
+
+# Caixa
+
+# Financeiro
+
+# Funcionários / RH
+
+# Perfil de Usuários
+
+# Solicitações
+
+# Alterar Senha
+
+# Recuperação de Senha
+
