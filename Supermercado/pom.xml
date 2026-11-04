@@ -18,7 +18,8 @@
             <artifactId>AbsoluteLayout</artifactId>
             <version>SNAPSHOT</version>
         </dependency>
-        <dependency>
+        
+         <dependency>
     <groupId>org.netbeans.external</groupId>
     <artifactId>AbsoluteLayout</artifactId>
     <version>RELEASE260</version>
@@ -30,19 +31,14 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <version>8.4.0</version>
             </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>AbsoluteLayout</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
+        
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>26</maven.compiler.release>
-        <exec.mainClass>com.mycompany.supermercado.Supermercado</exec.mainClass>
+        <exec.mainClass>com.mycompany.gerenciamentosupermercado.GerenciamentoSupermercado</exec.mainClass>
     </properties>
     
-   
     
     
   
