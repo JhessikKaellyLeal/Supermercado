@@ -66,6 +66,7 @@ View\TelaSolicitacao.class
 View\TelaPedidos.class
 View\TelaProdutos.class
 Control\MovimentacaoEstoqueController.class
+View\ClienteController.class
 View\TelaEstoque.class
 View\TelaCaixa.class
 View\TelaVendaPagamentos$4.class
