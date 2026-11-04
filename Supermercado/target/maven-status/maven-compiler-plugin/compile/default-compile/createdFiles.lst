@@ -6,6 +6,7 @@ View\TelaVendaPagamentos$8.class
 Control\MovimentacoesFinanceirasController.class
 Model\Funcionario_has_Ferias.class
 Model\UnidadesMedidas.class
+Control\ClienteController.class
 View\TelaHome$1.class
 View\TelaProdutos$3.class
 Model\Entregas.class
@@ -66,6 +67,7 @@ View\TelaSolicitacao.class
 View\TelaPedidos.class
 View\TelaProdutos.class
 Control\MovimentacaoEstoqueController.class
+View\ClienteController.class
 View\TelaEstoque.class
 View\TelaCaixa.class
 View\TelaVendaPagamentos$4.class
