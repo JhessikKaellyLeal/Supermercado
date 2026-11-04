@@ -1,6 +1,6 @@
-#Sistema de Gerenciamento de Supermercado
+# Sistema de Gerenciamento de Supermercado
 
-📌 #Sobre o projeto
+📌 # Sobre o projeto
 
 O Sistema de Gerenciamento de Supermercado é uma aplicação desktop desenvolvida em Java com o objetivo de otimizar e centralizar os principais processos administrativos e operacionais de um supermercado.
 
@@ -8,7 +8,7 @@ O sistema foi desenvolvido para facilitar o gerenciamento das atividades do esta
 
 A aplicação utiliza o padrão de arquitetura MVC (Model-View-Controller), separando as responsabilidades entre a camada de dados, interface gráfica e regras de negócio, proporcionando um código mais organizado, modular e de fácil manutenção.
 
-🚀 #Funcionalidades
+🚀 # Funcionalidades
 
 O sistema contempla módulos destinados ao gerenciamento de diferentes setores do supermercado:
 
@@ -32,7 +32,7 @@ Entregas: gerenciamento e acompanhamento das entregas.
 
 Recursos Humanos: gerenciamento de funcionários, cargos, setores e informações relacionadas.
 
-🛠️ #Tecnologias utilizadas
+🛠️ # Tecnologias utilizadas
 
 Java
 
@@ -48,7 +48,7 @@ Apache NetBeans
 
 Git e GitHub
 
-🏗️ #Arquitetura do projeto
+🏗️ # Arquitetura do projeto
 
 O projeto utiliza o padrão arquitetural MVC:
 
@@ -60,7 +60,7 @@ Controller: responsável pelas regras de negócio e comunicação entre as telas
 
 Essa estrutura contribui para a organização do código, facilita a manutenção e permite a evolução independente dos módulos.
 
-🎯 #Objetivo
+🎯 # Objetivo
 
 Desenvolver uma solução integrada para gerenciamento de supermercado, aplicando conceitos de programação orientada a objetos, desenvolvimento desktop, integração com banco de dados, arquitetura de software e controle de versão.
 
