@@ -4,24 +4,32 @@
  */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Cliente {
- private int  intervaloDias;
- private String nome, cpf, rh, dataNascimento, genero, email, telefone, senha;
- private boolean status;
 
+    // Atributos
+    private int idcliente;
+    private String nome;
+    private String cpf;
+    private String rg;
+    private String dataNascimento;
+    private String genero;
+    private String email;
+    private String telefone;
+    private int status;
+    private String senha;
+
+    // Construtor vazio
     public Cliente() {
     }
 
-    public int getIntervaloDias() {
-        return intervaloDias;
+    // GETTERS E SETTERS
+
+    public int getIdcliente() {
+        return idcliente;
     }
 
-    public void setIntervaloDias(int intervaloDias) {
-        this.intervaloDias = intervaloDias;
+    public void setIdcliente(int idcliente) {
+        this.idcliente = idcliente;
     }
 
     public String getNome() {
@@ -40,12 +48,12 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public String getRh() {
-        return rh;
+    public String getRg() {
+        return rg;
     }
 
-    public void setRh(String rh) {
-        this.rh = rh;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
     public String getDataNascimento() {
@@ -80,6 +88,14 @@ public class Cliente {
         this.telefone = telefone;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -88,12 +104,4 @@ public class Cliente {
         this.senha = senha;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
- 
 }
