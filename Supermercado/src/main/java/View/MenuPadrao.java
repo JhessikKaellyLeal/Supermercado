@@ -26,7 +26,7 @@ public class MenuPadrao extends JPanel {
 private static final String[][] OPCOES = {
     {"inicio", "Início"},
     {"produtos", "Produtos"},
-    {"gerenciamentoProdutos", "Gerenciamento de Produtos"},
+    {"promocoes", "Promocoes"},
     {"estoque", "Estoque"},
     {"fornecedores", "Fornecedores"},
     {"fornecedoresTerceirizados", "Fornecedores Terceirizados"},

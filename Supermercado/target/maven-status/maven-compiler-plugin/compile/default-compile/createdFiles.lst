@@ -7,7 +7,6 @@ Control\MovimentacoesFinanceirasController.class
 Model\Funcionario_has_Ferias.class
 Model\UnidadesMedidas.class
 View\TelaHome$1.class
-View\TelaProdutos$3.class
 Model\Entregas.class
 Model\Usuario.class
 Control\Funcionario_has_feriasController.class
@@ -37,6 +36,7 @@ View\TelaPerfilUsuarios$2.class
 Control\CodigoBarrasController.class
 Model\FechamentoCaixa.class
 View\TelaVendas$14.class
+View\TelaPromocoes$3.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class
@@ -64,7 +64,6 @@ Model\ContasFinanceiras.class
 Model\Promocao.class
 View\TelaSolicitacao.class
 View\TelaPedidos.class
-View\TelaProdutos.class
 Control\MovimentacaoEstoqueController.class
 View\TelaEstoque.class
 View\TelaCaixa.class
@@ -73,7 +72,6 @@ View\Tela_Funcionarios_RH$1.class
 Model\Veiculos.class
 Model\Produtos_has_Etiquetas.class
 Model\Etiquetas.class
-View\TelaProdutos$1.class
 Model\Pedidos.class
 View\TelaSolicitacao$5.class
 View\TelaEstoque$1.class
@@ -84,7 +82,6 @@ Model\Produtos.class
 View\TelaLogout.class
 Model\PerdasEstoque.class
 Model\Setores.class
-View\TelaProdutos$2.class
 View\TelaEntregas.class
 Control\UnidadeMedidasController.class
 View\TelaGerenciamentoProdutos$1.class
@@ -98,11 +95,13 @@ Control\AberturaCaixaController.class
 Control\SetoresController.class
 Control\Produtos_has_produtosController.class
 Model\Endereco.class
+View\TelaPromocoes.class
 Model\Usuario_has_Permissoes.class
 Model\ItensPedidos.class
 View\TelaVendaPagamentos$10.class
 Control\MetasController.class
 Model\ContratosFornecedores.class
+View\TelaPromocoes$1.class
 View\TelaVendaPagamentos$5.class
 Control\CategoriasController.class
 View\TelaVendas$6.class
@@ -112,6 +111,7 @@ Control\ContasPagarController.class
 View\TelaVendas$12.class
 Control\ContasFinanceirasController.class
 Control\SaldoCaixaController.class
+View\TelaPromocoes$2.class
 Model\Sangria.class
 View\TelaVendas$7.class
 View\TelaVendaPagamentos.class
