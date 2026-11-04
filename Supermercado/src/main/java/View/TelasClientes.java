@@ -26,6 +26,11 @@ public class TelasClientes extends javax.swing.JFrame {
 
     public TelasClientes(Usuario usuario) {
         initComponents();
+        //coloque os metodos de listagem
+        
+        
+        
+        
           this.usuario= usuario;
         MenuPadrao.instalar(
         this,

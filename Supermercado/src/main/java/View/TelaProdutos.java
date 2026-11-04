@@ -1,5 +1,7 @@
 package View;
 
+import Control.CupomController;
+import Control.PromocaoController;
 import Model.Usuario;
 import View.MenuPadrao;
 import javax.swing.JOptionPane;
@@ -133,11 +135,245 @@ public void navegar(String idtela) {
     }
 }
 
+private void cadastrarCupom() {
 
+    try {
+
+        // Capturar os dados dos campos
+        String codigoCupom = tfCodigoCupomCD.getText().trim();
+
+        String tipoDesconto = cbxTipoDescontoCD.getSelectedItem().toString();
+
+        double valorDesconto = Double.parseDouble(
+            spnValorDescontoCD.getValue().toString()
+        );
+
+        double valorMinimoCompra = Double.parseDouble(
+            spnValorMinimoCD.getValue().toString()
+        );
+
+        int qtdMaximaUso = Integer.parseInt(
+            spnQtdMaxUsosCD.getValue().toString()
+        );
+
+        int limitePorCliente = Integer.parseInt(
+            spnLimiteClienteCD.getValue().toString()
+        );
+
+        String tipoUso = cbxTipoUsoCD.getSelectedItem().toString();
+
+        String dataInicio = tfDataInicioCD.getText().trim();
+
+        String dataFinal = tfDataFimCD.getText().trim();
+
+        String observacao = txDNdaPromocaoCP.getText().trim();
+
+        // Validar campos obrigatórios
+        if (codigoCupom.isEmpty()
+        || tipoDesconto.isEmpty()
+        || valorDesconto <= 0
+        || valorMinimoCompra < 0
+        || qtdMaximaUso <= 0
+        || limitePorCliente <= 0
+        || tipoUso.isEmpty()
+        || dataInicio.isEmpty()
+        || dataFinal.isEmpty()) {
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Preencha todos os campos obrigatórios corretamente!",
+            "Atenção",
+            JOptionPane.WARNING_MESSAGE
+    );
+
+    return;
+}
+
+        // Validar valores
+        // Validar valores
+if (valorDesconto <= 0 || valorMinimoCompra < 0) {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Informe valores válidos para o desconto e a compra mínima!",
+        "Atenção",
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    return;
+}
+
+if (qtdMaximaUso <= 0 || limitePorCliente <= 0) {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Informe quantidades de uso válidas!",
+        "Atenção",
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    return;
+}
+
+        // Chamar o controller
+        CupomController controller = new CupomController();
+
+boolean sucesso = controller.cadastrar(
+    codigoCupom,
+    tipoDesconto,
+    valorDesconto,
+    valorMinimoCompra,
+    qtdMaximaUso,
+    limitePorCliente,
+    tipoUso,
+    dataInicio,
+    dataFinal,
+    observacao
+);
+
+if (sucesso) {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Cupom cadastrado com sucesso!",
+        "Sucesso",
+        JOptionPane.INFORMATION_MESSAGE
+    );
+
+    limparCamposCupom();
+
+} else {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Não foi possível cadastrar o cupom!",
+        "Erro",
+        JOptionPane.ERROR_MESSAGE
+    );
+}
+
+} catch (Exception e) {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Erro ao cadastrar cupom: " + e.getMessage(),
+        "Erro",
+        JOptionPane.ERROR_MESSAGE
+    );
+
+}
+}
     
-    
-    
-    
+private void cadastrarPromocao() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem() != null
+                ? cbxTipoPromocaoCP.getSelectedItem().toString()
+                : "";
+
+        int status = rbtnStatusAtivoCP.isSelected() ? 1 : 0;
+
+        String categoria = cbxProdutoCategoriaCP.getSelectedItem() != null
+                ? cbxProdutoCategoriaCP.getSelectedItem().toString()
+                : "";
+
+        int qtdMinima = Integer.parseInt(
+            spnQtdeMinimaCP.getValue().toString()
+        );
+
+        int desconto = Integer.parseInt(
+            spnDescontoCP.getValue().toString()
+        );
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = "";
+
+        // Validar campos obrigatórios
+        if (nome.isEmpty()
+                || tipo.isEmpty()
+                || categoria.isEmpty()
+                || dataInicio.isEmpty()
+                || dataFinal.isEmpty()
+                || desconto <= 0
+                || qtdMinima <= 0
+                || (!rbtnStatusAtivoCP.isSelected()
+                && !rbtnStatusInativoCP.isSelected())) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Preencha todos os campos obrigatórios corretamente!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Chamar o controller
+        PromocaoController controller = new PromocaoController();
+
+        boolean sucesso = controller.cadastrar(
+            nome,
+            tipo,
+            status,
+            dataInicio,
+            dataFinal,
+            regras,
+            desconto,
+            qtdMinima
+        );
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Promoção cadastrada com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            limparCamposPromocao();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Não foi possível cadastrar a promoção!",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Informe valores numéricos válidos!",
+            "Atenção",
+            JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao cadastrar promoção: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+
+
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -159,7 +395,6 @@ public void navegar(String idtela) {
         lbQtdeMinima = new javax.swing.JLabel();
         spnQtdeMinimaCP = new javax.swing.JSpinner();
         lbDescontoCP = new javax.swing.JLabel();
-        cbxProdutoCategoria2CP = new javax.swing.JComboBox<>();
         spnDescontoCP = new javax.swing.JSpinner();
         lbDadosBasicos = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -346,10 +581,6 @@ public void navegar(String idtela) {
         lbDescontoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDescontoCP.setText("Desconto (% ou R$):");
 
-        cbxProdutoCategoria2CP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbxProdutoCategoria2CP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxProdutoCategoria2CP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         spnDescontoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spnDescontoCP.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
@@ -362,34 +593,27 @@ public void navegar(String idtela) {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
                     .addComponent(lbQtdeMinima))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(162, 162, 162))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(cbxProdutoCategoriaCP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(272, 272, 272)
                         .addComponent(lbDescontoCP)
                         .addGap(34, 34, 34)
-                        .addComponent(spnDescontoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(spnDescontoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(253, 253, 253))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel16)
-                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
                     .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -498,6 +722,7 @@ public void navegar(String idtela) {
         btnSalvarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCP.setText("Salvar");
         btnSalvarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnSalvarCP.addActionListener(this::btnSalvarCPActionPerformed);
 
         btnEditarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -579,7 +804,7 @@ public void navegar(String idtela) {
                                 .addComponent(jLabel20)
                                 .addComponent(lbDadosBasicos)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1157, Short.MAX_VALUE)
                                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnCadastroPromocoesLayout.createSequentialGroup()
                             .addGap(34, 34, 34)
@@ -717,6 +942,7 @@ public void navegar(String idtela) {
 
         cbxTipoUsoCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbxTipoUsoCD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uso Único", "Múltiplos Usos" }));
+        cbxTipoUsoCD.addActionListener(this::cbxTipoUsoCDActionPerformed);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1371,6 +1597,16 @@ public void navegar(String idtela) {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxResponsavelHPActionPerformed
 
+    private void cbxTipoUsoCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoUsoCDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxTipoUsoCDActionPerformed
+
+    private void btnSalvarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCPActionPerformed
+                // TODO add your handling code here:
+        cadastrarPromocao();        
+                
+    }//GEN-LAST:event_btnSalvarCPActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1418,7 +1654,6 @@ public void navegar(String idtela) {
     private javax.swing.JButton btnVoltarCD;
     private javax.swing.JButton btnVoltarCP;
     private javax.swing.JButton btnVoltarHP;
-    private javax.swing.JComboBox<String> cbxProdutoCategoria2CP;
     private javax.swing.JComboBox<String> cbxProdutoCategoriaCP;
     private javax.swing.JComboBox<String> cbxResponsavelHP;
     private javax.swing.JComboBox<String> cbxTipoCupomHP;
@@ -1501,4 +1736,12 @@ public void navegar(String idtela) {
     private javax.swing.JFormattedTextField tfPeriodoDeHP;
     private javax.swing.JTextField txDNdaPromocaoCP;
     // End of variables declaration//GEN-END:variables
+
+    private void limparCamposCupom() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void limparCamposPromocao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

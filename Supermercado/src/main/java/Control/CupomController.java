@@ -20,37 +20,52 @@ import java.util.List;
 public class CupomController {
 
   // CADASTRAR CUPOM
-    public boolean cadastrar(Cupom cupom) {
-        String sql = "INSERT INTO cupom "
-                + "(codigoCupom, tipoDesconto, valorDesconto, "
-                + "valorMinimoCompra, qttMaximaUso, limitePorCliente, "
-                + "tipoUso, dataInicio, dataFinal, observacao, "
-                + "promocao_idpromocao) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean cadastrar(
+        String codigoCupom,
+        String tipoDesconto,
+        double valorDesconto,
+        double valorMinimoCompra,
+        int qtdMaximaUso,
+        int limitePorCliente,
+        String tipoUso,
+        String dataInicio,
+        String dataFinal,
+        String observacao) {
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    int promocaoId = 0;
 
-            stmt.setString(1, cupom.getCodigoCupom());
-            stmt.setString(2, cupom.getTipoDesconto());
-            stmt.setDouble(3, cupom.getValorDesconto());
-            stmt.setDouble(4, cupom.getValorMinimoCompra());
-            stmt.setInt(5, cupom.getQttMaximaUso());
-            stmt.setInt(6, cupom.getLimitePorCliente());
-            stmt.setString(7, cupom.getTipoUso());
-            stmt.setString(8, cupom.getDataInicio());
-            stmt.setString(9, cupom.getDataFinal());
-            stmt.setString(10, cupom.getObservacao());
-            stmt.setInt(11, cupom.getPromocao_idpromocao());
+    String sql = "INSERT INTO cupom "
+            + "(codigoCupom, tipoDesconto, valorDesconto, "
+            + "valorMinimoCompra, qttMaximaUso, limitePorCliente, "
+            + "tipoUso, dataInicio, dataFinal, observacao, "
+            + "promocao_idpromocao) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            return stmt.executeUpdate() > 0;
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar cupom: "
-                    + e.getMessage());
-            return false;
-        }
+        stmt.setString(1, codigoCupom);
+        stmt.setString(2, tipoDesconto);
+        stmt.setDouble(3, valorDesconto);
+        stmt.setDouble(4, valorMinimoCompra);
+        stmt.setInt(5, qtdMaximaUso);
+        stmt.setInt(6, limitePorCliente);
+        stmt.setString(7, tipoUso);
+        stmt.setString(8, dataInicio);
+        stmt.setString(9, dataFinal);
+        stmt.setString(10, observacao);
+        stmt.setInt(11, promocaoId);
+
+        return stmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+
+        System.err.println("Erro ao cadastrar cupom: "
+                + e.getMessage());
+
+        return false;
     }
+}
 
     // LISTAR TODOS OS CUPONS
     public List<Cupom> listarTodos() {

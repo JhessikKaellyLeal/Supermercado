@@ -20,32 +20,43 @@ import java.util.List;
 public class PromocaoController {
     
     // CADASTRAR PROMOÇÃO
-    public boolean cadastrar(Promocao promocao) {
-        String sql = "INSERT INTO promocao "
-                + "(nome, tipo, status, dataInicio, dataFinal, "
-                + "regras, desconto, qttMinima) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean cadastrar(
+        String promocao,
+        String tipo,
+        int status,
+        String dataInicio,
+        String dataFinal,
+        String regras,
+        int desconto,
+        int qtdMinima) {
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    String sql = "INSERT INTO promocao "
+            + "(nome, tipo, status, dataInicio, dataFinal, "
+            + "regras, desconto, qttMinima) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stmt.setString(1, promocao.getNome());
-            stmt.setString(2, promocao.getTipo());
-            stmt.setInt(3, promocao.isStatus() ? 1 : 0);
-            stmt.setString(4, promocao.getDataInicio());
-            stmt.setString(5, promocao.getDataFinal());
-            stmt.setString(6, promocao.getRegras());
-            stmt.setInt(7, promocao.getDesconto());
-            stmt.setInt(8, promocao.getQttMinima());
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            return stmt.executeUpdate() > 0;
+        stmt.setString(1, promocao);
+        stmt.setString(2, tipo);
+        stmt.setInt(3, status);
+        stmt.setString(4, dataInicio);
+        stmt.setString(5, dataFinal);
+        stmt.setString(6, regras);
+        stmt.setInt(7, desconto);
+        stmt.setInt(8, qtdMinima);
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar promoção: "
-                    + e.getMessage());
-            return false;
-        }
+        return stmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+
+        System.err.println("Erro ao cadastrar promoção: "
+                + e.getMessage());
+
+        return false;
     }
+}
 
     // LISTAR TODAS AS PROMOÇÕES
     public List<Promocao> listarTodos() {
