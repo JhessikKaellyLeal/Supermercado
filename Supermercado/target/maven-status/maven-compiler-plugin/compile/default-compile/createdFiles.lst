@@ -115,6 +115,7 @@ View\TelaVendas$12.class
 Control\ContasFinanceirasController.class
 Control\SaldoCaixaController.class
 Model\Sangria.class
+View\TelasClientes$1.class
 View\TelaVendas$7.class
 View\TelaVendaPagamentos.class
 Model\Promocao_has_Produtos.class
