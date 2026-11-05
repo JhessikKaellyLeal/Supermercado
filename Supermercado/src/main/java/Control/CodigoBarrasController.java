@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class CodigoBarrasController {
                 + "produtos_unidadeMedidas_idunidadeMedidas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, codigo);
@@ -66,7 +67,7 @@ public class CodigoBarrasController {
                 + "ON cb.produtos_idprodutos = p.idprodutos "
                 + "ORDER BY cb.codigo";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -110,7 +111,7 @@ public class CodigoBarrasController {
                 + "produtos_unidadeMedidas_idunidadeMedidas=? "
                 + "WHERE idcodigoBarras=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, codigo);
@@ -138,7 +139,7 @@ public class CodigoBarrasController {
         String sql = "UPDATE codigoBarras SET status=0 "
                    + "WHERE idcodigoBarras=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, id);

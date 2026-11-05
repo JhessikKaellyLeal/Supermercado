@@ -18,101 +18,101 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
     public TelaPerfilUsuarios(Usuario usuario) {
         initComponents();
           this.usuario= usuario;
-        MenuPadrao.instalar(
+        this.menu=MenuPadrao.instalar(
         this,
         usuario,
-        "inicio",
+        "perfilUsuarios",
         this::navegar,
         this::dispose
     );
-        
+        this.setExtendedState(TelaPerfilUsuarios.MAXIMIZED_BOTH);
        
     }
 
-    // MÉTODO DE ACESSAR AS TELAS
+     // MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.mostrarTela(new TelaHome(usuario));
+            menu.abrirTela(this,new TelaHome(usuario));
             break;
 
         case "produtos":
-            menu.mostrarTela(new TelaProdutos(usuario));
+            menu.abrirTela(this,new TelaProdutos(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.mostrarTela(new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
             break;
 
         case "estoque":
-            menu.mostrarTela(new TelaEstoque(usuario));
+            menu.abrirTela(this,new TelaEstoque(usuario));
             break;
 
         case "fornecedores":
-            menu.mostrarTela(new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.mostrarTela(new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.mostrarTela(new TelasClientes(usuario));
+            menu.abrirTela(this,new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.mostrarTela(new TelaPedidos(usuario));
+            menu.abrirTela(this,new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.mostrarTela(new TelaEntregas(usuario));
+            menu.abrirTela(this,new TelaEntregas(usuario));
             break;
 
         case "vendas":
-            menu.mostrarTela(new TelaVendas(usuario));
+            menu.abrirTela(this,new TelaVendas(usuario));
             break;
 
         case "pdv":
-            menu.mostrarTela(new TelaPdvRealizacao(usuario));
+            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
             break;
 
         case "vendaPagamentos":
-            menu.mostrarTela(new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
             break;
 
         case "caixa":
-            menu.mostrarTela(new TelaCaixa(usuario));
+            menu.abrirTela(this,new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.mostrarTela(new TelaFinanceiro(usuario));
+            menu.abrirTela(this,new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.mostrarTela(new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.mostrarTela(new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.mostrarTela(new TelaSolicitacao(usuario));
+            menu.abrirTela(this,new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.mostrarTela(new AlterarSenha());
+            menu.abrirTela(this,new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            menu.mostrarTela(new RecuperacaoSenha());
+            //menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
         case "logout":
             // Retorna à tela de login
-            menu.mostrarTela(new TelaLoginUsuarios());
+            menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
         default:
@@ -126,7 +126,7 @@ public void navegar(String idtela) {
     }
 }
 
-
+ 
 
     
     

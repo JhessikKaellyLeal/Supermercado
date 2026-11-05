@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Control.MarcasController;
 import java.io.File;
 
 /**

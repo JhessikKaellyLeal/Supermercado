@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class ProdutosController {
                 + "unidadeMedidas_idunidadeMedidas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, nome);
@@ -74,7 +75,7 @@ public class ProdutosController {
                 + "u.idunidadeMedidas "
                 + "ORDER BY p.nome";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -124,7 +125,7 @@ public class ProdutosController {
                 + "unidadeMedidas_idunidadeMedidas=? "
                 + "WHERE idprodutos=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, nome);
@@ -155,7 +156,7 @@ public class ProdutosController {
         String sql = "UPDATE produtos SET situacao=0 "
                    + "WHERE idprodutos=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -172,7 +173,7 @@ public class ProdutosController {
                 + "estoque, situacao FROM produtos "
                 + "WHERE nome LIKE ? OR codigo LIKE ? ORDER BY nome";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, "%" + termo + "%");

@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class UnidadeMedidasController {
         String sql = "INSERT INTO unidadeMedidas "
                    + "(codigo, nome, status, descricao) VALUES (?, ?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, codigo);
             ps.setString(2, nome);
@@ -38,7 +39,7 @@ public class UnidadeMedidasController {
         List<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT * FROM unidadeMedidas ORDER BY nome";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -61,7 +62,7 @@ public class UnidadeMedidasController {
         String sql = "UPDATE unidadeMedidas SET codigo=?, nome=?, "
                    + "status=?, descricao=? WHERE idunidadeMedidas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, codigo);
             ps.setString(2, nome);
@@ -76,7 +77,7 @@ public class UnidadeMedidasController {
         String sql = "UPDATE unidadeMedidas SET status=0 "
                    + "WHERE idunidadeMedidas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
