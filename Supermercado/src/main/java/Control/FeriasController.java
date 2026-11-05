@@ -26,7 +26,7 @@ public class FeriasController {
         String sql = "INSERT INTO ferias (inicio, final, situacao) "
                 + "VALUES (?, ?, ?)";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, inicio);
@@ -43,7 +43,7 @@ public class FeriasController {
         String sql = "SELECT idferias, inicio, final, situacao "
                 + "FROM ferias ORDER BY idferias";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -69,7 +69,7 @@ public class FeriasController {
         String sql = "UPDATE ferias SET inicio=?, final=?, "
                 + "situacao=? WHERE idferias=?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, inicio);
@@ -84,7 +84,7 @@ public class FeriasController {
     public boolean excluir(int idFerias) throws SQLException {
         String sql = "DELETE FROM ferias WHERE idferias = ?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idFerias);

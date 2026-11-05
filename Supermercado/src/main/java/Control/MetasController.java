@@ -41,7 +41,7 @@ public class MetasController {
                 + "Funcionario_turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -69,7 +69,7 @@ public class MetasController {
                 + "Funcionario_idFuncionario "
                 + "FROM metas ORDER BY idmetas";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -119,7 +119,7 @@ public class MetasController {
                 + "Funcionario_turnos_idturnos=? "
                 + "WHERE idmetas=?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -142,7 +142,7 @@ public class MetasController {
     public boolean excluir(int idMeta) throws SQLException {
         String sql = "DELETE FROM metas WHERE idmetas = ?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idMeta);

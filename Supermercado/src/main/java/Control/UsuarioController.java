@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Model.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioController {
-    
+
     // Cadastrar usuário
     public boolean cadastrar(
             String nome,
@@ -72,7 +74,7 @@ public Usuario login(String email, String senha) {
                 usuario.setNome(rs.getString("nome"));
                 usuario.setCpf(rs.getString("cpf"));
                 usuario.setEmail(rs.getString("email"));
-                usuario.setBloqueio(rs.getBoolean("bloqueio"));
+                usuario.setBloqueio(rs.getInt("bloqueio"));
                 usuario.setFuncionario_idfuncionario(
                     rs.getInt("Funcionario_idFuncionario")
                 );
@@ -162,6 +164,60 @@ public Usuario login(String email, String senha) {
             return false;
         }
     }
+    public List<Object[]> listarFuncionariosCombo() {
+
+    List<Object[]> lista = new ArrayList<>();
+
+    String sql = "SELECT idusuario, nome "
+            + "FROM usuario "
+            + "WHERE Funcionario_idFuncionario IS NOT NULL "
+            + "ORDER BY nome";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            Object[] dados = {
+                rs.getInt("idusuario"),
+                rs.getString("nome")
+            };
+
+            lista.add(dados);
+        }
+
+    } catch (SQLException e) {
+
+        throw new RuntimeException(
+            "Erro ao consultar funcionários: " + e.getMessage()
+        );
+    }
+
+    return lista;
+}
+
+    public Integer buscarIdFuncionarioPorCPF(String cpf) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    /**
+     *
+     * @param cpf
+     * @return
+     */
+    public int buscarFuncionarioPorCPF(String cpf) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Iterable<Usuario> listar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean cadastrar(String nome, String cpf, String email, String senha, int bloqueio) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+   
 }
 
 

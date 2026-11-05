@@ -25,7 +25,7 @@ public class MarcasController {
         String sql = "INSERT INTO marcas (nome, status, descricao) "
                    + "VALUES (?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, nome);
             ps.setBoolean(2, status);
@@ -38,7 +38,7 @@ public class MarcasController {
         List<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT * FROM marcas ORDER BY nome";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -58,7 +58,7 @@ public class MarcasController {
         String sql = "UPDATE marcas SET nome=?, status=?, descricao=? "
                    + "WHERE idmarcas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, nome);
             ps.setBoolean(2, status);
@@ -71,7 +71,7 @@ public class MarcasController {
     public boolean desativar(int id) throws SQLException {
         String sql = "UPDATE marcas SET status=0 WHERE idmarcas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;

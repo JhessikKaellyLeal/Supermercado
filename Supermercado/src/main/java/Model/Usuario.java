@@ -9,7 +9,7 @@ public class Usuario {
    
     int idusuario, funcionario_idfuncionario;
     String nome,cpf,email,senha;
-    boolean bloqueio;
+    int bloqueio;
 
     public Usuario() {
     }
@@ -62,12 +62,16 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public boolean isBloqueio() {
+    public int isBloqueio() {
         return bloqueio;
     }
 
-    public void setBloqueio(boolean bloqueio) {
+    public void setBloqueio(int bloqueio) {
         this.bloqueio = bloqueio;
+    }
+
+    public Object getBloqueio() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

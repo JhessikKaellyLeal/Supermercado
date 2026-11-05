@@ -32,7 +32,7 @@ public class Funcionario_has_feriasController {
                 + "Funcionario_turnos_idturnos, "
                 + "ferias_idferias) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idFuncionario);
@@ -56,7 +56,7 @@ public class Funcionario_has_feriasController {
                 + "FROM Funcionario_has_ferias "
                 + "ORDER BY Funcionario_idFuncionario";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -92,7 +92,7 @@ public class Funcionario_has_feriasController {
                 + "AND Funcionario_turnos_idturnos=? "
                 + "AND ferias_idferias=?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idFuncionario);

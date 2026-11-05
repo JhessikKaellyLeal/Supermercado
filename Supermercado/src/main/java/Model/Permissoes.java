@@ -1,29 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Permissoes {
- private int idpermissoes;
- private String tipo;
- private boolean telaProdutos, telaEstoque, telaCompras, telaClientes, telaPromocoes, telaCaixa, telaVenda, telaPDV,  telaPedidos, telaEntregas, telaRh, telaFinaceiro, telaRelatorios;
 
+    private int idPermissoes;
+    private String tipo;
+
+    private int telaProdutos;
+    private int telaEstoque;
+    private int telaCompras;
+    private int telaClientes;
+    private int telaPromocoes;
+    private int telaCaixa;
+    private int telaVendas;
+    private int telaPDV;
+    private int telaPedidos;
+    private int telaEntregas;
+    private int telaRh;
+    private int telaFinaceiro;
+    private int telaRelatorios;
+
+    // Relacionamento com Usuario
+    private Usuario usuario;
+
+    // Construtor vazio
     public Permissoes() {
     }
 
-    public int getIdpermissoes() {
-        return idpermissoes;
+    // ID
+    public int getIdPermissoes() {
+        return idPermissoes;
     }
 
-    public void setIdpermissoes(int idpermissoes) {
-        this.idpermissoes = idpermissoes;
+    public void setIdPermissoes(int idPermissoes) {
+        this.idPermissoes = idPermissoes;
     }
 
+    // TIPO
     public String getTipo() {
         return tipo;
     }
@@ -32,108 +45,129 @@ public class Permissoes {
         this.tipo = tipo;
     }
 
-    public boolean isTelaProdutos() {
+    // TELA PRODUTOS
+    public int getTelaProdutos() {
         return telaProdutos;
     }
 
-    public void setTelaProdutos(boolean telaProdutos) {
+    public void setTelaProdutos(int telaProdutos) {
         this.telaProdutos = telaProdutos;
     }
 
-    public boolean isTelaEstoque() {
+    // TELA ESTOQUE
+    public int getTelaEstoque() {
         return telaEstoque;
     }
 
-    public void setTelaEstoque(boolean telaEstoque) {
+    public void setTelaEstoque(int telaEstoque) {
         this.telaEstoque = telaEstoque;
     }
 
-    public boolean isTelaCompras() {
+    // TELA COMPRAS
+    public int getTelaCompras() {
         return telaCompras;
     }
 
-    public void setTelaCompras(boolean telaCompras) {
+    public void setTelaCompras(int telaCompras) {
         this.telaCompras = telaCompras;
     }
 
-    public boolean isTelaClientes() {
+    // TELA CLIENTES
+    public int getTelaClientes() {
         return telaClientes;
     }
 
-    public void setTelaClientes(boolean telaClientes) {
+    public void setTelaClientes(int telaClientes) {
         this.telaClientes = telaClientes;
     }
 
-    public boolean isTelaPromocoes() {
+    // TELA PROMOÇÕES
+    public int getTelaPromocoes() {
         return telaPromocoes;
     }
 
-    public void setTelaPromocoes(boolean telaPromocoes) {
+    public void setTelaPromocoes(int telaPromocoes) {
         this.telaPromocoes = telaPromocoes;
     }
 
-    public boolean isTelaCaixa() {
+    // TELA CAIXA
+    public int getTelaCaixa() {
         return telaCaixa;
     }
 
-    public void setTelaCaixa(boolean telaCaixa) {
+    public void setTelaCaixa(int telaCaixa) {
         this.telaCaixa = telaCaixa;
     }
 
-    public boolean isTelaVenda() {
-        return telaVenda;
+    // TELA VENDAS
+    public int getTelaVendas() {
+        return telaVendas;
     }
 
-    public void setTelaVenda(boolean telaVenda) {
-        this.telaVenda = telaVenda;
+    public void setTelaVendas(int telaVendas) {
+        this.telaVendas = telaVendas;
     }
 
-    public boolean isTelaPDV() {
+    // TELA PDV
+    public int getTelaPDV() {
         return telaPDV;
     }
 
-    public void setTelaPDV(boolean telaPDV) {
+    public void setTelaPDV(int telaPDV) {
         this.telaPDV = telaPDV;
     }
 
-    public boolean isTelaPedidos() {
+    // TELA PEDIDOS
+    public int getTelaPedidos() {
         return telaPedidos;
     }
 
-    public void setTelaPedidos(boolean telaPedidos) {
+    public void setTelaPedidos(int telaPedidos) {
         this.telaPedidos = telaPedidos;
     }
 
-    public boolean isTelaEntregas() {
+    // TELA ENTREGAS
+    public int getTelaEntregas() {
         return telaEntregas;
     }
 
-    public void setTelaEntregas(boolean telaEntregas) {
+    public void setTelaEntregas(int telaEntregas) {
         this.telaEntregas = telaEntregas;
     }
 
-    public boolean isTelaRh() {
+    // TELA RH
+    public int getTelaRh() {
         return telaRh;
     }
 
-    public void setTelaRh(boolean telaRh) {
+    public void setTelaRh(int telaRh) {
         this.telaRh = telaRh;
     }
 
-    public boolean isTelaFinaceiro() {
+    // TELA FINANCEIRO
+    public int getTelaFinaceiro() {
         return telaFinaceiro;
     }
 
-    public void setTelaFinaceiro(boolean telaFinaceiro) {
+    public void setTelaFinaceiro(int telaFinaceiro) {
         this.telaFinaceiro = telaFinaceiro;
     }
 
-    public boolean isTelaRelatorios() {
+    // TELA RELATÓRIOS
+    public int getTelaRelatorios() {
         return telaRelatorios;
     }
 
-    public void setTelaRelatorios(boolean telaRelatorios) {
+    public void setTelaRelatorios(int telaRelatorios) {
         this.telaRelatorios = telaRelatorios;
     }
- 
+
+    // USUARIO RELACIONADO
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
