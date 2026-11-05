@@ -10,7 +10,7 @@ package Model;
  */
 public class Veiculos {
     private int idveiculos, anoVeiculo;
-    private String tipoVeiculo, marca, modelo, statusVeiculo, placa, observacoes;
+    private String tipoVeiculo, marca, modelo, statusVeiculo, placa, observacoes,cor;
     private double capacidadeCarga;
 
     public Veiculos() {
@@ -87,6 +87,13 @@ public class Veiculos {
     public void setCapacidadeCarga(double capacidadeCarga) {
         this.capacidadeCarga = capacidadeCarga;
     }
-    
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getCor() {
+        return cor;
+    }
    
 }

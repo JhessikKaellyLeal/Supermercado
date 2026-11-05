@@ -9,19 +9,20 @@ package Model;
  * @author AntônioVieira
  */
 public class TaxasEntregas {
-   private int identregas;
+   private int identregas,  idtaxasEntrega;
    private String regiao, tipoTaxa, observacao;
    private double valorTaxa;
 
     public TaxasEntregas() {
     }
 
-    public int getIdentregas() {
-        return identregas;
+
+    public int getIdtaxasEntrega() {
+       return idtaxasEntrega;
     }
 
-    public void setIdentregas(int identregas) {
-        this.identregas = identregas;
+    public void setIdtaxasEntrega(int idtaxasEntrega) {
+        this.idtaxasEntrega = idtaxasEntrega;
     }
 
     public String getRegiao() {

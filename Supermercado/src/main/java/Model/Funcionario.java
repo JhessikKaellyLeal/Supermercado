@@ -8,12 +8,12 @@ package Model;
  *
  * @author AntônioVieira
  */
-public class Funcinario {
+public class Funcionario {
   private int  idFuncionario, cargos_idcargos, setores_idsetores, turnos_idturnos; 
    private String  nome, dataNascimento, cpf, telefone, dataAdmissao;
    private boolean statusFuncionario;
 
-    public Funcinario() {
+    public Funcionario() {
     }
 
     public int getIdFuncionario() {
