@@ -38,6 +38,7 @@ View\TelaPerfilUsuarios$2.class
 Control\CodigoBarrasController.class
 Model\FechamentoCaixa.class
 View\TelaVendas$14.class
+View\TelasClientes$2.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class

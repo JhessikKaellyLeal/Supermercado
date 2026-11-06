@@ -112,6 +112,106 @@ public class ClienteController {
 
         return lista;
     }
+    
+    // ==========================================
+// PESQUISAR CLIENTES POR CÓDIGO, NOME OU CPF
+// ==========================================
+
+public List<Cliente> pesquisarClientes(String pesquisa, Integer status) {
+
+    List<Cliente> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM cliente "
+            + "WHERE (CAST(idcliente AS CHAR) LIKE ? "
+            + "OR nome LIKE ? "
+            + "OR cpf LIKE ?) ";
+
+    if (status != null) {
+        sql += "AND status = ? ";
+    }
+
+    sql += "ORDER BY idcliente";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        String termo = "%" + pesquisa.trim() + "%";
+
+        stmt.setString(1, termo);
+        stmt.setString(2, termo);
+        stmt.setString(3, termo);
+
+        if (status != null) {
+            stmt.setInt(4, status);
+        }
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Cliente cliente = new Cliente();
+
+                cliente.setIdcliente(rs.getInt("idcliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setRg(rs.getString("rg"));
+                cliente.setDataNascimento(rs.getString("dataNascimento"));
+                cliente.setGenero(rs.getString("genero"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setStatus(rs.getInt("status"));
+                cliente.setSenha(rs.getString("senha"));
+
+                lista.add(cliente);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Erro ao pesquisar clientes: " + e.getMessage());
+    }
+
+    return lista;
+}
+
+// ==========================================
+// BUSCAR CLIENTE PELO CÓDIGO
+// ==========================================
+
+public Cliente buscarPorId(int idcliente) {
+
+    String sql = "SELECT * FROM cliente WHERE idcliente = ?";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, idcliente);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+
+                Cliente cliente = new Cliente();
+
+                cliente.setIdcliente(rs.getInt("idcliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setRg(rs.getString("rg"));
+                cliente.setDataNascimento(rs.getString("dataNascimento"));
+                cliente.setGenero(rs.getString("genero"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setStatus(rs.getInt("status"));
+
+                return cliente;
+            }
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Erro ao buscar detalhes: " + e.getMessage());
+    }
+
+    return null;
+}
 
     // ==========================================
     // BUSCAR CLIENTE PELO CPF
