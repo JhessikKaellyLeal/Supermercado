@@ -19,33 +19,41 @@ import java.util.List;
  */
 public class ComprasController {
     // CADASTRAR COMPRA
-    public boolean cadastrar(Compras compra) {
-        String sql = "INSERT INTO compras "
-                + "(valorTotal, situacao, dataCompra, "
-                + "fornecedores_idfornecedores, "
-                + "Funcionario_idFuncionario) "
-                + "VALUES (?, ?, ?, ?, ?)";
+  public void cadastrar(
+        double valorTotal,
+        String situacao,
+        String dataCompra,
+        int idFornecedor,
+        int idFuncionario,
+        int idCargo,
+        int idSetor,
+        int idTurno
+) throws SQLException {
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    String sql = "INSERT INTO compras "
+            + "(valorTotal, situacao, dataCompra, "
+            + "fornecedores_idfornecedores, "
+            + "Funcionario_idFuncionario, "
+            + "Funcionario_cargos_idcargos, "
+            + "Funcionario_setores_idsetores, "
+            + "Funcionario_turnos_idturnos) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stmt.setDouble(1, compra.getValorTotal());
-            stmt.setString(2, compra.getSituacao());
-            stmt.setString(3, compra.getDataCompra());
-            stmt.setInt(4,
-                    compra.getFornecedores_idfornecedores());
-            stmt.setInt(5,
-                    compra.getFuncionario_idFuncionario());
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            return stmt.executeUpdate() > 0;
+        stmt.setDouble(1, valorTotal);
+        stmt.setString(2, situacao);
+        stmt.setString(3, dataCompra);
+        stmt.setInt(4, idFornecedor);
+        stmt.setInt(5, idFuncionario);
+        stmt.setInt(6, idCargo);
+        stmt.setInt(7, idSetor);
+        stmt.setInt(8, idTurno);
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar compra: "
-                    + e.getMessage());
-            return false;
-        }
+        stmt.executeUpdate();
     }
-
+}
     // LISTAR TODAS AS COMPRAS
     public List<Compras> listarTodos() {
         List<Compras> compras = new ArrayList<>();

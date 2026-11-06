@@ -6,6 +6,7 @@ View\TelaVendaPagamentos$8.class
 Control\MovimentacoesFinanceirasController.class
 Model\Funcionario_has_Ferias.class
 Model\UnidadesMedidas.class
+Control\ClienteController.class
 View\TelaHome$1.class
 View\TelaProdutos$3.class
 Model\Entregas.class
@@ -66,6 +67,7 @@ View\TelaSolicitacao.class
 View\TelaPedidos.class
 View\TelaProdutos.class
 Control\MovimentacaoEstoqueController.class
+View\ClienteController.class
 View\TelaEstoque.class
 View\TelaCaixa.class
 View\TelaVendaPagamentos$4.class
@@ -125,7 +127,6 @@ View\TelaFinanceiro.class
 View\Tela_Funcionarios_RH$2.class
 View\Tela_Funcionarios_RH$3.class
 View\TelaPdvRealizacao.class
-Model\Funcinario.class
 Model\DiasTrabalhados.class
 Control\FornecedoresController.class
 Model\Metas.class
@@ -154,6 +155,7 @@ View\TelaVendas$10.class
 Model\Cliente.class
 Model\ParcelasReceber.class
 View\RecuperacaoSenha.class
+Model\Funcionario.class
 View\TelaPerfilUsuarios.class
 Model\ContasPagar.class
 View\TelaSolicitacao$1.class

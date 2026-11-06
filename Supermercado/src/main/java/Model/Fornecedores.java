@@ -102,6 +102,11 @@ public class Fornecedores {
     public void setInscricaoestadual(String inscricaoestadual) {
         this.inscricaoestadual = inscricaoestadual;
     }
+    
+        @Override
+    public String toString() {
+        return razaoSocial;
+    }
   
           
 }

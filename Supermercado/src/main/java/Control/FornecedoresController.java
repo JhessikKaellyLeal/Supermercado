@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package control;
 
 import Conection.Conexao;
@@ -14,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FornecedoresController {
+
     // CADASTRAR FORNECEDOR
     public boolean cadastrar(Fornecedores fornecedor) {
+
         String sql = "INSERT INTO fornecedores "
-                + "(nome, telefone, email, ramal, cnpj, "
-                + "razaoSocial, endereco, tipo, cep) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(nomeResponsavel, telefone, email, ramal, cnpj, "
+                + "razaoSocial, endereco, tipo, cep, inscricaoestadual) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,6 +32,7 @@ public class FornecedoresController {
             stmt.setString(7, fornecedor.getEndereco());
             stmt.setString(8, fornecedor.getTipo());
             stmt.setString(9, fornecedor.getCep());
+            stmt.setString(10, fornecedor.getInscricaoestadual());
 
             return stmt.executeUpdate() > 0;
 
@@ -45,31 +45,41 @@ public class FornecedoresController {
 
     // LISTAR TODOS OS FORNECEDORES
     public List<Fornecedores> listarTodos() {
+
         List<Fornecedores> fornecedores = new ArrayList<>();
 
-        String sql = "SELECT idfornecedores, nome, telefone, email, "
-                + "ramal, cnpj, razaoSocial, endereco, tipo, cep "
-                + "FROM fornecedores";
+        String sql = "SELECT idfornecedores, nomeResponsavel, telefone, "
+                + "email, ramal, cnpj, razaoSocial, endereco, tipo, "
+                + "cep, inscricaoestadual FROM fornecedores";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+
                 Fornecedores fornecedor = new Fornecedores();
 
                 fornecedor.setIdfornecedores(
                         rs.getInt("idfornecedores"));
-                fornecedor.setNomeResponsavel(rs.getString("nome"));
+
+                fornecedor.setNomeResponsavel(
+                        rs.getString("nomeResponsavel"));
+
                 fornecedor.setTelefone(rs.getString("telefone"));
                 fornecedor.setEmail(rs.getString("email"));
                 fornecedor.setRamal(rs.getString("ramal"));
                 fornecedor.setCnpj(rs.getString("cnpj"));
+
                 fornecedor.setRazaoSocial(
                         rs.getString("razaoSocial"));
+
                 fornecedor.setEndereco(rs.getString("endereco"));
                 fornecedor.setTipo(rs.getString("tipo"));
                 fornecedor.setCep(rs.getString("cep"));
+
+                fornecedor.setInscricaoestadual(
+                        rs.getString("inscricaoestadual"));
 
                 fornecedores.add(fornecedor);
             }
@@ -84,8 +94,10 @@ public class FornecedoresController {
 
     // BUSCAR FORNECEDOR PELO CNPJ
     public Fornecedores buscarPorCnpj(String cnpj) {
-        String sql = "SELECT idfornecedores, nome, telefone, email, "
-                + "ramal, cnpj, razaoSocial, endereco, tipo, cep "
+
+        String sql = "SELECT idfornecedores, nomeResponsavel, telefone, "
+                + "email, ramal, cnpj, razaoSocial, endereco, tipo, "
+                + "cep, inscricaoestadual "
                 + "FROM fornecedores WHERE cnpj = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -94,23 +106,35 @@ public class FornecedoresController {
             stmt.setString(1, cnpj);
 
             try (ResultSet rs = stmt.executeQuery()) {
+
                 if (rs.next()) {
+
                     Fornecedores fornecedor = new Fornecedores();
 
                     fornecedor.setIdfornecedores(
                             rs.getInt("idfornecedores"));
-                    fornecedor.setNomeResponsavel(rs.getString("nome"));
+
+                    fornecedor.setNomeResponsavel(
+                            rs.getString("nomeResponsavel"));
+
                     fornecedor.setTelefone(
                             rs.getString("telefone"));
+
                     fornecedor.setEmail(rs.getString("email"));
                     fornecedor.setRamal(rs.getString("ramal"));
                     fornecedor.setCnpj(rs.getString("cnpj"));
+
                     fornecedor.setRazaoSocial(
                             rs.getString("razaoSocial"));
+
                     fornecedor.setEndereco(
                             rs.getString("endereco"));
+
                     fornecedor.setTipo(rs.getString("tipo"));
                     fornecedor.setCep(rs.getString("cep"));
+
+                    fornecedor.setInscricaoestadual(
+                            rs.getString("inscricaoestadual"));
 
                     return fornecedor;
                 }
@@ -128,9 +152,11 @@ public class FornecedoresController {
     public boolean atualizar(String cnpjOriginal,
             Fornecedores fornecedor) {
 
-        String sql = "UPDATE fornecedores SET nome = ?, "
-                + "telefone = ?, email = ?, ramal = ?, cnpj = ?, "
-                + "razaoSocial = ?, endereco = ?, tipo = ?, cep = ? "
+        String sql = "UPDATE fornecedores SET "
+                + "nomeResponsavel = ?, telefone = ?, email = ?, "
+                + "ramal = ?, cnpj = ?, razaoSocial = ?, "
+                + "endereco = ?, tipo = ?, cep = ?, "
+                + "inscricaoestadual = ? "
                 + "WHERE cnpj = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -145,7 +171,8 @@ public class FornecedoresController {
             stmt.setString(7, fornecedor.getEndereco());
             stmt.setString(8, fornecedor.getTipo());
             stmt.setString(9, fornecedor.getCep());
-            stmt.setString(10, cnpjOriginal);
+            stmt.setString(10, fornecedor.getInscricaoestadual());
+            stmt.setString(11, cnpjOriginal);
 
             return stmt.executeUpdate() > 0;
 
@@ -158,6 +185,7 @@ public class FornecedoresController {
 
     // EXCLUIR FORNECEDOR PELO CNPJ
     public boolean excluir(String cnpj) {
+
         String sql = "DELETE FROM fornecedores WHERE cnpj = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -173,4 +201,6 @@ public class FornecedoresController {
             return false;
         }
     }
+    
+    
 }

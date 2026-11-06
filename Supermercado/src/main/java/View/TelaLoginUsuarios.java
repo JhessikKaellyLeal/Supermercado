@@ -63,6 +63,8 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
 
         pfSenha.setText("jPasswordField1");
         jPanel1.add(pfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 300, -1));
+
+        tfUsuario.addActionListener(this::tfUsuarioActionPerformed);
         jPanel1.add(tfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, 363, -1));
 
         cbLogin.setText("Manter-me conectado neste terminal");
@@ -110,6 +112,10 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
         dispose();
         
     }//GEN-LAST:event_btnEntradaActionPerformed
+
+    private void tfUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

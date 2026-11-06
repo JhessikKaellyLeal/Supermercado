@@ -124,4 +124,8 @@ private File imagem;
         this.imagem = imagem;
     }
 
+    public Object get(String situacao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

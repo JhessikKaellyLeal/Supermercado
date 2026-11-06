@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import Model.Produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,55 +61,67 @@ public class ProdutosController {
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
+    
+public List<Produtos> listar() throws SQLException {
 
-        String sql = "SELECT p.*, c.nome AS categoria, "
-                + "m.nome AS marca, u.nome AS unidade "
-                + "FROM produtos p "
-                + "JOIN categorias c "
-                + "ON p.categorias_idcategorias = c.idcategorias "
-                + "JOIN marcas m ON p.marcas_idmarcas = m.idmarcas "
-                + "JOIN unidadeMedidas u "
-                + "ON p.unidadeMedidas_idunidadeMedidas = "
-                + "u.idunidadeMedidas "
-                + "ORDER BY p.nome";
+    List<Produtos> lista = new ArrayList<>();
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    String sql = "SELECT p.*, c.nome AS categoria, "
+            + "m.nome AS marca, u.nome AS unidade "
+            + "FROM produtos p "
+            + "JOIN categorias c "
+            + "ON p.categorias_idcategorias = c.idcategorias "
+            + "JOIN marcas m ON p.marcas_idmarcas = m.idmarcas "
+            + "JOIN unidadeMedidas u "
+            + "ON p.unidadeMedidas_idunidadeMedidas = "
+            + "u.idunidadeMedidas "
+            + "ORDER BY p.nome";
 
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
+    try (Connection c = Conexao.getConnection();
+         PreparedStatement ps = c.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-                m.put("idprodutos", rs.getInt("idprodutos"));
-                m.put("nome", rs.getString("nome"));
-                m.put("codigo", rs.getString("codigo"));
-                m.put("descricao", rs.getString("descricao"));
-                m.put("precoCusto", rs.getDouble("precoCusto"));
-                m.put("precoVenda", rs.getDouble("precoVenda"));
-                m.put("situacao", rs.getInt("situacao"));
-                m.put("estoque", rs.getInt("estoque"));
-                m.put("validade", rs.getString("validade"));
-                m.put("imagem", rs.getBytes("imagem"));
+        while (rs.next()) {
 
-                m.put("categorias_idcategorias",
-                      rs.getInt("categorias_idcategorias"));
-                m.put("marcas_idmarcas",
-                      rs.getInt("marcas_idmarcas"));
-                m.put("unidadeMedidas_idunidadeMedidas",
-                      rs.getInt("unidadeMedidas_idunidadeMedidas"));
+            Produtos produto = new Produtos();
 
-                m.put("categoria", rs.getString("categoria"));
-                m.put("marca", rs.getString("marca"));
-                m.put("unidade", rs.getString("unidade"));
+            produto.setIdprodutos(rs.getInt("idprodutos"));
+            produto.setNome(rs.getString("nome"));
+            produto.setCodigo(rs.getString("codigo"));
+            produto.setDescricao(rs.getString("descricao"));
 
-                lista.add(m);
+            produto.setPrecoCusto(rs.getDouble("precoCusto"));
+            produto.setPrecoVenda(rs.getDouble("precoVenda"));
+
+            produto.setSituacao(rs.getInt("situacao") == 1);
+            produto.setEstoque(rs.getInt("estoque"));
+            produto.setValidade(rs.getString("validade"));
+
+            produto.setCategorias_idcategorias(
+                    rs.getInt("categorias_idcategorias"));
+
+            produto.setMarcas_idmarcas(
+                    rs.getInt("marcas_idmarcas"));
+
+            produto.setUnidadeMedidas_idunidadeMedidas(
+                    rs.getInt("unidadeMedidas_idunidadeMedidas"));
+
+            // Imagem
+            byte[] imagem = rs.getBytes("imagem");
+
+            if (imagem != null) {
+                produto.setImagem(
+                        new java.io.File("imagem")
+                );
             }
-        }
 
-        return lista;
+            lista.add(produto);
+        }
     }
+
+    return lista;
+}
+
 
     public boolean editar(
             int id, String nome, String codigo, String descricao,
@@ -163,31 +176,62 @@ public class ProdutosController {
         }
     }
 
+
     public List<Map<String, Object>> pesquisar(String termo)
             throws SQLException {
 
         List<Map<String, Object>> lista = new ArrayList<>();
 
-        String sql = "SELECT idprodutos, nome, codigo, precoVenda, "
-                + "estoque, situacao FROM produtos "
-                + "WHERE nome LIKE ? OR codigo LIKE ? ORDER BY nome";
+        String sql = "SELECT p.idprodutos, p.nome, p.codigo, "
+                + "p.precoCusto, p.precoVenda, p.estoque, "
+                + "p.situacao, p.unidadeMedidas_idunidadeMedidas, "
+                + "u.nome AS unidade "
+                + "FROM produtos p "
+                + "INNER JOIN unidadeMedidas u "
+                + "ON p.unidadeMedidas_idunidadeMedidas = "
+                + "u.idunidadeMedidas "
+                + "WHERE (p.nome LIKE ? OR p.codigo LIKE ?) "
+                + "AND p.situacao = 1 "
+                + "ORDER BY p.nome";
 
         try (Connection c = Conexao.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setString(1, "%" + termo + "%");
-            ps.setString(2, "%" + termo + "%");
+            ps.setString(1, "%" + termo.trim() + "%");
+            ps.setString(2, "%" + termo.trim() + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
+
                 while (rs.next()) {
+
                     Map<String, Object> m = new LinkedHashMap<>();
 
-                    m.put("idprodutos", rs.getInt("idprodutos"));
-                    m.put("nome", rs.getString("nome"));
-                    m.put("codigo", rs.getString("codigo"));
-                    m.put("precoVenda", rs.getDouble("precoVenda"));
-                    m.put("estoque", rs.getInt("estoque"));
-                    m.put("situacao", rs.getInt("situacao"));
+                    m.put("idprodutos",
+                            rs.getInt("idprodutos"));
+
+                    m.put("nome",
+                            rs.getString("nome"));
+
+                    m.put("codigo",
+                            rs.getString("codigo"));
+
+                    m.put("precoCusto",
+                            rs.getDouble("precoCusto"));
+
+                    m.put("precoVenda",
+                            rs.getDouble("precoVenda"));
+
+                    m.put("estoque",
+                            rs.getInt("estoque"));
+
+                    m.put("situacao",
+                            rs.getInt("situacao"));
+
+                    m.put("unidade",
+                            rs.getString("unidade"));
+
+                    m.put("unidadeMedidas_idunidadeMedidas",
+                            rs.getInt("unidadeMedidas_idunidadeMedidas"));
 
                     lista.add(m);
                 }
@@ -196,5 +240,6 @@ public class ProdutosController {
 
         return lista;
     }
+
 
 }

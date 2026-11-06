@@ -4,25 +4,25 @@
  */
 package Model;
 
+/**
+ *
+ * @author AntônioVieira
+ */
 public class Cliente {
+ private int  intervaloDias, idcliente, status;
+ private String nome, cpf, rg, dataNascimento, genero, email, telefone, senha;
+ 
 
-    // Atributos
-    private int idcliente;
-    private String nome;
-    private String cpf;
-    private String rg;
-    private String dataNascimento;
-    private String genero;
-    private String email;
-    private String telefone;
-    private int status;
-    private String senha;
-
-    // Construtor vazio
     public Cliente() {
     }
 
-    // GETTERS E SETTERS
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getIdcliente() {
         return idcliente;
@@ -30,6 +30,14 @@ public class Cliente {
 
     public void setIdcliente(int idcliente) {
         this.idcliente = idcliente;
+    }
+
+    public int getIntervaloDias() {
+        return intervaloDias;
+    }
+
+    public void setIntervaloDias(int intervaloDias) {
+        this.intervaloDias = intervaloDias;
     }
 
     public String getNome() {
@@ -88,14 +96,6 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public String getSenha() {
         return senha;
     }
@@ -104,4 +104,6 @@ public class Cliente {
         this.senha = senha;
     }
 
+   
+ 
 }
