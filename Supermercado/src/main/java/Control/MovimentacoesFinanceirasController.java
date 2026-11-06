@@ -169,4 +169,29 @@ public class MovimentacoesFinanceirasController {
             return false;
         }
     }
+
+
+ public ArrayList<String> listarTipos() {
+
+    ArrayList<String> lista = new ArrayList<>();
+
+    String sql = "SELECT DISTINCT tipo FROM movimentacoesFinanceiras "
+               + "ORDER BY tipo";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(rs.getString("tipo"));
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Erro ao listar tipos: " + e.getMessage());
+    }
+
+    return lista;
 }
+
+}
+

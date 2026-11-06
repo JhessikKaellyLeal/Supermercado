@@ -1,27 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
-public class Caixas {
-  private int  daberturaCaixa;
-  private String nome, tipo, observacao;
-  private boolean status;
 
+public class Caixas {
+
+    private int idcaixas;
+    private String nome;
+    private String tipo;
+    private int status;
+    private String observacao;
+
+    // Construtor vazio
     public Caixas() {
     }
 
-    public int getDaberturaCaixa() {
-        return daberturaCaixa;
+    // Construtor com todos os campos
+    public Caixas(int idcaixas, String nome, String tipo,
+                       int status, String observacao) {
+
+        this.idcaixas = idcaixas;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.status = status;
+        this.observacao = observacao;
     }
 
-    public void setDaberturaCaixa(int daberturaCaixa) {
-        this.daberturaCaixa = daberturaCaixa;
+    // Getters e Setters
+
+    public int getIdcaixas() {
+        return idcaixas;
+    }
+
+    public void setIdcaixas(int idcaixas) {
+        this.idcaixas = idcaixas;
     }
 
     public String getNome() {
@@ -40,6 +50,14 @@ public class Caixas {
         this.tipo = tipo;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getObservacao() {
         return observacao;
     }
@@ -48,12 +66,9 @@ public class Caixas {
         this.observacao = observacao;
     }
 
-    public boolean isStatus() {
-        return status;
+    // Exibir nome na JComboBox
+    @Override
+    public String toString() {
+        return nome;
     }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-  
 }
