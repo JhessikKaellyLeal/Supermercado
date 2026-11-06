@@ -1848,6 +1848,7 @@ private void selecionarEntrega() {
         btnAlterarAgenda = new javax.swing.JButton();
         btnExcluirAgenda = new javax.swing.JButton();
         btnVoltarAgenda = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         distribuicao = new javax.swing.JPanel();
         lblTituloDistribuicao = new javax.swing.JLabel();
         lblPedidoDistribuicao = new javax.swing.JLabel();
@@ -2009,7 +2010,6 @@ private void selecionarEntrega() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTabbedPane1.setForeground(new java.awt.Color(10, 4, 138));
         jTabbedPane1.setFont(new java.awt.Font("Arial Black", 0, 15)); // NOI18N
 
         entregadores.setBackground(new java.awt.Color(236, 236, 236));
@@ -2097,26 +2097,26 @@ private void selecionarEntrega() {
         btnNovoEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEntregadores.setText("Novo");
         btnNovoEntregadores.setIconTextGap(6);
 
         btnSalvaEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvaEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvaEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvaEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\salve- (5).png")); // NOI18N
+        btnSalvaEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvaEntregadores.setText("Salvar");
 
         btnAlterarEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEntregadores.setText("Alterar");
 
         btnExcluirEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEntregadores.setText("Excluir");
 
         tblEntregadores.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2345,25 +2345,25 @@ private void selecionarEntrega() {
         btnNovoVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoVeiculos.setText("Novo");
 
         btnSalvarVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarVeiculos.setText("Salvar");
 
         btnAlterarVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarVeiculos.setText("Alterar");
 
         btnExcluirVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirVeiculos.setText("Excluir");
 
         lblStatusVeiculos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2600,25 +2600,25 @@ private void selecionarEntrega() {
         btnNovoRegioes.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoRegioes.setText("Novo");
 
         btnSalvarRegioes.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarRegioes.setText("Salvar");
 
         btnAlterarRegioes.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarRegioes.setText("Alterar");
 
         btnExcluirRegioes.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirRegioes.setText("Excluir");
 
         javax.swing.GroupLayout regiaoLayout = new javax.swing.GroupLayout(regiao);
@@ -2739,25 +2739,25 @@ private void selecionarEntrega() {
         btnNovoTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoTaxas.setText("Novo");
 
         btnSalvarTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarTaxas.setText("Salvar");
 
         btnAlterarTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarTaxas.setText("Alterar");
 
         btnExcluirTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirTaxas.setText("Excluir");
 
         tblListaTaxas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2873,7 +2873,7 @@ private void selecionarEntrega() {
         btnPesquisarEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\lupa.png")); // NOI18N
+        btnPesquisarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarEnderecos.setText("Pesquisar");
 
         tblListaEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2897,19 +2897,19 @@ private void selecionarEntrega() {
         btnNovoEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEnderecos.setText("Novo");
 
         btnAlterarEndercos.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEndercos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEndercos.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEndercos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarEndercos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEndercos.setText("Alterar");
 
         btnExcluirEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEnderecos.setText("Excluir");
 
         jLabel3.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2938,7 +2938,7 @@ private void selecionarEntrega() {
         btnSalvarEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarEnderecos.setText("Salvar");
 
         javax.swing.GroupLayout endereçoLayout = new javax.swing.GroupLayout(endereço);
@@ -3094,37 +3094,37 @@ private void selecionarEntrega() {
         btnNovoEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEntregas.setText("Novo");
 
         btnSalvarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarEntregas.setText("Salvar");
 
         btnAlterarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEntregas.setText("Alterar");
 
         btnExcluirEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEntregas.setText("Excluir");
 
         btnPesquisarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\lupa.png")); // NOI18N
+        btnPesquisarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarEntregas.setText("Pesquisar");
 
         btnVoltarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\seta-esquerda (1).png")); // NOI18N
+        btnVoltarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarEntregas.setText("Voltar");
 
         tblEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -3301,7 +3301,7 @@ private void selecionarEntrega() {
         btnPesquisarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\lupa.png")); // NOI18N
+        btnPesquisarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarDataHorario.setText("Pesquisar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -3317,13 +3317,13 @@ private void selecionarEntrega() {
 
         lblEntregasDiaDH.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblEntregasDiaDH.setForeground(new java.awt.Color(39, 34, 160));
-        lblEntregasDiaDH.setText("Total de entregas agendadas");
+        lblEntregasDiaDH.setText("Entregas no dia");
 
         lblNumeroEntregasDiaDH.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblNumeroEntregasDiaDH.setText("Nº");
 
         lblIconeEntregasDia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEntregasDia.setText("Icone");
+        lblIconeEntregasDia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pendente (2).png")); // NOI18N
 
         lblTotalEntregasDH1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblTotalEntregasDH1.setForeground(new java.awt.Color(39, 34, 160));
@@ -3333,20 +3333,20 @@ private void selecionarEntrega() {
         lblNumeroTotalDH1.setText("Nº");
 
         lblIconeTotalEntregas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeTotalEntregas1.setText("Icone");
+        lblIconeTotalEntregas1.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\fast-delivery.png")); // NOI18N
 
         lblAndamento.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblAndamento.setForeground(new java.awt.Color(39, 34, 160));
         lblAndamento.setText("Em andamento");
 
         lblIconeAndamento.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeAndamento.setText("Icone");
+        lblIconeAndamento.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\entrega.png")); // NOI18N
 
         lnlNumeroAndamento.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lnlNumeroAndamento.setText("Nº");
 
         lblIconeConcluidas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluidas.setText("Icone");
+        lblIconeConcluidas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\concluido.png")); // NOI18N
 
         lblConcluidas.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblConcluidas.setForeground(new java.awt.Color(39, 34, 160));
@@ -3376,26 +3376,26 @@ private void selecionarEntrega() {
         btnNovoDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoDataHorario.setText("Novo");
         btnNovoDataHorario.setIconTextGap(6);
 
         btnAlterarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarDataHorario.setText("Alterar");
 
         btnExcluirDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirDataHorario.setText("Excluir");
 
         btnVoltarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\seta-esquerda (1).png")); // NOI18N
+        btnVoltarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarDataHorario.setText("Voltar");
 
         javax.swing.GroupLayout dataHorarioLayout = new javax.swing.GroupLayout(dataHorario);
@@ -3411,19 +3411,22 @@ private void selecionarEntrega() {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dataHorarioLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(lblIconeTotalEntregas1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(dataHorarioLayout.createSequentialGroup()
-                                        .addComponent(lblTotalEntregasDH1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                                        .addComponent(lblIconeEntregasDia))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTotalEntregasDH1))
                                     .addGroup(dataHorarioLayout.createSequentialGroup()
-                                        .addComponent(lblNumeroTotalDH1)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(lblNumeroTotalDH1)))
+                                .addGap(21, 21, 21)
+                                .addComponent(lblIconeEntregasDia)
                                 .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblEntregasDiaDH)
-                                    .addComponent(lblNumeroEntregasDiaDH)))
+                                    .addGroup(dataHorarioLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblEntregasDiaDH))
+                                    .addGroup(dataHorarioLayout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
+                                        .addComponent(lblNumeroEntregasDiaDH))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dataHorarioLayout.createSequentialGroup()
                                 .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblDataInicial)
@@ -3445,28 +3448,34 @@ private void selecionarEntrega() {
                                 .addGap(497, 497, 497)
                                 .addComponent(btnVoltarDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(dataHorarioLayout.createSequentialGroup()
-                                .addGap(62, 62, 62)
+                                .addGap(33, 33, 33)
                                 .addComponent(lblIconeAndamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblStatusDataHorario)
-                                    .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(dataHorarioLayout.createSequentialGroup()
-                                            .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(dataHorarioLayout.createSequentialGroup()
-                                                    .addComponent(lblAndamento)
-                                                    .addGap(91, 91, 91)
-                                                    .addComponent(lblIconeConcluidas))
-                                                .addComponent(lnlNumeroAndamento))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblNumeroConcluidas)
-                                                .addComponent(lblConcluidas)))
-                                        .addGroup(dataHorarioLayout.createSequentialGroup()
-                                            .addComponent(cbStatusDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(117, 117, 117)
-                                            .addComponent(btnPesquisarDataHorario)
-                                            .addGap(47, 47, 47)))))))
+                                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(dataHorarioLayout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblStatusDataHorario)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createSequentialGroup()
+                                                .addComponent(cbStatusDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(117, 117, 117)
+                                                .addComponent(btnPesquisarDataHorario)
+                                                .addGap(47, 47, 47))))
+                                    .addGroup(dataHorarioLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblAndamento))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(lnlNumeroAndamento)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblIconeConcluidas)
+                                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(dataHorarioLayout.createSequentialGroup()
+                                                .addGap(14, 14, 14)
+                                                .addComponent(lblConcluidas))
+                                            .addGroup(dataHorarioLayout.createSequentialGroup()
+                                                .addGap(26, 26, 26)
+                                                .addComponent(lblNumeroConcluidas)))
+                                        .addGap(142, 142, 142))))))
                     .addGroup(dataHorarioLayout.createSequentialGroup()
                         .addGap(503, 503, 503)
                         .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3487,68 +3496,65 @@ private void selecionarEntrega() {
         );
         dataHorarioLayout.setVerticalGroup(
             dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dataHorarioLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(lbltituloDataHorario)
-                .addGap(18, 18, 18)
-                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDataInicial)
-                    .addComponent(lblDataFinal)
-                    .addComponent(lblHorarioInicial)
-                    .addComponent(lblHorarioFinal)
-                    .addComponent(lblEntregadorDataHorario)
-                    .addComponent(lblStatusDataHorario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfHorarioInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHorarioFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbEntregadorDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStatusDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisarDataHorario))
-                .addGap(26, 26, 26)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createSequentialGroup()
+                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(dataHorarioLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbltituloDataHorario)
+                        .addGap(18, 18, 18)
                         .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTotalEntregasDH1)
-                            .addComponent(lblIconeTotalEntregas1)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createSequentialGroup()
+                            .addComponent(lblDataInicial)
+                            .addComponent(lblDataFinal)
+                            .addComponent(lblHorarioInicial)
+                            .addComponent(lblHorarioFinal)
+                            .addComponent(lblEntregadorDataHorario)
+                            .addComponent(lblStatusDataHorario))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblEntregasDiaDH)
-                                    .addComponent(lblIconeEntregasDia))
-                                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblAndamento)
-                                    .addComponent(lblIconeAndamento)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataHorarioLayout.createSequentialGroup()
-                                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblConcluidas)
-                                    .addComponent(lblIconeConcluidas))
-                                .addGap(4, 4, 4)))))
-                .addGap(31, 31, 31)
-                .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumeroTotalDH1)
-                    .addComponent(lnlNumeroAndamento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNumeroEntregasDiaDH)
-                    .addComponent(lblNumeroConcluidas))
-                .addGap(64, 64, 64)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ftfDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfHorarioInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtHorarioFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbEntregadorDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbStatusDataHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisarDataHorario))
+                        .addGap(26, 26, 26)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(21, 21, 21)
+                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblIconeEntregasDia)
+                            .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblTotalEntregasDH1)
+                                .addComponent(lblIconeTotalEntregas1)
+                                .addComponent(lblEntregasDiaDH))
+                            .addComponent(lblIconeAndamento)
+                            .addGroup(dataHorarioLayout.createSequentialGroup()
+                                .addComponent(lblAndamento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lnlNumeroAndamento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblIconeConcluidas)
+                            .addGroup(dataHorarioLayout.createSequentialGroup()
+                                .addComponent(lblConcluidas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblNumeroConcluidas))))
+                    .addGroup(dataHorarioLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNumeroEntregasDiaDH)
+                            .addComponent(lblNumeroTotalDH1))))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dataHorarioLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(136, 136, 136)
                         .addGroup(dataHorarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNovoDataHorario)
                             .addComponent(btnAlterarDataHorario)
                             .addComponent(btnExcluirDataHorario)))
                     .addGroup(dataHorarioLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(150, 150, 150)
                         .addComponent(btnVoltarDataHorario)))
-                .addGap(298, 298, 298))
+                .addGap(394, 394, 394))
         );
 
         jTabbedPane1.addTab("Data e Horário", dataHorario);
@@ -3591,15 +3597,14 @@ private void selecionarEntrega() {
         btnPesquisarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\lupa.png")); // NOI18N
+        btnPesquisarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarAgenda.setText("Pesquisar");
 
         lblTotalEntregasAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        lblTotalEntregasAgenda.setForeground(new java.awt.Color(39, 34, 160));
         lblTotalEntregasAgenda.setText("Total de Entregas");
 
         lblIconeEntregasAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEntregasAgenda.setText("Icone");
+        lblIconeEntregasAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\fast-delivery.png")); // NOI18N
 
         lblNumeroEntregasAgenda.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblNumeroEntregasAgenda.setText("Nº");
@@ -3607,27 +3612,24 @@ private void selecionarEntrega() {
         lblIconeAndamentoAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         lblAndamentoAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        lblAndamentoAgenda.setForeground(new java.awt.Color(39, 34, 160));
         lblAndamentoAgenda.setText("Em andamento");
 
         lblNUmeroAndamentoAgenda.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblNUmeroAndamentoAgenda.setText("Nº");
 
         lblIconrPendentesAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconrPendentesAgenda.setText("Icone");
+        lblIconrPendentesAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pendente (2).png")); // NOI18N
 
         lblPendentesAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        lblPendentesAgenda.setForeground(new java.awt.Color(39, 34, 160));
         lblPendentesAgenda.setText("Pendentes");
 
         lblNumeroPendentesAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblNumeroPendentesAgenda.setText("Nº");
 
         lblIconeConcluidasAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluidasAgenda.setText("Icone");
+        lblIconeConcluidasAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\concluido.png")); // NOI18N
 
         lblConcluidasAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        lblConcluidasAgenda.setForeground(new java.awt.Color(39, 34, 160));
         lblConcluidasAgenda.setText("Concluídas");
 
         lblNumeroConcluidasAgenda.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -3673,26 +3675,29 @@ private void selecionarEntrega() {
         btnNovoAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoAgenda.setText("Novo");
 
         btnAlterarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarAgenda.setText("Alterar");
 
         btnExcluirAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirAgenda.setText("Excluir");
 
         btnVoltarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\seta-esquerda (1).png")); // NOI18N
+        btnVoltarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarAgenda.setText("Voltar");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\entrega.png")); // NOI18N
 
         javax.swing.GroupLayout agendaLayout = new javax.swing.GroupLayout(agenda);
         agenda.setLayout(agendaLayout);
@@ -3701,23 +3706,6 @@ private void selecionarEntrega() {
             .addGroup(agendaLayout.createSequentialGroup()
                 .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(agendaLayout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumeroEntregasAgenda)
-                            .addComponent(lblTotalEntregasAgenda))
-                        .addGap(104, 104, 104)
-                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAndamentoAgenda)
-                            .addComponent(lblNUmeroAndamentoAgenda))
-                        .addGap(91, 91, 91)
-                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPendentesAgenda)
-                            .addComponent(lblNumeroPendentesAgenda))
-                        .addGap(108, 108, 108)
-                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblConcluidasAgenda)
-                            .addComponent(lblNumeroConcluidasAgenda)))
-                    .addGroup(agendaLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane13))
@@ -3725,7 +3713,34 @@ private void selecionarEntrega() {
                         .addContainerGap()
                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(agendaLayout.createSequentialGroup()
-                                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(agendaLayout.createSequentialGroup()
+                                        .addComponent(lblIconeEntregasAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblTotalEntregasAgenda)
+                                            .addGroup(agendaLayout.createSequentialGroup()
+                                                .addGap(29, 29, 29)
+                                                .addComponent(lblNumeroEntregasAgenda)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel2)
+                                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(agendaLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblAndamentoAgenda))
+                                            .addGroup(agendaLayout.createSequentialGroup()
+                                                .addGap(30, 30, 30)
+                                                .addComponent(lblNumeroPendentesAgenda)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                        .addComponent(lblIconrPendentesAgenda)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblPendentesAgenda)
+                                            .addGroup(agendaLayout.createSequentialGroup()
+                                                .addComponent(lblIconeAndamentoAgenda)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lblNUmeroAndamentoAgenda)))
+                                        .addGap(55, 55, 55))
                                     .addGroup(agendaLayout.createSequentialGroup()
                                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblTituloAgenda)
@@ -3740,26 +3755,14 @@ private void selecionarEntrega() {
                                         .addGap(57, 57, 57)
                                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblVeiculoAgenda)
-                                            .addComponent(cbVeiculoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(agendaLayout.createSequentialGroup()
-                                        .addComponent(lblIconeEntregasAgenda)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblIconeAndamentoAgenda)
-                                        .addGap(190, 190, 190)
-                                        .addComponent(lblIconrPendentesAgenda)
-                                        .addGap(60, 60, 60)))
+                                            .addComponent(cbVeiculoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(31, 31, 31)))
                                 .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblRegiãoAgenda)
                                     .addGroup(agendaLayout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblRegiãoAgenda)
-                                            .addGroup(agendaLayout.createSequentialGroup()
-                                                .addComponent(cbRegiaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(38, 38, 38)
-                                                .addComponent(btnPesquisarAgenda))))
-                                    .addGroup(agendaLayout.createSequentialGroup()
-                                        .addGap(104, 104, 104)
-                                        .addComponent(lblIconeConcluidasAgenda))))
+                                        .addComponent(cbRegiaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(38, 38, 38)
+                                        .addComponent(btnPesquisarAgenda))))
                             .addGroup(agendaLayout.createSequentialGroup()
                                 .addComponent(btnNovoAgenda)
                                 .addGap(18, 18, 18)
@@ -3767,8 +3770,18 @@ private void selecionarEntrega() {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnExcluirAgenda)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnVoltarAgenda)))))
-                .addContainerGap(1010, Short.MAX_VALUE))
+                                .addComponent(btnVoltarAgenda))
+                            .addGroup(agendaLayout.createSequentialGroup()
+                                .addGap(692, 692, 692)
+                                .addComponent(lblIconeConcluidasAgenda)
+                                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(agendaLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblConcluidasAgenda))
+                                    .addGroup(agendaLayout.createSequentialGroup()
+                                        .addGap(33, 33, 33)
+                                        .addComponent(lblNumeroConcluidasAgenda)))))))
+                .addContainerGap(919, Short.MAX_VALUE))
         );
         agendaLayout.setVerticalGroup(
             agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3790,26 +3803,53 @@ private void selecionarEntrega() {
                         .addComponent(cbEntregadorAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbRegiaoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnPesquisarAgenda)))
-                .addGap(35, 35, 35)
-                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTotalEntregasAgenda)
-                    .addComponent(lblAndamentoAgenda)
-                    .addComponent(lblPendentesAgenda)
-                    .addComponent(lblConcluidasAgenda))
-                .addGap(1, 1, 1)
                 .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblIconeEntregasAgenda)
+                    .addGroup(agendaLayout.createSequentialGroup()
+                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(agendaLayout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(lblIconeConcluidasAgenda))
+                            .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(agendaLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblNumeroEntregasAgenda))
+                                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(agendaLayout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jLabel2))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblIconeEntregasAgenda)))))
+                        .addGap(46, 46, 46))
+                    .addGroup(agendaLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblAndamentoAgenda)
+                                .addComponent(lblPendentesAgenda))
+                            .addComponent(lblTotalEntregasAgenda)
+                            .addComponent(lblConcluidasAgenda))
+                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(agendaLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(agendaLayout.createSequentialGroup()
+                                        .addComponent(lblIconeAndamentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(46, 46, 46))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
+                                        .addComponent(lblNUmeroAndamentoAgenda)
+                                        .addGap(61, 61, 61))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
+                                        .addComponent(lblNumeroPendentesAgenda)
+                                        .addGap(61, 61, 61))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblNumeroConcluidasAgenda)
+                                .addGap(61, 61, 61))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblIconrPendentesAgenda)
-                        .addComponent(lblIconeConcluidasAgenda))
-                    .addComponent(lblIconeAndamentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumeroEntregasAgenda)
-                    .addComponent(lblNUmeroAndamentoAgenda)
-                    .addComponent(lblNumeroPendentesAgenda)
-                    .addComponent(lblNumeroConcluidasAgenda))
-                .addGap(33, 33, 33)
+                        .addGap(61, 61, 61)))
                 .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane13)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3819,7 +3859,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarAgenda)
                     .addComponent(btnExcluirAgenda)
                     .addComponent(btnVoltarAgenda))
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agenda", agenda);
@@ -3908,31 +3948,31 @@ private void selecionarEntrega() {
         btnNovoDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoDistribuicao.setText("Novo");
 
         btnSalvarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\Salvar.png")); // NOI18N
+        btnSalvarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarDistribuicao.setText("Salvar");
 
         btnAlterarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarDistribuicao.setText("Alterar");
 
         btnExcluirDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirDistribuicao.setText("Excluir");
 
         btnVoltarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\seta-esquerda (1).png")); // NOI18N
+        btnVoltarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarDistribuicao.setText("Voltar");
 
         tblListaDistribuicao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -4106,7 +4146,7 @@ private void selecionarEntrega() {
         txtClienteStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblIconePagamentoStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconePagamentoStatus.setText("Icone");
+        lblIconePagamentoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pagamento-com-cartao-de-credito.png")); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(39, 34, 160));
@@ -4116,7 +4156,7 @@ private void selecionarEntrega() {
         lblNumeroPagamentoStatus.setText("Nº");
 
         lblIconeSeparacaoStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeSeparacaoStatus.setText("Icone");
+        lblIconeSeparacaoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\separacao-em-lote (1).png")); // NOI18N
 
         lblSeparacaoStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblSeparacaoStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -4126,7 +4166,7 @@ private void selecionarEntrega() {
         lblNumeroSeparacaoStatus.setText("Nº");
 
         lblIconeProntosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeProntosStatus.setText("Icone");
+        lblIconeProntosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\armazem.png")); // NOI18N
 
         lblProntosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblProntosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -4136,7 +4176,7 @@ private void selecionarEntrega() {
         lblNumeroProntosStatus.setText("Nº");
 
         lblIconeEnviadosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEnviadosStatus.setText("Icone");
+        lblIconeEnviadosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\aviao-de-papel.png")); // NOI18N
 
         lblEnviadosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblEnviadosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -4146,7 +4186,7 @@ private void selecionarEntrega() {
         lblNumeroEnviadosStatus.setText("Nº");
 
         lblIconeConcluídos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluídos.setText("Icone");
+        lblIconeConcluídos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\correto (2).png")); // NOI18N
 
         lblConcluidosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblConcluidosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -4156,7 +4196,7 @@ private void selecionarEntrega() {
         lblNumeroConcluidosStatus.setText("Nº");
 
         lblIconeCanceladosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeCanceladosStatus.setText("Icone");
+        lblIconeCanceladosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\cancelar.png")); // NOI18N
 
         lblCanceladosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblCanceladosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -4185,25 +4225,25 @@ private void selecionarEntrega() {
         btnNovoStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\botao-mais.png")); // NOI18N
+        btnNovoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoStatus.setText("Novo");
 
         btnAlterarStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\editar.png")); // NOI18N
+        btnAlterarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarStatus.setText("Alterar");
 
         btnExcluirStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\excluir.png")); // NOI18N
+        btnExcluirStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirStatus.setText("Excluir");
 
         btnVoltarStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\icones\\seta-esquerda (1).png")); // NOI18N
+        btnVoltarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarStatus.setText("Voltar");
 
         javax.swing.GroupLayout statusLayout = new javax.swing.GroupLayout(status);
@@ -4217,23 +4257,14 @@ private void selecionarEntrega() {
                         .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(statusLayout.createSequentialGroup()
                                 .addGap(51, 51, 51)
-                                .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNumeroPagamentoStatus)
-                                    .addGroup(statusLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(82, 82, 82)
-                                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblSeparacaoStatus)
-                                            .addComponent(lblNumeroSeparacaoStatus))
-                                        .addGap(80, 80, 80)
-                                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblProntosStatus)
-                                            .addComponent(lblNumeroProntosStatus))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblNumeroEnviadosStatus)
-                                            .addComponent(lblEnviadosStatus))))
-                                .addGap(60, 60, 60))
+                                .addComponent(jLabel4)
+                                .addGap(82, 82, 82)
+                                .addComponent(lblSeparacaoStatus)
+                                .addGap(90, 90, 90)
+                                .addComponent(lblProntosStatus)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblEnviadosStatus)
+                                .addGap(58, 58, 58))
                             .addGroup(statusLayout.createSequentialGroup()
                                 .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(statusLayout.createSequentialGroup()
@@ -4244,43 +4275,52 @@ private void selecionarEntrega() {
                                         .addGap(34, 34, 34)
                                         .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblStatus)
-                                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(45, 45, 45))
                                     .addGroup(statusLayout.createSequentialGroup()
                                         .addComponent(lblIconePagamentoStatus)
-                                        .addGap(263, 263, 263)
-                                        .addComponent(lblIconeSeparacaoStatus)))
+                                        .addGap(36, 36, 36)
+                                        .addComponent(lblNumeroPagamentoStatus)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblIconeSeparacaoStatus)
+                                        .addGap(42, 42, 42)
+                                        .addComponent(lblNumeroSeparacaoStatus)
+                                        .addGap(57, 57, 57)))
                                 .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(statusLayout.createSequentialGroup()
-                                        .addGap(19, 19, 19)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
                                         .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblEntregadorStatus)
                                             .addComponent(cbEntregadorStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(30, 30, 30))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lblIconeProntosStatus)
-                                        .addGap(126, 126, 126)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblNumeroProntosStatus)
+                                        .addGap(91, 91, 91)))
                                 .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblIconeEnviadosStatus)
+                                    .addGroup(statusLayout.createSequentialGroup()
+                                        .addComponent(lblIconeEnviadosStatus)
+                                        .addGap(36, 36, 36)
+                                        .addComponent(lblNumeroEnviadosStatus))
                                     .addComponent(lblCliente)
                                     .addComponent(txtClienteStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIconeConcluídos)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblConcluidosStatus)
-                                    .addComponent(lblNumeroConcluidosStatus))))
-                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(statusLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(lblIconeCanceladosStatus))
+                                .addGap(2, 2, 2)
+                                .addComponent(lblIconeConcluídos)
+                                .addGap(36, 36, 36)
+                                .addComponent(lblNumeroConcluidosStatus)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblIconeCanceladosStatus)
+                                .addGap(37, 37, 37)
+                                .addComponent(lblNumeroCanceladosStatus)
+                                .addGap(47, 47, 47))
                             .addGroup(statusLayout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCanceladosStatus)
-                                    .addComponent(lblNumeroCanceladosStatus))))
-                        .addContainerGap(758, Short.MAX_VALUE))
+                                .addGap(56, 56, 56)
+                                .addComponent(lblConcluidosStatus)
+                                .addGap(86, 86, 86)
+                                .addComponent(lblCanceladosStatus)))
+                        .addContainerGap(732, Short.MAX_VALUE))
                     .addGroup(statusLayout.createSequentialGroup()
                         .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane17)
@@ -4311,39 +4351,50 @@ private void selecionarEntrega() {
                     .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbEntregadorStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtClienteStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblSeparacaoStatus)
-                    .addComponent(lblProntosStatus)
-                    .addComponent(lblEnviadosStatus)
-                    .addComponent(lblConcluidosStatus)
-                    .addComponent(lblCanceladosStatus))
                 .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(statusLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblIconePagamentoStatus)
-                            .addComponent(lblIconeSeparacaoStatus)
-                            .addComponent(lblIconeCanceladosStatus)
-                            .addComponent(lblIconeConcluídos)
-                            .addComponent(lblIconeEnviadosStatus))
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblProntosStatus)
+                            .addComponent(lblEnviadosStatus)
+                            .addComponent(lblConcluidosStatus))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblIconeProntosStatus)
-                        .addGap(18, 18, 18)))
-                .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNumeroPagamentoStatus)
-                    .addGroup(statusLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNumeroProntosStatus)
-                            .addComponent(lblNumeroSeparacaoStatus)
+                        .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblIconePagamentoStatus)
+                                .addComponent(lblIconeSeparacaoStatus)
+                                .addComponent(lblIconeConcluídos)
+                                .addComponent(lblIconeEnviadosStatus))
                             .addComponent(lblNumeroConcluidosStatus)
-                            .addComponent(lblNumeroEnviadosStatus)
-                            .addComponent(lblNumeroCanceladosStatus))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lblNumeroEnviadosStatus)))
+                    .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(statusLayout.createSequentialGroup()
+                            .addGap(35, 35, 35)
+                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(lblSeparacaoStatus)
+                                .addComponent(lblCanceladosStatus))
+                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblNumeroSeparacaoStatus, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblNumeroPagamentoStatus, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGroup(statusLayout.createSequentialGroup()
+                                    .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(statusLayout.createSequentialGroup()
+                                            .addGap(7, 7, 7)
+                                            .addComponent(lblIconeProntosStatus))
+                                        .addGroup(statusLayout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(lblNumeroCanceladosStatus)
+                                                .addComponent(lblIconeCanceladosStatus))))
+                                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusLayout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNumeroProntosStatus))))
+                .addGap(76, 76, 76)
                 .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -4351,7 +4402,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarStatus)
                     .addComponent(btnExcluirStatus)
                     .addComponent(btnVoltarStatus))
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Status", status);
@@ -4394,6 +4445,7 @@ private void selecionarEntrega() {
         btnPesquisarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarTentativas.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarTentativas.setText("Pesquisar");
 
         lblIconeTotalTentativas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -4457,21 +4509,25 @@ private void selecionarEntrega() {
         btnNovoTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoTentativas.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovoTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoTentativas.setText("Novo");
 
         btnAlterarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarTentativas.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlterarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarTentativas.setText("Alterar");
 
         btnExcluirTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirTentativas.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirTentativas.setText("Excluir");
 
         btnVoltarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarTentativas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarTentativas.setText("Voltar");
 
         javax.swing.GroupLayout tentativasLayout = new javax.swing.GroupLayout(tentativas);
@@ -4510,7 +4566,7 @@ private void selecionarEntrega() {
                                             .addGroup(tentativasLayout.createSequentialGroup()
                                                 .addComponent(cbStatusTentativas, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(38, 38, 38)
-                                                .addComponent(btnPesquisarTentativas, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(btnPesquisarTentativas))))
                                     .addGroup(tentativasLayout.createSequentialGroup()
                                         .addGap(172, 172, 172)
                                         .addComponent(lblIconeAguardandoTentativas)
@@ -4591,7 +4647,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarTentativas)
                     .addComponent(btnExcluirTentativas)
                     .addComponent(btnVoltarTentativas))
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Tentativas", tentativas);
@@ -4634,6 +4690,7 @@ private void selecionarEntrega() {
         btnPesquisarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarConfirmacao.setText("Pesquisar");
 
         lblIconeEntregasConfirmadas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -4696,21 +4753,25 @@ private void selecionarEntrega() {
         btnNovoConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovoConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoConfirmacao.setText("Novo");
 
         btnAlterarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlterarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarConfirmacao.setText("Alterar");
 
         btnExcluirConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirConfirmacao.setText("Excluir");
 
         btnVoltarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarConfirmacao.setText("Voltar");
 
         javax.swing.GroupLayout confirmacaoLayout = new javax.swing.GroupLayout(confirmacao);
@@ -4834,7 +4895,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarConfirmacao)
                     .addComponent(btnExcluirConfirmacao)
                     .addComponent(btnVoltarConfirmacao))
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Confirmação", confirmacao);
@@ -4877,6 +4938,7 @@ private void selecionarEntrega() {
         btnPesquisarHistoricoRelatorio.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarHistoricoRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarHistoricoRelatorio.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarHistoricoRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarHistoricoRelatorio.setText("Pesquisar");
 
         lblIconeTotalHistoricoRelatorio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -5018,7 +5080,7 @@ private void selecionarEntrega() {
                                     .addGroup(historicoRelatorioLayout.createSequentialGroup()
                                         .addComponent(cbEntregadorHistoricoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnPesquisarHistoricoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(btnPesquisarHistoricoRelatorio))))
                             .addGroup(historicoRelatorioLayout.createSequentialGroup()
                                 .addGroup(historicoRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(historicoRelatorioLayout.createSequentialGroup()
@@ -5117,7 +5179,7 @@ private void selecionarEntrega() {
                         .addComponent(btnRelatorioStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnExportarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(348, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Histórico e Relatórios", historicoRelatorio);
@@ -5291,6 +5353,7 @@ private void selecionarEntrega() {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;

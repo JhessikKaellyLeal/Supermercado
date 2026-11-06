@@ -91,7 +91,7 @@
                                           <Component id="lblObservacoesCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblDataPedidoCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -135,19 +135,19 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="-2" pref="376" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="528" max="-2" attributes="0"/>
                                               <Component id="btnLimparCampoCadastro" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="btnVoltaCadastro" min="-2" pref="100" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
+                                              <Component id="btnVoltaCadastro" min="-2" pref="128" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="793" max="32767" attributes="0"/>
+                      <EmptySpace pref="836" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -205,19 +205,21 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnVoltaCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="btnVoltaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnLimparCampoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnSalvarCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnNovoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnEditarCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnExcluirCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnPesquisarCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnLimparCampoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="333" max="32767" attributes="0"/>
+                      <EmptySpace pref="340" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -435,16 +437,34 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSalvarCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnNovoCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -454,32 +474,68 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnEditarCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnExcluirCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnVoltaCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -562,10 +618,20 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnLimparCampoCadastro">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
                 </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\vassoura (1).png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
+                <Property name="iconTextGap" type="int" value="8"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -619,7 +685,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnVisualizarConsulta" min="-2" pref="126" max="-2" attributes="0"/>
+                                  <Component id="btnVisualizarConsulta" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnImprimirConsulta" min="-2" pref="133" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -668,7 +734,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="799" max="32767" attributes="0"/>
+                      <EmptySpace pref="807" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -723,7 +789,7 @@
                           </Group>
                           <Component id="btnVoltarConsulta" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="298" max="32767" attributes="0"/>
+                      <EmptySpace pref="302" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -845,8 +911,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarConsulta">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -998,24 +1073,51 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnVoltarConsulta">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnVisualizarConsulta">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\visualizar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnImprimirConsulta">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir"/>
               </Properties>
@@ -1173,20 +1275,18 @@
                               <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Component id="btnVoltar" min="-2" pref="107" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lblResumoSeparacao" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Component id="lblInformacoesResumoSeparacao" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="lblPorcentagemResumoSeparacao" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="barraSeparacao" max="32767" attributes="0"/>
-                                          <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="lblResumoSeparacao" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblInformacoesResumoSeparacao" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="lblPorcentagemResumoSeparacao" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="barraSeparacao" max="32767" attributes="0"/>
+                                      <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="btnVoltar" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -1208,7 +1308,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="700" max="32767" attributes="0"/>
+                      <EmptySpace pref="736" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1291,7 +1391,7 @@
                           <Component id="btnMarcarSeparado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="177" pref="243" max="32767" attributes="0"/>
+                      <EmptySpace min="177" pref="247" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1405,8 +1505,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarSeparacao">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -1683,32 +1792,68 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnVisualizarPedido">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\visualizar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar Pedido"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnImprimirListaSeparacao">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir lista"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnMarcarSeparado">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\verificar (2).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Marcar como Separado"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnVoltar">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -1752,12 +1897,12 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Component id="lblStatusConferencia" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="cbStatusConferencia" min="-2" pref="155" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="btnPesquisarConferencia" min="-2" pref="132" max="-2" attributes="0"/>
+                                      <Component id="btnPesquisarConferencia" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lblStatusConferencia" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -1794,7 +1939,7 @@
                           </Group>
                           <Component id="jScrollPane7" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="811" max="32767" attributes="0"/>
+                      <EmptySpace pref="763" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1928,8 +2073,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarConferencia">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2077,24 +2231,51 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnConfirmarConferencia">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\check-in-quadrangular.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Confirmar Confer&#xea;ncia"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnImprimirListaConferencia">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir Lista"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnVerDetalhesConferencia">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\documento (2).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Detalhes"/>
               </Properties>
@@ -2158,11 +2339,11 @@
                                   <Group type="102" attributes="0">
                                       <Component id="cbStatusAlteracao" min="-2" pref="197" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnPesquisarAlteracao" min="-2" pref="115" max="-2" attributes="0"/>
+                                      <Component id="btnPesquisarAlteracao" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblStatusAlteracao" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="994" max="32767" attributes="0"/>
+                              <EmptySpace pref="1015" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -2206,7 +2387,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="817" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="853" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -2361,8 +2542,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarAlteracao">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -2614,8 +2804,17 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnSalvarAlteracao">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar Altera&#xe7;&#xe3;o"/>
               </Properties>
@@ -2677,11 +2876,11 @@
                               </Group>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblMotivoCancelamento" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
+                                  <Component id="lblMotivoCancelamento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="cbMotivoCancelamento" min="-2" pref="184" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                      <Component id="btnPesquisarCancelamento" min="-2" pref="143" max="-2" attributes="0"/>
+                                      <Component id="btnPesquisarCancelamento" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -2729,7 +2928,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="773" max="32767" attributes="0"/>
+                      <EmptySpace pref="809" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jScrollPane13" min="-2" pref="938" max="-2" attributes="0"/>
@@ -2801,7 +3000,7 @@
                           <Component id="btnImprimirComprovanteCancelamento" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarCancelamento" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="272" max="32767" attributes="0"/>
+                      <EmptySpace pref="279" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2895,8 +3094,17 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarCancelamento">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -3139,16 +3347,34 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnImprimirComprovanteCancelamento">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir Comprovante"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnVoltarCancelamento">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>

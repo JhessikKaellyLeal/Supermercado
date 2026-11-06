@@ -40,6 +40,7 @@ View\TelaVendas$14.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class
+View\TelaEntregas$FuncionarioController.class
 Model\Marcas.class
 View\TelaPdvRealizacao$2.class
 View\TelaSolicitacao$3.class

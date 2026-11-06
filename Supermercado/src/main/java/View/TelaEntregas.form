@@ -27,9 +27,6 @@
   <SubComponents>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="8a" green="4" red="a" type="rgb"/>
-        </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Black" size="15" style="0"/>
         </Property>
@@ -440,7 +437,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
                 <Property name="iconTextGap" type="int" value="6"/>
@@ -458,7 +455,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\salve- (5).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -475,7 +472,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -492,7 +489,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -1016,7 +1013,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -1033,7 +1030,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -1050,7 +1047,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -1067,7 +1064,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -1501,7 +1498,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -1518,7 +1515,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -1535,7 +1532,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -1552,7 +1549,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -1779,7 +1776,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -1796,7 +1793,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -1813,7 +1810,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -1830,7 +1827,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -2121,7 +2118,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\lupa.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2166,7 +2163,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -2183,7 +2180,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -2200,7 +2197,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -2283,7 +2280,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -2598,7 +2595,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -2615,7 +2612,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -2632,7 +2629,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -2649,7 +2646,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -2666,7 +2663,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\lupa.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2683,7 +2680,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\seta-esquerda (1).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2743,22 +2740,27 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="lblIconeTotalEntregas1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
                                               <Component id="lblTotalEntregasDH1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace pref="58" max="32767" attributes="0"/>
-                                              <Component id="lblIconeEntregasDia" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                               <Component id="lblNumeroTotalDH1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                      <Component id="lblIconeEntregasDia" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblEntregasDiaDH" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblNumeroEntregasDiaDH" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lblEntregasDiaDH" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroEntregasDiaDH" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -2788,34 +2790,42 @@
                                       <EmptySpace min="-2" pref="497" max="-2" attributes="0"/>
                                       <Component id="btnVoltarDataHorario" min="-2" pref="114" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                       <Component id="lblIconeAndamento" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblStatusDataHorario" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="lblAndamento" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                                                          <Component id="lblIconeConcluidas" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="lnlNumeroAndamento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblStatusDataHorario" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="cbStatusDataHorario" min="-2" pref="156" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                                                      <Component id="btnPesquisarDataHorario" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="lblNumeroConcluidas" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="lblAndamento" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                              <Component id="lnlNumeroAndamento" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="lblIconeConcluidas" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                       <Component id="lblConcluidas" min="-2" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                      <Component id="lblNumeroConcluidas" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="cbStatusDataHorario" min="-2" pref="156" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="btnPesquisarDataHorario" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                              </Group>
+                                              <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -2849,73 +2859,67 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="lbltituloDataHorario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblDataInicial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblHorarioInicial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblHorarioFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblEntregadorDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStatusDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ftfDataInicial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ftfDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ftfHorarioInicial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtHorarioFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbEntregadorDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbStatusDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnPesquisarDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="jPanel1" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="lbltituloDataHorario" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblTotalEntregasDH1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblIconeTotalEntregas1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDataInicial" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHorarioInicial" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHorarioFinal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblEntregadorDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStatusDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblEntregasDiaDH" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblIconeEntregasDia" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblAndamento" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblIconeAndamento" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="ftfDataInicial" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ftfDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ftfHorarioInicial" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtHorarioFinal" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbEntregadorDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbStatusDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnPesquisarDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jPanel1" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblIconeEntregasDia" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblTotalEntregasDH1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblIconeTotalEntregas1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblEntregasDiaDH" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblConcluidas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblIconeConcluidas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                  <Component id="lblIconeAndamento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lblAndamento" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lnlNumeroAndamento" min="-2" pref="25" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lblIconeConcluidas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblConcluidas" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lblNumeroConcluidas" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNumeroTotalDH1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lnlNumeroAndamento" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="lblNumeroEntregasDiaDH" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNumeroConcluidas" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                      <Component id="jScrollPane12" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lblNumeroEntregasDiaDH" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNumeroTotalDH1" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="jScrollPane12" min="-2" pref="438" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnNovoDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnAlterarDataHorario" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2923,11 +2927,11 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
                               <Component id="btnVoltarDataHorario" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="394" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3090,7 +3094,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\lupa.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -3118,7 +3122,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a0" green="22" red="27" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Total de entregas agendadas"/>
+                <Property name="text" type="java.lang.String" value="Entregas no dia"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblNumeroEntregasDiaDH">
@@ -3134,7 +3138,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pendente (2).png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTotalEntregasDH1">
@@ -3161,7 +3167,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\fast-delivery.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblAndamento">
@@ -3180,7 +3188,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\entrega.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lnlNumeroAndamento">
@@ -3196,7 +3206,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\concluido.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblConcluidas">
@@ -3256,7 +3268,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
                 <Property name="iconTextGap" type="int" value="6"/>
@@ -3274,7 +3286,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -3291,7 +3303,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -3308,7 +3320,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\seta-esquerda (1).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -3334,28 +3346,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblNumeroEntregasAgenda" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblTotalEntregasAgenda" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblAndamentoAgenda" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNUmeroAndamentoAgenda" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblPendentesAgenda" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroPendentesAgenda" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblConcluidasAgenda" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroConcluidasAgenda" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
                           <Group type="102" attributes="0">
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -3365,7 +3355,42 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="lblIconeEntregasAgenda" min="-2" pref="64" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblTotalEntregasAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                                      <Component id="lblNumeroEntregasAgenda" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="lblAndamentoAgenda" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                                      <Component id="lblNumeroPendentesAgenda" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                                              <Component id="lblIconrPendentesAgenda" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblPendentesAgenda" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="lblIconeAndamentoAgenda" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="lblNUmeroAndamentoAgenda" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                                          </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblTituloAgenda" min="-2" max="-2" attributes="0"/>
@@ -3385,31 +3410,15 @@
                                                   <Component id="lblVeiculoAgenda" min="-2" max="-2" attributes="0"/>
                                                   <Component id="cbVeiculoAgenda" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="lblIconeEntregasAgenda" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="lblIconeAndamentoAgenda" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
-                                              <Component id="lblIconrPendentesAgenda" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblRegiãoAgenda" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="cbRegiaoAgenda" min="-2" pref="190" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                                      <Component id="btnPesquisarAgenda" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
+                                          <Component id="lblRegiãoAgenda" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                                              <Component id="lblIconeConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbRegiaoAgenda" min="-2" pref="190" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                              <Component id="btnPesquisarAgenda" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -3422,10 +3431,24 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="btnVoltarAgenda" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="692" max="-2" attributes="0"/>
+                                      <Component id="lblIconeConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lblConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="1010" max="32767" attributes="0"/>
+                      <EmptySpace pref="919" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3453,30 +3476,73 @@
                               <Component id="btnPesquisarAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblTotalEntregasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblAndamentoAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPendentesAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblConcluidasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblIconeEntregasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblIconrPendentesAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblIconeConcluidasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                      <Component id="lblIconeConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="lblNumeroEntregasAgenda" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lblIconeEntregasAgenda" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lblIconeAndamentoAgenda" min="-2" pref="64" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblAndamentoAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPendentesAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lblTotalEntregasAgenda" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblConcluidasAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="lblIconeAndamentoAgenda" min="-2" pref="64" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="lblNUmeroAndamentoAgenda" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="lblNumeroPendentesAgenda" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lblNumeroConcluidasAgenda" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblIconrPendentesAgenda" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNumeroEntregasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNUmeroAndamentoAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNumeroPendentesAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNumeroConcluidasAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane13" max="32767" attributes="0"/>
                           <Component id="jPanel2" max="32767" attributes="0"/>
@@ -3488,7 +3554,7 @@
                           <Component id="btnExcluirAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="256" max="32767" attributes="0"/>
+                      <EmptySpace pref="274" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3616,7 +3682,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\lupa.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -3626,9 +3692,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="20" style="1"/>
                 </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a0" green="22" red="27" type="rgb"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Total de Entregas"/>
               </Properties>
             </Component>
@@ -3637,7 +3700,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\fast-delivery.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblNumeroEntregasAgenda">
@@ -3660,9 +3725,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="20" style="1"/>
                 </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a0" green="22" red="27" type="rgb"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Em andamento"/>
               </Properties>
             </Component>
@@ -3679,16 +3741,15 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pendente (2).png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPendentesAgenda">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="20" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a0" green="22" red="27" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pendentes"/>
               </Properties>
@@ -3706,16 +3767,15 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\concluido.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblConcluidasAgenda">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="20" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a0" green="22" red="27" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Conclu&#xed;das"/>
               </Properties>
@@ -3802,7 +3862,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -3819,7 +3879,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -3836,7 +3896,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -3853,9 +3913,19 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\seta-esquerda (1).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\entrega.png"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -4287,7 +4357,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -4304,7 +4374,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\Salvar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -4321,7 +4391,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -4338,7 +4408,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -4355,7 +4425,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\seta-esquerda (1).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -4416,28 +4486,14 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblNumeroPagamentoStatus" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblSeparacaoStatus" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblNumeroSeparacaoStatus" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblProntosStatus" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblNumeroProntosStatus" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblNumeroEnviadosStatus" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblEnviadosStatus" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                                      <Component id="lblSeparacaoStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                      <Component id="lblProntosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lblEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -4452,16 +4508,21 @@
                                                   <Component id="lblStatus" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="cbStatus" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                                               </Group>
+                                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="lblIconePagamentoStatus" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="263" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroPagamentoStatus" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="lblIconeSeparacaoStatus" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroSeparacaoStatus" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblEntregadorStatus" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="cbEntregadorStatus" alignment="0" min="-2" pref="204" max="-2" attributes="0"/>
@@ -4469,42 +4530,43 @@
                                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
                                               <Component id="lblIconeProntosStatus" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroProntosStatus" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblIconeEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="lblIconeEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                           <Component id="lblCliente" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtClienteStatus" min="-2" pref="201" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblIconeConcluídos" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblConcluidosStatus" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblNumeroConcluidosStatus" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                      <Component id="lblIconeConcluídos" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="lblNumeroConcluidosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="lblIconeCanceladosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Component id="lblNumeroCanceladosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblCanceladosStatus" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblNumeroCanceladosStatus" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                                      <Component id="lblConcluidosStatus" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
+                                      <Component id="lblCanceladosStatus" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="758" max="32767" attributes="0"/>
+                              <EmptySpace pref="732" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -4544,47 +4606,67 @@
                           <Component id="cbEntregadorStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtClienteStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblSeparacaoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblProntosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblEnviadosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblConcluidosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCanceladosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblIconePagamentoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblIconeSeparacaoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblIconeCanceladosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblIconeConcluídos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblIconeEnviadosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblIconeProntosStatus" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblNumeroPagamentoStatus" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblNumeroProntosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroSeparacaoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroConcluidosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroEnviadosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNumeroCanceladosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lblProntosStatus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblConcluidosStatus" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblIconePagamentoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblIconeSeparacaoStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblIconeConcluídos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblIconeEnviadosStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lblNumeroConcluidosStatus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNumeroEnviadosStatus" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblSeparacaoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCanceladosStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblNumeroSeparacaoStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblNumeroPagamentoStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                                                  <Component id="lblIconeProntosStatus" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="lblNumeroCanceladosStatus" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="lblIconeCanceladosStatus" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="lblNumeroProntosStatus" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="jScrollPane17" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -4593,7 +4675,7 @@
                           <Component id="btnExcluirStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="292" max="32767" attributes="0"/>
+                      <EmptySpace pref="233" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4710,7 +4792,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pagamento-com-cartao-de-credito.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -4737,7 +4821,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\separacao-em-lote (1).png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSeparacaoStatus">
@@ -4764,7 +4850,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\armazem.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblProntosStatus">
@@ -4791,7 +4879,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\aviao-de-papel.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblEnviadosStatus">
@@ -4818,7 +4908,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\correto (2).png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblConcluidosStatus">
@@ -4845,7 +4937,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\cancelar.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCanceladosStatus">
@@ -4906,7 +5000,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\botao-mais.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -4923,7 +5017,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\editar.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -4940,7 +5034,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\excluir.png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -4957,7 +5051,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\icones\seta-esquerda (1).png"/>
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -5016,10 +5110,10 @@
                                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lblStatusTentativas" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="102" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
                                                       <Component id="cbStatusTentativas" min="-2" pref="178" max="-2" attributes="0"/>
                                                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                                      <Component id="btnPesquisarTentativas" min="-2" pref="124" max="-2" attributes="0"/>
+                                                      <Component id="btnPesquisarTentativas" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -5125,7 +5219,7 @@
                           <Component id="btnExcluirTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="306" max="32767" attributes="0"/>
+                      <EmptySpace pref="300" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5245,6 +5339,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -5394,6 +5491,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -5407,6 +5507,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -5422,6 +5525,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -5435,6 +5541,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -5609,7 +5718,7 @@
                           <Component id="btnExcluirConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="294" max="32767" attributes="0"/>
+                      <EmptySpace pref="288" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5728,6 +5837,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -5876,6 +5988,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -5889,6 +6004,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -5904,6 +6022,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -5917,6 +6038,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -5984,7 +6108,7 @@
                                           <Group type="102" attributes="0">
                                               <Component id="cbEntregadorHistoricoRelatorio" min="-2" pref="131" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="btnPesquisarHistoricoRelatorio" min="-2" pref="126" max="-2" attributes="0"/>
+                                              <Component id="btnPesquisarHistoricoRelatorio" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -6116,7 +6240,7 @@
                               <Component id="btnExportarRelatorio" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="351" max="32767" attributes="0"/>
+                      <EmptySpace pref="348" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -6238,6 +6362,9 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>

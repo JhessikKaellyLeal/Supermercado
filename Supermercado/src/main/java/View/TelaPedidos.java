@@ -822,23 +822,41 @@ private void limparCamposCadastro() {
         txtBairroCadastro.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         txtBairroCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnSalvarCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnSalvarCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvarCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarCadastro.setText("Salvar");
 
+        btnNovoCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnNovoCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovoCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoCadastro.setText("Novo");
         btnNovoCadastro.addActionListener(this::btnNovoCadastroActionPerformed);
 
+        btnEditarCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnEditarCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnEditarCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnEditarCadastro.setText("Editar");
 
+        btnExcluirCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnExcluirCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirCadastro.setText("Excluir");
 
+        btnPesquisarCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarCadastro.setText("Pesquisar");
 
+        btnVoltaCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltaCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVoltaCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltaCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltaCadastro.setText("Voltar");
 
         tblPedidosCadastro.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -863,8 +881,12 @@ private void limparCamposCadastro() {
         jComboBox1.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o estado", "* AC", "* AL", "* AM", "* AP", "* BA", "* CE", "* DF", "* ES", "* GO", "* MA", "* MG", "* MS", "* MT", "* PA", "* PB", "* PE", "* PI", "* PR", "* RJ", "* RN", "* RO", "* RR", "* RS", "* SC", "* SE", "* SP", "* TO" }));
 
+        btnLimparCampoCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnLimparCampoCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnLimparCampoCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimparCampoCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\vassoura (1).png")); // NOI18N
         btnLimparCampoCadastro.setText("Limpar");
+        btnLimparCampoCadastro.setIconTextGap(8);
 
         javax.swing.GroupLayout cadastroLayout = new javax.swing.GroupLayout(cadastro);
         cadastro.setLayout(cadastroLayout);
@@ -896,7 +918,7 @@ private void limparCamposCadastro() {
                                     .addComponent(txtNumeroPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblObservacoesCadastro))
                                 .addGap(35, 35, 35)
-                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(cadastroLayout.createSequentialGroup()
                                         .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblDataPedidoCadastro)
@@ -929,13 +951,13 @@ private void limparCamposCadastro() {
                                             .addGroup(cadastroLayout.createSequentialGroup()
                                                 .addGap(128, 128, 128)
                                                 .addComponent(txtBairroCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cadastroLayout.createSequentialGroup()
-                                        .addGap(376, 376, 376)
+                                    .addGroup(cadastroLayout.createSequentialGroup()
+                                        .addGap(528, 528, 528)
                                         .addComponent(btnLimparCampoCadastro)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnVoltaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(191, 191, 191)))
-                .addContainerGap(793, Short.MAX_VALUE))
+                                        .addGap(125, 125, 125)
+                                        .addComponent(btnVoltaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(51, 51, 51)))
+                .addContainerGap(836, Short.MAX_VALUE))
         );
         cadastroLayout.setVerticalGroup(
             cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -981,17 +1003,18 @@ private void limparCamposCadastro() {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVoltaCadastro)
+                    .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnVoltaCadastro)
+                        .addComponent(btnLimparCampoCadastro))
                     .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSalvarCadastro)
                         .addComponent(btnNovoCadastro)
                         .addComponent(btnEditarCadastro)
                         .addComponent(btnExcluirCadastro)
-                        .addComponent(btnPesquisarCadastro)
-                        .addComponent(btnLimparCampoCadastro)))
+                        .addComponent(btnPesquisarCadastro)))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addContainerGap(340, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", cadastro);
@@ -1038,7 +1061,10 @@ private void limparCamposCadastro() {
         cbStatusPedidoConsulta.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         cbStatusPedidoConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Pronto", "Em separação", "Enviado", "Concluído", "Aguardando pagamento" }));
 
+        btnPesquisarConsulta.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarConsulta.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarConsulta.setText("Pesquisar");
 
         tblPedidosEncontradosConsulta.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1106,13 +1132,22 @@ private void limparCamposCadastro() {
         ));
         jScrollPane16.setViewportView(tblPedidoConsulta);
 
+        btnVoltarConsulta.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarConsulta.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVoltarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltarConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarConsulta.setText("Voltar");
 
+        btnVisualizarConsulta.setBackground(new java.awt.Color(10, 4, 138));
         btnVisualizarConsulta.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVisualizarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnVisualizarConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\visualizar.png")); // NOI18N
         btnVisualizarConsulta.setText("Visualizar");
 
+        btnImprimirConsulta.setBackground(new java.awt.Color(10, 4, 138));
         btnImprimirConsulta.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnImprimirConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnImprimirConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\imprimir.png")); // NOI18N
         btnImprimirConsulta.setText("Imprimir");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1179,7 +1214,7 @@ private void limparCamposCadastro() {
                                 .addComponent(lblInformacaoEnderecoConsulta)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, consultaDetalhesLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(btnVisualizarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVisualizarConsulta)
                             .addGap(18, 18, 18)
                             .addComponent(btnImprimirConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1215,7 +1250,7 @@ private void limparCamposCadastro() {
                                 .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(43, 43, 43)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(799, Short.MAX_VALUE))
+                .addContainerGap(807, Short.MAX_VALUE))
         );
         consultaDetalhesLayout.setVerticalGroup(
             consultaDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1261,7 +1296,7 @@ private void limparCamposCadastro() {
                         .addComponent(btnVisualizarConsulta)
                         .addComponent(btnImprimirConsulta))
                     .addComponent(btnVoltarConsulta))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(302, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Consulta e Detalhes", consultaDetalhes);
@@ -1306,7 +1341,10 @@ private void limparCamposCadastro() {
         txtNumeroPedidoSeparacao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         txtNumeroPedidoSeparacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnPesquisarSeparacao.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarSeparacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarSeparacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarSeparacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarSeparacao.setText("Pesquisar");
 
         tblPedidoSeparacao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1408,16 +1446,28 @@ private void limparCamposCadastro() {
         lblNumeroAguardando.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblNumeroAguardando.setText("Nº");
 
+        btnVisualizarPedido.setBackground(new java.awt.Color(10, 4, 138));
         btnVisualizarPedido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVisualizarPedido.setForeground(new java.awt.Color(255, 255, 255));
+        btnVisualizarPedido.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\visualizar.png")); // NOI18N
         btnVisualizarPedido.setText("Visualizar Pedido");
 
+        btnImprimirListaSeparacao.setBackground(new java.awt.Color(10, 4, 138));
         btnImprimirListaSeparacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnImprimirListaSeparacao.setForeground(new java.awt.Color(255, 255, 255));
+        btnImprimirListaSeparacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\imprimir.png")); // NOI18N
         btnImprimirListaSeparacao.setText("Imprimir lista");
 
+        btnMarcarSeparado.setBackground(new java.awt.Color(10, 4, 138));
         btnMarcarSeparado.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnMarcarSeparado.setForeground(new java.awt.Color(255, 255, 255));
+        btnMarcarSeparado.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\verificar (2).png")); // NOI18N
         btnMarcarSeparado.setText("Marcar como Separado");
 
+        btnVoltar.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVoltar.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltar.setText("Voltar");
 
         javax.swing.GroupLayout separacaoLayout = new javax.swing.GroupLayout(separacao);
@@ -1478,17 +1528,16 @@ private void limparCamposCadastro() {
                         .addGap(119, 119, 119)
                         .addGroup(separacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel50)
-                            .addGroup(separacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(separacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblResumoSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(separacaoLayout.createSequentialGroup()
-                                        .addComponent(lblInformacoesResumoSeparacao)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblPorcentagemResumoSeparacao))
-                                    .addComponent(barraSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel48)
-                                    .addComponent(jLabel49)))))
+                            .addGroup(separacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblResumoSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(separacaoLayout.createSequentialGroup()
+                                    .addComponent(lblInformacoesResumoSeparacao)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblPorcentagemResumoSeparacao))
+                                .addComponent(barraSeparacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel48)
+                                .addComponent(jLabel49))
+                            .addComponent(btnVoltar, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(separacaoLayout.createSequentialGroup()
                         .addComponent(btnVisualizarPedido)
                         .addGap(18, 18, 18)
@@ -1503,7 +1552,7 @@ private void limparCamposCadastro() {
                                 .addComponent(lblNumeroPendente)
                                 .addComponent(lblNumeroSeparados))
                             .addComponent(lblNumeroAguardando))))
-                .addContainerGap(700, Short.MAX_VALUE))
+                .addContainerGap(736, Short.MAX_VALUE))
         );
         separacaoLayout.setVerticalGroup(
             separacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1571,7 +1620,7 @@ private void limparCamposCadastro() {
                     .addComponent(btnImprimirListaSeparacao)
                     .addComponent(btnMarcarSeparado)
                     .addComponent(btnVoltar))
-                .addGap(177, 243, Short.MAX_VALUE))
+                .addGap(177, 247, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Separação", separacao);
@@ -1605,7 +1654,10 @@ private void limparCamposCadastro() {
         lblStatusConferencia.setText("Status da Conferência");
         lblStatusConferencia.setToolTipText("");
 
+        btnPesquisarConferencia.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarConferencia.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarConferencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarConferencia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarConferencia.setText("Pesquisar");
 
         tblPedidosConferencia.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1669,13 +1721,22 @@ private void limparCamposCadastro() {
         txtaObservacaoConferencia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jScrollPane9.setViewportView(txtaObservacaoConferencia);
 
+        btnConfirmarConferencia.setBackground(new java.awt.Color(10, 4, 138));
         btnConfirmarConferencia.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnConfirmarConferencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnConfirmarConferencia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\check-in-quadrangular.png")); // NOI18N
         btnConfirmarConferencia.setText("Confirmar Conferência");
 
+        btnImprimirListaConferencia.setBackground(new java.awt.Color(10, 4, 138));
         btnImprimirListaConferencia.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnImprimirListaConferencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnImprimirListaConferencia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\imprimir.png")); // NOI18N
         btnImprimirListaConferencia.setText("Imprimir Lista");
 
+        btnVerDetalhesConferencia.setBackground(new java.awt.Color(10, 4, 138));
         btnVerDetalhesConferencia.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVerDetalhesConferencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerDetalhesConferencia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\documento (2).png")); // NOI18N
         btnVerDetalhesConferencia.setText("Ver Detalhes");
 
         cbStatusConferencia.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1702,11 +1763,11 @@ private void limparCamposCadastro() {
                             .addComponent(lblClienteConferencia))
                         .addGap(18, 18, 18)
                         .addGroup(conferenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStatusConferencia)
                             .addGroup(conferenciaLayout.createSequentialGroup()
                                 .addComponent(cbStatusConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPesquisarConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblStatusConferencia)))
+                                .addComponent(btnPesquisarConferencia))))
                     .addGroup(conferenciaLayout.createSequentialGroup()
                         .addGroup(conferenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTituloItensConferencia)
@@ -1732,7 +1793,7 @@ private void limparCamposCadastro() {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnVerDetalhesConferencia))))
                     .addComponent(jScrollPane7))
-                .addContainerGap(811, Short.MAX_VALUE))
+                .addContainerGap(763, Short.MAX_VALUE))
         );
         conferenciaLayout.setVerticalGroup(
             conferenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1809,7 +1870,10 @@ private void limparCamposCadastro() {
         lblStatusAlteracao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblStatusAlteracao.setText("Status Atual");
 
+        btnPesquisarAlteracao.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarAlteracao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarAlteracao.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarAlteracao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarAlteracao.setText("Pesquisar");
         btnPesquisarAlteracao.setBorder(null);
 
@@ -1888,7 +1952,10 @@ private void limparCamposCadastro() {
         ));
         jScrollPane12.setViewportView(tblHistoricoAlteracao);
 
+        btnSalvarAlteracao.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarAlteracao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnSalvarAlteracao.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvarAlteracao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarAlteracao.setText("Salvar Alteração");
 
         cbStatusAlteracao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1918,9 +1985,9 @@ private void limparCamposCadastro() {
                             .addGroup(alteracaoStatusLayout.createSequentialGroup()
                                 .addComponent(cbStatusAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnPesquisarAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnPesquisarAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblStatusAlteracao))
-                        .addContainerGap(994, Short.MAX_VALUE))
+                        .addContainerGap(1015, Short.MAX_VALUE))
                     .addGroup(alteracaoStatusLayout.createSequentialGroup()
                         .addGroup(alteracaoStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.LEADING)
@@ -1953,7 +2020,7 @@ private void limparCamposCadastro() {
                                 .addGroup(alteracaoStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblTituloHistoricoAlteracao)
                                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 817, Short.MAX_VALUE))))
+                        .addGap(0, 853, Short.MAX_VALUE))))
         );
         alteracaoStatusLayout.setVerticalGroup(
             alteracaoStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2049,7 +2116,10 @@ private void limparCamposCadastro() {
         cbMotivoCancelamento.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         cbMotivoCancelamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Cliente desistiu da compra", "Produto Indisponível", "Erro no pagamento", "Cliente não autorizou a compra", "Produto com defeito" }));
 
+        btnPesquisarCancelamento.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarCancelamento.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPesquisarCancelamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarCancelamento.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarCancelamento.setText("Pesquisar");
 
         tblPedidosCancelados.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2145,10 +2215,16 @@ private void limparCamposCadastro() {
         txtaObservacoesCancelamento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jScrollPane15.setViewportView(txtaObservacoesCancelamento);
 
+        btnImprimirComprovanteCancelamento.setBackground(new java.awt.Color(10, 4, 138));
         btnImprimirComprovanteCancelamento.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnImprimirComprovanteCancelamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnImprimirComprovanteCancelamento.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\imprimir.png")); // NOI18N
         btnImprimirComprovanteCancelamento.setText("Imprimir Comprovante");
 
+        btnVoltarCancelamento.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarCancelamento.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnVoltarCancelamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnVoltarCancelamento.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarCancelamento.setText("Voltar");
 
         javax.swing.GroupLayout cancelamentoLayout = new javax.swing.GroupLayout(cancelamento);
@@ -2175,7 +2251,7 @@ private void limparCamposCadastro() {
                             .addGroup(cancelamentoLayout.createSequentialGroup()
                                 .addComponent(cbMotivoCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
-                                .addComponent(btnPesquisarCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnPesquisarCancelamento))))
                     .addGroup(cancelamentoLayout.createSequentialGroup()
                         .addComponent(btnImprimirComprovanteCancelamento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2209,7 +2285,7 @@ private void limparCamposCadastro() {
                                         .addComponent(lblObservacoesCancelamento))
                                     .addGap(0, 0, Short.MAX_VALUE))
                                 .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)))))
-                .addContainerGap(773, Short.MAX_VALUE))
+                .addContainerGap(809, Short.MAX_VALUE))
             .addGroup(cancelamentoLayout.createSequentialGroup()
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 938, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -2270,7 +2346,7 @@ private void limparCamposCadastro() {
                 .addGroup(cancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImprimirComprovanteCancelamento)
                     .addComponent(btnVoltarCancelamento))
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cancelamento", cancelamento);
