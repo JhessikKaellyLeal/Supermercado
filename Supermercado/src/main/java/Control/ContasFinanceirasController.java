@@ -12,14 +12,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author IsraelSantos
  */
 public class ContasFinanceirasController {
-    // CADASTRAR CONTA FINANCEIRA
-    public boolean cadastrar(ContasFinanceiras conta) {
+
+    // Método para cadastrar uma conta financeira
+    public void cadastrar(ContasFinanceiras conta) {
+
         String sql = "INSERT INTO contasFinanceiras "
                 + "(nome, tipo, agencia, numeroConta, banco, ativo) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -34,101 +37,56 @@ public class ContasFinanceirasController {
             stmt.setString(5, conta.getBanco());
             stmt.setBoolean(6, conta.isAtivo());
 
-            return stmt.executeUpdate() > 0;
+            stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar conta financeira: "
-                    + e.getMessage());
-            return false;
+            JOptionPane.showMessageDialog(null,
+                    "Conta financeira cadastrada com sucesso!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao cadastrar conta financeira: " + e.getMessage());
         }
     }
 
-    // LISTAR TODAS AS CONTAS FINANCEIRAS
-    public List<ContasFinanceiras> listarTodos() {
-        List<ContasFinanceiras> contas = new ArrayList<>();
+    // Método para listar as contas financeiras
+    public List<ContasFinanceiras> listar() {
 
-        String sql = "SELECT idcontasFinanceiras, nome, tipo, agencia, "
-                + "numeroConta, banco, ativo "
-                + "FROM contasFinanceiras";
+        List<ContasFinanceiras> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM contasFinanceiras";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+
                 ContasFinanceiras conta = new ContasFinanceiras();
 
                 conta.setIdcontasFinanceiras(
                         rs.getInt("idcontasFinanceiras"));
-                conta.setNome(
-                        rs.getString("nome"));
-                conta.setTipo(
-                        rs.getString("tipo"));
-                conta.setAgencia(
-                        rs.getString("agencia"));
-                conta.setNumeroConta(
-                        rs.getString("numeroConta"));
-                conta.setBanco(
-                        rs.getString("banco"));
-                conta.setAtivo(
-                        rs.getBoolean("ativo"));
 
-                contas.add(conta);
+                conta.setNome(rs.getString("nome"));
+                conta.setTipo(rs.getString("tipo"));
+                conta.setAgencia(rs.getString("agencia"));
+                conta.setNumeroConta(rs.getString("numeroConta"));
+                conta.setBanco(rs.getString("banco"));
+                conta.setAtivo(rs.getBoolean("ativo"));
+
+                lista.add(conta);
             }
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar contas financeiras: "
-                    + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao listar contas financeiras: " + e.getMessage());
         }
 
-        return contas;
+        return lista;
     }
 
-    // BUSCAR CONTA FINANCEIRA PELO ID
-    public ContasFinanceiras buscarPorId(int id) {
-        String sql = "SELECT idcontasFinanceiras, nome, tipo, agencia, "
-                + "numeroConta, banco, ativo "
-                + "FROM contasFinanceiras "
-                + "WHERE idcontasFinanceiras = ?";
+    // Método para atualizar uma conta financeira
+    public void atualizar(ContasFinanceiras conta) {
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    ContasFinanceiras conta = new ContasFinanceiras();
-
-                    conta.setIdcontasFinanceiras(
-                            rs.getInt("idcontasFinanceiras"));
-                    conta.setNome(
-                            rs.getString("nome"));
-                    conta.setTipo(
-                            rs.getString("tipo"));
-                    conta.setAgencia(
-                            rs.getString("agencia"));
-                    conta.setNumeroConta(
-                            rs.getString("numeroConta"));
-                    conta.setBanco(
-                            rs.getString("banco"));
-                    conta.setAtivo(
-                            rs.getBoolean("ativo"));
-
-                    return conta;
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar conta financeira: "
-                    + e.getMessage());
-        }
-
-        return null;
-    }
-
-    // ATUALIZAR CONTA FINANCEIRA
-    public boolean atualizar(int idOriginal, ContasFinanceiras conta) {
         String sql = "UPDATE contasFinanceiras SET "
                 + "nome = ?, tipo = ?, agencia = ?, numeroConta = ?, "
                 + "banco = ?, ativo = ? "
@@ -143,19 +101,22 @@ public class ContasFinanceirasController {
             stmt.setString(4, conta.getNumeroConta());
             stmt.setString(5, conta.getBanco());
             stmt.setBoolean(6, conta.isAtivo());
-            stmt.setInt(7, idOriginal);
+            stmt.setInt(7, conta.getIdcontasFinanceiras());
 
-            return stmt.executeUpdate() > 0;
+            stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar conta financeira: "
-                    + e.getMessage());
-            return false;
+            JOptionPane.showMessageDialog(null,
+                    "Conta financeira atualizada com sucesso!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao atualizar conta financeira: " + e.getMessage());
         }
     }
 
-    // EXCLUIR CONTA FINANCEIRA
-    public boolean excluir(int id) {
+    // Método para excluir uma conta financeira
+    public void excluir(int id) {
+
         String sql = "DELETE FROM contasFinanceiras "
                 + "WHERE idcontasFinanceiras = ?";
 
@@ -163,13 +124,14 @@ public class ContasFinanceirasController {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
+            stmt.executeUpdate();
 
-            return stmt.executeUpdate() > 0;
+            JOptionPane.showMessageDialog(null,
+                    "Conta financeira excluída com sucesso!");
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir conta financeira: "
-                    + e.getMessage());
-            return false;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao excluir conta financeira: " + e.getMessage());
         }
     }
 }

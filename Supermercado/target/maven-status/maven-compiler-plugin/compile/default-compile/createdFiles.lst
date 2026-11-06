@@ -1,7 +1,6 @@
 View\TelaVendaPagamentos$13.class
 View\IconeMenu.class
 View\TelaPerfilUsuarios$1.class
-View\TelasClientes.class
 View\TelaVendaPagamentos$8.class
 Control\MovimentacoesFinanceirasController.class
 Model\Funcionario_has_Ferias.class
@@ -10,6 +9,7 @@ Control\ClienteController.class
 View\TelaHome$1.class
 View\TelaProdutos$3.class
 Model\Entregas.class
+Control\FormasPagamentoController.class
 Model\Usuario.class
 Control\Funcionario_has_feriasController.class
 View\TelaGerenciamentoProdutos$3.class
@@ -34,6 +34,7 @@ Model\ItensVendidos.class
 View\TelaSolicitacao$9.class
 Model\Categorias.class
 View\Fornecedores.class
+Control\CondicoesPagamentoController.class
 View\TelaPerfilUsuarios$2.class
 Control\CodigoBarrasController.class
 Model\FechamentoCaixa.class
@@ -88,6 +89,7 @@ Model\PerdasEstoque.class
 Model\Setores.class
 View\TelaProdutos$2.class
 View\TelaEntregas.class
+Control\VendasController.class
 Control\UnidadeMedidasController.class
 View\TelaGerenciamentoProdutos$1.class
 View\TelaVendaPagamentos$2.class
@@ -122,6 +124,7 @@ View\TelaPerfilUsuarios$3.class
 View\TelaVendas$13.class
 Control\Produtos_has_etiquetasController.class
 Conection\Conexao.class
+Control\PermissoesController.class
 View\MenuPadrao.class
 View\TelaFinanceiro.class
 View\Tela_Funcionarios_RH$2.class
