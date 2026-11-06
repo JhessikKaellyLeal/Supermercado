@@ -137,7 +137,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="lbSetorFuncionarios" min="-2" max="-2" attributes="0"/>
                                               <Component id="cbSetorFuncionarios" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
-                                              <Component id="checkbox1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="chbFuncionarioAtivo" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
                                       </Group>
@@ -199,7 +199,7 @@
                                   <Component id="cbStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ftfDataAdimissao" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="checkbox1" min="-2" max="-2" attributes="0"/>
+                              <Component id="chbFuncionarioAtivo" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="21" max="32767" attributes="0"/>
                           <Component id="pagOpcoesConfing" min="-2" max="-2" attributes="0"/>
@@ -216,20 +216,20 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="btnNovo" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                              <Component id="btnSalvar" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                              <Component id="btnEditar" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                              <Component id="btnExcluir" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                              <Component id="btnLimpar" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                              <Component id="btnPesquisar" min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="btnNovo" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="btnSalvar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="btnEditar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="btnExcluir" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="btnLimpar" min="-2" pref="103" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnVoltar" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                              <Component id="btnVoltar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -254,36 +254,60 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="btnNovo">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Novo"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnSalvar">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Salvar"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnEditar">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Editar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnExcluir">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Excluir"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnLimpar">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Limpar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnPesquisar">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Pesquisar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnVoltar">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Voltar"/>
                       </Properties>
                     </Component>
@@ -448,7 +472,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="java.awt.Checkbox" name="checkbox1">
+                <Component class="java.awt.Checkbox" name="chbFuncionarioAtivo">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="18" style="0"/>
@@ -458,22 +482,25 @@
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="ftfDataNascimento">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                      <Format subtype="1" type="1"/>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                      <Format format="##/##/####" subtype="-1" type="5"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="ftfCPF">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="" subtype="-1" type="5"/>
+                      <Format format="###.###.###-##" subtype="-1" type="5"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ftfCPFActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="ftfDataAdimissao">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                      <Format subtype="1" type="1"/>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                      <Format format="##/##/####" subtype="-1" type="5"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -720,7 +747,7 @@
                               <Component id="tfDescricaoSetores" min="-2" pref="83" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="161" max="32767" attributes="0"/>
+                      <EmptySpace pref="125" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbSetorPai" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbGerenteResponsavel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -934,6 +961,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -942,13 +972,22 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEditar2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
@@ -958,6 +997,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -965,6 +1007,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -977,6 +1022,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -984,6 +1032,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -1262,7 +1313,7 @@
                           <Component id="btnPesquisar1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btnVoltar1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="475" max="32767" attributes="0"/>
+                      <EmptySpace pref="439" max="32767" attributes="0"/>
                       <Component id="lbAvisoBarraPesquisa1" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="199" max="-2" attributes="0"/>
@@ -1526,6 +1577,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -1534,13 +1588,22 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEditar1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
@@ -1550,6 +1613,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -1557,6 +1623,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -1569,6 +1638,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -1576,6 +1648,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -1855,7 +1930,7 @@
                               <Component id="jScrollPane5" min="-2" pref="263" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="265" max="32767" attributes="0"/>
+                      <EmptySpace pref="229" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txPesquisarTurno" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2103,6 +2178,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -2111,13 +2189,22 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar3ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEditar3">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
@@ -2127,6 +2214,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -2134,6 +2224,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -2146,6 +2239,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -2153,6 +2249,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\VOLTAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2374,45 +2473,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lbEscalaSemanal" min="-2" pref="244" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane6" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane7" min="-2" pref="635" max="-2" attributes="0"/>
-                              <EmptySpace pref="127" max="32767" attributes="0"/>
-                              <Component id="jScrollPane8" min="-2" pref="612" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lbDetalhesEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="lbResumoEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="548" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                              <Component id="btnAdicionarEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                              <Component id="btnEditarEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                              <Component id="btnExcluirEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                              <Component id="btnCopiarEscala" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                              <Component id="btnPuplicarEscala" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbPeriodoEscala" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="ftfPeriodoInicio" min="-2" pref="105" max="-2" attributes="0"/>
@@ -2440,12 +2500,44 @@
                                       <EmptySpace min="-2" pref="283" max="-2" attributes="0"/>
                                       <Component id="btnPesquisarEscala" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                                      <Component id="btnLimparEscala1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnLimparEscala1" min="-2" pref="91" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace min="0" pref="239" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lbEscalaSemanal" min="-2" pref="244" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane6" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane7" min="-2" pref="635" max="-2" attributes="0"/>
+                      <EmptySpace pref="163" max="32767" attributes="0"/>
+                      <Component id="jScrollPane8" min="-2" pref="612" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="btnAdicionarEscala" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="btnEditarEscala" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                              <Component id="btnExcluirEscala" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnCopiarEscala" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lbDetalhesEscala" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="lbResumoEscala" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                      <Component id="btnPuplicarEscala" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2456,7 +2548,7 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnLimparEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnLimparEscala1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="btnPesquisarEscala" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
@@ -2483,18 +2575,16 @@
                       </Group>
                       <Component id="lbEscalaSemanal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnExcluirEscala" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="btnAdicionarEscala" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnPuplicarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="btnEditarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="btnCopiarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                          </Group>
+                      <Component id="jScrollPane6" min="-2" pref="326" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnExcluirEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnEditarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnAdicionarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnCopiarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnPuplicarEscala" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbDetalhesEscala" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbResumoEscala" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2504,7 +2594,7 @@
                           <Component id="jScrollPane7" min="-2" pref="334" max="-2" attributes="0"/>
                           <Component id="jScrollPane8" min="-2" pref="334" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace pref="160" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2596,6 +2686,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Editar escala"/>
               </Properties>
             </Component>
@@ -2603,6 +2696,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir escala"/>
               </Properties>
@@ -2612,8 +2708,14 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Adicionar escala"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdicionarEscalaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnPuplicarEscala">
               <Properties>
@@ -2657,6 +2759,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
               <Events>
@@ -2667,6 +2772,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2789,532 +2897,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="pagPonto">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Arial" size="14" style="0"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Ponto">
-                <Property name="tabTitle" type="java.lang.String" value="Ponto"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbPeriodoPonto" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ftfData" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="ftfPeriodoFim1" min="-2" pref="107" max="-2" attributes="0"/>
-                                  <Component id="lbHorario" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cbSetorEscala1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbSetorPonto" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cbTurnoPonto" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbTurnoEscalaPonto" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbFuncionarioEscalaPonto" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbFuncionarioEscala1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="lbJustificativa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="scJustificativa" min="-2" pref="305" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnPesquisarEscala1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Component id="btnLimparEscala2" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane9" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane10" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="1244" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Component id="jScrollPane11" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="ldAçoes" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="btnAdicionarArquivo" max="32767" attributes="0"/>
-                                                  <Component id="jButton3" max="32767" attributes="0"/>
-                                                  <Component id="btnRegistrarPonto" max="32767" attributes="0"/>
-                                                  <Component id="jButton2" alignment="0" pref="0" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jButton4" min="-2" pref="150" max="-2" attributes="0"/>
-                                                  <Component id="jButton5" min="-2" pref="150" max="-2" attributes="0"/>
-                                                  <Component id="jButton6" min="-2" pref="150" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lbFuncionarioEscalaPonto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbTurnoEscalaPonto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbSetorPonto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbPeriodoPonto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbHorario" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbJustificativa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="ftfData" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="ftfPeriodoFim1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbSetorEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbTurnoPonto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbFuncionarioEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                      <Component id="scJustificativa" min="-2" pref="77" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnLimparEscala2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnPesquisarEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="jScrollPane10" min="-2" pref="99" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane9" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane11" min="-2" pref="262" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="ldAçoes" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnRegistrarPonto" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jButton4" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jButton5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButton6" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jButton3" min="-2" pref="40" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnAdicionarArquivo" min="-2" pref="40" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="49" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="lbPeriodoPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Data"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="ftfData">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="ftfPeriodoFim1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbSetorPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Setor"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbSetorEscala1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbTurnoEscalaPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Turno"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbTurnoPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbFuncionarioEscalaPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Funcionario"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbFuncionarioEscala1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnPesquisarEscala1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Pesquisar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarEscala1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnLimparEscala2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Limpar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparEscala2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane9">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTable" name="tbEscalaSemanal2">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="13" rowCount="4">
-                        <Column editable="true" title="funcionarios" type="java.lang.Object"/>
-                        <Column editable="true" title="Setor" type="java.lang.Object"/>
-                        <Column editable="true" title="Seg" type="java.lang.Object"/>
-                        <Column editable="true" title="ter" type="java.lang.Object"/>
-                        <Column editable="true" title="Qua" type="java.lang.Object"/>
-                        <Column editable="true" title="Qui" type="java.lang.Object"/>
-                        <Column editable="true" title="Sex" type="java.lang.Object"/>
-                        <Column editable="true" title="Sab" type="java.lang.Object"/>
-                        <Column editable="true" title="Dom" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 10" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 11" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 12" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 13" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JLabel" name="jLabel4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Resumo de marca&#xe7;&#xf5;es"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane10">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="4">
-                        <Column editable="true" title="Dias trabalhados " type="java.lang.Object"/>
-                        <Column editable="true" title="Horas trabalhadas" type="java.lang.Object"/>
-                        <Column editable="true" title="Horas extras" type="java.lang.Object"/>
-                        <Column editable="true" title="Faltas" type="java.lang.Object"/>
-                        <Column editable="true" title="Atrasos" type="java.lang.Object"/>
-                        <Column editable="true" title="Saldos Banco de Horas" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JLabel" name="ldA&#xe7;oes">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="A&#xe7;&#xf5;es"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnRegistrarPonto">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Regostrar marca&#xe7;&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Justificar atraso/falta"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Excluir marca&#xe7;&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Ajustar marca&#xe7;&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Abonar falta"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Exportar relat&#xf3;rio"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel7">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Controle de ponto"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane11">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable2">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="12" rowCount="4">
-                        <Column editable="true" title="Funcionario" type="java.lang.Object"/>
-                        <Column editable="true" title="Setor" type="java.lang.Object"/>
-                        <Column editable="true" title="Cargo" type="java.lang.Object"/>
-                        <Column editable="true" title="Periodo solicitado" type="java.lang.Object"/>
-                        <Column editable="true" title="Dias &#xfa;teis" type="java.lang.Object"/>
-                        <Column editable="true" title="Periodo aquisitado" type="java.lang.Object"/>
-                        <Column editable="true" title="Data da solicita&#xe7;&#xe3;o" type="java.lang.Object"/>
-                        <Column editable="true" title="Situa&#xe7;&#xe3;o atual" type="java.lang.Object"/>
-                        <Column editable="true" title="Descria&#xe7;&#xe3;o" type="java.lang.Object"/>
-                        <Column editable="true" title="Aprovado por" type="java.lang.Object"/>
-                        <Column editable="true" title="Data da decis&#xe3;o" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 12" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JLabel" name="jLabel6">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Detalhe das ferias selecionadas"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbHorario">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Horario"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbJustificativa">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Justificativa"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="scJustificativa">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txaJustificativaPonto">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JButton" name="btnAdicionarArquivo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Arquivo"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdicionarArquivoActionPerformed"/>
-              </Events>
-            </Component>
-          </SubComponents>
-        </Container>
         <Container class="javax.swing.JPanel" name="pagInfra&#xe7;oes">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -3342,7 +2924,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="pagInfracoes" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="101" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3380,18 +2962,18 @@
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="cbSetorEscala2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="cbSetorInfracoa" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       <Component id="lbSetorInfraçoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="cbTurnoEscala2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="cbTurnoInfracao" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       <Component id="lbTurnoEscalaInfraçoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="lbFuncionarioEscalaInfraçoes" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="cbFuncionarioEscala2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="cbFuncionarioInfracao" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
@@ -3485,9 +3067,9 @@
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="cbSetorEscala2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="cbTurnoEscala2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="cbFuncionarioEscala2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbSetorInfracoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbTurnoInfracao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbFuncionarioInfracao" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -3559,7 +3141,7 @@
                     <Property name="text" type="java.lang.String" value="Setor"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cbSetorEscala2">
+                <Component class="javax.swing.JComboBox" name="cbSetorInfracoa">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
@@ -3585,7 +3167,7 @@
                     <Property name="text" type="java.lang.String" value="Turno"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cbTurnoEscala2">
+                <Component class="javax.swing.JComboBox" name="cbTurnoInfracao">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
@@ -3611,7 +3193,7 @@
                     <Property name="text" type="java.lang.String" value="Funcionario"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cbFuncionarioEscala2">
+                <Component class="javax.swing.JComboBox" name="cbFuncionarioInfracao">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
@@ -3625,6 +3207,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbFuncionarioInfracaoActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -3633,6 +3218,9 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Pesquisar"/>
                   </Properties>
@@ -3644,6 +3232,9 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Limpar"/>
                   </Properties>
@@ -3726,6 +3317,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\+.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Registrar"/>
                   </Properties>
                 </Component>
@@ -3750,6 +3344,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Editar"/>
                   </Properties>
                 </Component>
@@ -3757,6 +3354,9 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Excluir"/>
                   </Properties>
@@ -4027,7 +3627,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="210" max="32767" attributes="0"/>
+                      <EmptySpace pref="174" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4391,134 +3991,108 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="lbPeriodoHistorico1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="586" max="-2" attributes="0"/>
-                                                      <Component id="lbTrabalhoEquipe1" min="-2" pref="120" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                                      <Component id="lbAtitude1" min="-2" pref="120" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="437" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="jScrollPane22" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="PnDesempenhoMensal1" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                                      <Component id="lbProdutividade1" min="-2" pref="120" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="297" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbAçao1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnCompararColaboradores1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnVisualizaçaoHistorico1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnExporHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnImprimirHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Component id="lbDetalhesFuncionario1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane21" min="-2" pref="635" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jScrollPane22" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="PnDesempenhoMensal1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="lbTrabalhoEquipe1" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Component id="lbProdutividade1" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Component id="lbAtitude1" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
-                                              <Component id="lbSetorMetas" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lbInicioPeriodo" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="ftfPeriodoInicioHistorico1" min="-2" pref="105" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lbPeriodoFim" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="ftfPeriodoFimMetas" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="cbFuncionarioHistorico1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbFuncionarioMetas" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbTipoMeta" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbTipoMeta" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                              <Component id="cbSetorHistorico1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="cbSituaçaoSaldoHistorico1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                              <Component id="lbSituaçaoSaldoMetas" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lbSituaçaoFeriasMetas" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbSituaçaoFeriasHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="txMetasPrevistas" min="-2" pref="113" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                      <Component id="btnPesquisarHistorico1" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="-2" pref="376" max="-2" attributes="0"/>
-                                              <Component id="btnLimparHistorico1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbAçao1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnCompararColaboradores1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnVisualizaçaoHistorico1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnExporHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnImprimirHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
+                                      <Component id="lbSetorMetas" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lbInicioPeriodo" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ftfPeriodoInicioHistorico1" min="-2" pref="105" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lbPeriodoFim" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ftfPeriodoFimMetas" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cbSetorMetas" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbFuncionarioMetas" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbFuncionarioMetas" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbTipoMeta" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbTipoMeta" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbSituaçaoSaldoMetas" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbSituaçaoSaldoMetas" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lbSituaçaoFeriasMetas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbSituaçaoFeriasMetas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="txMetasPrevistas" min="-2" pref="113" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="btnPesquisarMetas" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="-2" pref="376" max="-2" attributes="0"/>
+                                      <Component id="btnLimparMetas" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jScrollPane20" min="-2" pref="1341" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lbHIstoricoDesenpenho1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbPeriodoHistorico1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbHIstoricoDesenpenho1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                      </Group>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbDetalhesFuncionario1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane21" min="-2" pref="635" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="762" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -4527,7 +4101,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lbSituaçaoSaldoMetas" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -4539,18 +4113,17 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cbSituaçaoFeriasHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbSituaçaoSaldoHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbSituaçaoFeriasMetas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbSituaçaoSaldoMetas" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cbTipoMeta" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbFuncionarioHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbFuncionarioMetas" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txMetasPrevistas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnLimparHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnPesquisarHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbSetorHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnLimparMetas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnPesquisarMetas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbSetorMetas" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                               <Component id="lbPeriodoHistorico1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -4563,50 +4136,51 @@
                                   <Component id="ftfPeriodoInicioHistorico1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ftfPeriodoFimMetas" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="61" max="32767" attributes="0"/>
-                              <Component id="lbHIstoricoDesenpenho1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <Component id="lbHIstoricoDesenpenho1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane20" min="-2" pref="427" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                              <Component id="lbAçao1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnVisualizaçaoHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnCompararColaboradores1" min="-2" pref="40" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnExporHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnImprimirHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jScrollPane20" min="-2" pref="427" max="-2" attributes="0"/>
+                              <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lbDetalhesFuncionario1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jScrollPane21" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lbAçao1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnVisualizaçaoHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnCompararColaboradores1" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnExporHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Component id="btnImprimirHistorico1" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="116" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbProdutividade1" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lbProdutividade1" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="lbTrabalhoEquipe1" alignment="1" max="32767" attributes="0"/>
                                   <Component id="lbAtitude1" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="lbTrabalhoEquipe1" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="PnDesempenhoMensal1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jScrollPane22" min="-2" pref="129" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
+                              <Component id="jScrollPane22" min="-2" pref="141" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="639" max="32767" attributes="0"/>
-                          <Component id="lbDetalhesFuncionario1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          <Component id="jScrollPane21" min="-2" pref="334" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4627,7 +4201,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbSetorHistorico1">
+            <Component class="javax.swing.JComboBox" name="cbSetorMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
@@ -4661,7 +4235,7 @@
                 <Property name="text" type="java.lang.String" value="Funcion&#xe1;rio"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbFuncionarioHistorico1">
+            <Component class="javax.swing.JComboBox" name="cbFuncionarioMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
@@ -4679,7 +4253,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbSitua&#xe7;aoSaldoHistorico1">
+            <Component class="javax.swing.JComboBox" name="cbSitua&#xe7;aoSaldoMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
@@ -4705,7 +4279,7 @@
                 <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o do saldo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbSitua&#xe7;aoFeriasHistorico1">
+            <Component class="javax.swing.JComboBox" name="cbSitua&#xe7;aoFeriasMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
@@ -4830,15 +4404,18 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lbProdutividade1">
             </Component>
-            <Component class="javax.swing.JButton" name="btnPesquisarHistorico1">
+            <Component class="javax.swing.JButton" name="btnPesquisarMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarMetasActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnLimparHistorico1">
+            <Component class="javax.swing.JButton" name="btnLimparMetas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
@@ -4846,7 +4423,7 @@
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparHistorico1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparMetasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lbAtitude1">
@@ -5111,7 +4688,7 @@
                       <Component id="lbHistoricoRelatorios" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane23" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="42" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5864,6 +5441,550 @@
                   <AbsoluteConstraints x="20" y="1000" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pagPonto">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="0"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Ponto">
+                <Property name="tabTitle" type="java.lang.String" value="Ponto"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbPeriodoPonto" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ftfData" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="ftfPeriodoFim1" min="-2" pref="107" max="-2" attributes="0"/>
+                                  <Component id="lbHorario" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbSetorEscala1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbSetorPonto" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbTurnoPonto" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbTurnoEscalaPonto" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbFuncionarioEscalaPonto" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbFuncionarioEscala1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lbJustificativa" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="scJustificativa" min="-2" pref="305" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnPesquisarEscala1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="btnLimparEscala2" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jScrollPane9" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane10" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="1244" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="jScrollPane11" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="ldAçoes" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="btnAdicionarArquivo" max="32767" attributes="0"/>
+                                                  <Component id="jButton3" max="32767" attributes="0"/>
+                                                  <Component id="btnRegistrarPonto" max="32767" attributes="0"/>
+                                                  <Component id="jButton2" alignment="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jButton4" min="-2" pref="150" max="-2" attributes="0"/>
+                                                  <Component id="jButton5" min="-2" pref="150" max="-2" attributes="0"/>
+                                                  <Component id="jButton6" min="-2" pref="150" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lbFuncionarioEscalaPonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbTurnoEscalaPonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbSetorPonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbPeriodoPonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbJustificativa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="ftfData" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ftfPeriodoFim1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbSetorEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbTurnoPonto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbFuncionarioEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                      <Component id="scJustificativa" min="-2" pref="77" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnLimparEscala2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnPesquisarEscala1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <Component id="jScrollPane10" min="-2" pref="99" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane9" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane11" min="-2" pref="262" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="ldAçoes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnRegistrarPonto" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jButton4" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButton2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jButton5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jButton6" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jButton3" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnAdicionarArquivo" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="13" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lbPeriodoPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Data"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="ftfData">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="ftfPeriodoFim1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbSetorPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Setor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbSetorEscala1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbTurnoEscalaPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Turno"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbTurnoPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbFuncionarioEscalaPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Funcionario"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbFuncionarioEscala1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnPesquisarEscala1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Pesquisar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarEscala1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnLimparEscala2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Limpar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparEscala2ActionPerformed"/>
+              </Events>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane9">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tbEscalaSemanal2">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="13" rowCount="4">
+                        <Column editable="true" title="funcionarios" type="java.lang.Object"/>
+                        <Column editable="true" title="Setor" type="java.lang.Object"/>
+                        <Column editable="true" title="Seg" type="java.lang.Object"/>
+                        <Column editable="true" title="ter" type="java.lang.Object"/>
+                        <Column editable="true" title="Qua" type="java.lang.Object"/>
+                        <Column editable="true" title="Qui" type="java.lang.Object"/>
+                        <Column editable="true" title="Sex" type="java.lang.Object"/>
+                        <Column editable="true" title="Sab" type="java.lang.Object"/>
+                        <Column editable="true" title="Dom" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 10" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 11" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 12" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 13" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Resumo de marca&#xe7;&#xf5;es"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane10">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="jTable1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="6" rowCount="4">
+                        <Column editable="true" title="Dias trabalhados " type="java.lang.Object"/>
+                        <Column editable="true" title="Horas trabalhadas" type="java.lang.Object"/>
+                        <Column editable="true" title="Horas extras" type="java.lang.Object"/>
+                        <Column editable="true" title="Faltas" type="java.lang.Object"/>
+                        <Column editable="true" title="Atrasos" type="java.lang.Object"/>
+                        <Column editable="true" title="Saldos Banco de Horas" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="ldA&#xe7;oes">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="A&#xe7;&#xf5;es"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnRegistrarPonto">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Registrar marca&#xe7;&#xe3;o"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarPontoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Justificar atraso/falta"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton3">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Excluir marca&#xe7;&#xe3;o"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton4">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ajustar marca&#xe7;&#xe3;o"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton5">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Abonar falta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton6">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Exportar relat&#xf3;rio"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel7">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Controle de ponto"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane11">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="jTable2">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="14" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="12" rowCount="4">
+                        <Column editable="true" title="Funcionario" type="java.lang.Object"/>
+                        <Column editable="true" title="Setor" type="java.lang.Object"/>
+                        <Column editable="true" title="Cargo" type="java.lang.Object"/>
+                        <Column editable="true" title="Periodo solicitado" type="java.lang.Object"/>
+                        <Column editable="true" title="Dias &#xfa;teis" type="java.lang.Object"/>
+                        <Column editable="true" title="Periodo aquisitado" type="java.lang.Object"/>
+                        <Column editable="true" title="Data da solicita&#xe7;&#xe3;o" type="java.lang.Object"/>
+                        <Column editable="true" title="Situa&#xe7;&#xe3;o atual" type="java.lang.Object"/>
+                        <Column editable="true" title="Descria&#xe7;&#xe3;o" type="java.lang.Object"/>
+                        <Column editable="true" title="Aprovado por" type="java.lang.Object"/>
+                        <Column editable="true" title="Data da decis&#xe3;o" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 12" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Detalhe das ferias selecionadas"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbHorario">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Horario"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbJustificativa">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Justificativa"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="scJustificativa">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="txaJustificativaPonto">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="rows" type="int" value="5"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="btnAdicionarArquivo">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="14" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\document.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Arquivo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdicionarArquivoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

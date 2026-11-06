@@ -12,6 +12,7 @@ C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Con
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\CupomController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\EnderecoController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\EntregaController.java
+C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\EscalaController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\EstoqueController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\EtiquetasController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Control\FechamentoCaixaController.java
@@ -101,6 +102,7 @@ C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Mod
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\Model\Vendas.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\AlterarSenha.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\ClienteController.java
+C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\EscalaController.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\Fornecedores.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\IconeMenu.java
 C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\java\View\MenuPadrao.java
