@@ -1,23 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-import java.io.File;
-
-/**
- *
- * @author AntônioVieira
- */
 public class Produtos {
-   private int  idprodutos, estoque, categorias_idcategorias, marcas_idmarcas, unidadeMedidas_idunidadeMedidas;
-private String nome, codigo, descricao, validade;
-private double precoCusto,  precoVenda;
-private boolean situacao;
-private File imagem;
+
+    private int idprodutos;
+    private String nome;
+    private String codigo;
+    private String descricao;
+    private double precoCusto;
+    private double precoVenda;
+    private int situacao;
+    private int estoque;
+    private String validade;
+    private byte[] imagem;
+    private int categorias_idcategorias;
+    private int marcas_idmarcas;
+    private int unidadeMedidas_idunidadeMedidas;
 
     public Produtos() {
+    }
+
+    public Produtos(int idprodutos, String nome, String codigo,
+            String descricao, double precoCusto, double precoVenda,
+            int situacao, int estoque, String validade, byte[] imagem,
+            int categorias_idcategorias, int marcas_idmarcas,
+            int unidadeMedidas_idunidadeMedidas) {
+
+        this.idprodutos = idprodutos;
+        this.nome = nome;
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.precoCusto = precoCusto;
+        this.precoVenda = precoVenda;
+        this.situacao = situacao;
+        this.estoque = estoque;
+        this.validade = validade;
+        this.imagem = imagem;
+        this.categorias_idcategorias = categorias_idcategorias;
+        this.marcas_idmarcas = marcas_idmarcas;
+        this.unidadeMedidas_idunidadeMedidas =
+                unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIdprodutos() {
@@ -26,38 +48,6 @@ private File imagem;
 
     public void setIdprodutos(int idprodutos) {
         this.idprodutos = idprodutos;
-    }
-
-    public int getEstoque() {
-        return estoque;
-    }
-
-    public void setEstoque(int estoque) {
-        this.estoque = estoque;
-    }
-
-    public int getCategorias_idcategorias() {
-        return categorias_idcategorias;
-    }
-
-    public void setCategorias_idcategorias(int categorias_idcategorias) {
-        this.categorias_idcategorias = categorias_idcategorias;
-    }
-
-    public int getMarcas_idmarcas() {
-        return marcas_idmarcas;
-    }
-
-    public void setMarcas_idmarcas(int marcas_idmarcas) {
-        this.marcas_idmarcas = marcas_idmarcas;
-    }
-
-    public int getUnidadeMedidas_idunidadeMedidas() {
-        return unidadeMedidas_idunidadeMedidas;
-    }
-
-    public void setUnidadeMedidas_idunidadeMedidas(int unidadeMedidas_idunidadeMedidas) {
-        this.unidadeMedidas_idunidadeMedidas = unidadeMedidas_idunidadeMedidas;
     }
 
     public String getNome() {
@@ -84,14 +74,6 @@ private File imagem;
         this.descricao = descricao;
     }
 
-    public String getValidade() {
-        return validade;
-    }
-
-    public void setValidade(String validade) {
-        this.validade = validade;
-    }
-
     public double getPrecoCusto() {
         return precoCusto;
     }
@@ -108,20 +90,61 @@ private File imagem;
         this.precoVenda = precoVenda;
     }
 
-    public boolean isSituacao() {
+    public int getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(boolean situacao) {
+    public void setSituacao(int situacao) {
         this.situacao = situacao;
     }
 
-    public File getImagem() {
+    public int getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
+
+    public String getValidade() {
+        return validade;
+    }
+
+    public void setValidade(String validade) {
+        this.validade = validade;
+    }
+
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(File imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
 
+    public int getCategorias_idcategorias() {
+        return categorias_idcategorias;
+    }
+
+    public void setCategorias_idcategorias(int categorias_idcategorias) {
+        this.categorias_idcategorias = categorias_idcategorias;
+    }
+
+    public int getMarcas_idmarcas() {
+        return marcas_idmarcas;
+    }
+
+    public void setMarcas_idmarcas(int marcas_idmarcas) {
+        this.marcas_idmarcas = marcas_idmarcas;
+    }
+
+    public int getUnidadeMedidas_idunidadeMedidas() {
+        return unidadeMedidas_idunidadeMedidas;
+    }
+
+    public void setUnidadeMedidas_idunidadeMedidas(
+            int unidadeMedidas_idunidadeMedidas) {
+        this.unidadeMedidas_idunidadeMedidas =
+                unidadeMedidas_idunidadeMedidas;
+    }
 }
