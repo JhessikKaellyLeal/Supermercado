@@ -66,14 +66,18 @@ public class Usuario {
         return bloqueio;
     }
 
+    public int getBloqueio() {
+        return bloqueio;
+    }
+
     public void setBloqueio(int bloqueio) {
         this.bloqueio = bloqueio;
     }
 
-    public Object getBloqueio() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+ @Override
+public String toString() {
+    return nome;
+} 
     
    
    

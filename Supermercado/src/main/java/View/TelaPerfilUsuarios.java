@@ -58,6 +58,7 @@ import Control.PermissoesController;
 import Model.Funcionario;
 import Model.Permissoes;
 import java.util.List;
+import java.util.Map;
 
 public class TelaPerfilUsuarios extends javax.swing.JFrame {
     
@@ -65,15 +66,23 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
 
     private MenuPadrao menu;  
     private Usuario usuario;
-  
+    private final UsuarioController usuarioController = new UsuarioController();
+      
+
+    
+    
+    
     public TelaPerfilUsuarios(Usuario usuario) {
         initComponents();
-        listarFuncionariosCombo();
+        listarUsuariosCombo();
         listarTiposUsuarioCombo();
         listarHistoricoAcessos();
         listarPermissoesTabela();
-        cadastrarPermissoes();
+        
+        listarHistoricoAcessosTabela();
         listarUsuariosTabela();
+       
+      
         
         this.usuario= usuario;
         this.menu=MenuPadrao.instalar(
@@ -187,26 +196,22 @@ public void navegar(String idtela) {
     }
 }
 
-private void listarFuncionariosCombo() {
+
+// ---------------------------------------------- LISTAR NA COMBOBOX -----------------------------------------------------------------------------
+private void listarUsuariosCombo() {
 
     cbTipoFuncionarioAreaPermissoes.removeAllItems();
+    cbHistoricoAcesso.removeAllItems();
+    UsuarioController controller = new UsuarioController();
 
-    FuncionarioController controller = new FuncionarioController();
+    List<Usuario> usuarios = controller.listar();
 
-    List<Funcionario> funcionarios = controller.listar();
-
-    for (Funcionario funcionario : funcionarios) {
-        cbTipoFuncionarioAreaPermissoes.addItem(funcionario.getNome());
+    for (Usuario usuario : usuarios) {
+        cbTipoFuncionarioAreaPermissoes.addItem(usuario.getNome());
+        cbHistoricoAcesso.addItem(usuario.getNome());
     }
-    
-        cbHistoricoAcesso.removeAllItems();
-
-        List<Funcionario> lista = controller.listar();
-
-        for (Funcionario funcionario : lista) {
-            cbHistoricoAcesso.addItem(funcionario.getNome());
-        }
 }
+
 
 private void listarTiposUsuarioCombo() {
 
@@ -218,6 +223,30 @@ private void listarTiposUsuarioCombo() {
     cbTipoUsuario.addItem("Caixa");
     cbTipoUsuario.addItem("Estoquista");
 }
+
+private int buscarIdUsuarioSelecionado() {
+
+    String nome = (String) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+
+    if (nome == null) {
+        return -1;
+    }
+
+    UsuarioController controller = new UsuarioController();
+
+    List<Usuario> usuarios = controller.listar();
+
+    for (Usuario usuario : usuarios) {
+
+        if (usuario.getNome().equals(nome)) {
+            return usuario.getIdusuario();
+        }
+    }
+
+    return -1;
+}
+
+// ---------------------------------------- LISTAR NA TABELA --------------------------------------------------------------------------------------
 
 private void listarHistoricoAcessos() {
 
@@ -249,93 +278,8 @@ private void listarHistoricoAcessos() {
 
     }
 }
- 
-private void cadastrarUsuario() {
 
-    String nome = tfNomeUsuario.getText().trim();
-
-    String cpf = ffCPFUsuario.getText()
-            .replaceAll("[^0-9]", "");
-
-    String email = tfEmailPerfil.getText().trim();
-
-    String senha = new String(pfSenhaUsuario.getPassword());
-
-    int bloqueio = chbBloqueio.isSelected() ? 1 : 0;
-
-    // VALIDAR CAMPOS
-    if (nome.isEmpty() || cpf.isEmpty()
-            || email.isEmpty() || senha.isEmpty()) {
-
-        JOptionPane.showMessageDialog(this,
-                "Preencha todos os campos obrigatórios!");
-
-        return;
-    }
-
-    if (cpf.length() != 11) {
-
-        JOptionPane.showMessageDialog(this,
-                "Informe um CPF válido!");
-
-        return;
-    }
-
-    if (!email.matches("^[\\w.+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-
-        JOptionPane.showMessageDialog(this,
-                "Informe um e-mail válido!");
-
-        return;
-    }
-
-    if (senha.length() < 6) {
-
-        JOptionPane.showMessageDialog(this,
-                "A senha deve possuir pelo menos 6 caracteres!");
-
-        return;
-    }
-
-    // CADASTRAR NO BANCO
-    boolean resultado = usuarioController.cadastrar(
-            nome,
-            cpf,
-            email,
-            senha,
-            bloqueio
-    );
-
-    if (resultado) {
-
-        JOptionPane.showMessageDialog(this,
-                "Usuário cadastrado com sucesso!");
-
-        limparCamposUsuario();
-
-        listarUsuarios();
-
-    } else {
-
-        JOptionPane.showMessageDialog(this,
-                "Não foi possível cadastrar o usuário!");
-
-    }
-}
-
-private void listarUsuarios() {
-
-    adicionarUsuarioTabela();
-
-}
-
-
-
-private void limparCamposUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-private void adicionarUsuarioTabela() {
+private void adicionarUsuarioTabela() throws SQLException {
 
     DefaultTableModel modelo = new DefaultTableModel();
 
@@ -345,7 +289,7 @@ private void adicionarUsuarioTabela() {
     modelo.addColumn("E-mail");
     modelo.addColumn("Situação");
 
-    Iterable<Usuario> usuarios = usuarioController.listar();
+    List<Usuario> usuarios = usuarioController.listar();
 
     for (Usuario usuario : usuarios) {
 
@@ -363,89 +307,344 @@ private void adicionarUsuarioTabela() {
     tbUsuarios.setModel(modelo);
 }
 
+private void listarHistoricoAcessosTabela() {
+
+    DefaultTableModel modelo = new DefaultTableModel();
+    HistoricoAcessoController historicoAcessosController = new HistoricoAcessoController();
+    // Criando as colunas
+    modelo.addColumn("ID");
+    modelo.addColumn("Usuário");
+    modelo.addColumn("Data de Acesso");
+    modelo.addColumn("Horário");
+    modelo.addColumn("Terminal IP");
+    modelo.addColumn("Dispositivo");
+
+    try {
+
+        List<Map<String, Object>> historicos =
+                historicoAcessosController.listarHistoricoAcessos();
+
+        // Preenchendo as colunas
+        for (Map<String, Object> acesso : historicos) {
+
+            modelo.addRow(new Object[]{
+                acesso.get("id"),
+                acesso.get("usuario"),
+                acesso.get("data"),
+                acesso.get("horario"),
+                acesso.get("ip"),
+                acesso.get("dispositivo")
+            });
+        }
+
+        // Adicionando o modelo à JTable
+        tbHistoricoAcessos.setModel(modelo);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar histórico de acessos: " + e.getMessage());
+    }
+}
+
+private void listarUsuariosTabela() {
+
+    DefaultTableModel modelo = new DefaultTableModel();
+
+    // Criando as colunas
+    modelo.addColumn("ID");
+    modelo.addColumn("Nome");
+    modelo.addColumn("CPF");
+    modelo.addColumn("E-mail");
+    modelo.addColumn("Situação");
+
+    List<Usuario> usuarios = usuarioController.listar();
+    // Preenchendo a tabela
+    for (Usuario usuario : usuarios) {
+        
+        String situacao;
+        
+        if (usuario.getBloqueio() == 1) {
+            situacao = "Bloqueado";
+        } else {
+            situacao = "Ativo";
+        }
+        
+        modelo.addRow(new Object[]{
+            usuario.getIdusuario(),
+            usuario.getNome(),
+            usuario.getCpf(),
+            usuario.getEmail(),
+            situacao
+        });
+    }
+    tbUsuarios.setModel(modelo);
+}
+
+// ------------------------- CADASTRO DE DADOS ----------------------------------------------------------------------------------------------------
 private int obterPermissao(javax.swing.JCheckBox checkBox) {
     return checkBox.isSelected() ? 1 : 0;
 }
 
 private void cadastrarPermissoes() {
 
-    if (cbTipoUsuario.getSelectedItem() == null) {
-        JOptionPane.showMessageDialog(this, "Selecione um tipo de usuário!");
-        return;
-    }
+    try {
 
-    String tipo = cbTipoUsuario.getSelectedItem().toString().trim();
+        int idUsuario = buscarIdUsuarioSelecionado();
 
-    if (tipo.isEmpty() || tipo.equalsIgnoreCase("Selecione")) {
-        JOptionPane.showMessageDialog(this, "Selecione um tipo válido!");
-        return;
-    }
+        if (idUsuario == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um usuário válido!");
+            return;
+        }
 
-    Permissoes p = new Permissoes();
+        Permissoes permissoes = new Permissoes();
 
-    p.setTipo(tipo);
-    p.setTelaProdutos(obterPermissao(chbTelaProdutos));
-    p.setTelaEstoque(obterPermissao(chbTelaEstoque));
-    p.setTelaCompras(obterPermissao(chbTelaCompras));
-    p.setTelaClientes(obterPermissao(chbTelaClientes));
-    p.setTelaPromocoes(obterPermissao(chbTelaPromocoes));
-    p.setTelaCaixa(obterPermissao(chbTelaCaixa));
-    p.setTelaVendas(obterPermissao(chbTelaVendas));
-    p.setTelaPDV(obterPermissao(chbTelaPDV));
-    p.setTelaPedidos(obterPermissao(chbTelaPedidos));
-    p.setTelaEntregas(obterPermissao(chbTelaEntregas));
-    p.setTelaRh(obterPermissao(chbTelaRH));
-    p.setTelaFinaceiro(obterPermissao(chbTelaFinaceiro));
-    p.setTelaRelatorios(obterPermissao(chbTelaRelatorios));
+        permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
+        permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
+        permissoes.setTelaCompras(chbTelaCompras.isSelected() ? 1 : 0);
+        permissoes.setTelaClientes(chbTelaClientes.isSelected() ? 1 : 0);
+        permissoes.setTelaPromocoes(chbTelaPromocoes.isSelected() ? 1 : 0);
+        permissoes.setTelaCaixa(chbTelaCaixa.isSelected() ? 1 : 0);
+        permissoes.setTelaVendas(chbTelaVendas.isSelected() ? 1 : 0);
+        permissoes.setTelaPDV(chbTelaPDV.isSelected() ? 1 : 0);
+        permissoes.setTelaPedidos(chbTelaPedidos.isSelected() ? 1 : 0);
+        permissoes.setTelaEntregas(chbTelaEntregas.isSelected() ? 1 : 0);
+        permissoes.setTelaRh(chbTelaRH.isSelected() ? 1 : 0);
+        permissoes.setTelaFinaceiro(chbTelaFinaceiro.isSelected() ? 1 : 0);
+        permissoes.setTelaRelatorios(chbTelaRelatorios.isSelected() ? 1 : 0);
 
-    PermissoesController controller = new PermissoesController();
+        PermissoesController controller = new PermissoesController();
 
-    if (controller.cadastrar(p)) {
+        controller.salvarPermissoesUsuario(permissoes, idUsuario);
 
         JOptionPane.showMessageDialog(this,
                 "Permissões salvas com sucesso!");
 
         listarPermissoesTabela();
 
-    } else {
+    } catch (Exception e) {
 
         JOptionPane.showMessageDialog(this,
-                "Não foi possível salvar as permissões!");
+                "Erro ao salvar permissões: " + e.getMessage());
+
+        e.printStackTrace();
     }
 }
 
 private void atualizarPermissoes() {
 
-    String tipo = cbTipoUsuario.getSelectedItem().toString();
+    try {
 
-    PermissoesController controller = new PermissoesController();
+        if (cbTipoUsuario.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um usuário!");
+            return;
+        }
 
-    Permissoes p = new Permissoes();
+        Permissoes permissoes = new Permissoes();
 
-    p.setTipo(tipo);
+        permissoes.setTipo(cbTipoUsuario.getSelectedItem().toString());
 
-    p.setTelaProdutos(obterPermissao(chbTelaProdutos));
-    p.setTelaEstoque(obterPermissao(chbTelaEstoque));
-    p.setTelaCompras(obterPermissao(chbTelaCompras));
-    p.setTelaClientes(obterPermissao(chbTelaClientes));
-    p.setTelaPromocoes(obterPermissao(chbTelaPromocoes));
-    p.setTelaCaixa(obterPermissao(chbTelaCaixa));
-    p.setTelaVendas(obterPermissao(chbTelaVendas));
-    p.setTelaPDV(obterPermissao(chbTelaPDV));
-    p.setTelaPedidos(obterPermissao(chbTelaPedidos));
-    p.setTelaEntregas(obterPermissao(chbTelaEntregas));
-    p.setTelaRh(obterPermissao(chbTelaRH));
-    p.setTelaFinaceiro(obterPermissao(chbTelaFinaceiro));
-    p.setTelaRelatorios(obterPermissao(chbTelaRelatorios));
+        permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
+        permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
+        permissoes.setTelaCompras(chbTelaCompras.isSelected() ? 1 : 0);
+        permissoes.setTelaClientes(chbTelaClientes.isSelected() ? 1 : 0);
+        permissoes.setTelaPromocoes(chbTelaPromocoes.isSelected() ? 1 : 0);
+        permissoes.setTelaCaixa(chbTelaCaixa.isSelected() ? 1 : 0);
+        permissoes.setTelaVendas(chbTelaVendas.isSelected() ? 1 : 0);
+        permissoes.setTelaPDV(chbTelaPDV.isSelected() ? 1 : 0);
+        permissoes.setTelaPedidos(chbTelaPedidos.isSelected() ? 1 : 0);
+        permissoes.setTelaEntregas(chbTelaEntregas.isSelected() ? 1 : 0);
+        permissoes.setTelaRh(chbTelaRH.isSelected() ? 1 : 0);
+        permissoes.setTelaFinaceiro(chbTelaFinaceiro.isSelected() ? 1 : 0);
+        permissoes.setTelaRelatorios(chbTelaRelatorios.isSelected() ? 1 : 0);
 
-    if (controller.atualizar(p)) {
+        PermissoesController controller = new PermissoesController();
+
+        // Atualiza as permissões
+        controller.atualizar(permissoes);
+
         JOptionPane.showMessageDialog(this,
                 "Permissões atualizadas com sucesso!");
-    } else {
+
+    } catch (Exception e) {
+
         JOptionPane.showMessageDialog(this,
-                "Erro ao atualizar permissões!");
+                "Erro ao atualizar permissões: " + e.getMessage());
+
+        e.printStackTrace();
     }
 }
+
+private void listarUsuarios() throws SQLException {
+
+    adicionarUsuarioTabela();
+
+}
+
+private void listarPermissoesTabela() {
+
+    DefaultTableModel modelo = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    modelo.addColumn("Nome do Usuário");
+    modelo.addColumn("Produtos");
+    modelo.addColumn("Estoque");
+    modelo.addColumn("Compras");
+    modelo.addColumn("Clientes");
+    modelo.addColumn("Promoções");
+    modelo.addColumn("Caixa");
+    modelo.addColumn("Vendas");
+    modelo.addColumn("PDV");
+    modelo.addColumn("Pedidos");
+    modelo.addColumn("Entregas");
+    modelo.addColumn("RH");
+    modelo.addColumn("Financeiro");
+    modelo.addColumn("Relatórios");
+
+    try {
+
+        PermissoesController controller = new PermissoesController();
+
+        List<Object[]> lista = controller.listarPermissoesComUsuarios();
+
+        if (lista == null || lista.isEmpty()) {
+            tbPermissoes.setModel(modelo);
+
+            System.out.println("Nenhuma permissão encontrada no banco.");
+            return;
+        }
+
+        for (Object[] dados : lista) {
+
+            if (dados == null || dados.length < 14) {
+                System.out.println("Registro com quantidade incorreta de colunas.");
+                continue;
+            }
+
+            modelo.addRow(new Object[]{
+                dados[0],
+                converterPermissao(dados[1]),
+                converterPermissao(dados[2]),
+                converterPermissao(dados[3]),
+                converterPermissao(dados[4]),
+                converterPermissao(dados[5]),
+                converterPermissao(dados[6]),
+                converterPermissao(dados[7]),
+                converterPermissao(dados[8]),
+                converterPermissao(dados[9]),
+                converterPermissao(dados[10]),
+                converterPermissao(dados[11]),
+                converterPermissao(dados[12]),
+                converterPermissao(dados[13])
+            });
+        }
+
+        tbPermissoes.setModel(modelo);
+
+        System.out.println("Registros encontrados: " + lista.size());
+        System.out.println("Registros exibidos: " + modelo.getRowCount());
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar permissões: " + e.getMessage());
+
+        e.printStackTrace();
+    }
+}
+
+private void salvarPermissoesFuncionario() {
+
+    try {
+
+        if (cbTipoFuncionarioAreaPermissoes.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um funcionário!");
+
+            return;
+        }
+
+        Funcionario funcionario =
+                (Funcionario) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+
+        int idFuncionario = funcionario.getIdFuncionario();
+
+        Permissoes permissoes = obterDadosPermissoes();
+
+        PermissoesController controller = new PermissoesController();
+
+        controller.salvarPermissoesFuncionario(
+                permissoes, idFuncionario);
+
+        JOptionPane.showMessageDialog(this,
+                "Permissões salvas com sucesso!");
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao salvar permissões: " + e.getMessage());
+    }
+}
+
+private void cadastrarUsuario() {
+
+    try {
+
+        // Validar campos
+        if (tfNomecompletoPerfil.getText().trim().isEmpty()
+                || ffCPFCadastroUsuario.getText().trim().isEmpty()
+                || tfEmailPerfil.getText().trim().isEmpty()
+                || tfSenha.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!");
+
+            return;
+        }
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNome(tfNomecompletoPerfil.getText().trim());
+        usuario.setCpf(ffCPFCadastroUsuario.getText().trim());
+        usuario.setEmail(tfEmailPerfil.getText().trim());
+        usuario.setSenha(tfSenha.getText());
+
+        // 1 = Bloqueado / 0 = Ativo
+        usuario.setBloqueio(chbBloqueio.isSelected() ? 1 : 0);
+
+        UsuarioController controller = new UsuarioController();
+
+        if (controller.cadastrar(usuario)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Usuário cadastrado com sucesso!");
+
+            limparCamposUsuario();
+            listarUsuarios();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível cadastrar o usuário!");
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar usuário: " + e.getMessage());
+    }
+}
+
+// -------------------- LISTAGEM DE DADOS ---------------------------------------------------------------------------------------------------------
+
 
 private void carregarPermissoes(Permissoes p) {
 
@@ -482,80 +681,99 @@ private void limparPermissoes() {
     chbTelaRelatorios.setSelected(false);
 }
 
-private void listarPermissoesTabela() {
-
-    DefaultTableModel modelo = new DefaultTableModel() {
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-    };
-
-    // Criando as colunas
-    modelo.addColumn("Nome do Usuário");
-    modelo.addColumn("Produtos");
-    modelo.addColumn("Estoque");
-    modelo.addColumn("Compras");
-    modelo.addColumn("Clientes");
-    modelo.addColumn("Promoções");
-    modelo.addColumn("Caixa");
-    modelo.addColumn("Vendas");
-    modelo.addColumn("PDV");
-    modelo.addColumn("Pedidos");
-    modelo.addColumn("Entregas");
-    modelo.addColumn("RH");
-    modelo.addColumn("Financeiro");
-    modelo.addColumn("Relatórios");
-
-    PermissoesController controller = new PermissoesController();
-
-    List<Object[]> lista = controller.listarPermissoesComUsuarios();
-
-    // Preenchendo a JTable
-    for (Object[] dados : lista) {
-
-        modelo.addRow(new Object[]{
-            dados[0],
-            converterPermissao(dados[1]),
-            converterPermissao(dados[2]),
-            converterPermissao(dados[3]),
-            converterPermissao(dados[4]),
-            converterPermissao(dados[5]),
-            converterPermissao(dados[6]),
-            converterPermissao(dados[7]),
-            converterPermissao(dados[8]),
-            converterPermissao(dados[9]),
-            converterPermissao(dados[10]),
-            converterPermissao(dados[11]),
-            converterPermissao(dados[12]),
-            converterPermissao(dados[13])
-        });
-    }
-
-    // Aplicando o modelo na tabela existente
-    tbPermissoes.setModel(modelo);
-
-    System.out.println("Registros exibidos na tabela: " + lista.size());
-}
-
 private String converterPermissao(Object valor) {
 
     if (valor == null) {
         return "Não";
     }
 
-    if (valor instanceof Number) {
-        return ((Number) valor).intValue() == 1 ? "Sim" : "Não";
+    return Integer.parseInt(valor.toString()) == 1
+            ? "Sim"
+            : "Não";
+}
+
+private void carregarPermissoesFuncionario() {
+
+    // Primeiro limpa os checkboxes
+   // limparPermissoes();
+
+    if (cbTipoFuncionarioAreaPermissoes.getSelectedItem() == null) {
+        return;
     }
 
-    return "1".equals(valor.toString()) ? "Sim" : "Não";
+    try {
+
+        Funcionario funcionario =
+                (Funcionario) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+
+        PermissoesController controller = new PermissoesController();
+
+        // Precisamos buscar o usuário e sua permissão vinculada
+        Permissoes p = controller.buscarPorFuncionario(
+                funcionario.getIdFuncionario()
+        );
+
+        if (p == null) {
+            return;
+        }
+
+        chbTelaProdutos.setSelected(p.getTelaProdutos() == 1);
+        chbTelaEstoque.setSelected(p.getTelaEstoque() == 1);
+        chbTelaCompras.setSelected(p.getTelaCompras() == 1);
+        chbTelaClientes.setSelected(p.getTelaClientes() == 1);
+        chbTelaPromocoes.setSelected(p.getTelaPromocoes() == 1);
+        chbTelaCaixa.setSelected(p.getTelaCaixa() == 1);
+        chbTelaVendas.setSelected(p.getTelaVendas() == 1);
+        chbTelaPDV.setSelected(p.getTelaPDV() == 1);
+        chbTelaPedidos.setSelected(p.getTelaPedidos() == 1);
+        chbTelaEntregas.setSelected(p.getTelaEntregas() == 1);
+        chbTelaRH.setSelected(p.getTelaRh() == 1);
+        chbTelaFinaceiro.setSelected(p.getTelaFinaceiro() == 1);
+        chbTelaRelatorios.setSelected(p.getTelaRelatorios() == 1);
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao carregar permissões: " + e.getMessage());
+    }
+}
+
+private javax.swing.JLabel lblUsuarioHistorico;
+
+private Permissoes obterDadosPermissoes() {
+
+    Permissoes permissoes = new Permissoes();
+
+    permissoes.setTipo(cbTipoUsuario.getSelectedItem().toString());
+
+    permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
+    permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
+    permissoes.setTelaCompras(chbTelaCompras.isSelected() ? 1 : 0);
+    permissoes.setTelaClientes(chbTelaClientes.isSelected() ? 1 : 0);
+    permissoes.setTelaPromocoes(chbTelaPromocoes.isSelected() ? 1 : 0);
+    permissoes.setTelaCaixa(chbTelaCaixa.isSelected() ? 1 : 0);
+    permissoes.setTelaVendas(chbTelaVendas.isSelected() ? 1 : 0);
+    permissoes.setTelaPDV(chbTelaPDV.isSelected() ? 1 : 0);
+    permissoes.setTelaPedidos(chbTelaPedidos.isSelected() ? 1 : 0);
+    permissoes.setTelaEntregas(chbTelaEntregas.isSelected() ? 1 : 0);
+    permissoes.setTelaRh(chbTelaRH.isSelected() ? 1 : 0);
+    permissoes.setTelaFinaceiro(chbTelaFinaceiro.isSelected() ? 1 : 0);
+    permissoes.setTelaRelatorios(chbTelaRelatorios.isSelected() ? 1 : 0);
+
+    return permissoes;
+}
+
+private void limparCamposUsuario() {
+
+    tfNomecompletoPerfil.setText("");
+    ffCPFCadastroUsuario.setText("");
+    tfEmailPerfil.setText("");
+    tfSenha.setText("");
+
+    chbBloqueio.setSelected(false);
 }
 
 
-
-private final UsuarioController usuarioController =
-        new UsuarioController();
 /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -589,35 +807,27 @@ private final UsuarioController usuarioController =
         chbTelaFinaceiro = new javax.swing.JCheckBox();
         chbTelaRelatorios = new javax.swing.JCheckBox();
         btnAtualizaAreaPermissoes = new javax.swing.JButton();
-        btnSalvarAreaAcesso = new javax.swing.JButton();
+        btnSalvarPermissoes = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbPermissoes = new javax.swing.JTable();
+        lbFuncionarioAreaPermissoes1 = new javax.swing.JLabel();
         areaPerfilUsuario = new javax.swing.JPanel();
-        lbNomePerfil = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbUsuarios = new javax.swing.JTable();
+        chbBloqueio = new javax.swing.JCheckBox();
         lbNomeCompletoPerfil = new javax.swing.JLabel();
         lbEmailPerfil = new javax.swing.JLabel();
         tfNomecompletoPerfil = new javax.swing.JTextField();
         tfEmailPerfil = new javax.swing.JTextField();
         lbSenhaPerfil = new javax.swing.JLabel();
         lbTelefonePerfil = new javax.swing.JLabel();
-        tfCargoPerfil = new javax.swing.JTextField();
+        tfSenha = new javax.swing.JTextField();
         ffTelefonePerfil = new javax.swing.JFormattedTextField();
-        btnSalvarAlteracoesPerfil = new javax.swing.JButton();
         cbTipoUsuario = new javax.swing.JComboBox<>();
         lbTipoUsuario = new javax.swing.JLabel();
-        areaCadastroDeUsuario = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbUsuarios = new javax.swing.JTable();
-        lbNomeUsuario = new javax.swing.JLabel();
-        tfNomeUsuario = new javax.swing.JTextField();
-        lbCPFUsuario = new javax.swing.JLabel();
-        lbEmailUsuario = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        lbSenhaUsuario = new javax.swing.JLabel();
-        chbBloqueio = new javax.swing.JCheckBox();
         btnSalvarUsuario = new javax.swing.JButton();
-        ffCPFUsuario = new javax.swing.JFormattedTextField();
-        pfSenhaUsuario = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        ffCPFCadastroUsuario = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -628,29 +838,21 @@ private final UsuarioController usuarioController =
         areaHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         cbHistoricoAcesso.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        cbHistoricoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbHistoricoAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar Usuario", " " }));
         cbHistoricoAcesso.addActionListener(this::cbHistoricoAcessoActionPerformed);
 
-        tbHistoricoAcessos.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        tbHistoricoAcessos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tbHistoricoAcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Data Acesso", "Horario Acesso", "Terminal", "Dispositivo"
+                "Usuario", "Data Acesso", "Horario Acesso", "Terminal", "Dispositivo"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane4.setViewportView(tbHistoricoAcessos);
 
         javax.swing.GroupLayout areaHistoricoAcessoLayout = new javax.swing.GroupLayout(areaHistoricoAcesso);
@@ -659,21 +861,19 @@ private final UsuarioController usuarioController =
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
+                .addGroup(areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(357, Short.MAX_VALUE))
         );
         areaHistoricoAcessoLayout.setVerticalGroup(
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(106, Short.MAX_VALUE)
                 .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
         );
 
         areaPerfil.addTab("Histórico de acessos", areaHistoricoAcesso);
@@ -688,7 +888,7 @@ private final UsuarioController usuarioController =
         chbTelaEstoque.setText("Tela Estoque");
 
         lbFuncionarioAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbFuncionarioAreaPermissoes.setText("Funcionário");
+        lbFuncionarioAreaPermissoes.setText("Usuario");
 
         chbTelaCompras.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         chbTelaCompras.setText("Tela  Compras");
@@ -733,72 +933,82 @@ private final UsuarioController usuarioController =
         btnAtualizaAreaPermissoes.setText("Altualizar");
         btnAtualizaAreaPermissoes.addActionListener(this::btnAtualizaAreaPermissoesActionPerformed);
 
-        btnSalvarAreaAcesso.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnSalvarAreaAcesso.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
-        btnSalvarAreaAcesso.setText("Salvar");
-        btnSalvarAreaAcesso.addActionListener(this::btnSalvarAreaAcessoActionPerformed);
+        btnSalvarPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnSalvarPermissoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
+        btnSalvarPermissoes.setText("Salvar");
+        btnSalvarPermissoes.addActionListener(this::btnSalvarPermissoesActionPerformed);
 
-        tbPermissoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        tbPermissoes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tbPermissoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Permissão", "Permissão"
+                "Usuário", "Tela Produtos", "Tela Relatorio", "Tela Financeiro", "Tela RH", "Tela Entregas", "Tela Pedidos", "Tela PDV", "Tela Venda", "Tela Caixa", "Tela Promoções", "Tela Clientes", "Tela Compras", "Tela Estoque"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(tbPermissoes);
+
+        lbFuncionarioAreaPermissoes1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbFuncionarioAreaPermissoes1.setText("Habilite as telas Permitidas para este usuário");
 
         javax.swing.GroupLayout areaPermissoesLayout = new javax.swing.GroupLayout(areaPermissoes);
         areaPermissoes.setLayout(areaPermissoesLayout);
         areaPermissoesLayout.setHorizontalGroup(
             areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaPermissoesLayout.createSequentialGroup()
+                .addGap(74, 74, 74)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(areaPermissoesLayout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chbTelaVendas)
-                            .addGroup(areaPermissoesLayout.createSequentialGroup()
-                                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chbTelaProdutos)
-                                    .addComponent(chbTelaEstoque)
-                                    .addComponent(chbTelaCompras)
-                                    .addComponent(chbTelaClientes)
-                                    .addComponent(chbTelaPromocoes)
-                                    .addComponent(chbTelaCaixa))
-                                .addGap(306, 306, 306)
-                                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chbTelaEntregas)
-                                    .addComponent(chbTelaPedidos)
-                                    .addComponent(chbTelaPDV)
-                                    .addComponent(chbTelaRelatorios)
-                                    .addComponent(chbTelaFinaceiro)
-                                    .addComponent(chbTelaRH)))
-                            .addGroup(areaPermissoesLayout.createSequentialGroup()
-                                .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(385, 385, 385)
-                                .addComponent(btnAtualizaAreaPermissoes))))
+                        .addComponent(chbTelaProdutos)
+                        .addGap(98, 98, 98)
+                        .addComponent(chbTelaPDV))
                     .addGroup(areaPermissoesLayout.createSequentialGroup()
-                        .addGap(74, 74, 74)
+                        .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chbTelaEstoque)
+                            .addComponent(chbTelaCompras)
+                            .addComponent(chbTelaClientes)
+                            .addComponent(chbTelaPromocoes)
+                            .addComponent(chbTelaCaixa)
+                            .addComponent(chbTelaVendas)
+                            .addComponent(btnSalvarPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(areaPermissoesLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(btnAtualizaAreaPermissoes))
+                            .addGroup(areaPermissoesLayout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(chbTelaRelatorios)
+                                    .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(chbTelaEntregas)
+                                        .addComponent(chbTelaPedidos)
+                                        .addComponent(chbTelaRH)
+                                        .addComponent(chbTelaFinaceiro))))))
+                    .addGroup(areaPermissoesLayout.createSequentialGroup()
                         .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(areaPermissoesLayout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1586, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbFuncionarioAreaPermissoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(467, Short.MAX_VALUE))
         );
         areaPermissoesLayout.setVerticalGroup(
             areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,149 +1017,48 @@ private final UsuarioController usuarioController =
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
+                .addComponent(lbFuncionarioAreaPermissoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaProdutos)
                     .addComponent(chbTelaPDV))
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaEstoque)
                     .addComponent(chbTelaPedidos))
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaCompras)
                     .addComponent(chbTelaEntregas))
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaClientes)
                     .addComponent(chbTelaRH))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chbTelaPromocoes)
                     .addComponent(chbTelaFinaceiro))
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chbTelaRelatorios)
+                    .addComponent(chbTelaCaixa))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chbTelaVendas)
+                .addGap(32, 32, 32)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chbTelaCaixa)
-                    .addComponent(chbTelaRelatorios))
-                .addGap(40, 40, 40)
-                .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(areaPermissoesLayout.createSequentialGroup()
-                        .addComponent(chbTelaVendas)
-                        .addGap(29, 29, 29)
-                        .addComponent(btnSalvarAreaAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSalvarPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAtualizaAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Área Permissões", areaPermissoes);
 
         areaPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-        lbNomePerfil.setText("jLabel1");
-
-        lbNomeCompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbNomeCompletoPerfil.setText("Nome completo");
-
-        lbEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbEmailPerfil.setText("E-mail completo");
-
-        tfNomecompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-
-        tfEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-
-        lbSenhaPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbSenhaPerfil.setText("Senha");
-
-        lbTelefonePerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbTelefonePerfil.setText("Telefone");
-
-        btnSalvarAlteracoesPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnSalvarAlteracoesPerfil.setText("Salvar Alteracões");
-
-        cbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbTipoUsuario.setText("Tipo de Usuário");
-
-        javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
-        areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
-        areaPerfilUsuarioLayout.setHorizontalGroup(
-            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbNomeCompletoPerfil)
-                    .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfEmailPerfil)
-                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbEmailPerfil)
-                                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                        .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(176, 176, 176)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lbTelefonePerfil)
-                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbSenhaPerfil)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(45, 45, 45))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, areaPerfilUsuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(lbNomePerfil)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        areaPerfilUsuarioLayout.setVerticalGroup(
-            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbSenhaPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCargoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(lbTelefonePerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbNomePerfil)
-                        .addGap(28, 28, 28)
-                        .addComponent(lbNomeCompletoPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(lbEmailPerfil)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(193, 193, 193)
-                .addComponent(btnSalvarAlteracoesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(273, Short.MAX_VALUE))
-        );
-
-        areaPerfil.addTab("Perfil do Usuário", areaPerfilUsuario);
-
-        areaCadastroDeUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        tbUsuarios.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        tbUsuarios.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -975,93 +1084,115 @@ private final UsuarioController usuarioController =
         });
         jScrollPane1.setViewportView(tbUsuarios);
 
-        lbNomeUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbNomeUsuario.setText("Nome:");
-
-        tfNomeUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-
-        lbCPFUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbCPFUsuario.setText("CPF:");
-
-        lbEmailUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbEmailUsuario.setText("Email:");
-
-        jTextField3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-
-        lbSenhaUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbSenhaUsuario.setText("Senha:");
-
         chbBloqueio.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         chbBloqueio.setText("Bloqueio");
+
+        lbNomeCompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbNomeCompletoPerfil.setText("Nome completo");
+
+        lbEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbEmailPerfil.setText("E-mail completo");
+
+        tfNomecompletoPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        tfEmailPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        lbSenhaPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbSenhaPerfil.setText("Senha");
+
+        lbTelefonePerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTelefonePerfil.setText("Telefone");
+
+        cbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTipoUsuario.setText("Tipo de Usuário");
 
         btnSalvarUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnSalvarUsuario.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         btnSalvarUsuario.setText("Salvar");
         btnSalvarUsuario.addActionListener(this::btnSalvarUsuarioActionPerformed);
 
-        ffCPFUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel1.setText("CPF");
 
-        pfSenhaUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        ffCPFCadastroUsuario.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
 
-        javax.swing.GroupLayout areaCadastroDeUsuarioLayout = new javax.swing.GroupLayout(areaCadastroDeUsuario);
-        areaCadastroDeUsuario.setLayout(areaCadastroDeUsuarioLayout);
-        areaCadastroDeUsuarioLayout.setHorizontalGroup(
-            areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1471, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbNomeUsuario)
-                            .addComponent(lbCPFUsuario)
-                            .addComponent(lbEmailUsuario))
+        javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
+        areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
+        areaPerfilUsuarioLayout.setHorizontalGroup(
+            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119)
+                                .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfNomecompletoPerfil)
+                            .addComponent(lbSenhaPerfil)
+                            .addComponent(lbEmailPerfil)
+                            .addComponent(lbNomeCompletoPerfil)
+                            .addComponent(tfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                            .addComponent(lbTelefonePerfil)
+                            .addComponent(tfEmailPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                            .addComponent(jLabel1)
+                            .addComponent(ffCPFCadastroUsuario))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94))))
+        );
+        areaPerfilUsuarioLayout.setVerticalGroup(
+            areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbNomeCompletoPerfil)
                         .addGap(18, 18, 18)
-                        .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                            .addComponent(tfNomeUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(ffCPFUsuario))
-                        .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                                .addGap(163, 163, 163)
-                                .addComponent(lbSenhaUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(pfSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(chbBloqueio))
-                            .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                                .addGap(149, 149, 149)
-                                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(200, Short.MAX_VALUE))
-        );
-        areaCadastroDeUsuarioLayout.setVerticalGroup(
-            areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(areaCadastroDeUsuarioLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbNomeUsuario)
-                    .addComponent(tfNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbSenhaUsuario)
-                    .addComponent(pfSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCPFUsuario)
-                    .addComponent(ffCPFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chbBloqueio))
-                .addGap(37, 37, 37)
-                .addGroup(areaCadastroDeUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbEmailUsuario)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(108, 108, 108)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(ffCPFCadastroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbEmailPerfil)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbSenhaPerfil)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbTelefonePerfil)
+                        .addGap(18, 18, 18)
+                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(191, 191, 191))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        areaPerfil.addTab("Cadastro de Usuário", areaCadastroDeUsuario);
+        areaPerfil.addTab("Cadastro do Usuário", areaPerfilUsuario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1069,14 +1200,14 @@ private final UsuarioController usuarioController =
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 1677, Short.MAX_VALUE)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 1875, Short.MAX_VALUE)
                 .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
@@ -1085,6 +1216,9 @@ private final UsuarioController usuarioController =
 
     private void cbHistoricoAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHistoricoAcessoActionPerformed
         // TODO add your handling code here:
+     
+   
+
     }//GEN-LAST:event_cbHistoricoAcessoActionPerformed
 
     private void chbTelaPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbTelaPDVActionPerformed
@@ -1095,17 +1229,18 @@ private final UsuarioController usuarioController =
         // TODO add your handling code here:
     }//GEN-LAST:event_chbTelaVendasActionPerformed
 
-    private void btnSalvarAreaAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarAreaAcessoActionPerformed
+    private void btnSalvarPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPermissoesActionPerformed
         // TODO add your handling code here:
-        cadastrarPermissoes();
-        listarPermissoesTabela();
-     
-    }//GEN-LAST:event_btnSalvarAreaAcessoActionPerformed
+         cadastrarPermissoes();
+         listarPermissoesTabela();
+       
+    }//GEN-LAST:event_btnSalvarPermissoesActionPerformed
 
     private void btnAtualizaAreaPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaAreaPermissoesActionPerformed
         // TODO add your handling code here:
-        atualizarPermissoes();
-        listarPermissoesTabela();
+          atualizarPermissoes();
+          listarPermissoesTabela();    
+          
     }//GEN-LAST:event_btnAtualizaAreaPermissoesActionPerformed
 
     private void cbTipoFuncionarioAreaPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoFuncionarioAreaPermissoesActionPerformed
@@ -1114,7 +1249,7 @@ private final UsuarioController usuarioController =
 
     private void btnSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarUsuarioActionPerformed
         // TODO add your handling code here:
-         cadastrarUsuario();
+          cadastrarUsuario();
     }//GEN-LAST:event_btnSalvarUsuarioActionPerformed
 
     /**
@@ -1147,14 +1282,12 @@ private final UsuarioController usuarioController =
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel areaCadastroDeUsuario;
     private javax.swing.JPanel areaHistoricoAcesso;
     private javax.swing.JTabbedPane areaPerfil;
     private javax.swing.JPanel areaPerfilUsuario;
     private javax.swing.JPanel areaPermissoes;
     private javax.swing.JButton btnAtualizaAreaPermissoes;
-    private javax.swing.JButton btnSalvarAlteracoesPerfil;
-    private javax.swing.JButton btnSalvarAreaAcesso;
+    private javax.swing.JButton btnSalvarPermissoes;
     private javax.swing.JButton btnSalvarUsuario;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -1175,34 +1308,32 @@ private final UsuarioController usuarioController =
     private javax.swing.JCheckBox chbTelaRH;
     private javax.swing.JCheckBox chbTelaRelatorios;
     private javax.swing.JCheckBox chbTelaVendas;
-    private javax.swing.JFormattedTextField ffCPFUsuario;
+    private javax.swing.JFormattedTextField ffCPFCadastroUsuario;
     private javax.swing.JFormattedTextField ffTelefonePerfil;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JLabel lbCPFUsuario;
     private javax.swing.JLabel lbEmailPerfil;
-    private javax.swing.JLabel lbEmailUsuario;
     private javax.swing.JLabel lbFuncionarioAreaPermissoes;
+    private javax.swing.JLabel lbFuncionarioAreaPermissoes1;
     private javax.swing.JLabel lbNomeCompletoPerfil;
-    private javax.swing.JLabel lbNomePerfil;
-    private javax.swing.JLabel lbNomeUsuario;
     private javax.swing.JLabel lbSenhaPerfil;
-    private javax.swing.JLabel lbSenhaUsuario;
     private javax.swing.JLabel lbTelefonePerfil;
     private javax.swing.JLabel lbTipoUsuario;
-    private javax.swing.JPasswordField pfSenhaUsuario;
     private javax.swing.JTable tbHistoricoAcessos;
     private javax.swing.JTable tbPermissoes;
     private javax.swing.JTable tbUsuarios;
-    private javax.swing.JTextField tfCargoPerfil;
     private javax.swing.JTextField tfEmailPerfil;
-    private javax.swing.JTextField tfNomeUsuario;
     private javax.swing.JTextField tfNomecompletoPerfil;
+    private javax.swing.JTextField tfSenha;
     // End of variables declaration//GEN-END:variables
 
-   
-    
+ 
+
+  
+
+  
+
  
 }

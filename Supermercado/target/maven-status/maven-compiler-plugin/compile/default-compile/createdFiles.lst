@@ -114,7 +114,6 @@ Control\ContasPagarController.class
 View\TelaVendas$12.class
 Control\ContasFinanceirasController.class
 Control\SaldoCaixaController.class
-View\TelaPerfilUsuarios$4.class
 Model\Sangria.class
 View\TelaVendas$7.class
 View\TelaVendaPagamentos.class
@@ -143,6 +142,7 @@ Control\EntregaController.class
 Model\Compras.class
 Model\Estoque.class
 View\TelaVendas$2.class
+View\lblUsuarioHistorico.class
 View\TelaVendas$11.class
 View\TelaVendaPagamentos$14.class
 Model\Turnos.class

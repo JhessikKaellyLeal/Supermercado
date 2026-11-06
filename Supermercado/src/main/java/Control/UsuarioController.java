@@ -197,26 +197,43 @@ public Usuario login(String email, String senha) {
     return lista;
 }
 
-    public Integer buscarIdFuncionarioPorCPF(String cpf) {
+  
+
+   public List<Usuario> listar()  {
+
+    List<Usuario> lista = new ArrayList<>();
+
+    String sql = "SELECT idusuario, nome, cpf, email, bloqueio "
+               + "FROM usuario "
+               + "ORDER BY idusuario DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            Usuario usuario = new Usuario();
+
+            usuario.setIdusuario(rs.getInt("idusuario"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setCpf(rs.getString("cpf"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setBloqueio(rs.getInt("bloqueio"));
+
+            lista.add(usuario);
+        }
+    }   catch (SQLException ex) {
+            System.getLogger(UsuarioController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+
+    return lista;
+}
+
+    public boolean cadastrar(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    /**
-     *
-     * @param cpf
-     * @return
-     */
-    public int buscarFuncionarioPorCPF(String cpf) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public Iterable<Usuario> listar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public boolean cadastrar(String nome, String cpf, String email, String senha, int bloqueio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
    
 }
 
