@@ -1,12 +1,13 @@
 package View;
 
+import java.util.List;
 import Control.CupomController;
 import Control.PromocaoController;
 import Model.Cupom;
 import Model.Promocao;
 import Model.Usuario;
-import View.MenuPadrao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -25,20 +26,22 @@ public class TelaPromocoes extends javax.swing.JFrame {
     private Usuario usuario;
     
     public TelaPromocoes(Usuario usuario) {
-        initComponents();
-        this.usuario= usuario; 
-        this.menu= MenuPadrao.instalar(
+    initComponents();
+    listarCupons();
+    listarPromocoes();
+
+    this.usuario = usuario;
+
+    this.menu = MenuPadrao.instalar(
         this,
         usuario,
         "produtos",
         this::navegar,
         this::dispose
     );
-        this.setExtendedState(TelaCaixa.MAXIMIZED_BOTH);
-        
-       
-     
-    }
+
+    this.setExtendedState(TelaCaixa.MAXIMIZED_BOTH);
+}
 
      // MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
@@ -137,50 +140,174 @@ public void navegar(String idtela) {
     }
 }
 
- 
+// ------------------------ LISTAR --------------------------------------------------------------
+
+// MÉTODO DE LISTAR CUPONS
+private void listarCupons() {
+    try {
+        CupomController controller = new CupomController();
+
+        List<Cupom> lista = controller.listarTodos();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCD.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Cupom cupom : lista) {
+            modelo.addRow(new Object[]{
+                cupom.getIdcupom(),
+                cupom.getCodigoCupom(),
+                cupom.getTipoDesconto(),
+                cupom.getValorDesconto(),
+                cupom.getValorMinimoCompra(),
+                cupom.getQttMaximaUso(),
+                cupom.getLimitePorCliente(),
+                cupom.getTipoUso(),
+                cupom.getDataInicio(),
+                cupom.getDataFinal(),
+                cupom.getObservacao(),
+                cupom.getPromocao_idpromocao()
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar cupons: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+// MÉTODO DE LISTAR PROMOÇÕES
+private void listarPromocoes() {
+    try {
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> lista = controller.listarTodos();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCP.getModel();
+
+        modelo.setRowCount(0);
+
+        // Limpar ComboBox
+        cbxPromocoesVinculada.removeAllItems();
+
+        // Opção inicial
+        cbxPromocoesVinculada.addItem("Selecione uma promoção");
+
+        for (Promocao promocao : lista) {
+
+            // Preencher tabela
+            modelo.addRow(new Object[]{
+                promocao.getIdpromocao(),
+                promocao.getNome(),
+                promocao.getTipo(),
+                promocao.isStatus(),
+                promocao.getDataInicio(),
+                promocao.getDataFinal(),
+                promocao.getRegras(),
+                promocao.getDesconto(),
+                promocao.getQttMinima()
+            });
+
+            // Preencher ComboBox
+            if (promocao.isStatus()) {
+                cbxPromocoesVinculada.addItem(promocao.getNome());
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar promoções: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+// ---------------- LIMPAR -----------------------------------------------------------------
+
+private void limparCamposCupom() {
+
+    tfCodigoCupomCD.setText("");
+    tfDataInicioCD.setText("");
+    tfDataFimCD.setText("");
+
+    cbxTipoDescontoCD.setSelectedIndex(-1);
+    cbxTipoUsoCD.setSelectedIndex(-1);
+
+    spnValorDescontoCD.setValue(0);
+    spnValorMinimoCD.setValue(0);
+    spnQtdMaxUsosCD.setValue(0);
+    spnLimiteClienteCD.setValue(0);
+}
+private void limparCamposPromocao() {
+
+    txDNdaPromocaoCP.setText("");
+
+    cbxProdutoCategoriaCP.setSelectedIndex(-1);
+    cbxTipoPromocaoCP.setSelectedIndex(-1);
+
+    ftfDataInicioCP.setValue(null);
+    ftfDataFimCP.setValue(null);
+
+    spnDescontoCP.setValue(0);
+    spnQtdeMinimaCP.setValue(0);
+
+    rbtnStatusAtivoCP.setSelected(false);
+    rbtnStatusInativoCP.setSelected(false);
+}
+
+// ------------------------------ CADASTRAR ------------------------------------------------
+
 private void cadastrarCupom() {
 
     try {
 
-        // =====================================
-        // CAPTURAR OS DADOS
-        // =====================================
-
+        // Capturar os dados
         String codigoCupom = tfCodigoCupomCD.getText().trim();
 
-        String tipoDesconto = cbxTipoDescontoCD.getSelectedItem().toString();
+        String tipoDesconto = cbxTipoDescontoCD.getSelectedItem() != null
+                ? cbxTipoDescontoCD.getSelectedItem().toString()
+                : "";
+
+        String promocaoVinculada = cbxPromocoesVinculada.getSelectedItem() != null
+                ? cbxPromocoesVinculada.getSelectedItem().toString()
+                : "";
 
         double valorDesconto = Double.parseDouble(
-            spnValorDescontoCD.getValue().toString()
+                spnValorDescontoCD.getValue().toString()
         );
 
         double valorMinimoCompra = Double.parseDouble(
-            spnValorMinimoCD.getValue().toString()
+                spnValorMinimoCD.getValue().toString()
         );
 
         int qtdMaximaUso = Integer.parseInt(
-            spnQtdMaxUsosCD.getValue().toString()
+                spnQtdMaxUsosCD.getValue().toString()
         );
 
         int limitePorCliente = Integer.parseInt(
-            spnLimiteClienteCD.getValue().toString()
+                spnLimiteClienteCD.getValue().toString()
         );
 
-        String tipoUso = cbxTipoUsoCD.getSelectedItem().toString();
+        String tipoUso = cbxTipoUsoCD.getSelectedItem() != null
+                ? cbxTipoUsoCD.getSelectedItem().toString()
+                : "";
 
         String dataInicio = tfDataInicioCD.getText().trim();
-
         String dataFinal = tfDataFimCD.getText().trim();
 
-        String observacao = txDNdaPromocaoCP.getText().trim();
-
-        // =====================================
-        // VALIDAR CAMPOS
-        // =====================================
-
+        // Validar campos
         if (codigoCupom.isEmpty()
                 || tipoDesconto.isEmpty()
                 || tipoUso.isEmpty()
+                || promocaoVinculada.isEmpty()
                 || dataInicio.isEmpty()
                 || dataFinal.isEmpty()
                 || valorDesconto <= 0
@@ -189,19 +316,16 @@ private void cadastrarCupom() {
                 || limitePorCliente <= 0) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios corretamente!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Preencha todos os campos obrigatórios corretamente!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
             );
 
             return;
         }
 
-        // =====================================
-        // CRIAR OBJETO CUPOM
-        // =====================================
-
+        // Criar objeto
         Cupom cupom = new Cupom();
 
         cupom.setCodigoCupom(codigoCupom);
@@ -211,14 +335,11 @@ private void cadastrarCupom() {
         cupom.setQttMaximaUso(qtdMaximaUso);
         cupom.setLimitePorCliente(limitePorCliente);
         cupom.setTipoUso(tipoUso);
+        cupom.setPromocaoVinculada(promocaoVinculada);
         cupom.setDataInicio(dataInicio);
         cupom.setDataFinal(dataFinal);
-        cupom.setObservacao(observacao);
 
-        // =====================================
-        // CADASTRAR NO BANCO
-        // =====================================
-
+        // Cadastrar
         CupomController controller = new CupomController();
 
         boolean sucesso = controller.cadastrar(cupom);
@@ -226,43 +347,50 @@ private void cadastrarCupom() {
         if (sucesso) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Cupom cadastrado com sucesso!",
-                "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
+                    this,
+                    "Cupom cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
             );
 
+            listarCupons();
             limparCamposCupom();
 
         } else {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o cupom!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
+                    this,
+                    "Não foi possível cadastrar o cupom!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
             );
-
         }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe valores numéricos válidos!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
 
     } catch (Exception e) {
 
         JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar cupom: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
+                this,
+                "Erro ao cadastrar cupom: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
         );
-
     }
-
 }
   
 private void cadastrarPromocao() {
 
     try {
 
-        // Capturar os dados dos campos
+        // Capturar os dados
         String nome = txDNdaPromocaoCP.getText().trim();
 
         String tipo = cbxTipoPromocaoCP.getSelectedItem() != null
@@ -284,12 +412,11 @@ private void cadastrarPromocao() {
         );
 
         String dataInicio = ftfDataInicioCP.getText().trim();
-
         String dataFinal = ftfDataFimCP.getText().trim();
 
         String regras = "";
 
-        // Validar campos obrigatórios
+        // Validar campos
         if (nome.isEmpty()
                 || tipo.isEmpty()
                 || categoria.isEmpty()
@@ -310,7 +437,7 @@ private void cadastrarPromocao() {
             return;
         }
 
-        // Criar objeto da promoção
+        // Criar objeto
         Promocao promocao = new Promocao();
 
         promocao.setNome(nome);
@@ -322,7 +449,7 @@ private void cadastrarPromocao() {
         promocao.setDesconto(desconto);
         promocao.setQttMinima(qtdMinima);
 
-        // Cadastrar promoção
+        // Cadastrar
         PromocaoController controller = new PromocaoController();
 
         boolean sucesso = controller.cadastrar(promocao);
@@ -336,6 +463,7 @@ private void cadastrarPromocao() {
                     JOptionPane.INFORMATION_MESSAGE
             );
 
+            listarPromocoes();
             limparCamposPromocao();
 
         } else {
@@ -367,7 +495,152 @@ private void cadastrarPromocao() {
         );
     }
 }
-   
+ 
+//======================PREENCHER CAMPOS====================================//
+
+private void preencherCamposPromocao() {
+
+    int linha = tbTabelaCP.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    // Identificar a linha selecionada
+    int linhaModelo = tbTabelaCP.convertRowIndexToModel(linha);
+
+    // Preencher nome
+    txDNdaPromocaoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Preencher tipo
+    cbxTipoPromocaoCP.setSelectedItem(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Preencher status
+    Object valorStatus = tbTabelaCP.getModel().getValueAt(linhaModelo, 3);
+
+    boolean ativo = Boolean.parseBoolean(valorStatus.toString());
+
+    rbtnStatusAtivoCP.setSelected(ativo);
+    rbtnStatusInativoCP.setSelected(!ativo);
+
+    // Preencher datas
+    ftfDataInicioCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 4).toString()
+    );
+
+    ftfDataFimCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 5).toString()
+    );
+
+    // Preencher regras e observações
+    txtaRegrasUsoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 6).toString()
+    );
+}
+
+private void preencherCamposCupom() {
+
+    int linha = tbTabelaCD.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    int linhaModelo = tbTabelaCD.convertRowIndexToModel(linha);
+
+    // Código do cupom
+    tfCodigoCupomCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Tipo de desconto
+    cbxTipoDescontoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Valor do desconto
+    spnValorDescontoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 3).toString()
+            )
+    );
+
+    // Valor mínimo da compra
+    spnValorMinimoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 4).toString()
+            )
+    );
+
+    // Quantidade máxima de usos
+    spnQtdMaxUsosCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 5).toString()
+            )
+    );
+
+    // Limite por cliente
+    spnLimiteClienteCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 6).toString()
+            )
+    );
+
+    // Tipo de uso
+    cbxTipoUsoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 7).toString()
+    );
+
+    // Data de início
+    tfDataInicioCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 8).toString()
+    );
+
+    // Data final
+    tfDataFimCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 9).toString()
+    );
+
+    // Promoção vinculada pelo ID
+    try {
+
+        String idPromocao = tbTabelaCD.getModel()
+                .getValueAt(linhaModelo, 11).toString();
+
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> promocoes = controller.listarTodos();
+
+        for (Promocao promocao : promocoes) {
+
+            if (String.valueOf(promocao.getIdpromocao()).equals(idPromocao)) {
+
+                cbxPromocoesVinculada.setSelectedItem(promocao.getNome());
+                break;
+            }
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar promoção vinculada: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+
+
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -399,7 +672,8 @@ private void cadastrarPromocao() {
         lbDataFimCP = new javax.swing.JLabel();
         ftfDataFimCP = new javax.swing.JFormattedTextField();
         lbRegrasObservacoesCP = new javax.swing.JLabel();
-        pnRegrasObservacoesCP = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtaRegrasUsoCP = new javax.swing.JTextArea();
         btnNovoCP = new javax.swing.JButton();
         btnSalvarCP = new javax.swing.JButton();
         btnEditarCP = new javax.swing.JButton();
@@ -417,6 +691,8 @@ private void cadastrarPromocao() {
         lbTipoDescontoCD = new javax.swing.JLabel();
         lbValorDescontoCD = new javax.swing.JLabel();
         spnValorDescontoCD = new javax.swing.JSpinner();
+        cbxPromocoesVinculada = new javax.swing.JComboBox<>();
+        lbPromocoesVinculada = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lbValorMinimoCD = new javax.swing.JLabel();
         lbLimiteClienteCD = new javax.swing.JLabel();
@@ -435,7 +711,8 @@ private void cadastrarPromocao() {
         lbDataFimCD = new javax.swing.JLabel();
         tfDataFimCD = new javax.swing.JFormattedTextField();
         lbObservacoesDescricaoCD = new javax.swing.JLabel();
-        pnObservacoesDescricaoCD = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtaObservacoesDescricaoCD = new javax.swing.JTextArea();
         btnNovoCD = new javax.swing.JButton();
         btnSalvarCD = new javax.swing.JButton();
         btnEditarCD = new javax.swing.JButton();
@@ -480,6 +757,11 @@ private void cadastrarPromocao() {
         jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         pnCadastroPromocoes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        pnCadastroPromocoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnCadastroPromocoesMouseClicked(evt);
+            }
+        });
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -524,7 +806,7 @@ private void cadastrarPromocao() {
                         .addComponent(rbtnStatusAtivoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(rbtnStatusInativoCP))
-                    .addComponent(txDNdaPromocaoCP))
+                    .addComponent(txDNdaPromocaoCP, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -653,19 +935,9 @@ private void cadastrarPromocao() {
         lbRegrasObservacoesCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbRegrasObservacoesCP.setText("Regras de Uso/Observações:");
 
-        pnRegrasObservacoesCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnRegrasObservacoesCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        javax.swing.GroupLayout pnRegrasObservacoesCPLayout = new javax.swing.GroupLayout(pnRegrasObservacoesCP);
-        pnRegrasObservacoesCP.setLayout(pnRegrasObservacoesCPLayout);
-        pnRegrasObservacoesCPLayout.setHorizontalGroup(
-            pnRegrasObservacoesCPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnRegrasObservacoesCPLayout.setVerticalGroup(
-            pnRegrasObservacoesCPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-        );
+        txtaRegrasUsoCP.setColumns(20);
+        txtaRegrasUsoCP.setRows(5);
+        jScrollPane5.setViewportView(txtaRegrasUsoCP);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -673,7 +945,7 @@ private void cadastrarPromocao() {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(lbDataInicioCP)
                         .addGap(115, 115, 115)
@@ -681,13 +953,12 @@ private void cadastrarPromocao() {
                         .addGap(76, 76, 76)
                         .addComponent(lbDataFimCP)
                         .addGap(27, 27, 27)
-                        .addComponent(ftfDataFimCP, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(ftfDataFimCP, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(lbRegrasObservacoesCP)
                         .addGap(18, 18, 18)
-                        .addComponent(pnRegrasObservacoesCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane5)))
+                .addContainerGap(504, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -701,8 +972,8 @@ private void cadastrarPromocao() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbRegrasObservacoesCP)
-                    .addComponent(pnRegrasObservacoesCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         btnNovoCP.setBackground(new java.awt.Color(204, 204, 204));
@@ -781,6 +1052,11 @@ private void cadastrarPromocao() {
                 return canEdit [columnIndex];
             }
         });
+        tbTabelaCP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaCPMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbTabelaCP);
 
         javax.swing.GroupLayout pnCadastroPromocoesLayout = new javax.swing.GroupLayout(pnCadastroPromocoes);
@@ -788,26 +1064,17 @@ private void cadastrarPromocao() {
         pnCadastroPromocoesLayout.setHorizontalGroup(
             pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lbVigenciaRegrasCP)
-                                .addComponent(jLabel20)
-                                .addComponent(lbDadosBasicos)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1157, Short.MAX_VALUE)
-                                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnCadastroPromocoesLayout.createSequentialGroup()
                             .addGap(34, 34, 34)
                             .addComponent(btnNovoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(54, 54, 54)
                             .addComponent(btnSalvarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(56, 56, 56)
                             .addComponent(btnEditarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                            .addGap(56, 56, 56)
                             .addComponent(btnExcluirCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(59, 59, 59)
                             .addComponent(btnLimparCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -815,25 +1082,34 @@ private void cadastrarPromocao() {
                             .addComponent(btnPesquisarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(65, 65, 65)
                             .addComponent(btnVoltarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(39, 39, 39))))
-                .addContainerGap(842, Short.MAX_VALUE))
+                            .addGap(39, 39, 39)))
+                    .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDadosBasicos)
+                            .addComponent(lbVigenciaRegrasCP))))
+                .addContainerGap(823, Short.MAX_VALUE))
         );
         pnCadastroPromocoesLayout.setVerticalGroup(
             pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(lbDadosBasicos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbVigenciaRegrasCP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -873,6 +1149,14 @@ private void cadastrarPromocao() {
         spnValorDescontoCD.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, null, 1.0d));
         spnValorDescontoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        cbxPromocoesVinculada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbxPromocoesVinculada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxPromocoesVinculada.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cbxPromocoesVinculada.addActionListener(this::cbxPromocoesVinculadaActionPerformed);
+
+        lbPromocoesVinculada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbPromocoesVinculada.setText("Promoçao Vinculada:");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -892,6 +1176,10 @@ private void cadastrarPromocao() {
                         .addComponent(lbValorDescontoCD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbPromocoesVinculada)
+                    .addComponent(cbxPromocoesVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -900,16 +1188,18 @@ private void cadastrarPromocao() {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCodigoCupomCD)
-                    .addComponent(tfCodigoCupomCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(tfCodigoCupomCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbPromocoesVinculada))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxTipoDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTipoDescontoCD))
+                    .addComponent(lbTipoDescontoCD)
+                    .addComponent(cbxPromocoesVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbValorDescontoCD)
                     .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1017,19 +1307,9 @@ private void cadastrarPromocao() {
         lbObservacoesDescricaoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbObservacoesDescricaoCD.setText("Observações / Descrição:");
 
-        pnObservacoesDescricaoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnObservacoesDescricaoCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        javax.swing.GroupLayout pnObservacoesDescricaoCDLayout = new javax.swing.GroupLayout(pnObservacoesDescricaoCD);
-        pnObservacoesDescricaoCD.setLayout(pnObservacoesDescricaoCDLayout);
-        pnObservacoesDescricaoCDLayout.setHorizontalGroup(
-            pnObservacoesDescricaoCDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnObservacoesDescricaoCDLayout.setVerticalGroup(
-            pnObservacoesDescricaoCDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-        );
+        txtaObservacoesDescricaoCD.setColumns(20);
+        txtaObservacoesDescricaoCD.setRows(5);
+        jScrollPane4.setViewportView(txtaObservacoesDescricaoCD);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1047,10 +1327,9 @@ private void cadastrarPromocao() {
                         .addGap(44, 44, 44)
                         .addComponent(lbDataFimCD)
                         .addGap(51, 51, 51)
-                        .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pnObservacoesDescricaoCD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1061,11 +1340,15 @@ private void cadastrarPromocao() {
                     .addComponent(tfDataInicioCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDataFimCD)
                     .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbObservacoesDescricaoCD)
-                    .addComponent(pnObservacoesDescricaoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbObservacoesDescricaoCD)
+                        .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         btnNovoCD.setBackground(new java.awt.Color(204, 204, 204));
@@ -1079,6 +1362,7 @@ private void cadastrarPromocao() {
         btnSalvarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCD.setText("Salvar");
         btnSalvarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnSalvarCD.addActionListener(this::btnSalvarCDActionPerformed);
 
         btnEditarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -1141,6 +1425,11 @@ private void cadastrarPromocao() {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tbTabelaCD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaCDMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbTabelaCD);
@@ -1206,7 +1495,7 @@ private void cadastrarPromocao() {
                     .addComponent(btnVoltarCD, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cupons e Descontos", pnCuponsDesconto);
@@ -1378,7 +1667,7 @@ private void cadastrarPromocao() {
 
         btnImprimirHP.setBackground(new java.awt.Color(204, 204, 204));
         btnImprimirHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnImprimirHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\document.png")); // NOI18N
+        btnImprimirHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimirHP.setText("Imprimir");
         btnImprimirHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnImprimirHP.addActionListener(this::btnImprimirHPActionPerformed);
@@ -1540,6 +1829,88 @@ private void cadastrarPromocao() {
 
     private void btnEditarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCPActionPerformed
         // TODO add your handling code here:
+        int linhaSelecionada = tbTabelaCP.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Selecione uma promoção para editar.");
+        return;
+    }
+
+    try {
+
+        // Capturar o ID da promoção selecionada
+        int linhaModelo = tbTabelaCP.convertRowIndexToModel(linhaSelecionada);
+
+        int idPromocao = Integer.parseInt(
+                tbTabelaCP.getModel().getValueAt(linhaModelo, 0).toString()
+        );
+
+        // Capturar os dados dos campos
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem().toString();
+
+        boolean status = rbtnStatusAtivoCP.isSelected();
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = txtaRegrasUsoCP.getText().trim();
+
+        // Validar campos
+        if (nome.isEmpty() || tipo.isEmpty()
+                || dataInicio.isEmpty() || dataFinal.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        // Buscar os dados atuais para preservar desconto e quantidade mínima
+        PromocaoController controller = new PromocaoController();
+
+        Promocao promocao = controller.buscarPorId(idPromocao);
+
+        if (promocao == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Promoção não encontrada.");
+            return;
+        }
+
+        // Atualizar os dados alterados
+        promocao.setNome(nome);
+        promocao.setTipo(tipo);
+        promocao.setStatus(status);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFinal(dataFinal);
+        promocao.setRegras(regras);
+
+        // Salvar no banco
+        boolean atualizado = controller.atualizar(idPromocao, promocao);
+
+        if (atualizado) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Promoção atualizada com sucesso!");
+
+            listarPromocoes();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível atualizar a promoção.");
+
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar promoção: " + e.getMessage());
+
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnEditarCPActionPerformed
 
     private void btnExcluirCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCPActionPerformed
@@ -1600,6 +1971,30 @@ private void cadastrarPromocao() {
                 
     }//GEN-LAST:event_btnSalvarCPActionPerformed
 
+    private void btnSalvarCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCDActionPerformed
+        // TODO add your handling code here:
+        cadastrarCupom();
+    }//GEN-LAST:event_btnSalvarCDActionPerformed
+
+    private void cbxPromocoesVinculadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPromocoesVinculadaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxPromocoesVinculadaActionPerformed
+
+    private void pnCadastroPromocoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnCadastroPromocoesMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_pnCadastroPromocoesMouseClicked
+
+    private void tbTabelaCPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaCPMouseClicked
+        // TODO add your handling code here:
+        preencherCamposPromocao();
+    }//GEN-LAST:event_tbTabelaCPMouseClicked
+
+    private void tbTabelaCDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaCDMouseClicked
+        // TODO add your handling code here:
+        preencherCamposCupom();
+    }//GEN-LAST:event_tbTabelaCDMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1648,6 +2043,7 @@ private void cadastrarPromocao() {
     private javax.swing.JButton btnVoltarCP;
     private javax.swing.JButton btnVoltarHP;
     private javax.swing.JComboBox<String> cbxProdutoCategoriaCP;
+    private javax.swing.JComboBox<String> cbxPromocoesVinculada;
     private javax.swing.JComboBox<String> cbxResponsavelHP;
     private javax.swing.JComboBox<String> cbxTipoCupomHP;
     private javax.swing.JComboBox<String> cbxTipoDescontoCD;
@@ -1670,6 +2066,8 @@ private void cadastrarPromocao() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbAteHP;
     private javax.swing.JLabel lbCodigoCupomCD;
@@ -1687,6 +2085,7 @@ private void cadastrarPromocao() {
     private javax.swing.JLabel lbLimiteClienteCD;
     private javax.swing.JLabel lbObservacoesDescricaoCD;
     private javax.swing.JLabel lbPeriodoEntreHP;
+    private javax.swing.JLabel lbPromocoesVinculada;
     private javax.swing.JLabel lbQtdMaxUsosCD;
     private javax.swing.JLabel lbQtdeMinima;
     private javax.swing.JLabel lbRegrasLimitacoesCD;
@@ -1706,8 +2105,6 @@ private void cadastrarPromocao() {
     private javax.swing.JPanel pnCadastroPromocoes;
     private javax.swing.JPanel pnCuponsDesconto;
     private javax.swing.JPanel pnHistoricoPromocoes;
-    private javax.swing.JPanel pnObservacoesDescricaoCD;
-    private javax.swing.JPanel pnRegrasObservacoesCP;
     private javax.swing.JRadioButton rbtnApFinalizadasHP;
     private javax.swing.JRadioButton rbtnApenasAtivasHP;
     private javax.swing.JRadioButton rbtnAtivasFinalizadasHP;
@@ -1728,13 +2125,14 @@ private void cadastrarPromocao() {
     private javax.swing.JFormattedTextField tfPeriodoAteHP;
     private javax.swing.JFormattedTextField tfPeriodoDeHP;
     private javax.swing.JTextField txDNdaPromocaoCP;
+    private javax.swing.JTextArea txtaObservacoesDescricaoCD;
+    private javax.swing.JTextArea txtaRegrasUsoCP;
     // End of variables declaration//GEN-END:variables
 
-    private void limparCamposCupom() {
+    private void reencherCamposPromocao() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    private void limparCamposPromocao() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
+
+   

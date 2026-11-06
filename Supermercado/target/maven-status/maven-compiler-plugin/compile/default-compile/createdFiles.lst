@@ -7,6 +7,7 @@ Control\MovimentacoesFinanceirasController.class
 Model\Funcionario_has_Ferias.class
 Model\UnidadesMedidas.class
 View\TelaHome$1.class
+View\TelaPromocoes$4.class
 Model\Entregas.class
 Model\Usuario.class
 Control\Funcionario_has_feriasController.class
@@ -65,6 +66,7 @@ Model\Promocao.class
 View\TelaSolicitacao.class
 View\TelaPedidos.class
 Control\MovimentacaoEstoqueController.class
+View\TelaPromocoes$5.class
 View\TelaEstoque.class
 View\TelaCaixa.class
 View\TelaVendaPagamentos$4.class
@@ -83,6 +85,7 @@ View\TelaLogout.class
 Model\PerdasEstoque.class
 Model\Setores.class
 View\TelaEntregas.class
+View\TelaPromocoes$6.class
 Control\UnidadeMedidasController.class
 View\TelaGerenciamentoProdutos$1.class
 View\TelaVendaPagamentos$2.class
