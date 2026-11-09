@@ -10,6 +10,7 @@ package Control;
  */
 import Conection.Conexao;
 import static Conection.Conexao.conectar;
+import View.AberturaCaixa;
 import java.sql.*;
 import java.util.*;
 public class AberturaCaixaController {
@@ -87,5 +88,9 @@ public class AberturaCaixaController {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         }
+    }
+
+    public boolean cadastrar(AberturaCaixa abertura) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

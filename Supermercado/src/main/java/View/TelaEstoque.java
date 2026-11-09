@@ -42,11 +42,11 @@ public void navegar(String idtela) {
             menu.abrirTela(this,new TelaHome(usuario));
             break;
 
-        case "promocoes":
-            menu.abrirTela(this,new TelaPromocoes(usuario));
+        case "produtos":
+            menu.abrirTela(this,new TelaProdutos(usuario));
             break;
 
-        case "Produtos":
+        case "gerenciamentoProdutos":
             menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
             break;
 

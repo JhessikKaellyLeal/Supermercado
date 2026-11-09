@@ -53,11 +53,11 @@ public void navegar(String idtela) {
             menu.abrirTela(this,new TelaHome(usuario));
             break;
 
-        case "promocoes":
-            menu.abrirTela(this,new TelaPromocoes(usuario));
+        case "produtos":
+            menu.abrirTela(this,new TelaProdutos(usuario));
             break;
 
-        case "Produtos":
+        case "gerenciamentoProdutos":
             menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
             break;
 
@@ -717,6 +717,9 @@ public void navegar(String idtela) {
         lbValorCustoCadastro.setFont(new java.awt.Font("Segoe UI Black", 2, 14)); // NOI18N
         lbValorCustoCadastro.setText("Valor de custo:");
 
+        bIconeValorCustoCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
+
+        blIconePrtecoVendaCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
         blIconePrtecoVendaCadastro.addActionListener(this::blIconePrtecoVendaCadastroActionPerformed);
 
         lbPrecoVendaCadastro.setFont(new java.awt.Font("Segoe UI Black", 2, 14)); // NOI18N
@@ -1065,6 +1068,7 @@ public void navegar(String idtela) {
         btSelecionarProdutoPC.addActionListener(this::btSelecionarProdutoPCActionPerformed);
 
         btLimparPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        btLimparPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         btLimparPC.setText("Limpar");
         btLimparPC.addActionListener(this::btLimparPCActionPerformed);
 
@@ -1103,21 +1107,27 @@ public void navegar(String idtela) {
         );
 
         jbAdicionarPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbAdicionarPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\adicionar.png")); // NOI18N
         jbAdicionarPC.setText("Adicionar");
 
         jbSalvarCadastrarPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbSalvarCadastrarPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\salve-.png")); // NOI18N
         jbSalvarCadastrarPC.setText("Salvar");
 
         jbEditarPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbEditarPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lapis.png")); // NOI18N
         jbEditarPC.setText("Editar");
 
         jbExcluirPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbExcluirPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         jbExcluirPC.setText("Excluir");
 
         jbLimparPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbLimparPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jbLimparPC.setText("Limpar");
 
         jbPesquisarCadastrar2.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbPesquisarCadastrar2.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jbPesquisarCadastrar2.setText("Pesquisar");
 
         jComboBox14.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1142,6 +1152,7 @@ public void navegar(String idtela) {
         jScrollPane6.setViewportView(taObservacaoPC);
 
         btPesquisarPorPC.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        btPesquisarPorPC.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         btPesquisarPorPC.setText("Pesquisar");
 
         javax.swing.GroupLayout jpPreco2Layout = new javax.swing.GroupLayout(jpPreco2);
@@ -1312,20 +1323,26 @@ public void navegar(String idtela) {
         cbImpressoraER.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btImprimirEtiquetaER.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btImprimirEtiquetaER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\impressora.png")); // NOI18N
         btImprimirEtiquetaER.setText("Imprimir etiqueta");
 
         btVizualizarER.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btVizualizarER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\eye-care.png")); // NOI18N
         btVizualizarER.setText("Visualizar");
 
         btLimparER.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        btLimparER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         btLimparER.setText("Limpar");
 
         lbImagenPreviwEtiquetaER.setBackground(new java.awt.Color(153, 153, 153));
+        lbImagenPreviwEtiquetaER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         lbImpresaoEtiquetaER.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
         lbImpresaoEtiquetaER.setText("Impresão de etiquetas ");
 
         tfProdutoER.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+
+        btProdutoER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
 
         lbPreviwEtiquetaER.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         lbPreviwEtiquetaER.setText("previw da etiqueta");
@@ -1464,6 +1481,7 @@ public void navegar(String idtela) {
         tfProduto2ER.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         btProduto2ER.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        btProduto2ER.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         btProduto2ER.setText("Pesquisar");
 
         btGerarER.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -1748,21 +1766,27 @@ public void navegar(String idtela) {
         );
 
         jbAdicionarCB.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbAdicionarCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\adicionar.png")); // NOI18N
         jbAdicionarCB.setText("Adicionar");
 
         jbSalvarCB.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbSalvarCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\salve-.png")); // NOI18N
         jbSalvarCB.setText("Salvar");
 
         jbEditarCB.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbEditarCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lapis.png")); // NOI18N
         jbEditarCB.setText("Editar");
 
         jbExcluirCB.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        jbExcluirCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         jbExcluirCB.setText("Excluir");
 
         jbLimparCB.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        jbLimparCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jbLimparCB.setText("Limpar");
 
         jbPesquisarCB.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jbPesquisarCB.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jbPesquisarCB.setText("Pesquisar");
 
         cbPesquisarPor.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -1958,6 +1982,10 @@ public void navegar(String idtela) {
         jLabel9.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel9.setText("Faixa de preço:");
 
+        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
+
+        jLabel11.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
+
         jLabel12.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel12.setText("Situação do produto:");
 
@@ -1993,8 +2021,10 @@ public void navegar(String idtela) {
         jLabel16.setText("ordem:");
 
         jButton1.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton1.setText("Pesquisar");
 
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jButton2.setText("Limpar");
 
         jComboBox7.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -2221,22 +2251,28 @@ public void navegar(String idtela) {
         jRadioButton6.setText("Produto pesavel.");
 
         jButton3.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\adicionar.png")); // NOI18N
         jButton3.setText("Novo");
 
         jButton4.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lapis.png")); // NOI18N
         jButton4.setText("salvar");
         jButton4.setToolTipText("");
 
         jButton5.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         jButton5.setText("Excluir");
 
         jButton6.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jButton6.setText("Limpa");
 
         jButton7.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton7.setText("Pesquisa");
 
         jButton8.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\back.png")); // NOI18N
         jButton8.setText("Voltar");
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -2265,6 +2301,7 @@ public void navegar(String idtela) {
         jTextField9.setText("jTextField9");
 
         jButton10.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
+        jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton10.setText("Pesquisar");
 
         jLabel27.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
@@ -2292,8 +2329,12 @@ public void navegar(String idtela) {
         jComboBox15.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox15.addActionListener(this::jComboBox15ActionPerformed);
 
+        jLabel38.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
+
         jLabel39.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel39.setText("Preço de custo:");
+
+        jLabel40.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\bolsa-de-dinheiro.png")); // NOI18N
 
         jLabel41.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel41.setText("Estoque atual:");
@@ -2309,6 +2350,7 @@ public void navegar(String idtela) {
 
         jLabel46.setBackground(new java.awt.Color(51, 255, 51));
         jLabel46.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel46.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton11.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton11.setText("Selecionar imagen.");
@@ -2624,9 +2666,11 @@ public void navegar(String idtela) {
         jLabel57.setText("jLabel57");
 
         jButton9.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton9.setText("Pesquisar");
 
         jButton14.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton14.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jButton14.setText("limpar");
 
         jTable5.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -2852,6 +2896,7 @@ public void navegar(String idtela) {
         jComboBox22.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel65.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel65.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton15.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton15.setText("Selecionar imagen");
@@ -2863,23 +2908,30 @@ public void navegar(String idtela) {
         jRadioButton7.setText("Categoria em destaque");
 
         jButton17.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton17.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\adicionar.png")); // NOI18N
         jButton17.setText("Novo");
 
         jButton18.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton18.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lapis.png")); // NOI18N
         jButton18.setText("Editar");
 
         jButton19.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton19.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\salve-.png")); // NOI18N
         jButton19.setText("Salvar");
 
         jButton20.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton20.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         jButton20.setText("Excluir");
 
+        jButton21.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jButton21.setText("Limpar");
 
         jButton22.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton22.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton22.setText("Pesquisar");
 
         jButton23.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton23.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\back.png")); // NOI18N
         jButton23.setText("Voltar");
 
         jLabel56.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
@@ -2894,6 +2946,7 @@ public void navegar(String idtela) {
         jTextField18.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton24.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton24.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton24.setText("Pesquisar");
 
         jTable6.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3069,6 +3122,7 @@ public void navegar(String idtela) {
         jComboBox27.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel75.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel75.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton25.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton25.setText("Selecionar imagen");
@@ -3080,23 +3134,30 @@ public void navegar(String idtela) {
         jRadioButton8.setText("Categoria em destaque");
 
         jButton27.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton27.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\adicionar.png")); // NOI18N
         jButton27.setText("Novo");
 
         jButton28.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton28.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\salve-.png")); // NOI18N
         jButton28.setText("Salvar");
 
         jButton29.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton29.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lapis.png")); // NOI18N
         jButton29.setText("Editar");
 
         jButton30.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton30.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lixeira.png")); // NOI18N
         jButton30.setText("Excluir");
 
         jButton31.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton31.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\vassoura.png")); // NOI18N
         jButton31.setText("Limpar");
 
         jButton32.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton32.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton32.setText("Pesquisar");
 
+        jButton33.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\back.png")); // NOI18N
         jButton33.setText("Voltar");
 
         jLabel76.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
@@ -3110,6 +3171,7 @@ public void navegar(String idtela) {
 
         jTextField24.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
+        jButton34.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resorce\\Assets\\lupa.png")); // NOI18N
         jButton34.setText("Pesquisar");
 
         jTable7.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3283,6 +3345,7 @@ public void navegar(String idtela) {
         jComboBox29.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel83.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel83.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton35.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton35.setText("Selecionar imagen");
@@ -3294,24 +3357,31 @@ public void navegar(String idtela) {
         jRadioButton9.setText("Categorias em destaque");
 
         jButton37.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton37.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\adicionar.png")); // NOI18N
         jButton37.setText("Novo");
 
         jButton38.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton38.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         jButton38.setText("Salvar");
 
         jButton39.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton39.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lapis.png")); // NOI18N
         jButton39.setText("Editar");
 
         jButton40.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton40.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton40.setText("Excluir");
 
         jButton41.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton41.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\vassoura.png")); // NOI18N
         jButton41.setText("Limpar");
 
         jButton42.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton42.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton42.setText("Pesquisar");
 
         jButton43.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton43.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back.png")); // NOI18N
         jButton43.setText("Voltar");
         jButton43.addActionListener(this::jButton43ActionPerformed);
 
@@ -3327,6 +3397,7 @@ public void navegar(String idtela) {
         jTextField27.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton44.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton44.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton44.setText("Pesquisar");
 
         jTable8.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3490,6 +3561,7 @@ public void navegar(String idtela) {
         jComboBox31.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel93.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel93.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton45.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton45.setText("Selecionar imagen");
@@ -3501,24 +3573,31 @@ public void navegar(String idtela) {
         jRadioButton10.setText("Categorias em destaque");
 
         jButton47.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton47.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\adicionar.png")); // NOI18N
         jButton47.setText("Novo");
 
         jButton48.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton48.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         jButton48.setText("Salvar");
 
         jButton49.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton49.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lapis.png")); // NOI18N
         jButton49.setText("Editar");
 
         jButton50.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton50.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton50.setText("Excluir");
 
         jButton51.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton51.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\vassoura.png")); // NOI18N
         jButton51.setText("Limpar");
 
         jButton52.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton52.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton52.setText("Pesquisar");
 
         jButton53.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton53.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back.png")); // NOI18N
         jButton53.setText("Voltar");
         jButton53.addActionListener(this::jButton53ActionPerformed);
 
@@ -3534,6 +3613,7 @@ public void navegar(String idtela) {
         jTextField31.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton54.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton54.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton54.setText("Pesquisar");
 
         jTable9.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3571,44 +3651,45 @@ public void navegar(String idtela) {
                         .addComponent(jButton48)
                         .addGap(18, 18, 18)
                         .addComponent(jButton49))
-                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(210, Short.MAX_VALUE))
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel88, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel88, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel91, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(jLabel90, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField29, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel89, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(149, 149, 149)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel91, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                    .addComponent(jLabel90, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField29, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel89, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(149, 149, 149)
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addComponent(jButton50)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton51)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton52)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton53))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel92, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jComboBox31, 0, 148, Short.MAX_VALUE))
-                                        .addGap(320, 320, 320)
-                                        .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(26, 26, 26)
+                                .addComponent(jButton50)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton51)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton52)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton53))
                             .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                                        .addComponent(jButton45)
-                                        .addGap(32, 32, 32)
-                                        .addComponent(jButton46))
-                                    .addComponent(jRadioButton10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel92, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox31, 0, 148, Short.MAX_VALUE))
+                                .addGap(320, 320, 320)
+                                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                                .addComponent(jButton45)
+                                .addGap(32, 32, 32)
+                                .addComponent(jButton46))
+                            .addComponent(jRadioButton10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -3696,6 +3777,7 @@ public void navegar(String idtela) {
         jComboBox33.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel101.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel101.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton55.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton55.setText("Selecionar imagen");
@@ -3707,24 +3789,31 @@ public void navegar(String idtela) {
         jRadioButton11.setText("Categorias em destaque");
 
         jButton57.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton57.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\adicionar.png")); // NOI18N
         jButton57.setText("Novo");
 
         jButton58.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton58.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         jButton58.setText("Salvar");
 
         jButton59.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton59.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lapis.png")); // NOI18N
         jButton59.setText("Editar");
 
         jButton60.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton60.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton60.setText("Excluir");
 
         jButton61.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton61.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\vassoura.png")); // NOI18N
         jButton61.setText("Limpar");
 
         jButton62.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton62.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton62.setText("Pesquisar");
 
         jButton63.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton63.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back.png")); // NOI18N
         jButton63.setText("Voltar");
         jButton63.addActionListener(this::jButton63ActionPerformed);
 
@@ -3740,6 +3829,7 @@ public void navegar(String idtela) {
         jTextField34.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton64.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton64.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton64.setText("Pesquisar");
 
         jTable10.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3902,32 +3992,41 @@ public void navegar(String idtela) {
         jComboBox35.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel109.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel109.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton65.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton65.setText("Selecionar produtos");
 
         jButton66.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton66.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton66.setText("Remover");
 
         jButton67.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton67.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\adicionar.png")); // NOI18N
         jButton67.setText("Novo");
 
         jButton68.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton68.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         jButton68.setText("Salvar");
 
         jButton69.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton69.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lapis.png")); // NOI18N
         jButton69.setText("Editar");
 
         jButton70.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton70.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton70.setText("Excluir");
 
         jButton71.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton71.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\vassoura.png")); // NOI18N
         jButton71.setText("Limpar");
 
         jButton72.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton72.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton72.setText("Pesquisar");
 
         jButton73.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton73.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back.png")); // NOI18N
         jButton73.setText("Voltar");
         jButton73.addActionListener(this::jButton73ActionPerformed);
 
@@ -3943,6 +4042,7 @@ public void navegar(String idtela) {
         jTextField37.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton74.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton74.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton74.setText("Pesquisar");
 
         jTable11.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -3960,6 +4060,7 @@ public void navegar(String idtela) {
         jScrollPane23.setViewportView(jTable11);
 
         jButton75.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton75.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         jButton75.setText("Selecione arquivo");
 
         jLabel86.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
@@ -4123,6 +4224,7 @@ public void navegar(String idtela) {
         jComboBox37.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel117.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel117.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Downloads\\Imagen de teste.jpg")); // NOI18N
 
         jButton76.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jButton76.setText("Selecionar Imagem");
@@ -4131,24 +4233,31 @@ public void navegar(String idtela) {
         jButton77.setText("Remover");
 
         jButton78.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton78.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\adicionar.png")); // NOI18N
         jButton78.setText("Novo");
 
         jButton79.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton79.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         jButton79.setText("Salvar");
 
         jButton80.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton80.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lapis.png")); // NOI18N
         jButton80.setText("Editar");
 
         jButton81.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton81.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lixeira.png")); // NOI18N
         jButton81.setText("Excluir");
 
         jButton82.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton82.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\vassoura.png")); // NOI18N
         jButton82.setText("Limpar");
 
         jButton83.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton83.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton83.setText("Pesquisar");
 
         jButton84.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton84.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back.png")); // NOI18N
         jButton84.setText("Voltar");
         jButton84.addActionListener(this::jButton84ActionPerformed);
 
@@ -4164,6 +4273,7 @@ public void navegar(String idtela) {
         jTextField40.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
 
         jButton85.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jButton85.setIcon(new javax.swing.ImageIcon("C:\\Users\\EnzoLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa.png")); // NOI18N
         jButton85.setText("Pesquisar");
 
         jTable12.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -4333,7 +4443,7 @@ public void navegar(String idtela) {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
                         .addComponent(jLabel117, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton76, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton77, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
