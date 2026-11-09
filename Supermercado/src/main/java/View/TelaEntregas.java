@@ -2106,6 +2106,7 @@ private void selecionarEntrega() {
         btnSalvaEntregadores.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvaEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvaEntregadores.setText("Salvar");
+        btnSalvaEntregadores.addActionListener(this::btnSalvaEntregadoresActionPerformed);
 
         btnAlterarEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -2265,7 +2266,7 @@ private void selecionarEntrega() {
                     .addComponent(btnExcluirEntregadores))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(526, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Entregadores", entregadores);
@@ -2527,7 +2528,7 @@ private void selecionarEntrega() {
                     .addComponent(btnSalvarVeiculos))
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Veículos", veiculos);
@@ -2697,7 +2698,7 @@ private void selecionarEntrega() {
                     .addComponent(btnExcluirRegioes))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addContainerGap(496, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Regiões", regiao);
@@ -2837,7 +2838,7 @@ private void selecionarEntrega() {
                     .addComponent(btnExcluirTaxas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(249, Short.MAX_VALUE))
+                .addContainerGap(528, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Taxas", taxas);
@@ -3029,7 +3030,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarEndercos)
                     .addComponent(btnExcluirEnderecos)
                     .addComponent(btnSalvarEnderecos))
-                .addContainerGap(325, Short.MAX_VALUE))
+                .addContainerGap(604, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Endereços", endereço);
@@ -3223,7 +3224,7 @@ private void selecionarEntrega() {
                 .addComponent(lblTaxaEntregas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTaxaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoEntregas)
                     .addComponent(btnSalvarEntregas)
@@ -3233,7 +3234,7 @@ private void selecionarEntrega() {
                     .addComponent(btnVoltarEntregas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Entregas", entregas);
@@ -3824,9 +3825,8 @@ private void selecionarEntrega() {
                     .addGroup(agendaLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblAndamentoAgenda)
-                                .addComponent(lblPendentesAgenda))
+                            .addComponent(lblAndamentoAgenda)
+                            .addComponent(lblPendentesAgenda)
                             .addComponent(lblTotalEntregasAgenda)
                             .addComponent(lblConcluidasAgenda))
                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -3837,10 +3837,9 @@ private void selecionarEntrega() {
                                         .addComponent(lblIconeAndamentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(46, 46, 46))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
-                                        .addComponent(lblNUmeroAndamentoAgenda)
-                                        .addGap(61, 61, 61))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
-                                        .addComponent(lblNumeroPendentesAgenda)
+                                        .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNUmeroAndamentoAgenda, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblNumeroPendentesAgenda, javax.swing.GroupLayout.Alignment.TRAILING))
                                         .addGap(61, 61, 61))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3859,7 +3858,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarAgenda)
                     .addComponent(btnExcluirAgenda)
                     .addComponent(btnVoltarAgenda))
-                .addContainerGap(274, Short.MAX_VALUE))
+                .addContainerGap(553, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agenda", agenda);
@@ -4360,11 +4359,11 @@ private void selecionarEntrega() {
                             .addComponent(lblConcluidosStatus))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblIconePagamentoStatus)
-                                .addComponent(lblIconeSeparacaoStatus)
+                            .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblIconeSeparacaoStatus, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(lblIconeConcluídos)
-                                .addComponent(lblIconeEnviadosStatus))
+                                .addComponent(lblIconeEnviadosStatus, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblIconePagamentoStatus))
                             .addComponent(lblNumeroConcluidosStatus)
                             .addComponent(lblNumeroEnviadosStatus)))
                     .addGroup(statusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4402,7 +4401,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarStatus)
                     .addComponent(btnExcluirStatus)
                     .addComponent(btnVoltarStatus))
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Status", status);
@@ -4647,7 +4646,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarTentativas)
                     .addComponent(btnExcluirTentativas)
                     .addComponent(btnVoltarTentativas))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addContainerGap(579, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Tentativas", tentativas);
@@ -4895,7 +4894,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarConfirmacao)
                     .addComponent(btnExcluirConfirmacao)
                     .addComponent(btnVoltarConfirmacao))
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(567, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Confirmação", confirmacao);
@@ -5179,7 +5178,7 @@ private void selecionarEntrega() {
                         .addComponent(btnRelatorioStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnExportarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addContainerGap(627, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Histórico e Relatórios", historicoRelatorio);
@@ -5204,6 +5203,11 @@ private void selecionarEntrega() {
     private void txtValorTaxaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorTaxaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtValorTaxaActionPerformed
+
+    private void btnSalvaEntregadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaEntregadoresActionPerformed
+        // TODO add your handling code here:
+        cadastrarEntregas();
+    }//GEN-LAST:event_btnSalvaEntregadoresActionPerformed
 
     /**
      * @param args the command line arguments

@@ -200,7 +200,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
-                      <EmptySpace pref="247" max="32767" attributes="0"/>
+                      <EmptySpace pref="526" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -459,6 +459,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvaEntregadoresActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlterarEntregadores">
               <Properties>
@@ -761,7 +764,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="336" max="-2" attributes="0"/>
-                      <EmptySpace pref="240" max="32767" attributes="0"/>
+                      <EmptySpace pref="519" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1262,7 +1265,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="402" max="-2" attributes="0"/>
-                      <EmptySpace pref="217" max="32767" attributes="0"/>
+                      <EmptySpace pref="496" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1640,7 +1643,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane7" min="-2" pref="365" max="-2" attributes="0"/>
-                      <EmptySpace pref="249" max="32767" attributes="0"/>
+                      <EmptySpace pref="528" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1984,7 +1987,7 @@
                           <Component id="btnExcluirEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSalvarEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="325" max="32767" attributes="0"/>
+                      <EmptySpace pref="604" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2396,7 +2399,7 @@
                       <Component id="lblTaxaEntregas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtTaxaEntrega" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="97" max="32767" attributes="0"/>
+                      <EmptySpace pref="237" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNovoEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSalvarEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2407,7 +2410,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane11" min="-2" pref="411" max="-2" attributes="0"/>
-                      <EmptySpace pref="224" max="32767" attributes="0"/>
+                      <EmptySpace pref="363" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3505,10 +3508,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblAndamentoAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblPendentesAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="lblAndamentoAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblPendentesAgenda" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblTotalEntregasAgenda" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblConcluidasAgenda" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -3521,12 +3522,11 @@
                                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <Component id="lblNUmeroAndamentoAgenda" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="lblNumeroPendentesAgenda" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblNUmeroAndamentoAgenda" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblNumeroPendentesAgenda" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="61" pref="61" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -3554,7 +3554,7 @@
                           <Component id="btnExcluirAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="274" max="32767" attributes="0"/>
+                      <EmptySpace pref="553" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4616,11 +4616,11 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblIconePagamentoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lblIconeSeparacaoStatus" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblIconeConcluídos" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblIconeEnviadosStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblIconePagamentoStatus" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblNumeroConcluidosStatus" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblNumeroEnviadosStatus" min="-2" max="-2" attributes="0"/>
@@ -4675,7 +4675,7 @@
                           <Component id="btnExcluirStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="233" max="32767" attributes="0"/>
+                      <EmptySpace pref="372" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5219,7 +5219,7 @@
                           <Component id="btnExcluirTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="300" max="32767" attributes="0"/>
+                      <EmptySpace pref="579" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5718,7 +5718,7 @@
                           <Component id="btnExcluirConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="288" max="32767" attributes="0"/>
+                      <EmptySpace pref="567" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -6240,7 +6240,7 @@
                               <Component id="btnExportarRelatorio" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="348" max="32767" attributes="0"/>
+                      <EmptySpace pref="627" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

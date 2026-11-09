@@ -35,6 +35,8 @@ public class TelaPedidos extends javax.swing.JFrame {
     
     public TelaPedidos(Usuario usuario) {
         initComponents();
+        
+        
         this.usuario= usuario;
         this.menu=MenuPadrao.instalar(
         this,
@@ -238,56 +240,104 @@ private void definirVinculosPedido(int idCliente, int idUsuario, int idEntrega) 
 }
 
 
-private void cadastrarPedido() {
 
+private void cadastrarPedido() {
     try {
 
+        // Capturar os dados do pedido
         String numeroPedido = txtNumeroPedidoCadastro.getText().trim();
         String dataPedido = ftfDataPedidoCadastro.getText().trim();
 
         String statusPedido = cbStatusPedidoCadastro.getSelectedItem() == null
                 ? ""
-                : cbStatusPedidoCadastro.getSelectedItem().toString();
+                : cbStatusPedidoCadastro.getSelectedItem().toString().trim();
 
         String observacao = txtaObservacoesCadastro.getText().trim();
 
+        // Validar campos obrigatórios
         if (numeroPedido.isEmpty() || dataPedido.isEmpty() || statusPedido.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos obrigatórios!");
             return;
         }
 
-        if (idClientePedido <= 0 || idUsuarioPedido <= 0 || idEntregaPedido <= 0) {
+        // Instanciar controller
+        PedidosController controller = new PedidosController();
+
+        // Buscar ID do cliente pelo CPF
+        int idcliente = controller.buscarIdClientePorCpf(
+                cpfCliente.getText().trim()
+        );
+
+        // Buscar ID da entrega pela data e horário
+        int identrega = controller.buscarIdEntregaPorDataHora(
+                tfdataEntrega.getText().trim(),
+                tfhoraEntrega.getText().trim()
+        );
+
+        // Buscar ID do usuário logado
+        int idusuario = usuario.getIdusuario();
+
+        // Validar cliente
+        if (idcliente <= 0) {
             JOptionPane.showMessageDialog(this,
-                    "Não foi possível identificar o cliente, usuário ou entrega do pedido.");
+                    "Cliente não encontrado! Verifique o CPF.");
             return;
         }
 
-        PedidosController controller = new PedidosController();
+        // Validar entrega
+        if (identrega <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Entrega não encontrada! Verifique a data e o horário.");
+            return;
+        }
 
-        controller.cadastrar(
+        // Validar usuário
+        if (idusuario <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Usuário não identificado! Faça login novamente.");
+            return;
+        }
+
+        // Cadastrar pedido
+        boolean sucesso = controller.cadastrar(
                 numeroPedido,
                 dataPedido,
                 statusPedido,
                 observacao,
-                idClientePedido,
-                idUsuarioPedido,
-                idEntregaPedido
+                idcliente,
+                idusuario,
+                identrega
         );
 
-        JOptionPane.showMessageDialog(this,
-                "Pedido cadastrado com sucesso!");
+        if (sucesso) {
 
-        listarPedidosCadastro();
-        limparCamposCadastro();
+            JOptionPane.showMessageDialog(this,
+                    "Pedido cadastrado com sucesso!");
+
+            listarPedidosCadastro();
+            limparCamposCadastro();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível cadastrar o pedido.");
+
+        }
 
     } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar pedido: " + e.getMessage());
 
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro inesperado: " + e.getMessage());
+
     }
 }
+
 
 
 private void listarPedidosCadastro() {
@@ -587,6 +637,12 @@ private void limparCamposCadastro() {
         lblEstadoCadastro = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         btnLimparCampoCadastro = new javax.swing.JButton();
+        lblCpfClienteCadastro = new javax.swing.JLabel();
+        cpfCliente = new javax.swing.JFormattedTextField();
+        lblEntregaCadastro = new javax.swing.JLabel();
+        lblEntregaCadastro1 = new javax.swing.JLabel();
+        tfdataEntrega = new javax.swing.JFormattedTextField();
+        tfhoraEntrega = new javax.swing.JFormattedTextField();
         consultaDetalhes = new javax.swing.JPanel();
         lblNumeroPedidoConsulta = new javax.swing.JLabel();
         txtNumeroPedidoConsulta = new javax.swing.JTextField();
@@ -827,6 +883,7 @@ private void limparCamposCadastro() {
         btnSalvarCadastro.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvarCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarCadastro.setText("Salvar");
+        btnSalvarCadastro.addActionListener(this::btnSalvarCadastroActionPerformed);
 
         btnNovoCadastro.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -888,6 +945,39 @@ private void limparCamposCadastro() {
         btnLimparCampoCadastro.setText("Limpar");
         btnLimparCampoCadastro.setIconTextGap(8);
 
+        lblCpfClienteCadastro.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblCpfClienteCadastro.setText("CPF do Cliente");
+
+        cpfCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        try {
+            cpfCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        cpfCliente.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+
+        lblEntregaCadastro.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblEntregaCadastro.setText("Data Entrega");
+
+        lblEntregaCadastro1.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblEntregaCadastro1.setText("Hora Entrega");
+
+        tfdataEntrega.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        try {
+            tfdataEntrega.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tfdataEntrega.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+
+        tfhoraEntrega.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        try {
+            tfhoraEntrega.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tfhoraEntrega.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout cadastroLayout = new javax.swing.GroupLayout(cadastro);
         cadastro.setLayout(cadastroLayout);
         cadastroLayout.setHorizontalGroup(
@@ -925,39 +1015,55 @@ private void limparCamposCadastro() {
                                             .addComponent(ftfDataPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(28, 28, 28)
                                         .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbStatusPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblStatusPedidoCadastro)
-                                            .addComponent(lblTituloEnderecoCadastro)
-                                            .addComponent(lblRuaCadastro)
-                                            .addComponent(lblCidadeCadastro)
-                                            .addComponent(txtCidadeCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtRuaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(cadastroLayout.createSequentialGroup()
-                                                .addGap(26, 26, 26)
                                                 .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtNumeroCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblRuaCadastro)
+                                                    .addComponent(lblCidadeCadastro)
+                                                    .addComponent(txtCidadeCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtRuaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(cadastroLayout.createSequentialGroup()
+                                                        .addGap(26, 26, 26)
                                                         .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jLabel5))
-                                                        .addGap(18, 18, 18)
-                                                        .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(lblEstadoCadastro)
-                                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                            .addComponent(txtNumeroCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addGroup(cadastroLayout.createSequentialGroup()
+                                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addComponent(jLabel5))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(lblEstadoCadastro)
+                                                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                    .addGroup(cadastroLayout.createSequentialGroup()
+                                                        .addGap(128, 128, 128)
+                                                        .addComponent(lblBairroCadastro))
+                                                    .addGroup(cadastroLayout.createSequentialGroup()
+                                                        .addGap(128, 128, 128)
+                                                        .addComponent(txtBairroCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                             .addGroup(cadastroLayout.createSequentialGroup()
-                                                .addGap(128, 128, 128)
-                                                .addComponent(lblBairroCadastro))
-                                            .addGroup(cadastroLayout.createSequentialGroup()
-                                                .addGap(128, 128, 128)
-                                                .addComponent(txtBairroCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblStatusPedidoCadastro)
+                                                    .addComponent(cbStatusPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(28, 28, 28)
+                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblCpfClienteCadastro)
+                                                    .addComponent(cpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(28, 28, 28)
+                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblEntregaCadastro1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(lblEntregaCadastro))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(tfdataEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                                    .addComponent(tfhoraEntrega)))
+                                            .addComponent(lblTituloEnderecoCadastro)))
                                     .addGroup(cadastroLayout.createSequentialGroup()
                                         .addGap(528, 528, 528)
                                         .addComponent(btnLimparCampoCadastro)
                                         .addGap(125, 125, 125)
                                         .addComponent(btnVoltaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(51, 51, 51)))
-                .addContainerGap(836, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)))
+                .addContainerGap(875, Short.MAX_VALUE))
         );
         cadastroLayout.setVerticalGroup(
             cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -966,12 +1072,24 @@ private void limparCamposCadastro() {
                 .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroPedidoCadastro)
                     .addComponent(lblDataPedidoCadastro)
-                    .addComponent(lblStatusPedidoCadastro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNumeroPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfDataPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStatusPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblStatusPedidoCadastro)
+                    .addComponent(lblCpfClienteCadastro)
+                    .addComponent(lblEntregaCadastro)
+                    .addComponent(tfdataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cadastroLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtNumeroPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ftfDataPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbStatusPedidoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(cadastroLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEntregaCadastro1)
+                            .addComponent(tfhoraEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(cadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblObservacoesCadastro)
@@ -1014,7 +1132,7 @@ private void limparCamposCadastro() {
                         .addComponent(btnPesquisarCadastro)))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addContainerGap(329, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", cadastro);
@@ -1724,7 +1842,6 @@ private void limparCamposCadastro() {
         btnConfirmarConferencia.setBackground(new java.awt.Color(10, 4, 138));
         btnConfirmarConferencia.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnConfirmarConferencia.setForeground(new java.awt.Color(255, 255, 255));
-        btnConfirmarConferencia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\check-in-quadrangular.png")); // NOI18N
         btnConfirmarConferencia.setText("Confirmar Conferência");
 
         btnImprimirListaConferencia.setBackground(new java.awt.Color(10, 4, 138));
@@ -2370,6 +2487,11 @@ private void limparCamposCadastro() {
        
     }//GEN-LAST:event_btnNovoCadastroActionPerformed
 
+    private void btnSalvarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroActionPerformed
+     cadastrarPedido();
+        
+    }//GEN-LAST:event_btnSalvarCadastroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2437,6 +2559,7 @@ private void limparCamposCadastro() {
     private javax.swing.JComboBox<String> cbStatusSeparacao;
     private javax.swing.JPanel conferencia;
     private javax.swing.JPanel consultaDetalhes;
+    private javax.swing.JFormattedTextField cpfCliente;
     private javax.swing.JFormattedTextField ftPeriodoSeparacao;
     private javax.swing.JFormattedTextField ftfDataConferencia;
     private javax.swing.JFormattedTextField ftfDataFinalConsulta;
@@ -2486,6 +2609,7 @@ private void limparCamposCadastro() {
     private javax.swing.JLabel lblClienteDetalhesCancelamento;
     private javax.swing.JLabel lblClienteSeparacao;
     private javax.swing.JLabel lblConferenteConferencia;
+    private javax.swing.JLabel lblCpfClienteCadastro;
     private javax.swing.JLabel lblDataConferencia;
     private javax.swing.JLabel lblDataFinalConsulta;
     private javax.swing.JLabel lblDataInicialConsulta;
@@ -2495,6 +2619,8 @@ private void limparCamposCadastro() {
     private javax.swing.JLabel lblDataPedidoConsulta;
     private javax.swing.JLabel lblDataPedidoDetalhes;
     private javax.swing.JLabel lblEnderecoEntregaConsulta;
+    private javax.swing.JLabel lblEntregaCadastro;
+    private javax.swing.JLabel lblEntregaCadastro1;
     private javax.swing.JLabel lblEstadoCadastro;
     private javax.swing.JLabel lblInformacaoClienteConsulta;
     private javax.swing.JLabel lblInformacaoDataConsulta;
@@ -2565,6 +2691,8 @@ private void limparCamposCadastro() {
     private javax.swing.JTable tblPedidosConferencia;
     private javax.swing.JTable tblPedidosEncontradosConsulta;
     private javax.swing.JTable tblStatusPedidoAlteracao;
+    private javax.swing.JFormattedTextField tfdataEntrega;
+    private javax.swing.JFormattedTextField tfhoraEntrega;
     private javax.swing.JTextField txtBairroCadastro;
     private javax.swing.JTextField txtCep;
     private javax.swing.JTextField txtCidadeCadastro;

@@ -99,40 +99,63 @@
                                               </Group>
                                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="cbStatusPedidoCadastro" min="-2" pref="190" max="-2" attributes="0"/>
-                                                  <Component id="lblStatusPedidoCadastro" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblTituloEnderecoCadastro" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblRuaCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblCidadeCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="txtCidadeCadastro" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                                  <Component id="txtRuaCadastro" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="txtNumeroCadastro" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                                                          <Component id="lblRuaCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="lblCidadeCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="txtCidadeCadastro" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                                          <Component id="txtRuaCadastro" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Group type="102" attributes="0">
+                                                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                                  <Component id="txtNumeroCadastro" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                                                                  <Group type="102" alignment="0" attributes="0">
+                                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                                          <Component id="txtCep" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                                                                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                      </Group>
+                                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                                          <Component id="lblEstadoCadastro" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                                                      </Group>
+                                                                  </Group>
+                                                              </Group>
+                                                          </Group>
                                                           <Group type="102" alignment="0" attributes="0">
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="txtCep" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                                                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="lblEstadoCadastro" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                                              </Group>
+                                                              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                                                              <Component id="lblBairroCadastro" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                                                              <Component id="txtBairroCadastro" min="-2" pref="180" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
-                                                      <Component id="lblBairroCadastro" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="lblStatusPedidoCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="cbStatusPedidoCadastro" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="lblCpfClienteCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="cpfCliente" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="lblEntregaCadastro1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="lblEntregaCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="tfdataEntrega" pref="155" max="32767" attributes="0"/>
+                                                          <Component id="tfhoraEntrega" max="32767" attributes="0"/>
+                                                      </Group>
                                                   </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
-                                                      <Component id="txtBairroCadastro" min="-2" pref="180" max="-2" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="lblTituloEnderecoCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
@@ -144,10 +167,10 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="836" max="32767" attributes="0"/>
+                      <EmptySpace pref="875" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -159,12 +182,29 @@
                           <Component id="lblNumeroPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblDataPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblStatusPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCpfClienteCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEntregaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdataEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtNumeroPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ftfDataPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbStatusPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="txtNumeroPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ftfDataPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbStatusPedidoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="cpfCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblEntregaCadastro1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tfhoraEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -219,7 +259,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="340" max="32767" attributes="0"/>
+                      <EmptySpace pref="329" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -451,6 +491,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarCadastroActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnNovoCadastro">
               <Properties>
@@ -632,6 +675,75 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
                 <Property name="iconTextGap" type="int" value="8"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblCpfClienteCadastro">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="CPF do Cliente"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="cpfCliente">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="###.###.###-##" subtype="-1" type="5"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblEntregaCadastro">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Data Entrega"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblEntregaCadastro1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Hora Entrega"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="tfdataEntrega">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="##/##/####" subtype="-1" type="5"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="tfhoraEntrega">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="##:##" subtype="-1" type="5"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -2239,9 +2351,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\check-in-quadrangular.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Confirmar Confer&#xea;ncia"/>
               </Properties>
