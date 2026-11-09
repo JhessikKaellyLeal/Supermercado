@@ -9,9 +9,9 @@ package Model;
  * @author AntônioVieira
  */
 public class Turnos {
-    
+
     private int idturnos, duracaoTurno;
-    private String nome, descriacao, horainicio, horasaida, intervaloIncio,intervaloFinal;
+    private String nome, descricao, horaInicio, horaSaida, intervaloInicio, intervaloFinal;
     private boolean turnoNoturno, status;
 
     public Turnos() {
@@ -41,36 +41,36 @@ public class Turnos {
         this.nome = nome;
     }
 
-    public String getDescriacao() {
-        return descriacao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescriacao(String descriacao) {
-        this.descriacao = descriacao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getHorainicio() {
-        return horainicio;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHorainicio(String horainicio) {
-        this.horainicio = horainicio;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
-    public String getHorasaida() {
-        return horasaida;
+    public String getHoraSaida() {
+        return horaSaida;
     }
 
-    public void setHorasaida(String horasaida) {
-        this.horasaida = horasaida;
+    public void setHoraSaida(String horaSaida) {
+        this.horaSaida = horaSaida;
     }
 
-    public String getIntervaloIncio() {
-        return intervaloIncio;
+    public String getIntervaloInicio() {
+        return intervaloInicio;
     }
 
-    public void setIntervaloIncio(String intervaloIncio) {
-        this.intervaloIncio = intervaloIncio;
+    public void setIntervaloInicio(String intervaloInicio) {
+        this.intervaloInicio = intervaloInicio;
     }
 
     public String getIntervaloFinal() {
@@ -97,5 +97,4 @@ public class Turnos {
         this.status = status;
     }
 
-    
 }

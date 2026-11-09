@@ -1,51 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Funcionario {
-  private int  idFuncionario, cargos_idcargos, setores_idsetores, turnos_idturnos; 
-   private String  nome, dataNascimento, cpf, telefone, dataAdmissao;
-   private boolean statusFuncionario;
 
+    private int idFuncionario;
+    private String nome;
+    private String dataNascimento;
+    private String cpf;
+    private String telefone;
+    private String dataAdmissao;
+    private int statusFuncionario;
+    private int cargos_idcargos;
+    private int setores_idsetores;
+    private int turnos_idturnos;
+
+    // Construtor vazio
     public Funcionario() {
     }
 
+    // Construtor com parâmetros
+    public Funcionario(int idFuncionario, String nome,
+            String dataNascimento, String cpf, String telefone,
+            String dataAdmissao, int statusFuncionario,
+            int cargos_idcargos, int setores_idsetores,
+            int turnos_idturnos) {
+
+        this.idFuncionario = idFuncionario;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.dataAdmissao = dataAdmissao;
+        this.statusFuncionario = statusFuncionario;
+        this.cargos_idcargos = cargos_idcargos;
+        this.setores_idsetores = setores_idsetores;
+        this.turnos_idturnos = turnos_idturnos;
+    }
+
+    // Getters e Setters
     public int getIdFuncionario() {
         return idFuncionario;
     }
 
     public void setIdFuncionario(int idFuncionario) {
         this.idFuncionario = idFuncionario;
-    }
-
-    public int getCargos_idcargos() {
-        return cargos_idcargos;
-    }
-
-    public void setCargos_idcargos(int cargos_idcargos) {
-        this.cargos_idcargos = cargos_idcargos;
-    }
-
-    public int getSetores_idsetores() {
-        return setores_idsetores;
-    }
-
-    public void setSetores_idsetores(int setores_idsetores) {
-        this.setores_idsetores = setores_idsetores;
-    }
-
-    public int getTurnos_idturnos() {
-        return turnos_idturnos;
-    }
-
-    public void setTurnos_idturnos(int turnos_idturnos) {
-        this.turnos_idturnos = turnos_idturnos;
     }
 
     public String getNome() {
@@ -88,12 +86,35 @@ public class Funcionario {
         this.dataAdmissao = dataAdmissao;
     }
 
-    public boolean isStatusFuncionario() {
+    public int getStatusFuncionario() {
         return statusFuncionario;
     }
 
-    public void setStatusFuncionario(boolean statusFuncionario) {
+    public void setStatusFuncionario(int statusFuncionario) {
         this.statusFuncionario = statusFuncionario;
     }
-  
+
+    public int getCargos_idcargos() {
+        return cargos_idcargos;
+    }
+
+    public void setCargos_idcargos(int cargos_idcargos) {
+        this.cargos_idcargos = cargos_idcargos;
+    }
+
+    public int getSetores_idsetores() {
+        return setores_idsetores;
+    }
+
+    public void setSetores_idsetores(int setores_idsetores) {
+        this.setores_idsetores = setores_idsetores;
+    }
+
+    public int getTurnos_idturnos() {
+        return turnos_idturnos;
+    }
+
+    public void setTurnos_idturnos(int turnos_idturnos) {
+        this.turnos_idturnos = turnos_idturnos;
+    }
 }

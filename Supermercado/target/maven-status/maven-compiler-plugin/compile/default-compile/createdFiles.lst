@@ -37,13 +37,13 @@ Control\CondicoesPagamentoController.class
 View\TelaPerfilUsuarios$2.class
 Control\CodigoBarrasController.class
 Model\FechamentoCaixa.class
+Control\EscalaController.class
 View\TelaVendas$14.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class
 View\TelaEntregas$FuncionarioController.class
 Model\Marcas.class
-View\TelaPdvRealizacao$2.class
 View\TelaSolicitacao$3.class
 View\TelaGerenciamentoProdutos.class
 Control\ContratosFornecedoresController.class
@@ -77,6 +77,7 @@ Model\Veiculos.class
 Model\Produtos_has_Etiquetas.class
 Model\Etiquetas.class
 View\TelaProdutos$1.class
+View\EscalaController.class
 Model\Pedidos.class
 View\TelaSolicitacao$5.class
 View\TelaEstoque$1.class
@@ -124,6 +125,7 @@ Model\Promocao_has_Produtos.class
 View\TelaPerfilUsuarios$3.class
 View\TelaVendas$13.class
 Control\Produtos_has_etiquetasController.class
+Control\TurnosController.class
 Conection\Conexao.class
 Control\PermissoesController.class
 View\MenuPadrao.class
@@ -131,8 +133,6 @@ View\TelaFinanceiro.class
 View\Tela_Funcionarios_RH$2.class
 View\Tela_Funcionarios_RH$3.class
 View\TelaPdvRealizacao.class
-View\cbCategoriaCadastro.class
-Model\Funcinario.class
 Model\DiasTrabalhados.class
 Control\FornecedoresController.class
 Model\Metas.class

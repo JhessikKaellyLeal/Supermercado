@@ -150,4 +150,33 @@ public class MetasController {
             return ps.executeUpdate() > 0;
         }
     }
+    
+    
+public List<String> listarTiposMeta() {
+
+    List<String> lista = new ArrayList<>();
+
+    String sql = "SELECT DISTINCT tipo FROM metas ORDER BY tipo";
+
+    try (Connection conexao = Conexao.conectar();
+         PreparedStatement stmt = conexao.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            lista.add(rs.getString("tipo"));
+
+        }
+
+    } catch (SQLException erro) {
+
+        System.out.println("Erro ao listar tipos de meta: "
+                + erro.getMessage());
+    }
+
+    return lista;
+}
+
+    
+    
 }

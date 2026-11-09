@@ -9,8 +9,19 @@ package Model;
  * @author AntônioVieira
  */
 public class Afastamentos {
-  private int  idafastamentos, Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos;
-  private String tipo, inicio, finalAfastamentos, dias, situacao, dataRegistro;
+
+    private int idafastamentos;
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
+
+    private String tipo;
+    private String inicio;
+    private String finalAfastamentos; // coluna "final" (palavra reservada no Java)
+    private String dias;
+    private String situacao;
+    private String dataRegistro;
 
     public Afastamentos() {
     }
@@ -102,5 +113,5 @@ public class Afastamentos {
     public void setDataRegistro(String dataRegistro) {
         this.dataRegistro = dataRegistro;
     }
-  
+
 }

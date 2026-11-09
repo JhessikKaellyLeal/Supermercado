@@ -1,30 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Control;
 
+
+
+
+import Model.Funcionario;
+import Conection.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import Conection.Conexao;
-import Model.Funcionario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author SamaraTavares
- */
 public class FuncionarioController {
-    
-
-
-
 
     // Cadastrar funcionário
-    public boolean cadastrar(Funcionario funcionario) {
+    public boolean cadastrar(
+            String nome,
+            String dataNascimento,
+            String cpf,
+            String telefone,
+            String dataAdmissao,
+            int statusFuncionario,
+            int cargos_idcargos,
+            int setores_idsetores,
+            int turnos_idturnos) {
 
         String sql = "INSERT INTO Funcionario "
                 + "(nome, dataNascimento, cpf, telefone, "
@@ -33,145 +33,99 @@ public class FuncionarioController {
                 + "turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
-            stmt.setString(1, funcionario.getNome());
-            stmt.setString(2, funcionario.getDataNascimento());
-            stmt.setString(3, funcionario.getCpf());
-            stmt.setString(4, funcionario.getTelefone());
-            stmt.setString(5, funcionario.getDataAdmissao());
-            stmt.setInt(6, funcionario.getIdFuncionario());
-            stmt.setInt(7, funcionario.getCargos_idcargos());
-            stmt.setInt(8, funcionario.getSetores_idsetores());
-            stmt.setInt(9, funcionario.getTurnos_idturnos());
+            stmt.setString(1, nome);
+            stmt.setString(2, dataNascimento);
+            stmt.setString(3, cpf);
+            stmt.setString(4, telefone);
+            stmt.setString(5, dataAdmissao);
+            stmt.setInt(6, statusFuncionario);
+            stmt.setInt(7, cargos_idcargos);
+            stmt.setInt(8, setores_idsetores);
+            stmt.setInt(9, turnos_idturnos);
 
             return stmt.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } catch (SQLException erro) {
             System.out.println("Erro ao cadastrar funcionário: "
-                    + e.getMessage());
+                    + erro.getMessage());
             return false;
         }
     }
 
-    // Listar todos os funcionários
-    public List<Funcionario> listar() {
+    // Consultar funcionário pelo CPF
+    public ResultSet consultarPorCPF(String cpf) {
 
-        List<Funcionario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Funcionario WHERE cpf = ?";
 
-        String sql = "SELECT * FROM Funcionario ORDER BY nome";
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+            stmt.setString(1, cpf);
 
-            while (rs.next()) {
+            return stmt.executeQuery();
 
-                Funcionario funcionario = new Funcionario();
-
-                funcionario.setIdFuncionario(
-                        rs.getInt("idFuncionario"));
-
-                funcionario.setNome(
-                        rs.getString("nome"));
-
-                funcionario.setDataNascimento(
-                        rs.getString("dataNascimento"));
-
-                funcionario.setCpf(
-                        rs.getString("cpf"));
-
-                funcionario.setTelefone(
-                        rs.getString("telefone"));
-
-                funcionario.setDataAdmissao(
-                        rs.getString("dataAdmissao"));
-
-                funcionario.setIdFuncionario(
-                        rs.getInt("Funcionario"));
-
-                funcionario.setCargos_idcargos(
-                        rs.getInt("cargos_idcargos"));
-
-                funcionario.setSetores_idsetores(
-                        rs.getInt("setores_idsetores"));
-
-                funcionario.setTurnos_idturnos(
-                        rs.getInt("turnos_idturnos"));
-
-                lista.add(funcionario);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar funcionários: "
-                    + e.getMessage());
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar funcionário: "
+                    + erro.getMessage());
+            return null;
         }
-
-        return lista;
     }
 
-    // Buscar funcionário pelo ID
-    public Funcionario buscarPorId(int idFuncionario) {
+    // Consultar funcionário pelo ID
+    public ResultSet consultarPorID(int idFuncionario) {
 
         String sql = "SELECT * FROM Funcionario "
                 + "WHERE idFuncionario = ?";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setInt(1, idFuncionario);
 
-            try (ResultSet rs = stmt.executeQuery()) {
+            return stmt.executeQuery();
 
-                if (rs.next()) {
-
-                    Funcionario funcionario = new Funcionario();
-
-                    funcionario.setIdFuncionario(
-                            rs.getInt("statusFuncionario"));
-
-                    funcionario.setNome(
-                            rs.getString("nome"));
-
-                    funcionario.setDataNascimento(
-                            rs.getString("dataNascimento"));
-
-                    funcionario.setCpf(
-                            rs.getString("cpf"));
-
-                    funcionario.setTelefone(
-                            rs.getString("telefone"));
-
-                    funcionario.setDataAdmissao(
-                            rs.getString("dataAdmissao"));
-
-                    funcionario.setIdFuncionario(
-                            rs.getInt("Funcionario"));
-
-                    funcionario.setCargos_idcargos(
-                            rs.getInt("cargos_idcargos"));
-
-                    funcionario.setSetores_idsetores(
-                            rs.getInt("setores_idsetores"));
-
-                    funcionario.setTurnos_idturnos(
-                            rs.getInt("turnos_idturnos"));
-
-                    return funcionario;
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar funcionário: "
-                    + e.getMessage());
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar funcionário: "
+                    + erro.getMessage());
+            return null;
         }
+    }
 
-        return null;
+    // Listar todos os funcionários
+    public ResultSet listarFuncionarios() {
+
+        String sql = "SELECT * FROM Funcionario";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            return stmt.executeQuery();
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao listar funcionários: "
+                    + erro.getMessage());
+            return null;
+        }
     }
 
     // Atualizar funcionário
-    public boolean atualizar(Funcionario funcionario) {
+    public boolean atualizar(
+            int idFuncionario,
+            String nome,
+            String dataNascimento,
+            String cpf,
+            String telefone,
+            String dataAdmissao,
+            int statusFuncionario,
+            int cargos_idcargos,
+            int setores_idsetores,
+            int turnos_idturnos) {
 
         String sql = "UPDATE Funcionario SET "
                 + "nome = ?, "
@@ -185,25 +139,25 @@ public class FuncionarioController {
                 + "turnos_idturnos = ? "
                 + "WHERE idFuncionario = ?";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
-            stmt.setString(1, funcionario.getNome());
-            stmt.setString(2, funcionario.getDataNascimento());
-            stmt.setString(3, funcionario.getCpf());
-            stmt.setString(4, funcionario.getTelefone());
-            stmt.setString(5, funcionario.getDataAdmissao());
-            stmt.setInt(6, funcionario.getIdFuncionario());
-            stmt.setInt(7, funcionario.getCargos_idcargos());
-            stmt.setInt(8, funcionario.getSetores_idsetores());
-            stmt.setInt(9, funcionario.getTurnos_idturnos());
-            stmt.setInt(10, funcionario.getIdFuncionario());
+            stmt.setString(1, nome);
+            stmt.setString(2, dataNascimento);
+            stmt.setString(3, cpf);
+            stmt.setString(4, telefone);
+            stmt.setString(5, dataAdmissao);
+            stmt.setInt(6, statusFuncionario);
+            stmt.setInt(7, cargos_idcargos);
+            stmt.setInt(8, setores_idsetores);
+            stmt.setInt(9, turnos_idturnos);
+            stmt.setInt(10, idFuncionario);
 
             return stmt.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } catch (SQLException erro) {
             System.out.println("Erro ao atualizar funcionário: "
-                    + e.getMessage());
+                    + erro.getMessage());
             return false;
         }
     }
@@ -214,19 +168,53 @@ public class FuncionarioController {
         String sql = "DELETE FROM Funcionario "
                 + "WHERE idFuncionario = ?";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             stmt.setInt(1, idFuncionario);
 
             return stmt.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } catch (SQLException erro) {
             System.out.println("Erro ao excluir funcionário: "
-                    + e.getMessage());
+                    + erro.getMessage());
             return false;
         }
     }
+
+    
+
+public List<String[]> listar() {
+
+    List<String[]> lista = new ArrayList<>();
+
+    String sql = "SELECT idFuncionario, nome FROM Funcionario "
+            + "ORDER BY nome";
+
+    try (Connection conexao = Conexao.conectar();
+         PreparedStatement stmt = conexao.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            String[] funcionario = new String[2];
+
+            funcionario[0] = String.valueOf(
+                    rs.getInt("idFuncionario"));
+
+            funcionario[1] = rs.getString("nome");
+
+            lista.add(funcionario);
+        }
+
+    } catch (SQLException erro) {
+
+        System.out.println("Erro ao listar funcionários: "
+                + erro.getMessage());
+    }
+
+    return lista;
 }
 
 
+}
