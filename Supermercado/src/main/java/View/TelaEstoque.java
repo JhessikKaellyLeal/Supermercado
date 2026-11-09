@@ -11,13 +11,16 @@ import Control.ProdutosController;
 import Control.UnidadeMedidasController;
 import Model.Categorias;
 import Model.Marcas;
+import Model.PerdasEstoque;
 import Model.Produtos;
 import Model.UnidadesMedidas;
 import Model.Usuario;
+import control.PerdasEstoqueController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -299,7 +302,52 @@ public class TelaEstoque extends javax.swing.JFrame {
 
  // ---------------------- LISTAR NAS TABELAS ----------------------------------------   
     
-    
+   private void listarPerdasPorProduto(String nomeProduto) {
+
+    try {
+
+        PerdasEstoqueController controller = new PerdasEstoqueController();
+
+        List<PerdasEstoque> listaPerdasEstoque = controller.listarPorNomeProduto(nomeProduto);
+
+        DefaultTableModel modelo = (DefaultTableModel) tabelaPerdasEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (PerdasEstoque perda : listaPerdasEstoque) {
+
+            modelo.addRow(new Object[]{
+                perda.getIdperdasEstoque(),
+                perda.getProdutos_idprodutos(),
+                perda.getQuantidade(),
+                perda.getDataRegistro(),
+                perda.getMotivo()
+            });
+
+        }
+
+        if (listaPerdasEstoque.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Nenhuma perda encontrada para este produto!",
+                "Pesquisa",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao listar perdas: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+} 
     
     
     
@@ -441,9 +489,6 @@ public class TelaEstoque extends javax.swing.JFrame {
     
 
 
-
-
- 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -474,13 +519,13 @@ public class TelaEstoque extends javax.swing.JFrame {
         jlDataAtualizacao = new javax.swing.JLabel();
         ftfDataAtualizacao = new javax.swing.JFormattedTextField();
         btnPesquisarCE = new javax.swing.JButton();
-        btnNovoCE = new javax.swing.JButton();
         btnEditarCE = new javax.swing.JButton();
         btnExcluirCE = new javax.swing.JButton();
         btnLimparCE = new javax.swing.JButton();
         jScrollPane18 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaConsultaEstoque = new javax.swing.JTable();
         jlConsultaEstoqueCE = new javax.swing.JLabel();
+        btnSalvarCE = new javax.swing.JButton();
         pnMovimentacaoEstoque = new javax.swing.JPanel();
         pnMovimentacaoE = new javax.swing.JPanel();
         pnME = new javax.swing.JPanel();
@@ -504,7 +549,6 @@ public class TelaEstoque extends javax.swing.JFrame {
         tfDocumentoReferencia = new javax.swing.JTextField();
         btnPesquisarME = new javax.swing.JButton();
         cbUnidadeMedidaME = new javax.swing.JComboBox<>();
-        btnNovoME = new javax.swing.JButton();
         btnSalvarME = new javax.swing.JButton();
         btnEditarME = new javax.swing.JButton();
         btnExcluirME = new javax.swing.JButton();
@@ -532,7 +576,6 @@ public class TelaEstoque extends javax.swing.JFrame {
         btnPesquisarPE = new javax.swing.JButton();
         jlLote = new javax.swing.JLabel();
         tfLote = new javax.swing.JTextField();
-        btnNovoPE = new javax.swing.JButton();
         btnSalvarPE = new javax.swing.JButton();
         btnEditarPE = new javax.swing.JButton();
         btnExcluirPE = new javax.swing.JButton();
@@ -587,10 +630,10 @@ public class TelaEstoque extends javax.swing.JFrame {
 
         ftfDataAtualizacao.addActionListener(this::ftfDataAtualizacaoActionPerformed);
 
-        btnPesquisarCE.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnPesquisarCE.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa (1).png"))); // NOI18N
         btnPesquisarCE.setText("Pesquisar");
+        btnPesquisarCE.addActionListener(this::btnPesquisarCEActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -606,22 +649,18 @@ public class TelaEstoque extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jlMarca)
+                        .addGap(206, 206, 206)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jlProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(41, 41, 41)
+                            .addComponent(jlCategoriaCE)
+                            .addComponent(cbCategoriaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jlCategoriaCE)
-                                .addGap(152, 152, 152)
-                                .addComponent(jlMarca))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbCategoriaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbMarcaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cbProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPesquisarCE, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jlProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlQuantidadeAtual, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
@@ -633,74 +672,61 @@ public class TelaEstoque extends javax.swing.JFrame {
                         .addGap(54, 54, 54)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlDataAtualizacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ftfDataAtualizacao))
-                        .addGap(82, 82, 82)
-                        .addComponent(btnPesquisarCE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(39, 39, 39))))
+                            .addComponent(ftfDataAtualizacao)))
+                    .addComponent(cbMarcaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlEstoque)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jlProdutoCE)
-                                .addComponent(jlCategoriaCE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jlMarca)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jlEstoque)
+                                .addComponent(jlCategoriaCE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jlMarca)))
+                    .addComponent(jlProdutoCE, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tfIDEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbCategoriaCE)
-                                .addComponent(cbMarcaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jlQuantidadeAtual)
-                            .addComponent(jlQuantidadeReservadaCE)
-                            .addComponent(jlDataAtualizacao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnPesquisarCE)
-                        .addGap(4, 4, 4)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfIDEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbMarcaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbCategoriaCE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbProdutoCE, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisarCE)))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlDataAtualizacao)
+                    .addComponent(jlQuantidadeReservadaCE)
+                    .addComponent(jlQuantidadeAtual)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cbUnidadeMedidaCE, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(txtQuantidadeAtual)
                     .addComponent(spQuantidadeReservada)
                     .addComponent(ftfDataAtualizacao))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        btnNovoCE.setBackground(new java.awt.Color(10, 4, 138));
-        btnNovoCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnNovoCE.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoCE.setText("Novo");
-
-        btnEditarCE.setBackground(new java.awt.Color(10, 4, 138));
         btnEditarCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnEditarCE.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITAR.png"))); // NOI18N
         btnEditarCE.setText("Editar");
 
-        btnExcluirCE.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnExcluirCE.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EXCLUIR.png"))); // NOI18N
         btnExcluirCE.setText("Excluir");
 
-        btnLimparCE.setBackground(new java.awt.Color(10, 4, 138));
         btnLimparCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnLimparCE.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimparCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LIMPAR.png"))); // NOI18N
         btnLimparCE.setText("Limpar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaConsultaEstoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -730,20 +756,20 @@ public class TelaEstoque extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane18.setViewportView(jTable1);
+        jScrollPane18.setViewportView(tabelaConsultaEstoque);
 
         jlConsultaEstoqueCE.setBackground(new java.awt.Color(10, 4, 138));
         jlConsultaEstoqueCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlConsultaEstoqueCE.setText("Consulta de Estoque");
 
+        btnSalvarCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnSalvarCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SALVAR.png"))); // NOI18N
+        btnSalvarCE.setText("Salvar");
+
         javax.swing.GroupLayout pnConsultaELayout = new javax.swing.GroupLayout(pnConsultaE);
         pnConsultaE.setLayout(pnConsultaELayout);
         pnConsultaELayout.setHorizontalGroup(
             pnConsultaELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnConsultaELayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(331, 331, 331))
             .addGroup(pnConsultaELayout.createSequentialGroup()
                 .addGroup(pnConsultaELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnConsultaELayout.createSequentialGroup()
@@ -751,18 +777,22 @@ public class TelaEstoque extends javax.swing.JFrame {
                         .addGroup(pnConsultaELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 1107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnConsultaELayout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(btnNovoCE)
-                                .addGap(18, 18, 18)
+                                .addGap(176, 176, 176)
+                                .addComponent(btnSalvarCE)
+                                .addGap(29, 29, 29)
                                 .addComponent(btnEditarCE)
-                                .addGap(27, 27, 27)
+                                .addGap(67, 67, 67)
                                 .addComponent(btnExcluirCE)
-                                .addGap(31, 31, 31)
+                                .addGap(56, 56, 56)
                                 .addComponent(btnLimparCE))))
                     .addGroup(pnConsultaELayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jlConsultaEstoqueCE, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnConsultaELayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(240, 240, 240))
         );
         pnConsultaELayout.setVerticalGroup(
             pnConsultaELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -773,13 +803,13 @@ public class TelaEstoque extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addGroup(pnConsultaELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNovoCE)
                     .addComponent(btnEditarCE)
                     .addComponent(btnExcluirCE)
-                    .addComponent(btnLimparCE))
+                    .addComponent(btnLimparCE)
+                    .addComponent(btnSalvarCE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnConsultaEstoqueLayout = new javax.swing.GroupLayout(pnConsultaEstoque);
@@ -787,14 +817,15 @@ public class TelaEstoque extends javax.swing.JFrame {
         pnConsultaEstoqueLayout.setHorizontalGroup(
             pnConsultaEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnConsultaEstoqueLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addComponent(pnConsultaE, javax.swing.GroupLayout.PREFERRED_SIZE, 1404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 76, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         pnConsultaEstoqueLayout.setVerticalGroup(
             pnConsultaEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnConsultaEstoqueLayout.createSequentialGroup()
-                .addComponent(pnConsultaE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnConsultaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         tpnTelaEstoque.addTab("Consulta do Estoque", pnConsultaEstoque);
@@ -839,9 +870,8 @@ public class TelaEstoque extends javax.swing.JFrame {
         jlDocumentoReferencia.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlDocumentoReferencia.setText("Documento de Referência:");
 
-        btnPesquisarME.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnPesquisarME.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa (1).png"))); // NOI18N
         btnPesquisarME.setText("Pesquisar");
 
         cbUnidadeMedidaME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -854,10 +884,10 @@ public class TelaEstoque extends javax.swing.JFrame {
             .addGroup(pnMELayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tfMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(tfMovimentacao)
                     .addComponent(jlMovimentacao)
                     .addComponent(jlUnidadeM, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbUnidadeMedidaME, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbUnidadeMedidaME, 0, 220, Short.MAX_VALUE))
                 .addGap(38, 38, 38)
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlTipoM)
@@ -868,17 +898,19 @@ public class TelaEstoque extends javax.swing.JFrame {
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnMELayout.createSequentialGroup()
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlProdutoME)
-                            .addComponent(cbProdutoME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbMarcaME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlMarcaME))
                         .addGap(37, 37, 37)
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(cbCategoriaME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlMarcaME)
-                            .addComponent(cbMarcaME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(33, Short.MAX_VALUE))
+                            .addGroup(pnMELayout.createSequentialGroup()
+                                .addComponent(cbProdutoME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPesquisarME))
+                            .addComponent(jlProdutoME)))
                     .addGroup(pnMELayout.createSequentialGroup()
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -889,76 +921,64 @@ public class TelaEstoque extends javax.swing.JFrame {
                         .addGap(90, 90, 90)
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlDocumentoReferencia)
-                            .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPesquisarME)
-                        .addGap(67, 67, 67))))
+                            .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         pnMELayout.setVerticalGroup(
             pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnMELayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlMovimentacao)
-                    .addComponent(jlTipoM)
-                    .addComponent(jlProdutoME)
-                    .addComponent(jLabel5)
-                    .addComponent(jlMarcaME))
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnMELayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(20, 20, 20)
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbProdutoME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbCategoriaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbMarcaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlUnidadeM)
-                            .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jlDataM)
-                                .addComponent(jlHoraMovimentacao)
-                                .addComponent(jlDocumentoReferencia)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ftfDataMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                            .addComponent(ftfHoraMovimentacaoATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ftfHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbUnidadeMedidaME))
-                        .addGap(39, 39, 39))
+                            .addComponent(jlMovimentacao)
+                            .addComponent(jlTipoM)
+                            .addComponent(jLabel5)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnMELayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPesquisarME)
-                        .addGap(57, 57, 57))))
+                        .addContainerGap()
+                        .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlMarcaME, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlProdutoME, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbCategoriaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMarcaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbProdutoME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisarME))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlUnidadeM)
+                    .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlDataM)
+                        .addComponent(jlHoraMovimentacao)
+                        .addComponent(jlDocumentoReferencia)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ftfDataMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(ftfHoraMovimentacaoATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbUnidadeMedidaME))
+                .addGap(39, 39, 39))
         );
 
-        btnNovoME.setBackground(new java.awt.Color(10, 4, 138));
-        btnNovoME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnNovoME.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoME.setText("Novo");
-        btnNovoME.addActionListener(this::btnNovoMEActionPerformed);
-
-        btnSalvarME.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnSalvarME.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvarME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SALVAR.png"))); // NOI18N
         btnSalvarME.setText("Salvar");
         btnSalvarME.addActionListener(this::btnSalvarMEActionPerformed);
 
-        btnEditarME.setBackground(new java.awt.Color(10, 4, 138));
         btnEditarME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnEditarME.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITAR.png"))); // NOI18N
         btnEditarME.setText("Editar");
 
-        btnExcluirME.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnExcluirME.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EXCLUIR.png"))); // NOI18N
         btnExcluirME.setText("Excluir");
 
-        btnLimparME.setBackground(new java.awt.Color(10, 4, 138));
         btnLimparME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnLimparME.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimparME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LIMPAR.png"))); // NOI18N
         btnLimparME.setText("Limpar");
 
         tabelaMovimentacaoEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -995,29 +1015,24 @@ public class TelaEstoque extends javax.swing.JFrame {
         pnMovimentacaoELayout.setHorizontalGroup(
             pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnMovimentacaoELayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(pnME, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(221, 221, 221))
-            .addGroup(pnMovimentacaoELayout.createSequentialGroup()
                 .addGroup(pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnMovimentacaoELayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnMovimentacaoELayout.createSequentialGroup()
-                                .addComponent(btnNovoME)
-                                .addGap(49, 49, 49)
-                                .addComponent(btnSalvarME)
-                                .addGap(44, 44, 44)
-                                .addComponent(btnEditarME)
-                                .addGap(36, 36, 36)
-                                .addComponent(btnExcluirME)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnLimparME))))
+                        .addGap(350, 350, 350)
+                        .addComponent(btnSalvarME)
+                        .addGap(41, 41, 41)
+                        .addComponent(btnEditarME)
+                        .addGap(64, 64, 64)
+                        .addComponent(btnExcluirME)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnLimparME))
                     .addGroup(pnMovimentacaoELayout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(jlMovimentacaodeEstoque)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jlMovimentacaodeEstoque))
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnMovimentacaoELayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(pnME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         pnMovimentacaoELayout.setVerticalGroup(
             pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1027,16 +1042,14 @@ public class TelaEstoque extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExcluirME, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNovoME)
-                        .addComponent(btnSalvarME)
-                        .addComponent(btnEditarME)
-                        .addComponent(btnLimparME)))
+                .addGroup(pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExcluirME)
+                    .addComponent(btnLimparME)
+                    .addComponent(btnEditarME)
+                    .addComponent(btnSalvarME))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnMovimentacaoEstoqueLayout = new javax.swing.GroupLayout(pnMovimentacaoEstoque);
@@ -1095,10 +1108,10 @@ public class TelaEstoque extends javax.swing.JFrame {
         cbCategoriaPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cbCategoriaPE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnPesquisarPE.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnPesquisarPE.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarPE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa (1).png"))); // NOI18N
         btnPesquisarPE.setText("Pesquisar");
+        btnPesquisarPE.addActionListener(this::btnPesquisarPEActionPerformed);
 
         jlLote.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlLote.setText("Lote:");
@@ -1141,13 +1154,12 @@ public class TelaEstoque extends javax.swing.JFrame {
                             .addComponent(cbCategoriaPE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jlCategoriaPE))
                         .addGap(51, 51, 51)
-                        .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
-                                .addComponent(jlLote)
-                                .addGap(71, 71, 71)
-                                .addComponent(btnPesquisarPE))
-                            .addComponent(tfLote))))
-                .addContainerGap(208, Short.MAX_VALUE))
+                        .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlLote)
+                            .addComponent(tfLote, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPesquisarPE)
+                .addGap(87, 87, 87))
         );
         jpnPerdasEstoqueLayout.setVerticalGroup(
             jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1165,7 +1177,8 @@ public class TelaEstoque extends javax.swing.JFrame {
                         .addComponent(ftfDataRegistro))
                     .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbMotivoPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbProdutoPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbProdutoPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisarPE)))
                 .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
@@ -1178,62 +1191,67 @@ public class TelaEstoque extends javax.swing.JFrame {
                             .addComponent(cbCategoriaPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
                         .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnPerdasEstoqueLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlLote)
-                                .addGap(2, 2, 2))
                             .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
-                                .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jlMarcasPE)
-                                            .addComponent(jlCategoriaPE)))
-                                    .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(btnPesquisarPE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGap(26, 26, 26)
+                                .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jlMarcasPE)
+                                    .addComponent(jlCategoriaPE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnPerdasEstoqueLayout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(jlLote)
+                                .addGap(2, 2, 2)))
                         .addComponent(tfLote, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
 
-        btnNovoPE.setBackground(new java.awt.Color(10, 4, 138));
-        btnNovoPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnNovoPE.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoPE.setText("Novo");
-
-        btnSalvarPE.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnSalvarPE.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvarPE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SALVAR.png"))); // NOI18N
         btnSalvarPE.setText("Salvar");
 
-        btnEditarPE.setBackground(new java.awt.Color(10, 4, 138));
         btnEditarPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnEditarPE.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarPE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITAR.png"))); // NOI18N
         btnEditarPE.setText("Editar");
 
-        btnExcluirPE.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnExcluirPE.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirPE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EXCLUIR.png"))); // NOI18N
         btnExcluirPE.setText("Excluir");
 
-        btnLimparPE.setBackground(new java.awt.Color(10, 4, 138));
         btnLimparPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnLimparPE.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimparPE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LIMPAR.png"))); // NOI18N
         btnLimparPE.setText("Limpar");
 
         tabelaPerdasEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tabelaPerdasEstoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Perda", "Data do Registro", "Motivo", "Quantidade", "Produto", "Categoria", "Marca", "Unidade de Medida"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabelaPerdasEstoque);
 
         jlPerdasDeEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -1246,27 +1264,27 @@ public class TelaEstoque extends javax.swing.JFrame {
             .addGroup(pnPerdasEsLayout.createSequentialGroup()
                 .addGroup(pnPerdasEsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnPerdasEsLayout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(pnPerdasEsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnPerdasEsLayout.createSequentialGroup()
-                                .addGap(56, 56, 56)
-                                .addComponent(btnNovoPE)
-                                .addGap(37, 37, 37)
-                                .addComponent(btnSalvarPE)
-                                .addGap(42, 42, 42)
-                                .addComponent(btnEditarPE)
-                                .addGap(53, 53, 53)
-                                .addComponent(btnExcluirPE)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnLimparPE))))
-                    .addGroup(pnPerdasEsLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jpnPerdasEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jpnPerdasEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 1254, Short.MAX_VALUE))
+                    .addGroup(pnPerdasEsLayout.createSequentialGroup()
+                        .addGap(250, 250, 250)
+                        .addComponent(btnSalvarPE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnEditarPE)
+                        .addGap(53, 53, 53)
+                        .addComponent(btnExcluirPE)
+                        .addGap(52, 52, 52)
+                        .addComponent(btnLimparPE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(360, 360, 360))
             .addGroup(pnPerdasEsLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(jlPerdasDeEstoque)
+                .addGroup(pnPerdasEsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnPerdasEsLayout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jlPerdasDeEstoque))
+                    .addGroup(pnPerdasEsLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 925, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnPerdasEsLayout.setVerticalGroup(
@@ -1278,14 +1296,13 @@ public class TelaEstoque extends javax.swing.JFrame {
                 .addComponent(jpnPerdasEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnPerdasEsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNovoPE)
                     .addComponent(btnSalvarPE)
                     .addComponent(btnEditarPE)
                     .addComponent(btnExcluirPE)
                     .addComponent(btnLimparPE))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnPerdasEstoqueLayout = new javax.swing.GroupLayout(pnPerdasEstoque);
@@ -1323,17 +1340,27 @@ public class TelaEstoque extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoMovimentacaoActionPerformed
 
-    private void btnNovoMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoMEActionPerformed
-        // TODO add your handling code here:
-
-        cadastrarEstoque();
-    }//GEN-LAST:event_btnNovoMEActionPerformed
-
     private void btnSalvarMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarMEActionPerformed
         // TODO add your handling code here:
         cadastrarEstoque();
     }//GEN-LAST:event_btnSalvarMEActionPerformed
 
+    private void btnPesquisarPEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarPEActionPerformed
+listarPerdasPorProduto((String) cbProdutoPE.getSelectedItem());                                                  
+
+   
+    }//GEN-LAST:event_btnPesquisarPEActionPerformed
+
+    private void btnPesquisarCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCEActionPerformed
+
+
+    
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnPesquisarCEActionPerformed
+  
+    
+          
     /**
      * @param args the command line arguments
      */
@@ -1370,12 +1397,10 @@ public class TelaEstoque extends javax.swing.JFrame {
     private javax.swing.JButton btnLimparCE;
     private javax.swing.JButton btnLimparME;
     private javax.swing.JButton btnLimparPE;
-    private javax.swing.JButton btnNovoCE;
-    private javax.swing.JButton btnNovoME;
-    private javax.swing.JButton btnNovoPE;
     private javax.swing.JButton btnPesquisarCE;
     private javax.swing.JButton btnPesquisarME;
     private javax.swing.JButton btnPesquisarPE;
+    private javax.swing.JButton btnSalvarCE;
     private javax.swing.JButton btnSalvarME;
     private javax.swing.JButton btnSalvarPE;
     private javax.swing.JComboBox<String> cbCategoriaCE;
@@ -1403,7 +1428,6 @@ public class TelaEstoque extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane18;
     private javax.swing.JScrollPane jScrollPane19;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel jlCategoriaCE;
     private javax.swing.JLabel jlCategoriaPE;
     private javax.swing.JLabel jlConsultaEstoqueCE;
@@ -1439,6 +1463,7 @@ public class TelaEstoque extends javax.swing.JFrame {
     private javax.swing.JPanel pnPerdasEs;
     private javax.swing.JPanel pnPerdasEstoque;
     private javax.swing.JSpinner spQuantidadeReservada;
+    private javax.swing.JTable tabelaConsultaEstoque;
     private javax.swing.JTable tabelaMovimentacaoEstoque;
     private javax.swing.JTable tabelaPerdasEstoque;
     private javax.swing.JTextField tfDocumentoReferencia;

@@ -171,4 +171,45 @@ public class PerdasEstoqueController {
             return false;
         }
     }
+    
+    public List<PerdasEstoque> listarPorNomeProduto(String nomeProduto) throws SQLException {
+
+    List<PerdasEstoque> lista = new ArrayList<>();
+
+    String sql = "SELECT pe.* FROM perdasEstoque pe "
+            + "INNER JOIN produtos p "
+            + "ON pe.produtos_idprodutos = p.idprodutos "
+            + "WHERE p.nome LIKE ?";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, "%" + nomeProduto + "%");
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                PerdasEstoque perda = new PerdasEstoque();
+
+                perda.setIdperdasEstoque(rs.getInt("idperdasEstoque"));
+                perda.setQuantidade(rs.getInt("quantidade"));
+                perda.setDataRegistro(rs.getString("dataRegistro"));
+                perda.setMotivo(rs.getString("motivo"));
+                perda.setProdutos_idprodutos(rs.getInt("produtos_idprodutos"));
+                perda.setProdutos_categorias_idcategorias(rs.getInt("produtos_categorias_idcategorias"));
+                perda.setProdutos_marcas_idmarcas(rs.getInt("produtos_marcas_idmarcas"));
+                perda.setProdutos_unidadeMedidas_idunidadeMedidas(rs.getInt("produtos_unidadeMedidas_idunidadeMedidas"));
+                perda.setLotesProdutos_idlotesProdutos(rs.getInt("lotesProdutos_idlotesProdutos"));
+
+                lista.add(perda);
+            }
+        }
+    }
+
+    return lista;
+}
+    
+    
+    
 }
