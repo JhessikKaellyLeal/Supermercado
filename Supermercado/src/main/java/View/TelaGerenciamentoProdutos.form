@@ -55,10 +55,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jpParteCimaCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jpParteBaixo" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jpParteCimaCadastro" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -66,10 +63,9 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jpParteCimaCadastro" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jpParteBaixo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="892" max="32767" attributes="0"/>
+                      <Component id="jpParteCimaCadastro" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="1053" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -92,6 +88,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="lbNomeprodutoCadastro" min="-2" pref="141" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -114,41 +111,49 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lbMarcaCadastro" min="-2" pref="135" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="cbCategoriaCadastro" alignment="0" pref="135" max="32767" attributes="0"/>
-                                                  <Component id="lbCategoriaCadastro" alignment="0" max="32767" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="lbMarcaCadastro" min="-2" pref="135" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="cbCategoriaCadastro" alignment="0" pref="135" max="32767" attributes="0"/>
+                                                          <Component id="lbCategoriaCadastro" alignment="0" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="cbMarcaCadastro" min="-2" pref="135" max="-2" attributes="0"/>
+                                                          <EmptySpace max="32767" attributes="0"/>
+                                                          <Component id="bIconeValorCustoCadastro" min="-2" pref="26" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
-                                              <Component id="cbMarcaCadastro" min="-2" pref="135" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="blIconePrtecoVendaCadastro" min="-2" pref="26" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="cbUnidadeCadastro" alignment="0" max="32767" attributes="0"/>
                                           <Component id="cbUnidadeMedidaCadastro" alignment="0" max="32767" attributes="0"/>
                                           <Component id="lbUnidadeMedidaCadastro" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbUnidadeCadastro" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="lbPrecoVendaCadastro" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
                                       <Component id="lbValorCustoCadastro" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                                      <Component id="tfIconeValorCustoCadastro" min="-2" pref="128" max="-2" attributes="0"/>
+                                      <Component id="tfIconePrecoVendaCadastro" min="-2" pref="128" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="jbVoltarCadastrar" alignment="1" min="-2" pref="101" max="-2" attributes="0"/>
-                                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="lbQuantidadeEstoqueCadastro" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="tfQuantidadeEstoqueCadastro" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="lbCotigoBarrasCadastro" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="lbSituacaoProdutoCadastro" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="tfCodigoBarrasCadastro" alignment="0" max="32767" attributes="0"/>
-                                              </Group>
+                                          <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="lbQuantidadeEstoqueCadastro" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="tfQuantidadeEstoqueCadastro" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="lbCotigoBarrasCadastro" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="lbSituacaoProdutoCadastro" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="tfCodigoBarrasCadastro" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -157,7 +162,7 @@
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                           <Component id="rbAtivoCadastro" min="-2" pref="75" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                           <Component id="rbDesligadoCadastro" min="-2" max="-2" attributes="0"/>
@@ -166,39 +171,39 @@
                               </Group>
                               <Component id="lbDadosProdutosCadastro" alignment="0" min="-2" pref="347" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="bIconeValorCustoCadastro" min="-2" pref="26" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jbAdicionarCadastro" min="-2" pref="133" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                          <Component id="jbSalvarCadastrar" min="-2" pref="126" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                                          <Component id="jbEditarCadastra" min="-2" pref="100" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                          <Component id="jbExcluirCadastrar" min="-2" pref="92" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="blIconePrtecoVendaCadastro" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                          <Component id="jbLimparCadastrar" min="-2" pref="102" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Component id="jbPesquisarCadastrar" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="tfIconePrecoVendaCadastro" min="-2" pref="128" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="tfIconeValorCustoCadastro" min="-2" pref="128" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
+                                  <Component id="jbSalvarCadastrar" min="-2" pref="126" max="-2" attributes="0"/>
+                                  <EmptySpace pref="75" max="32767" attributes="0"/>
+                                  <Component id="jbEditarCadastra" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="jbExcluirCadastrar" min="-2" pref="92" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                                  <Component id="jbLimparCadastrar" min="-2" pref="102" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="425" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="265" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lbListaProdutosCadastrar" min="-2" pref="141" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="lbPesquisarPorCadastro" min="-2" pref="95" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="cbSelecionarCadastro" min="-2" pref="170" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jbIconePesquisaCadastro" min="-2" pref="143" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane1" min="-2" pref="1146" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -210,102 +215,113 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbCategoriaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbCodigoProduto" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lbUnidadeMedidaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lbUnidadeCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lbQuantidadeEstoqueCadastro" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                                       <Component id="lbValidadeCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                           <Component id="tfQuantidadeEstoqueCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="tfValidadeCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="cbUnidadeCadastro" alignment="3" pref="28" max="32767" attributes="0"/>
-                                          <Component id="lbNomeprodutoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="lbNomeprodutoCadastro" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="cbCategoriaCadastro" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Component id="cbCategoriaCadastro" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="cbUnidadeMedidaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="tfNomeprodutoCadastro" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="lbUnidadeMedidaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lbCotigoBarrasCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="lbMarcaCadastro" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="cbUnidadeMedidaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="tfCodigoBarrasCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="cbMarcaCadastro" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lbValorCustoCadastro" min="-2" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="ftfCodigodoprodutoCadastro" min="-2" pref="31" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="lbDescricaoCadastro" min="-2" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="lbPrecoVendaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="rbAtivoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="rbDesligadoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="tfIconeValorCustoCadastro" min="-2" pref="31" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="lbCotigoBarrasCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbValorCustoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                          <Component id="tfIconePrecoVendaCadastro" min="-2" pref="31" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                              <Component id="lbMarcaCadastro" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="lbSituacaoProdutoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="tfIconeValorCustoCadastro" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="tfCodigoBarrasCadastro" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbMarcaCadastro" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                                           <Component id="bIconeValorCustoCadastro" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                                          <Component id="blIconePrtecoVendaCadastro" min="-2" pref="31" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="taDescricaoCadastro" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="154" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jbAdicionarCadastro" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbSalvarCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbEditarCadastra" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbExcluirCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbLimparCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbPesquisarCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jbVoltarCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="rbAtivoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="rbDesligadoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                          <Component id="blIconePrtecoVendaCadastro" min="-2" pref="31" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="lbSituacaoProdutoCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbPrecoVendaCadastro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                              <Component id="tfIconePrecoVendaCadastro" min="-2" pref="31" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="taDescricaoCadastro" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jbSalvarCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jbEditarCadastra" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jbExcluirCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jbLimparCadastrar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="28" max="32767" attributes="0"/>
+                                  <Component id="lbListaProdutosCadastrar" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="cbSelecionarCadastro" alignment="3" max="32767" attributes="0"/>
+                                      <Component id="jbIconePesquisaCadastro" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="lbPesquisarPorCadastro" alignment="3" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="255" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -428,29 +444,6 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lbUnidadeCadastro">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI Black" size="14" style="2"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Unidade:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="cbUnidadeCadastro">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Selecione:"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
                 <Component class="javax.swing.JLabel" name="lbUnidadeMedidaCadastro">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -558,11 +551,6 @@
                     <Property name="text" type="java.lang.String" value="Desligado"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jbAdicionarCadastro">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Adicionar"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="jbSalvarCadastrar">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Salvar"/>
@@ -583,16 +571,6 @@
                     <Property name="text" type="java.lang.String" value="Limpar"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jbPesquisarCadastrar">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Pesquisar"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="jbVoltarCadastrar">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Voltar"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JLabel" name="lbValidadeCadastrar">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -606,61 +584,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="3"/>
                     </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jpParteBaixo">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                </Property>
-              </Properties>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbListaProdutosCadastrar" alignment="0" min="-2" pref="141" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbPesquisarPorCadastro" min="-2" pref="95" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cbSelecionarCadastro" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="tfDigeteNomeProdutoCadastro" min="-2" pref="289" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                  <Component id="jbIconePesquisaCadastro" min="-2" pref="143" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jScrollPane1" alignment="0" min="-2" pref="1146" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="316" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lbListaProdutosCadastrar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" max="-2" attributes="0">
-                              <Component id="cbSelecionarCadastro" alignment="3" max="32767" attributes="0"/>
-                              <Component id="tfDigeteNomeProdutoCadastro" alignment="3" max="32767" attributes="0"/>
-                              <Component id="jbIconePesquisaCadastro" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                              <Component id="lbPesquisarPorCadastro" alignment="3" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="255" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JButton" name="jbIconePesquisaCadastro">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Pesquisar"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbListaProdutosCadastrar">
@@ -681,9 +604,20 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbSelecionarCadastroActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="jbIconePesquisaCadastro">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pesquisar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbIconePesquisaCadastroActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbPesquisarPorCadastro">
                   <Properties>
@@ -693,8 +627,6 @@
                     <Property name="text" type="java.lang.String" value="Pesquisar por:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="tfDigeteNomeProdutoCadastro">
-                </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -702,7 +634,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable1">
+                    <Component class="javax.swing.JTable" name="tbListaProdutosC">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="11" rowCount="11">

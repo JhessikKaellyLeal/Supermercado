@@ -6,6 +6,7 @@ package Control;
 
 import Conection.Conexao;
 import static Conection.Conexao.conectar;
+import Model.Produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,55 +62,7 @@ public class ProdutosController {
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-
-        String sql = "SELECT p.*, c.nome AS categoria, "
-                + "m.nome AS marca, u.nome AS unidade "
-                + "FROM produtos p "
-                + "JOIN categorias c "
-                + "ON p.categorias_idcategorias = c.idcategorias "
-                + "JOIN marcas m ON p.marcas_idmarcas = m.idmarcas "
-                + "JOIN unidadeMedidas u "
-                + "ON p.unidadeMedidas_idunidadeMedidas = "
-                + "u.idunidadeMedidas "
-                + "ORDER BY p.nome";
-
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-
-                m.put("idprodutos", rs.getInt("idprodutos"));
-                m.put("nome", rs.getString("nome"));
-                m.put("codigo", rs.getString("codigo"));
-                m.put("descricao", rs.getString("descricao"));
-                m.put("precoCusto", rs.getDouble("precoCusto"));
-                m.put("precoVenda", rs.getDouble("precoVenda"));
-                m.put("situacao", rs.getInt("situacao"));
-                m.put("estoque", rs.getInt("estoque"));
-                m.put("validade", rs.getString("validade"));
-                m.put("imagem", rs.getBytes("imagem"));
-
-                m.put("categorias_idcategorias",
-                      rs.getInt("categorias_idcategorias"));
-                m.put("marcas_idmarcas",
-                      rs.getInt("marcas_idmarcas"));
-                m.put("unidadeMedidas_idunidadeMedidas",
-                      rs.getInt("unidadeMedidas_idunidadeMedidas"));
-
-                m.put("categoria", rs.getString("categoria"));
-                m.put("marca", rs.getString("marca"));
-                m.put("unidade", rs.getString("unidade"));
-
-                lista.add(m);
-            }
-        }
-
-        return lista;
-    }
+  
 
     public boolean editar(
             int id, String nome, String codigo, String descricao,
@@ -164,38 +117,69 @@ public class ProdutosController {
         }
     }
 
-    public List<Map<String, Object>> pesquisar(String termo)
-            throws SQLException {
+    public List<Produtos> listar() throws SQLException {
 
-        List<Map<String, Object>> lista = new ArrayList<>();
+    List<Produtos> lista = new ArrayList<>();
 
-        String sql = "SELECT idprodutos, nome, codigo, precoVenda, "
-                + "estoque, situacao FROM produtos "
-                + "WHERE nome LIKE ? OR codigo LIKE ? ORDER BY nome";
+    String sql = "SELECT * FROM produtos";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
 
-            ps.setString(1, "%" + termo + "%");
-            ps.setString(2, "%" + termo + "%");
+        while (rs.next()) {
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Map<String, Object> m = new LinkedHashMap<>();
+            Produtos produto = new Produtos();
 
-                    m.put("idprodutos", rs.getInt("idprodutos"));
-                    m.put("nome", rs.getString("nome"));
-                    m.put("codigo", rs.getString("codigo"));
-                    m.put("precoVenda", rs.getDouble("precoVenda"));
-                    m.put("estoque", rs.getInt("estoque"));
-                    m.put("situacao", rs.getInt("situacao"));
+            produto.setIdprodutos(rs.getInt("idprodutos"));
+            produto.setNome(rs.getString("nome"));
+            produto.setCodigo(rs.getString("codigo"));
+            produto.setDescricao(rs.getString("descricao"));
+            produto.setPrecoCusto(rs.getDouble("precoCusto"));
+            produto.setPrecoVenda(rs.getDouble("precoVenda"));
+            produto.setSituacao(rs.getBoolean("situacao"));
+            produto.setEstoque(rs.getInt("estoque"));
+            produto.setValidade(rs.getString("validade"));
 
-                    lista.add(m);
-                }
-            }
+            lista.add(produto);
         }
-
-        return lista;
     }
 
+    return lista;
+}
+
+    public List<Produtos> pesquisarPorNome(String nome) throws SQLException {
+
+    List<Produtos> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM produtos WHERE nome LIKE ?";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, "%" + nome + "%");
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Produtos produto = new Produtos();
+
+                produto.setIdprodutos(rs.getInt("idprodutos"));
+                produto.setNome(rs.getString("nome"));
+                produto.setCodigo(rs.getString("codigo"));
+                produto.setDescricao(rs.getString("descricao"));
+                produto.setPrecoCusto(rs.getDouble("precoCusto"));
+                produto.setPrecoVenda(rs.getDouble("precoVenda"));
+                produto.setSituacao(rs.getBoolean("situacao"));
+                produto.setEstoque(rs.getInt("estoque"));
+                produto.setValidade(rs.getString("validade"));
+
+                lista.add(produto);
+            }
+        }
+    }
+
+    return lista;
+}
 }

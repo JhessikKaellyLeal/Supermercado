@@ -6,6 +6,7 @@ package Control;
 
 import Conection.Conexao;
 import static Conection.Conexao.conectar;
+import Model.UnidadesMedidas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,26 +36,35 @@ public class UnidadeMedidasController {
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT * FROM unidadeMedidas ORDER BY nome";
+   public List<UnidadesMedidas> listar() throws SQLException {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                m.put("idunidadeMedidas",
-                      rs.getInt("idunidadeMedidas"));
-                m.put("codigo", rs.getInt("codigo"));
-                m.put("nome", rs.getString("nome"));
-                m.put("status", rs.getBoolean("status"));
-                m.put("descricao", rs.getString("descricao"));
-                lista.add(m);
-            }
+    List<UnidadesMedidas> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM unidadeMedidas";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            UnidadesMedidas unidade = new UnidadesMedidas();
+
+            unidade.setIdunidadeMedidas(
+                rs.getInt("idunidadeMedidas")
+            );
+
+            unidade.setCodigo(rs.getInt("codigo"));
+            unidade.setNome(rs.getString("nome"));
+            unidade.setStatus(rs.getBoolean("status"));
+            unidade.setDescricao(rs.getString("descricao"));
+
+            lista.add(unidade);
         }
-        return lista;
     }
+
+    return lista;
+}
 
     public boolean editar(int id, int codigo, String nome,
                           boolean status, String descricao)
