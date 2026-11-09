@@ -8,13 +8,20 @@ package Model;
  *
  * @author AntônioVieira
  */
-public class Categorias {
- private int idcategorias;
- private String nome, descricao;
- private boolean status;
 
+
+public class Categorias {
+
+    private int idcategorias;
+    private String nome;
+    private String descricao;
+    private int status;
+
+    // CONSTRUTOR VAZIO
     public Categorias() {
     }
+
+    // GETTERS E SETTERS
 
     public int getIdcategorias() {
         return idcategorias;
@@ -40,12 +47,11 @@ public class Categorias {
         this.descricao = descricao;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
- 
 }

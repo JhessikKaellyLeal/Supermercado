@@ -1,20 +1,80 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Vendas {
- private int  idvendas, cliente_idcliente, usuario_idusuario, caixas_idcaixas, cupom_idcupom;
- private String dataVenda, horarioVenda, statusVenda;
- private double  valorTotal, valorPago, troco;
+
+    private int idvendas;
+    private String dataVenda;
+    private String horarioVenda;
+    private double valorTotal;
+    private double valorPago;
+    private double troco;
+    private int quantidadeItens;
+    private String statusVenda;
+
+    private int cliente_idcliente;
+    private int usuario_idusuario;
+    private int caixas_idcaixas;
+    private int cupom_idcupom;
+    
+    private String nomeCliente;
+private String nomeUsuario;
+private String nomeCaixa;
+private String codigoCupom;
 
     public Vendas() {
     }
+
+    public Vendas(int idvendas, String dataVenda, String horarioVenda,
+            double valorTotal, double valorPago, double troco,
+            int quantidadeItens, String statusVenda,
+            int cliente_idcliente, int usuario_idusuario,
+            int caixas_idcaixas, int cupom_idcupom) {
+
+        this.idvendas = idvendas;
+        this.dataVenda = dataVenda;
+        this.horarioVenda = horarioVenda;
+        this.valorTotal = valorTotal;
+        this.valorPago = valorPago;
+        this.troco = troco;
+        this.quantidadeItens = quantidadeItens;
+        this.statusVenda = statusVenda;
+        this.cliente_idcliente = cliente_idcliente;
+        this.usuario_idusuario = usuario_idusuario;
+        this.caixas_idcaixas = caixas_idcaixas;
+        this.cupom_idcupom = cupom_idcupom;
+    }
+    
+    public String getNomeCliente() {
+    return nomeCliente;
+}
+
+public void setNomeCliente(String nomeCliente) {
+    this.nomeCliente = nomeCliente;
+}
+
+public String getNomeUsuario() {
+    return nomeUsuario;
+}
+
+public void setNomeUsuario(String nomeUsuario) {
+    this.nomeUsuario = nomeUsuario;
+}
+
+public String getNomeCaixa() {
+    return nomeCaixa;
+}
+
+public void setNomeCaixa(String nomeCaixa) {
+    this.nomeCaixa = nomeCaixa;
+}
+
+public String getCodigoCupom() {
+    return codigoCupom;
+}
+
+public void setCodigoCupom(String codigoCupom) {
+    this.codigoCupom = codigoCupom;
+}
 
     public int getIdvendas() {
         return idvendas;
@@ -22,6 +82,62 @@ public class Vendas {
 
     public void setIdvendas(int idvendas) {
         this.idvendas = idvendas;
+    }
+
+    public String getDataVenda() {
+        return dataVenda;
+    }
+
+    public void setDataVenda(String dataVenda) {
+        this.dataVenda = dataVenda;
+    }
+
+    public String getHorarioVenda() {
+        return horarioVenda;
+    }
+
+    public void setHorarioVenda(String horarioVenda) {
+        this.horarioVenda = horarioVenda;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(double valorPago) {
+        this.valorPago = valorPago;
+    }
+
+    public double getTroco() {
+        return troco;
+    }
+
+    public void setTroco(double troco) {
+        this.troco = troco;
+    }
+
+    public int getQuantidadeItens() {
+        return quantidadeItens;
+    }
+
+    public void setQuantidadeItens(int quantidadeItens) {
+        this.quantidadeItens = quantidadeItens;
+    }
+
+    public String getStatusVenda() {
+        return statusVenda;
+    }
+
+    public void setStatusVenda(String statusVenda) {
+        this.statusVenda = statusVenda;
     }
 
     public int getCliente_idcliente() {
@@ -56,52 +172,22 @@ public class Vendas {
         this.cupom_idcupom = cupom_idcupom;
     }
 
-    public String getDataVenda() {
-        return dataVenda;
+    @Override
+    public String toString() {
+        return "VendaModel{" +
+                "idvendas=" + idvendas +
+                ", dataVenda='" + dataVenda + '\'' +
+                ", horarioVenda='" + horarioVenda + '\'' +
+                ", valorTotal=" + valorTotal +
+                ", valorPago=" + valorPago +
+                ", troco=" + troco +
+                ", quantidadeItens=" + quantidadeItens +
+                ", statusVenda='" + statusVenda + '\'' +
+                ", cliente_idcliente=" + cliente_idcliente +
+                ", usuario_idusuario=" + usuario_idusuario +
+                ", caixas_idcaixas=" + caixas_idcaixas +
+                ", cupom_idcupom=" + cupom_idcupom +
+                '}';
     }
-
-    public void setDataVenda(String dataVenda) {
-        this.dataVenda = dataVenda;
-    }
-
-    public String getHorarioVenda() {
-        return horarioVenda;
-    }
-
-    public void setHorarioVenda(String horarioVenda) {
-        this.horarioVenda = horarioVenda;
-    }
-
-    public String getStatusVenda() {
-        return statusVenda;
-    }
-
-    public void setStatusVenda(String statusVenda) {
-        this.statusVenda = statusVenda;
-    }
-
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public double getValorPago() {
-        return valorPago;
-    }
-
-    public void setValorPago(double valorPago) {
-        this.valorPago = valorPago;
-    }
-
-    public double getTroco() {
-        return troco;
-    }
-
-    public void setTroco(double troco) {
-        this.troco = troco;
-    }
- 
 }
+

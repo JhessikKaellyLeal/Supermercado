@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import Model.Categorias;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,64 +24,108 @@ import java.util.Map;
  */
 
    
+
+
 public class CategoriasController {
 
-    public boolean cadastrar(String nome, String descricao,
-                             boolean status) throws SQLException {
-        String sql = "INSERT INTO categorias (nome, descricao, status) "
-                   + "VALUES (?, ?, ?)";
+    // MÉTODO PARA CADASTRAR CATEGORIA
+    public void cadastrar(Categorias categoria) {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, descricao);
-            ps.setBoolean(3, status);
-            return ps.executeUpdate() > 0;
+        String sql = "INSERT INTO categorias (nome, descricao, status) "
+                + "VALUES (?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, categoria.getNome());
+            stmt.setString(2, categoria.getDescricao());
+            stmt.setInt(3, categoria.getStatus());
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null,
+                    "Categoria cadastrada com sucesso!");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao cadastrar categoria: " + e.getMessage());
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT * FROM categorias ORDER BY nome";
+    // MÉTODO PARA LISTAR CATEGORIAS
+    public List<Categorias> listar() {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        List<Categorias> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM categorias";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                m.put("idcategorias", rs.getInt("idcategorias"));
-                m.put("nome", rs.getString("nome"));
-                m.put("descricao", rs.getString("descricao"));
-                m.put("status", rs.getBoolean("status"));
-                lista.add(m);
+
+                Categorias categoria = new Categorias();
+
+                categoria.setIdcategorias(rs.getInt("idcategorias"));
+                categoria.setNome(rs.getString("nome"));
+                categoria.setDescricao(rs.getString("descricao"));
+                categoria.setStatus(rs.getInt("status"));
+
+                lista.add(categoria);
             }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao listar categorias: " + e.getMessage());
         }
+
         return lista;
     }
 
-    public boolean editar(int id, String nome, String descricao,
-                          boolean status) throws SQLException {
-        String sql = "UPDATE categorias SET nome=?, descricao=?, "
-                   + "status=? WHERE idcategorias=?";
+    // MÉTODO PARA ATUALIZAR CATEGORIA
+    public void atualizar(Categorias categoria) {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, descricao);
-            ps.setBoolean(3, status);
-            ps.setInt(4, id);
-            return ps.executeUpdate() > 0;
+        String sql = "UPDATE categorias SET nome = ?, descricao = ?, "
+                + "status = ? WHERE idcategorias = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, categoria.getNome());
+            stmt.setString(2, categoria.getDescricao());
+            stmt.setInt(3, categoria.getStatus());
+            stmt.setInt(4, categoria.getIdcategorias());
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null,
+                    "Categoria atualizada com sucesso!");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao atualizar categoria: " + e.getMessage());
         }
     }
 
-    public boolean desativar(int id) throws SQLException {
-        String sql = "UPDATE categorias SET status=0 WHERE idcategorias=?";
+    // MÉTODO PARA EXCLUIR CATEGORIA
+    public void excluir(int id) {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        String sql = "DELETE FROM categorias WHERE idcategorias = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null,
+                    "Categoria excluída com sucesso!");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao excluir categoria: " + e.getMessage());
         }
     }
 }
-

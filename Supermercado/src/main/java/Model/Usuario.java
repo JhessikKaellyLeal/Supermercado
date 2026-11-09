@@ -1,18 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-
 public class Usuario {
-   
-    int idusuario, funcionario_idfuncionario;
-    String nome,cpf,email,senha;
-    boolean bloqueio;
 
+    private int idusuario;
+    private String nome;
+    private String cpf;
+    private String email;
+    private String senha;
+    private int bloqueio;
+    private int Funcionario_idFuncionario;
+
+    // CONSTRUTOR VAZIO
     public Usuario() {
     }
+
+    // GETTERS E SETTERS
 
     public int getIdusuario() {
         return idusuario;
@@ -20,14 +22,6 @@ public class Usuario {
 
     public void setIdusuario(int idusuario) {
         this.idusuario = idusuario;
-    }
-
-    public int getFuncionario_idfuncionario() {
-        return funcionario_idfuncionario;
-    }
-
-    public void setFuncionario_idfuncionario(int funcionario_idfuncionario) {
-        this.funcionario_idfuncionario = funcionario_idfuncionario;
     }
 
     public String getNome() {
@@ -62,16 +56,19 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public boolean isBloqueio() {
+    public int getBloqueio() {
         return bloqueio;
     }
 
-    public void setBloqueio(boolean bloqueio) {
+    public void setBloqueio(int bloqueio) {
         this.bloqueio = bloqueio;
     }
-    
-    
-   
-   
-}  
-   
+
+    public int getFuncionario_idFuncionario() {
+        return Funcionario_idFuncionario;
+    }
+
+    public void setFuncionario_idFuncionario(int Funcionario_idFuncionario) {
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+    }
+}

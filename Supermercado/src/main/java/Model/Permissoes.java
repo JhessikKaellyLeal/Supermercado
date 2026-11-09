@@ -1,17 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Permissoes {
- private int idpermissoes;
- private String tipo;
- private boolean telaProdutos, telaEstoque, telaCompras, telaClientes, telaPromocoes, telaCaixa, telaVenda, telaPDV,  telaPedidos, telaEntregas, telaRh, telaFinaceiro, telaRelatorios;
+
+    private int idpermissoes;
+    private String tipo;
+
+    private int telaProdutos;
+    private int telaEstoque;
+    private int telaCompras;
+    private int telaClientes;
+    private int telaPromocoes;
+    private int telaCaixa;
+    private int telaVendas;
+    private int telaPDV;
+    private int telaPedidos;
+    private int telaEntregas;
+    private int telaRh;
+    private int telaFinaceiro;
+    private int telaRelatorios;
 
     public Permissoes() {
     }
@@ -32,108 +38,107 @@ public class Permissoes {
         this.tipo = tipo;
     }
 
-    public boolean isTelaProdutos() {
+    public int getTelaProdutos() {
         return telaProdutos;
     }
 
-    public void setTelaProdutos(boolean telaProdutos) {
+    public void setTelaProdutos(int telaProdutos) {
         this.telaProdutos = telaProdutos;
     }
 
-    public boolean isTelaEstoque() {
+    public int getTelaEstoque() {
         return telaEstoque;
     }
 
-    public void setTelaEstoque(boolean telaEstoque) {
+    public void setTelaEstoque(int telaEstoque) {
         this.telaEstoque = telaEstoque;
     }
 
-    public boolean isTelaCompras() {
+    public int getTelaCompras() {
         return telaCompras;
     }
 
-    public void setTelaCompras(boolean telaCompras) {
+    public void setTelaCompras(int telaCompras) {
         this.telaCompras = telaCompras;
     }
 
-    public boolean isTelaClientes() {
+    public int getTelaClientes() {
         return telaClientes;
     }
 
-    public void setTelaClientes(boolean telaClientes) {
+    public void setTelaClientes(int telaClientes) {
         this.telaClientes = telaClientes;
     }
 
-    public boolean isTelaPromocoes() {
+    public int getTelaPromocoes() {
         return telaPromocoes;
     }
 
-    public void setTelaPromocoes(boolean telaPromocoes) {
+    public void setTelaPromocoes(int telaPromocoes) {
         this.telaPromocoes = telaPromocoes;
     }
 
-    public boolean isTelaCaixa() {
+    public int getTelaCaixa() {
         return telaCaixa;
     }
 
-    public void setTelaCaixa(boolean telaCaixa) {
+    public void setTelaCaixa(int telaCaixa) {
         this.telaCaixa = telaCaixa;
     }
 
-    public boolean isTelaVenda() {
-        return telaVenda;
+    public int getTelaVendas() {
+        return telaVendas;
     }
 
-    public void setTelaVenda(boolean telaVenda) {
-        this.telaVenda = telaVenda;
+    public void setTelaVendas(int telaVendas) {
+        this.telaVendas = telaVendas;
     }
 
-    public boolean isTelaPDV() {
+    public int getTelaPDV() {
         return telaPDV;
     }
 
-    public void setTelaPDV(boolean telaPDV) {
+    public void setTelaPDV(int telaPDV) {
         this.telaPDV = telaPDV;
     }
 
-    public boolean isTelaPedidos() {
+    public int getTelaPedidos() {
         return telaPedidos;
     }
 
-    public void setTelaPedidos(boolean telaPedidos) {
+    public void setTelaPedidos(int telaPedidos) {
         this.telaPedidos = telaPedidos;
     }
 
-    public boolean isTelaEntregas() {
+    public int getTelaEntregas() {
         return telaEntregas;
     }
 
-    public void setTelaEntregas(boolean telaEntregas) {
+    public void setTelaEntregas(int telaEntregas) {
         this.telaEntregas = telaEntregas;
     }
 
-    public boolean isTelaRh() {
+    public int getTelaRh() {
         return telaRh;
     }
 
-    public void setTelaRh(boolean telaRh) {
+    public void setTelaRh(int telaRh) {
         this.telaRh = telaRh;
     }
 
-    public boolean isTelaFinaceiro() {
+    public int getTelaFinaceiro() {
         return telaFinaceiro;
     }
 
-    public void setTelaFinaceiro(boolean telaFinaceiro) {
+    public void setTelaFinaceiro(int telaFinaceiro) {
         this.telaFinaceiro = telaFinaceiro;
     }
 
-    public boolean isTelaRelatorios() {
+    public int getTelaRelatorios() {
         return telaRelatorios;
     }
 
-    public void setTelaRelatorios(boolean telaRelatorios) {
+    public void setTelaRelatorios(int telaRelatorios) {
         this.telaRelatorios = telaRelatorios;
     }
- 
 }
