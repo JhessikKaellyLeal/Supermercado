@@ -38,7 +38,7 @@ public class TelaPedidos extends javax.swing.JFrame {
         
         
         this.usuario= usuario;
-        this.menu=MenuPadrao.instalar(
+       this.menu= MenuPadrao.instalar(
         this,
         usuario,
         "pedidos",
@@ -46,9 +46,6 @@ public class TelaPedidos extends javax.swing.JFrame {
         this::dispose
     );
         this.setExtendedState(TelaPedidos.MAXIMIZED_BOTH);
-        
-       
-        
        
     }
     
@@ -150,8 +147,6 @@ public void navegar(String idtela) {
 }
 
  
-
-private void cadastrarPedidos(int clienteId, int usuarioId, int entregaId) {
 
     try {
 
