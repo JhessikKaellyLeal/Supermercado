@@ -114,5 +114,51 @@ public class PedidosController {
 
             return ps.executeUpdate() > 0;
         }
-    }   
+    } 
+    
+    public int buscarIdClientePorCpf(String cpf) throws SQLException {
+
+    String sql = "SELECT idcliente FROM cliente WHERE cpf = ?";
+
+    try (Connection con = Conexao.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, cpf);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("idcliente");
+            }
+        }
+    }
+
+    return 0;
+}
+    
+    public int buscarIdEntregaPorDataHora(
+        String dataEntrega,
+        String horarioEntrega) throws SQLException {
+
+    String sql = "SELECT identregas FROM entregas "
+            + "WHERE dataEntrega = ? AND horarioEntrega = ?";
+
+    try (Connection con = Conexao.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, dataEntrega);
+        ps.setString(2, horarioEntrega);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("identregas");
+            }
+        }
+    }
+
+    return 0;
+}
+    
+    
 }

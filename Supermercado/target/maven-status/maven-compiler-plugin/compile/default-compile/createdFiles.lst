@@ -42,6 +42,7 @@ View\TelaVendas$14.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class
+View\TelaEntregas$FuncionarioController.class
 Model\Marcas.class
 View\TelaPdvRealizacao$2.class
 View\TelaSolicitacao$3.class
@@ -130,7 +131,6 @@ View\TelaFinanceiro.class
 View\Tela_Funcionarios_RH$2.class
 View\Tela_Funcionarios_RH$3.class
 View\TelaPdvRealizacao.class
-Model\Funcinario.class
 Model\DiasTrabalhados.class
 Control\FornecedoresController.class
 Model\Metas.class
@@ -159,6 +159,7 @@ View\TelaVendas$10.class
 Model\Cliente.class
 Model\ParcelasReceber.class
 View\RecuperacaoSenha.class
+Model\Funcionario.class
 View\TelaPerfilUsuarios.class
 Model\ContasPagar.class
 View\TelaSolicitacao$1.class
@@ -180,3 +181,4 @@ Model\CodigoBarras.class
 View\TelaHome.class
 View\TelaVendaPagamentos$9.class
 Control\FechamentoCaixaController.class
+Control\FuncionarioController.class

@@ -148,7 +148,152 @@ public void navegar(String idtela) {
     }
 }
 
+ private void cadastrarCliente() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String nome = txtNome.getText().trim();
+
+        String cpf = ftfCPF.getText().replaceAll("[^0-9]", "");
+
+        String rg = txtRGCadastro.getText().trim();
+
+        String dataNascimento = ftData.getText().trim();
+
+        String genero = "";
+
+        if (rbFeminino.isSelected()) {
+            genero = "Feminino";
+        } else if (rbMasculino.isSelected()) {
+            genero = "Masculino";
+        } else if (rbOutro.isSelected()) {
+            genero = "Outro";
+        }
+
+        String email = txtEmailCadastro.getText().trim();
+
+        String telefone = ftfTelefone.getText().replaceAll("[^0-9]", "");
+
+        String senha = new String(pfSenha.getPassword());
+
+        // Status: 1 = Ativo
+        int status = 1;
+
+        // Validar campos obrigatórios
+        if (nome.isEmpty() || cpf.isEmpty() || rg.isEmpty()
+                || dataNascimento.isEmpty() || genero.isEmpty()
+                || email.isEmpty() || telefone.isEmpty()
+                || senha.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Preencha todos os campos obrigatórios!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar CPF
+        if (cpf.length() != 11) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Informe um CPF válido!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar telefone
+        if (telefone.length() < 10 || telefone.length() > 11) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Informe um telefone válido!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Chamar o controller
+        ClienteController controller = new ClienteController();
+
+        boolean sucesso = controller.cadastrar(
+            nome,
+            cpf,
+            rg,
+            dataNascimento,
+            genero,
+            email,
+            telefone,
+            status,
+            senha
+        );
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Cliente cadastrado com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            limparCamposCadastro();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Não foi possível cadastrar o cliente!",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao cadastrar cliente: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
  
+ private void limparCamposCadastro() {
+
+    // Limpar campos de texto
+    txtNome.setText("");
+    ftfCPF.setValue(null);
+    txtRGCadastro.setText("");
+    ftData.setValue(null);
+    txtEmailCadastro.setText("");
+    ftfTelefone.setValue(null);
+
+    // Limpar senha
+    pfSenha.setText("");
+
+    // Desmarcar opções de gênero
+    rbFeminino.setSelected(false);
+    rbMasculino.setSelected(false);
+    rbOutro.setSelected(false);
+
+    // Retornar o cursor para o campo nome
+    txtNome.requestFocus();
+
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -364,6 +509,7 @@ public void navegar(String idtela) {
         btnSalvar.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvar.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\diskette (2).png")); // NOI18N
         btnSalvar.setText("Salvar cadastro");
         btnSalvar.setBorder(null);
         btnSalvar.setPreferredSize(new java.awt.Dimension(183, 40));
@@ -575,6 +721,7 @@ public void navegar(String idtela) {
         painelConsultaClientes.setForeground(new java.awt.Color(255, 255, 255));
 
         btnLimparFiltros.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        btnLimparFiltros.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparFiltros.setText("Limpar ");
         btnLimparFiltros.setBorder(null);
         btnLimparFiltros.setPreferredSize(new java.awt.Dimension(131, 40));
@@ -604,6 +751,7 @@ public void navegar(String idtela) {
         btnPesquisarConsulta.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarConsulta.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnPesquisarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarConsulta.setText("Pesquisar");
         btnPesquisarConsulta.setBorder(null);
         btnPesquisarConsulta.setPreferredSize(new java.awt.Dimension(100, 40));
@@ -665,6 +813,7 @@ public void navegar(String idtela) {
         painelConsultaClientes1.setPreferredSize(new java.awt.Dimension(50, 380));
 
         btnVisualizarDetalhes.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        btnVisualizarDetalhes.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\eye (1).png")); // NOI18N
         btnVisualizarDetalhes.setText("Visualizar detalhes");
         btnVisualizarDetalhes.setBorder(null);
         btnVisualizarDetalhes.setPreferredSize(new java.awt.Dimension(210, 40));
@@ -950,8 +1099,8 @@ public void navegar(String idtela) {
             painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodigoEdicao, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCodigoEdicao)
                     .addComponent(lblNomeEdicao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1132,6 +1281,7 @@ public void navegar(String idtela) {
         btnPesquisarHistorico.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarHistorico.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnPesquisarHistorico.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarHistorico.setText("Pesquisar");
         btnPesquisarHistorico.setBorder(null);
         btnPesquisarHistorico.setPreferredSize(new java.awt.Dimension(98, 40));
@@ -1143,6 +1293,7 @@ public void navegar(String idtela) {
         lblTituloHistorico.setText("Histórico de Compras e Pagamentos");
 
         btnLimparHistorico.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        btnLimparHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparHistorico.setText("Limpar");
         btnLimparHistorico.setBorder(null);
         btnLimparHistorico.setPreferredSize(new java.awt.Dimension(176, 40));
@@ -1429,12 +1580,12 @@ public void navegar(String idtela) {
         painelPedidosRelatorio.setPreferredSize(new java.awt.Dimension(1200, 936));
 
         lblTituloPedidosRelatorio.setFont(new java.awt.Font("Arial Black", 1, 30)); // NOI18N
-        lblTituloPedidosRelatorio.setForeground(new java.awt.Color(10, 4, 138));
         lblTituloPedidosRelatorio.setText("Pedidos e Relatório de Clientes");
 
         painelpedidosTitulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblPesquisaClienteRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblPesquisaClienteRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (4).png")); // NOI18N
         lblPesquisaClienteRelatorio.setText("Pesquisar cliente");
 
         cbPeriodoRelatorio.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1443,6 +1594,7 @@ public void navegar(String idtela) {
         cbPeriodoRelatorio.addActionListener(this::cbPeriodoRelatorioActionPerformed);
 
         lblPeriodoRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblPeriodoRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\date (1).png")); // NOI18N
         lblPeriodoRelatorio.setText("Período");
 
         cbStatusRelatorio.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -1450,9 +1602,11 @@ public void navegar(String idtela) {
         cbStatusRelatorio.setPreferredSize(new java.awt.Dimension(76, 35));
 
         lblStatusRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblStatusRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\list-items.png")); // NOI18N
         lblStatusRelatorio.setText("Status");
 
         btnLimparFiltrosRelatorio.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        btnLimparFiltrosRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparFiltrosRelatorio.setBorder(null);
         btnLimparFiltrosRelatorio.setLabel("Limpar");
         btnLimparFiltrosRelatorio.setPreferredSize(new java.awt.Dimension(138, 40));
@@ -1460,6 +1614,7 @@ public void navegar(String idtela) {
         btnPesquisarRelatorio.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarRelatorio.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         btnPesquisarRelatorio.setForeground(new java.awt.Color(255, 255, 255));
+        btnPesquisarRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarRelatorio.setText("Pesquisar");
         btnPesquisarRelatorio.setBorder(null);
         btnPesquisarRelatorio.setPreferredSize(new java.awt.Dimension(75, 40));
@@ -1472,6 +1627,14 @@ public void navegar(String idtela) {
             painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelpedidosTituloLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
+                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56)
+                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
+                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
                 .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1540,6 +1703,7 @@ public void navegar(String idtela) {
         tabelaPedidosClientes.setViewportView(jTable1);
 
         lblTituloTabelaPedidos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblTituloTabelaPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart.png")); // NOI18N
         lblTituloTabelaPedidos.setText("Pedidos dos Clientes");
 
         javax.swing.GroupLayout painelPedidosClientesLayout = new javax.swing.GroupLayout(painelPedidosClientes);
@@ -1571,7 +1735,7 @@ public void navegar(String idtela) {
         lblTotalPedidosRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblTotalPedidosRelatorio.setText("Total de pedidos:");
 
-        lbIconetotalPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart (4).png")); // NOI18N
+        lbIconetotalPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart-shopping-fast (1).png")); // NOI18N
 
         javax.swing.GroupLayout painelTotalPedidosLayout = new javax.swing.GroupLayout(painelTotalPedidos);
         painelTotalPedidos.setLayout(painelTotalPedidosLayout);
@@ -1609,7 +1773,7 @@ public void navegar(String idtela) {
         lblTotalValorPedidosRelatorio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblTotalValorPedidosRelatorio.setText("R$ 0,00");
 
-        lbIconeValorTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\dollar (1).png")); // NOI18N
+        lbIconeValorTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\coins.png")); // NOI18N
 
         javax.swing.GroupLayout painelvalorTotalPedidosLayout = new javax.swing.GroupLayout(painelvalorTotalPedidos);
         painelvalorTotalPedidos.setLayout(painelvalorTotalPedidosLayout);
@@ -1650,7 +1814,7 @@ public void navegar(String idtela) {
         lblPedidosPendentesRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblPedidosPendentesRelatorio.setText("Pedidos pendentes:");
 
-        lbIconePendente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\clock (3).png")); // NOI18N
+        lbIconePendente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\clock-three (1).png")); // NOI18N
 
         javax.swing.GroupLayout painelPedidospendetesLayout = new javax.swing.GroupLayout(painelPedidospendetes);
         painelPedidospendetes.setLayout(painelPedidospendetesLayout);
@@ -1840,7 +2004,7 @@ public void navegar(String idtela) {
                 .addContainerGap(1289, Short.MAX_VALUE))
         );
 
-        abasClientes.addTab("Pedidos e Relatório", null, painelPedidosRelatorio);
+        abasClientes.addTab("Pedidos e Relatório", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\document.png"), painelPedidosRelatorio); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1872,9 +2036,51 @@ public void navegar(String idtela) {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+ cadastrarCliente();
+        // TEXT FIELD
+String nomeCompleto = txtNome.getText().trim();
+
+String rg = txtRGCadastro.getText().trim();
+
+String email = txtEmailCadastro.getText().trim();
 
 
+// FORMATTED FIELD
+String cpf = ftfCPF.getText().replaceAll("[^0-9]", "");
 
+String telefone = ftfTelefone.getText().replaceAll("[^0-9]", "");
+
+String dataNascimento = ftData.getText().trim();
+
+
+// PASSWORD FIELD
+String senha = new String(pfSenha.getPassword());
+
+
+// GÊNERO (RADIO BUTTON)
+String genero = "";
+
+if (rbFeminino.isSelected()) {
+    genero = "Feminino";
+} else if (rbMasculino.isSelected()) {
+    genero = "Masculino";
+} else if (rbOutro.isSelected()) {
+    genero = "Outro";
+}
+// COMBO BOX - STATUS
+String statusSelecionado = cbStatusCadastro.getSelectedItem().toString();
+
+int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
+
+        //COMBO  BOX
+        /*
+        String nome  = nomeVariavel.getSelectedItem().toString();
+        */
+
+        //TEXT   AREA
+        /*
+        String nome = nomeVariavel.getText().toString();
+        */
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void ftfCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfCPFActionPerformed

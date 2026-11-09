@@ -50,17 +50,16 @@ public class TelaCaixa extends javax.swing.JFrame {
      
     public TelaCaixa(Usuario usuario) {
         initComponents();
-        carregarComboBoxes();
-        this.usuario= usuario;
-       this.menu=MenuPadrao.instalar(
+         this.usuario= usuario;
+         
+        this.menu= MenuPadrao.instalar(
         this,
         usuario,
-        "entregas",
+        "caixa",
         this::navegar,
         this::dispose
     );
-          this.setExtendedState(TelaCaixa.MAXIMIZED_BOTH);
-       
+        this.setExtendedState(TelaCaixa.MAXIMIZED_BOTH);
     }
     
      // MÉTODO DE ACESSAR AS TELAS
