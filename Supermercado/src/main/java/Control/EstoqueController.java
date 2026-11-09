@@ -9,8 +9,11 @@ package Control;
  * @author AntônioVieira
  */
 import Conection.Conexao;
+import Model.Estoque;
 import java.sql.*;
 import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class EstoqueController {
   public boolean cadastrar(
@@ -115,5 +118,6 @@ public class EstoqueController {
 
             return ps.executeUpdate() > 0;
         }
-    }   
+    
+   }
 }

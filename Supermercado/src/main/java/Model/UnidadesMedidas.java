@@ -1,19 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class UnidadesMedidas {
- private int  idunidadeMedidas, codigo;
-private String nome, descricao;
-private boolean status;
+
+    private int idunidadeMedidas;
+    private int codigo;
+    private String nome;
+    private int status;
+    private String descricao;
 
     public UnidadesMedidas() {
+    }
+
+    public UnidadesMedidas(int idunidadeMedidas, int codigo,
+            String nome, int status, String descricao) {
+
+        this.idunidadeMedidas = idunidadeMedidas;
+        this.codigo = codigo;
+        this.nome = nome;
+        this.status = status;
+        this.descricao = descricao;
     }
 
     public int getIdunidadeMedidas() {
@@ -40,6 +46,14 @@ private boolean status;
         this.nome = nome;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -47,13 +61,4 @@ private boolean status;
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
 }

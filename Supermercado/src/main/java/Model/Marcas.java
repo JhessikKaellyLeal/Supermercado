@@ -1,19 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Marcas {
- private int  idmarcas;
- private String nome, descricao;
-  private boolean status;
+
+    private int idmarcas;
+    private String nome;
+    private int status;
+    private String descricao;
 
     public Marcas() {
+    }
+
+    public Marcas(int idmarcas, String nome, int status, String descricao) {
+        this.idmarcas = idmarcas;
+        this.nome = nome;
+        this.status = status;
+        this.descricao = descricao;
     }
 
     public int getIdmarcas() {
@@ -32,6 +34,14 @@ public class Marcas {
         this.nome = nome;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -39,13 +49,4 @@ public class Marcas {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-  
 }

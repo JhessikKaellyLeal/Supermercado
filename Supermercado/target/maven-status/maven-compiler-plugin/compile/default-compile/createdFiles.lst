@@ -95,6 +95,7 @@ Control\UnidadeMedidasController.class
 View\TelaGerenciamentoProdutos$1.class
 View\TelaVendaPagamentos$2.class
 View\TelaSolicitacao$6.class
+View\TelaEstoque$2.class
 Model\TaxasEntregas.class
 Control\EstoqueController.class
 Control\MarcasController.class

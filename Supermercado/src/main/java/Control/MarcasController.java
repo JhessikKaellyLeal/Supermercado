@@ -1,82 +1,121 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
+import Model.Marcas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- *
- * @author CleicianeGomes
- */
 public class MarcasController {
-   
-    public boolean cadastrar(String nome, boolean status,
-                             String descricao) throws SQLException {
-        String sql = "INSERT INTO marcas (nome, status, descricao) "
-                   + "VALUES (?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setBoolean(2, status);
-            ps.setString(3, descricao);
-            return ps.executeUpdate() > 0;
+    // CADASTRAR MARCA
+    public boolean cadastrar(Marcas marca) throws SQLException {
+
+        String sql = "INSERT INTO marcas "
+                + "(nome, status, descricao) "
+                + "VALUES (?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, marca.getNome());
+            stmt.setInt(2, marca.getStatus());
+            stmt.setString(3, marca.getDescricao());
+
+            return stmt.executeUpdate() > 0;
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT * FROM marcas ORDER BY nome";
+    // LISTAR TODAS AS MARCAS
+    public List<Marcas> listarMarcas() throws SQLException {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        List<Marcas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM marcas";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                m.put("idmarcas", rs.getInt("idmarcas"));
-                m.put("nome", rs.getString("nome"));
-                m.put("status", rs.getBoolean("status"));
-                m.put("descricao", rs.getString("descricao"));
+
+                Marcas m = new Marcas();
+
+                m.setIdmarcas(rs.getInt("idmarcas"));
+                m.setNome(rs.getString("nome"));
+                m.setStatus(rs.getInt("status"));
+                m.setDescricao(rs.getString("descricao"));
+
                 lista.add(m);
             }
         }
+
         return lista;
     }
 
-    public boolean editar(int id, String nome, boolean status,
-                          String descricao) throws SQLException {
-        String sql = "UPDATE marcas SET nome=?, status=?, descricao=? "
-                   + "WHERE idmarcas=?";
+    // BUSCAR MARCA PELO ID
+    public Marcas buscarPorId(int id) throws SQLException {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setBoolean(2, status);
-            ps.setString(3, descricao);
-            ps.setInt(4, id);
-            return ps.executeUpdate() > 0;
+        String sql = "SELECT * FROM marcas WHERE idmarcas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Marcas m = new Marcas();
+
+                    m.setIdmarcas(rs.getInt("idmarcas"));
+                    m.setNome(rs.getString("nome"));
+                    m.setStatus(rs.getInt("status"));
+                    m.setDescricao(rs.getString("descricao"));
+
+                    return m;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ALTERAR MARCA
+    public boolean alterar(Marcas marca) throws SQLException {
+
+        String sql = "UPDATE marcas SET "
+                + "nome = ?, status = ?, descricao = ? "
+                + "WHERE idmarcas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, marca.getNome());
+            stmt.setInt(2, marca.getStatus());
+            stmt.setString(3, marca.getDescricao());
+            stmt.setInt(4, marca.getIdmarcas());
+
+            return stmt.executeUpdate() > 0;
         }
     }
 
-    public boolean desativar(int id) throws SQLException {
-        String sql = "UPDATE marcas SET status=0 WHERE idmarcas=?";
+    // EXCLUIR MARCA
+    public boolean excluir(int id) throws SQLException {
 
-        try (Connection c = Conexao.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        String sql = "DELETE FROM marcas WHERE idmarcas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            return stmt.executeUpdate() > 0;
         }
     }
 }
-
-

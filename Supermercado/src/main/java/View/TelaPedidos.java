@@ -148,6 +148,11 @@ public void navegar(String idtela) {
 
  
 
+    
+    
+       
+    
+private void cadastrarPedido() {
     try {
 
         // Capturar os dados dos campos

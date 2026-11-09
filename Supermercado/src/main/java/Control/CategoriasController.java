@@ -1,37 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
 import Model.Categorias;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import javax.swing.JOptionPane;
-
-/**
- *
- * @author CleicianeGomes
- */
-
-   
-
 
 public class CategoriasController {
 
-    // MÉTODO PARA CADASTRAR CATEGORIA
-    public void cadastrar(Categorias categoria) {
+    // CADASTRAR CATEGORIA
+    public boolean cadastrar(Categorias categoria) throws SQLException {
 
-        String sql = "INSERT INTO categorias (nome, descricao, status) "
+        String sql = "INSERT INTO categorias "
+                + "(nome, descricao, status) "
                 + "VALUES (?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
@@ -41,19 +26,12 @@ public class CategoriasController {
             stmt.setString(2, categoria.getDescricao());
             stmt.setInt(3, categoria.getStatus());
 
-            stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null,
-                    "Categoria cadastrada com sucesso!");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao cadastrar categoria: " + e.getMessage());
+            return stmt.executeUpdate() > 0;
         }
     }
 
-    // MÉTODO PARA LISTAR CATEGORIAS
-    public List<Categorias> listar() {
+    // LISTAR TODAS AS CATEGORIAS
+    public List<Categorias> listarCategorias() throws SQLException {
 
         List<Categorias> lista = new ArrayList<>();
 
@@ -65,14 +43,14 @@ public class CategoriasController {
 
             while (rs.next()) {
 
-                Categorias categoria = new Categorias();
+                Categorias c = new Categorias();
 
-                categoria.setIdcategorias(rs.getInt("idcategorias"));
-                categoria.setNome(rs.getString("nome"));
-                categoria.setDescricao(rs.getString("descricao"));
-                categoria.setStatus(rs.getInt("status"));
+                c.setIdcategorias(rs.getInt("idcategorias"));
+                c.setNome(rs.getString("nome"));
+                c.setDescricao(rs.getString("descricao"));
+                c.setStatus(rs.getInt("status"));
 
-                lista.add(categoria);
+                lista.add(c);
             }
 
         } catch (SQLException e) {
@@ -83,11 +61,41 @@ public class CategoriasController {
         return lista;
     }
 
-    // MÉTODO PARA ATUALIZAR CATEGORIA
-    public void atualizar(Categorias categoria) {
+    // BUSCAR CATEGORIA PELO ID
+    public Categorias buscarPorId(int id) throws SQLException {
 
-        String sql = "UPDATE categorias SET nome = ?, descricao = ?, "
-                + "status = ? WHERE idcategorias = ?";
+        String sql = "SELECT * FROM categorias WHERE idcategorias = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Categorias c = new Categorias();
+
+                    c.setIdcategorias(rs.getInt("idcategorias"));
+                    c.setNome(rs.getString("nome"));
+                    c.setDescricao(rs.getString("descricao"));
+                    c.setStatus(rs.getInt("status"));
+
+                    return c;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ALTERAR CATEGORIA
+    public boolean alterar(Categorias categoria) throws SQLException {
+
+        String sql = "UPDATE categorias SET "
+                + "nome = ?, descricao = ?, status = ? "
+                + "WHERE idcategorias = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -97,19 +105,12 @@ public class CategoriasController {
             stmt.setInt(3, categoria.getStatus());
             stmt.setInt(4, categoria.getIdcategorias());
 
-            stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null,
-                    "Categoria atualizada com sucesso!");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao atualizar categoria: " + e.getMessage());
+            return stmt.executeUpdate() > 0;
         }
     }
 
-    // MÉTODO PARA EXCLUIR CATEGORIA
-    public void excluir(int id) {
+    // EXCLUIR CATEGORIA
+    public boolean excluir(int id) throws SQLException {
 
         String sql = "DELETE FROM categorias WHERE idcategorias = ?";
 
@@ -118,14 +119,7 @@ public class CategoriasController {
 
             stmt.setInt(1, id);
 
-            stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null,
-                    "Categoria excluída com sucesso!");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao excluir categoria: " + e.getMessage());
+            return stmt.executeUpdate() > 0;
         }
     }
 }
