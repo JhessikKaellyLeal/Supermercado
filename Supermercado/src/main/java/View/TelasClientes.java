@@ -713,7 +713,7 @@ public void navegar(String idtela) {
                 .addContainerGap(1672, Short.MAX_VALUE))
         );
 
-        abasClientes.addTab("Cadastro", null, painelCadastro);
+        abasClientes.addTab("Cadastro", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\user.png"), painelCadastro); // NOI18N
 
         painelConsulta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -898,7 +898,7 @@ public void navegar(String idtela) {
                 .addGap(0, 1786, Short.MAX_VALUE))
         );
 
-        abasClientes.addTab("Consulta", null, painelConsulta);
+        abasClientes.addTab("Consulta", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search 24.png"), painelConsulta); // NOI18N
 
         painelEdicao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -1215,7 +1215,7 @@ public void navegar(String idtela) {
                 .addContainerGap(1245, Short.MAX_VALUE))
         );
 
-        abasClientes.addTab("Edição e Desativação", null, painelEdicao);
+        abasClientes.addTab("Edição e Desativação", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\pencil (1).png"), painelEdicao); // NOI18N
 
         painelHistorico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -1475,11 +1475,7 @@ public void navegar(String idtela) {
                 .addComponent(LbVALORtOTALpAGO)
                 .addGap(24, 24, 24)
                 .addComponent(lBsubTotalPagp)
-                .addContainerGap(13, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTotalPagoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbTotalPagoCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         lBSaldoPendente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1512,18 +1508,13 @@ public void navegar(String idtela) {
         lBSaldoPendenteLayout.setVerticalGroup(
             lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lBSaldoPendenteLayout.createSequentialGroup()
-                .addGroup(lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(lBSaldoPendenteLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(lbsaldopendente1)
-                        .addGap(12, 12, 12)
-                        .addComponent(lBvalorPendente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lBsubValorPendente))
-                    .addGroup(lBSaldoPendenteLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(lbiconeSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(lbsaldopendente1)
+                .addGap(18, 18, 18)
+                .addComponent(lBvalorPendente)
+                .addGap(12, 12, 12)
+                .addComponent(lBsubValorPendente)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout painelHistoricoLayout = new javax.swing.GroupLayout(painelHistorico);
@@ -1575,7 +1566,7 @@ public void navegar(String idtela) {
                 .addContainerGap(1745, Short.MAX_VALUE))
         );
 
-        abasClientes.addTab("Histórico de Compras e Pagamentos", null, painelHistorico);
+        abasClientes.addTab("Histórico de Compras e Pagamentos", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\history 24.png"), painelHistorico); // NOI18N
 
         painelPedidosRelatorio.setPreferredSize(new java.awt.Dimension(1200, 936));
 
@@ -1627,6 +1618,14 @@ public void navegar(String idtela) {
             painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelpedidosTituloLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
+                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56)
+                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
+                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
                 .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))

@@ -36,7 +36,55 @@ public class ProdutosController {
         }
     }
 
-  
+    public List<Map<String, Object>> listar() throws SQLException {
+        List<Map<String, Object>> lista = new ArrayList<>();
+
+        String sql = "SELECT p.*, c.nome AS categoria, "
+                + "m.nome AS marca, u.nome AS unidade "
+                + "FROM produtos p "
+                + "JOIN categorias c "
+                + "ON p.categorias_idcategorias = c.idcategorias "
+                + "JOIN marcas m ON p.marcas_idmarcas = m.idmarcas "
+                + "JOIN unidadeMedidas u "
+                + "ON p.unidadeMedidas_idunidadeMedidas = "
+                + "u.idunidadeMedidas "
+                + "ORDER BY p.nome";
+
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> m = new LinkedHashMap<>();
+
+                m.put("idprodutos", rs.getInt("idprodutos"));
+                m.put("nome", rs.getString("nome"));
+                m.put("codigo", rs.getString("codigo"));
+                m.put("descricao", rs.getString("descricao"));
+                m.put("precoCusto", rs.getDouble("precoCusto"));
+                m.put("precoVenda", rs.getDouble("precoVenda"));
+                m.put("situacao", rs.getInt("situacao"));
+                m.put("estoque", rs.getInt("estoque"));
+                m.put("validade", rs.getString("validade"));
+                m.put("imagem", rs.getBytes("imagem"));
+
+                m.put("categorias_idcategorias",
+                      rs.getInt("categorias_idcategorias"));
+                m.put("marcas_idmarcas",
+                      rs.getInt("marcas_idmarcas"));
+                m.put("unidadeMedidas_idunidadeMedidas",
+                      rs.getInt("unidadeMedidas_idunidadeMedidas"));
+
+                m.put("categoria", rs.getString("categoria"));
+                m.put("marca", rs.getString("marca"));
+                m.put("unidade", rs.getString("unidade"));
+
+                lista.add(m);
+            }
+        }
+
+        return lista;
+    }
 
     public boolean editar(
             int id, String nome, String codigo, String descricao,
@@ -97,9 +145,8 @@ public class ProdutosController {
 
     String sql = "SELECT * FROM produtos";
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
 
         while (rs.next()) {
 

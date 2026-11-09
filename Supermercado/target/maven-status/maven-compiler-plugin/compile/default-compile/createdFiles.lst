@@ -22,6 +22,7 @@ Model\CondicoesPagamento.class
 Model\Ferias.class
 Model\Ponto.class
 Model\Cargos.class
+Control\HistoricoAcessoController.class
 Control\SangriaController.class
 Control\ParcelasReceberController.class
 Control\EtiquetasController.class
@@ -147,6 +148,7 @@ Control\EntregaController.class
 Model\Compras.class
 Model\Estoque.class
 View\TelaVendas$2.class
+View\lblUsuarioHistorico.class
 View\TelaVendas$11.class
 View\TelaVendaPagamentos$14.class
 Model\Turnos.class

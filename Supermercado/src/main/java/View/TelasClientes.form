@@ -1448,6 +1448,10 @@
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="txtEmailEdicao" min="-2" pref="332" max="-2" attributes="0"/>
                               </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                  <Component id="txtEmailEdicao" min="-2" pref="332" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="Bairro" min="-2" pref="72" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="696" pref="421" max="32767" attributes="0"/>
@@ -2478,6 +2482,13 @@
                                   </Group>
                                   <Component id="lblDescricaoPedidosRelatorio" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblTituloPedidosRelatorio" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="painelpedidosTitulo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="painelPedidosClientes" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">

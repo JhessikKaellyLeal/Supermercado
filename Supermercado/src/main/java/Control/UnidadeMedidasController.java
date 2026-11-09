@@ -25,28 +25,19 @@ public class UnidadeMedidasController {
 
    public List<UnidadesMedidas> listar() throws SQLException {
 
-    List<UnidadesMedidas> lista = new ArrayList<>();
-
-    String sql = "SELECT * FROM unidadeMedidas";
-
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-
-            UnidadesMedidas unidade = new UnidadesMedidas();
-
-            unidade.setIdunidadeMedidas(
-                rs.getInt("idunidadeMedidas")
-            );
-
-            unidade.setCodigo(rs.getInt("codigo"));
-            unidade.setNome(rs.getString("nome"));
-            unidade.setStatus(rs.getBoolean("status"));
-            unidade.setDescricao(rs.getString("descricao"));
-
-            lista.add(unidade);
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> m = new LinkedHashMap<>();
+                m.put("idunidadeMedidas",
+                      rs.getInt("idunidadeMedidas"));
+                m.put("codigo", rs.getInt("codigo"));
+                m.put("nome", rs.getString("nome"));
+                m.put("status", rs.getBoolean("status"));
+                m.put("descricao", rs.getString("descricao"));
+                lista.add(m);
+            }
         }
     }
 

@@ -12,42 +12,43 @@ import java.sql.SQLException;
 import Model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-
-
 
 public class UsuarioController {
 
-    // MÉTODO PARA CADASTRAR USUÁRIO
-    public void cadastrar(Usuario usuario) {
+// Cadastrar usuário
+public boolean cadastrar(
+        String nome,
+        String cpf,
+        String email,
+        String senha,
+        int bloqueio,
+        int idFuncionario) {
 
-        String sql = "INSERT INTO usuario "
-                + "(nome, cpf, email, senha, bloqueio, Funcionario_idFuncionario) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO usuario "
+            + "(nome, cpf, email, senha, bloqueio, Funcionario_idFuncionario) "
+            + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    try (Connection conexao = Conexao.conectar();
+         PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
-            stmt.setString(1, usuario.getNome());
-            stmt.setString(2, usuario.getCpf());
-            stmt.setString(3, usuario.getEmail());
-            stmt.setString(4, usuario.getSenha());
-            stmt.setInt(5, usuario.getBloqueio());
-            stmt.setInt(6, usuario.getFuncionario_idFuncionario());
+        stmt.setString(1, nome);
+        stmt.setString(2, cpf);
+        stmt.setString(3, email);
+        stmt.setString(4, senha);
+        stmt.setInt(5, bloqueio);
+        stmt.setInt(6, idFuncionario);
 
-            stmt.executeUpdate();
+        return stmt.executeUpdate() > 0;
 
-            JOptionPane.showMessageDialog(null,
-                    "Usuário cadastrado com sucesso!");
+    } catch (SQLException erro) {
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao cadastrar usuário: " + e.getMessage());
-        }
+        System.out.println("Erro ao cadastrar usuário: "
+                + erro.getMessage());
+
+        return false;
     }
-
-    // MÉTODO PARA LISTAR USUÁRIOS
-    public List<Usuario> listar() {
+}
+public Usuario login(String email, String senha) {
 
         List<Usuario> lista = new ArrayList<>();
 
@@ -152,11 +153,9 @@ public class UsuarioController {
                 usuario.setNome(rs.getString("nome"));
                 usuario.setCpf(rs.getString("cpf"));
                 usuario.setEmail(rs.getString("email"));
-                usuario.setSenha(rs.getString("senha"));
                 usuario.setBloqueio(rs.getInt("bloqueio"));
-                usuario.setFuncionario_idFuncionario(
-                    rs.getInt("Funcionario_idFuncionario")
-                );
+                usuario.setFuncionario_idFuncionario(rs.getInt("Funcionario_idFuncionario"));
+                
 
                 return usuario;
             }
@@ -172,5 +171,149 @@ public class UsuarioController {
 
     return null;
 }
-    
+
+    // Consultar usuário pelo CPF
+    public ResultSet consultarPorCPF(String cpf) {
+
+        String sql = "SELECT * FROM usuario WHERE cpf = ?";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            stmt.setString(1, cpf);
+
+            return stmt.executeQuery();
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar usuário: "
+                    + erro.getMessage());
+            return null;
+        }
+    }
+
+    // Atualizar usuário
+    public boolean atualizar(
+            int idUsuario,
+            String nome,
+            String cpf,
+            String email,
+            String senha,
+            int bloqueio,
+            int idFuncionario) {
+
+        String sql = "UPDATE usuario SET nome = ?, cpf = ?, "
+                + "email = ?, senha = ?, bloqueio = ?, "
+                + "Funcionario_idFuncionario = ? "
+                + "WHERE idusuario = ?";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            stmt.setString(2, cpf);
+            stmt.setString(3, email);
+            stmt.setString(4, senha);
+            stmt.setInt(5, bloqueio);
+            stmt.setInt(6, idFuncionario);
+            stmt.setInt(7, idUsuario);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao atualizar usuário: "
+                    + erro.getMessage());
+            return false;
+        }
+    }
+
+    // Excluir usuário
+    public boolean excluir(int idUsuario) {
+
+        String sql = "DELETE FROM usuario WHERE idusuario = ?";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setInt(1, idUsuario);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException erro) {
+            System.out.println("Erro ao excluir usuário: "
+                    + erro.getMessage());
+            return false;
+        }
+    }
+    public List<Object[]> listarFuncionariosCombo() {
+
+    List<Object[]> lista = new ArrayList<>();
+
+    String sql = "SELECT idusuario, nome "
+            + "FROM usuario "
+            + "WHERE Funcionario_idFuncionario IS NOT NULL "
+            + "ORDER BY nome";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            Object[] dados = {
+                rs.getInt("idusuario"),
+                rs.getString("nome")
+            };
+
+            lista.add(dados);
+        }
+
+    } catch (SQLException e) {
+
+        throw new RuntimeException(
+            "Erro ao consultar funcionários: " + e.getMessage()
+        );
+    }
+
+    return lista;
 }
+
+  
+
+   public List<Usuario> listar()  {
+
+    List<Usuario> lista = new ArrayList<>();
+
+    String sql = "SELECT idusuario, nome, cpf, email, bloqueio "
+               + "FROM usuario "
+               + "ORDER BY idusuario DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            Usuario usuario = new Usuario();
+
+            usuario.setIdusuario(rs.getInt("idusuario"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setCpf(rs.getString("cpf"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setBloqueio(rs.getInt("bloqueio"));
+
+            lista.add(usuario);
+        }
+    }   catch (SQLException ex) {
+            System.getLogger(UsuarioController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+
+    return lista;
+}
+
+   
+
+   
+}
+
+

@@ -16,8 +16,6 @@ public class CategoriasController {
     public boolean cadastrar(String nome, String descricao,
                               boolean status) throws SQLException {
 
-        String sql = "INSERT INTO categorias (nome, descricao, status) VALUES (?, ?, ?)";
-
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
@@ -30,11 +28,6 @@ public class CategoriasController {
     }
 
     public List<Categorias> listar() throws SQLException {
-
-        List<Categorias> lista = new ArrayList<>();
-
-        String sql = "SELECT idcategorias, nome, descricao, status "
-                   + "FROM categorias ORDER BY nome";
 
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
@@ -62,9 +55,6 @@ public class CategoriasController {
 
     public boolean editar(int id, String nome, String descricao,
                           boolean status) throws SQLException {
-
-        String sql = "UPDATE categorias SET nome=?, descricao=?, status=? "
-                   + "WHERE idcategorias=?";
 
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {

@@ -1,6 +1,15 @@
 package Model;
 
 public class Usuario {
+ 
+
+    private int idusuario;
+    private String nome;
+    private String cpf;
+    private String email;
+    private String senha;
+    private int bloqueio;
+    private int funcionario_idFuncionario;
 
     private int idusuario;
     private String nome;
@@ -65,10 +74,21 @@ public class Usuario {
     }
 
     public int getFuncionario_idFuncionario() {
-        return Funcionario_idFuncionario;
-    }
+    return funcionario_idFuncionario;
+}
 
-    public void setFuncionario_idFuncionario(int Funcionario_idFuncionario) {
-        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+public void setFuncionario_idFuncionario(int funcionario_idFuncionario) {
+    this.funcionario_idFuncionario = funcionario_idFuncionario;
+}
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }
+
+
+   
+   
+
+   

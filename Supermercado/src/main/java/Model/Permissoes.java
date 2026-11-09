@@ -1,8 +1,9 @@
+
 package Model;
 
 public class Permissoes {
 
-    private int idpermissoes;
+    private int idPermissoes;
     private String tipo;
 
     private int telaProdutos;
@@ -19,17 +20,23 @@ public class Permissoes {
     private int telaFinaceiro;
     private int telaRelatorios;
 
+    // Relacionamento com Usuario
+    private Usuario usuario;
+
+    // Construtor vazio
     public Permissoes() {
     }
 
-    public int getIdpermissoes() {
-        return idpermissoes;
+    // ID
+    public int getIdPermissoes() {
+        return idPermissoes;
     }
 
-    public void setIdpermissoes(int idpermissoes) {
-        this.idpermissoes = idpermissoes;
+    public void setIdPermissoes(int idPermissoes) {
+        this.idPermissoes = idPermissoes;
     }
 
+    // TIPO
     public String getTipo() {
         return tipo;
     }
@@ -38,6 +45,7 @@ public class Permissoes {
         this.tipo = tipo;
     }
 
+    // TELA PRODUTOS
     public int getTelaProdutos() {
         return telaProdutos;
     }
@@ -46,6 +54,7 @@ public class Permissoes {
         this.telaProdutos = telaProdutos;
     }
 
+    // TELA ESTOQUE
     public int getTelaEstoque() {
         return telaEstoque;
     }
@@ -54,6 +63,7 @@ public class Permissoes {
         this.telaEstoque = telaEstoque;
     }
 
+    // TELA COMPRAS
     public int getTelaCompras() {
         return telaCompras;
     }
@@ -62,6 +72,7 @@ public class Permissoes {
         this.telaCompras = telaCompras;
     }
 
+    // TELA CLIENTES
     public int getTelaClientes() {
         return telaClientes;
     }
@@ -70,6 +81,7 @@ public class Permissoes {
         this.telaClientes = telaClientes;
     }
 
+    // TELA PROMOÇÕES
     public int getTelaPromocoes() {
         return telaPromocoes;
     }
@@ -78,6 +90,7 @@ public class Permissoes {
         this.telaPromocoes = telaPromocoes;
     }
 
+    // TELA CAIXA
     public int getTelaCaixa() {
         return telaCaixa;
     }
@@ -86,6 +99,7 @@ public class Permissoes {
         this.telaCaixa = telaCaixa;
     }
 
+    // TELA VENDAS
     public int getTelaVendas() {
         return telaVendas;
     }
@@ -94,6 +108,7 @@ public class Permissoes {
         this.telaVendas = telaVendas;
     }
 
+    // TELA PDV
     public int getTelaPDV() {
         return telaPDV;
     }
@@ -102,6 +117,7 @@ public class Permissoes {
         this.telaPDV = telaPDV;
     }
 
+    // TELA PEDIDOS
     public int getTelaPedidos() {
         return telaPedidos;
     }
@@ -110,6 +126,7 @@ public class Permissoes {
         this.telaPedidos = telaPedidos;
     }
 
+    // TELA ENTREGAS
     public int getTelaEntregas() {
         return telaEntregas;
     }
@@ -118,6 +135,7 @@ public class Permissoes {
         this.telaEntregas = telaEntregas;
     }
 
+    // TELA RH
     public int getTelaRh() {
         return telaRh;
     }
@@ -126,6 +144,7 @@ public class Permissoes {
         this.telaRh = telaRh;
     }
 
+    // TELA FINANCEIRO
     public int getTelaFinaceiro() {
         return telaFinaceiro;
     }
@@ -134,11 +153,21 @@ public class Permissoes {
         this.telaFinaceiro = telaFinaceiro;
     }
 
+    // TELA RELATÓRIOS
     public int getTelaRelatorios() {
         return telaRelatorios;
     }
 
     public void setTelaRelatorios(int telaRelatorios) {
         this.telaRelatorios = telaRelatorios;
+    }
+
+    // USUARIO RELACIONADO
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
