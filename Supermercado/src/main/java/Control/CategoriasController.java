@@ -1,8 +1,9 @@
-
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import Model.Categorias;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,45 +13,43 @@ import java.util.List;
 
 public class CategoriasController {
 
-    // CADASTRAR CATEGORIA
-    public boolean cadastrar(Categorias categoria) throws SQLException {
+    public boolean cadastrar(String nome, String descricao,
+                              boolean status) throws SQLException {
 
-        String sql = "INSERT INTO categorias "
-                + "(nome, descricao, status) "
-                + "VALUES (?, ?, ?)";
+        String sql = "INSERT INTO categorias (nome, descricao, status) VALUES (?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
 
-            stmt.setString(1, categoria.getNome());
-            stmt.setString(2, categoria.getDescricao());
-            stmt.setInt(3, categoria.getStatus());
+            ps.setString(1, nome);
+            ps.setString(2, descricao);
+            ps.setBoolean(3, status);
 
-            return stmt.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         }
     }
 
-    // LISTAR TODAS AS CATEGORIAS
-    public List<Categorias> listarCategorias() throws SQLException {
+    public List<Categorias> listar() throws SQLException {
 
         List<Categorias> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM categorias";
+        String sql = "SELECT idcategorias, nome, descricao, status "
+                   + "FROM categorias ORDER BY nome";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
 
-                Categorias c = new Categorias();
+                Categorias categoria = new Categorias();
 
-                c.setIdcategorias(rs.getInt("idcategorias"));
-                c.setNome(rs.getString("nome"));
-                c.setDescricao(rs.getString("descricao"));
-                c.setStatus(rs.getInt("status"));
+                categoria.setIdcategorias(rs.getInt("idcategorias"));
+                categoria.setNome(rs.getString("nome"));
+                categoria.setDescricao(rs.getString("descricao"));
+                categoria.setStatus(rs.getBoolean("status"));
 
-                lista.add(c);
+                lista.add(categoria);
             }
 
         } catch (SQLException e) {
@@ -61,65 +60,34 @@ public class CategoriasController {
         return lista;
     }
 
-    // BUSCAR CATEGORIA PELO ID
-    public Categorias buscarPorId(int id) throws SQLException {
+    public boolean editar(int id, String nome, String descricao,
+                          boolean status) throws SQLException {
 
-        String sql = "SELECT * FROM categorias WHERE idcategorias = ?";
+        String sql = "UPDATE categorias SET nome=?, descricao=?, status=? "
+                   + "WHERE idcategorias=?";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            ps.setString(1, nome);
+            ps.setString(2, descricao);
+            ps.setBoolean(3, status);
+            ps.setInt(4, id);
 
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                if (rs.next()) {
-
-                    Categorias c = new Categorias();
-
-                    c.setIdcategorias(rs.getInt("idcategorias"));
-                    c.setNome(rs.getString("nome"));
-                    c.setDescricao(rs.getString("descricao"));
-                    c.setStatus(rs.getInt("status"));
-
-                    return c;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    // ALTERAR CATEGORIA
-    public boolean alterar(Categorias categoria) throws SQLException {
-
-        String sql = "UPDATE categorias SET "
-                + "nome = ?, descricao = ?, status = ? "
-                + "WHERE idcategorias = ?";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, categoria.getNome());
-            stmt.setString(2, categoria.getDescricao());
-            stmt.setInt(3, categoria.getStatus());
-            stmt.setInt(4, categoria.getIdcategorias());
-
-            return stmt.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         }
     }
 
-    // EXCLUIR CATEGORIA
-    public boolean excluir(int id) throws SQLException {
+    public boolean desativar(int id) throws SQLException {
 
-        String sql = "DELETE FROM categorias WHERE idcategorias = ?";
+        String sql = "UPDATE categorias SET status=0 WHERE idcategorias=?";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            ps.setInt(1, id);
 
-            return stmt.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         }
     }
 }

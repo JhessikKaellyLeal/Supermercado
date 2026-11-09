@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class AfastamentosController {
                 + "Funcionario_turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -66,7 +67,7 @@ public class AfastamentosController {
                 + "FROM afastamentos "
                 + "ORDER BY idafastamentos";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -111,7 +112,7 @@ public class AfastamentosController {
                 + "Funcionario_turnos_idturnos=? "
                 + "WHERE idafastamentos=?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -135,7 +136,7 @@ public class AfastamentosController {
         String sql = "DELETE FROM afastamentos "
                 + "WHERE idafastamentos = ?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idAfastamento);

@@ -1,16 +1,19 @@
 
 package Model;
 
+/**
+ *
+ * @author AntônioVieira
+ */
+
+
 public class UnidadesMedidas {
 
     private int idunidadeMedidas;
     private int codigo;
     private String nome;
-    private int status;
+    private boolean status;
     private String descricao;
-
-    public UnidadesMedidas() {
-    }
 
     public UnidadesMedidas(int idunidadeMedidas, int codigo,
             String nome, int status, String descricao) {
@@ -46,11 +49,11 @@ public class UnidadesMedidas {
         this.nome = nome;
     }
 
-    public int getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -61,4 +64,10 @@ public class UnidadesMedidas {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
+

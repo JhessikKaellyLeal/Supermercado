@@ -5,6 +5,7 @@
 package Control;
 
 import Conection.Conexao;
+import static Conection.Conexao.conectar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class EtiquetasController {
 
         String sql = "INSERT INTO etiquetas (tipo, imagem) VALUES (?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -40,7 +41,7 @@ public class EtiquetasController {
         String sql = "SELECT idetiquetas, tipo, imagem "
                    + "FROM etiquetas ORDER BY idetiquetas";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -64,7 +65,7 @@ public class EtiquetasController {
         String sql = "UPDATE etiquetas SET tipo=?, imagem=? "
                    + "WHERE idetiquetas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, tipo);
@@ -78,7 +79,7 @@ public class EtiquetasController {
     public boolean excluir(int id) throws SQLException {
         String sql = "DELETE FROM etiquetas WHERE idetiquetas=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, id);
