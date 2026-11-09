@@ -24,11 +24,13 @@ public class TelaPromocoes extends javax.swing.JFrame {
 
     private MenuPadrao menu;  
     private Usuario usuario;
+    private int idCupomSelecionado = -1;
     
     public TelaPromocoes(Usuario usuario) {
     initComponents();
     listarCupons();
     listarPromocoes();
+    
 
     this.usuario = usuario;
 
@@ -142,6 +144,7 @@ public void navegar(String idtela) {
 
 // ------------------------ LISTAR --------------------------------------------------------------
 
+
 // MÉTODO DE LISTAR CUPONS
 private void listarCupons() {
     try {
@@ -151,6 +154,22 @@ private void listarCupons() {
 
         DefaultTableModel modelo =
                 (DefaultTableModel) tbTabelaCD.getModel();
+
+        // Garantir que a tabela tenha as 12 colunas necessárias
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID",
+            "Código",
+            "Tipo de desconto",
+            "Valor do desconto",
+            "Valor mínimo",
+            "Quantidade máxima",
+            "Limite por cliente",
+            "Tipo de uso",
+            "Data inicial",
+            "Data final",
+            "Observação",
+            "ID da promoção"
+        });
 
         modelo.setRowCount(0);
 
@@ -551,6 +570,10 @@ private void preencherCamposCupom() {
     }
 
     int linhaModelo = tbTabelaCD.convertRowIndexToModel(linha);
+    
+    idCupomSelecionado = Integer.parseInt(
+    tbTabelaCD.getModel().getValueAt(linhaModelo, 0).toString()
+);
 
     // Código do cupom
     tfCodigoCupomCD.setText(
@@ -636,8 +659,114 @@ private void preencherCamposCupom() {
 }
 
 
+private void editarCupom() {
 
+    if (idCupomSelecionado == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Selecione um cupom na tabela para editar.");
+        return;
+    }
 
+    try {
+        Cupom cupom = new Cupom();
+
+        cupom.setCodigoCupom(
+                tfCodigoCupomCD.getText().trim());
+
+        cupom.setTipoDesconto(
+                cbxTipoDescontoCD.getSelectedItem().toString());
+
+        cupom.setValorDesconto(
+                Double.parseDouble(
+                        spnValorDescontoCD.getValue().toString()));
+
+        cupom.setValorMinimoCompra(
+                Double.parseDouble(
+                        spnValorMinimoCD.getValue().toString()));
+
+        cupom.setQttMaximaUso(
+                Integer.parseInt(
+                        spnQtdMaxUsosCD.getValue().toString()));
+
+        cupom.setLimitePorCliente(
+                Integer.parseInt(
+                        spnLimiteClienteCD.getValue().toString()));
+
+        cupom.setTipoUso(
+                cbxTipoUsoCD.getSelectedItem().toString());
+
+        cupom.setDataInicio(
+                tfDataInicioCD.getText().trim());
+
+        cupom.setDataFinal(
+                tfDataFimCD.getText().trim());
+
+        // Buscar o cupom original
+        CupomController controller = new CupomController();
+
+        Cupom cupomOriginal = controller.buscarPorId(
+                idCupomSelecionado);
+
+        if (cupomOriginal == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Cupom não encontrado.");
+            return;
+        }
+
+        // Preservar a observação original
+        cupom.setObservacao(
+                cupomOriginal.getObservacao());
+
+        // Recuperar a promoção selecionada
+        String nomePromocao = cbxPromocoesVinculada
+                .getSelectedItem().toString();
+
+        int idPromocao = -1;
+
+        PromocaoController promocaoController =
+                new PromocaoController();
+
+        for (Promocao promocao : promocaoController.listarTodos()) {
+
+            if (promocao.getNome().equals(nomePromocao)) {
+                idPromocao = promocao.getIdpromocao();
+                break;
+            }
+        }
+
+        if (idPromocao == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma promoção válida.");
+            return;
+        }
+
+        cupom.setPromocao_idpromocao(idPromocao);
+
+        // Atualizar o cupom existente no banco
+        if (controller.atualizar(idCupomSelecionado, cupom)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Cupom atualizado com sucesso!");
+
+            idCupomSelecionado = -1;
+
+            listarCupons();
+            limparCamposCupom();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível atualizar o cupom.");
+        }
+
+    } catch (Exception e) {
+
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao editar cupom: " + e.getMessage());
+        }
+}
 
 
 
@@ -1825,6 +1954,8 @@ private void preencherCamposCupom() {
 
     private void btnEditarCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCDActionPerformed
         // TODO add your handling code here:
+        editarCupom();
+    
     }//GEN-LAST:event_btnEditarCDActionPerformed
 
     private void btnEditarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCPActionPerformed
