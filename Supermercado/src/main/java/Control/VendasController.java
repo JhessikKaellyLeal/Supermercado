@@ -356,10 +356,67 @@ public class VendasController {
     }
 
     return lista;
+}  
+
+public List<Object[]> listarVendasPorFormaPagamento() {
+
+    List<Object[]> lista = new ArrayList<>();
+
+    String sql =
+            "SELECT " +
+            "fp.nome AS formaPagamento, " +
+            "COUNT(v.idvendas) AS quantidade, " +
+            "AVG(v.valorTotal) AS valorMedio, " +
+            "SUM(v.valorTotal) AS valorTotal " +
+
+            "FROM pagamentoVenda pv " +
+
+            "INNER JOIN formasPagamento fp " +
+            "ON fp.idformasPagamento = pv.formasPagamento_idformasPagamento " +
+
+            "INNER JOIN vendas v " +
+            "ON v.idvendas = pv.vendas_idvendas " +
+
+            "GROUP BY fp.nome " +
+            "ORDER BY fp.nome";
+
+    try {
+
+        Connection conn = Conexao.conectar();
+
+        PreparedStatement pst =
+                conn.prepareStatement(sql);
+
+        ResultSet rs =
+                pst.executeQuery();
+
+        while (rs.next()) {
+
+            lista.add(new Object[]{
+
+                rs.getString("formaPagamento"),
+                rs.getInt("quantidade"),
+                rs.getDouble("valorMedio"),
+                rs.getDouble("valorTotal")
+
+            });
+        }
+
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Erro ao listar vendas por forma de pagamento: "
+                + e.getMessage()
+        );
+    }
+
+    return lista;
 }
-    
-    
-    
-    
-    
+
+
+
 }

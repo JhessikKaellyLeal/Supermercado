@@ -71,5 +71,9 @@ public class ContasFinanceiras {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+    public int getAtivo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
   
 }

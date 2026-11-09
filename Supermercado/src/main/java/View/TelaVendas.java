@@ -1,31 +1,20 @@
 package View;
 
 import Control.CategoriasController;
-import Control.CondicoesPagamentoController;
-import Control.FormasPagamentoController;
 import Control.PermissoesController;
-import Control.VendasController;
 import Model.Usuario;
-import Model.Vendas;
-import javax.swing.JOptionPane;
-import java.util.List;
 import java.util.ArrayList;
 import Control.UsuarioController;
 import Control.VendasController;
 import Model.Categorias;
-import Model.CondicoesPagamento;
 import Model.ContasFinanceiras;
-import Model.FormasPagamento;
 import Model.Permissoes;
 import Model.Vendas;
 import control.ContasFinanceirasController;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import Control.ItensVendasController;
 import model.ItensVendas;
@@ -44,14 +33,15 @@ public class TelaVendas extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaVendas.class.getName());
     private MenuPadrao menu;
     private Usuario usuario;
+    //==========================CONSTRUTOR=================================
     public TelaVendas(Usuario usuario) {
         initComponents();
         
       chamarListarCombobox();
       carregarTodasAsTabelasVendas();
       carregarTodasAsTabelasItensVenda();
-        
-        
+      carregarVendasPorFormaPagamento();  
+      carregarContasBancarias();  
         
        this.usuario= usuario;
        this.menu= MenuPadrao.instalar(
@@ -64,7 +54,9 @@ public class TelaVendas extends javax.swing.JFrame {
        this.setExtendedState(TelaVendas.MAXIMIZED_BOTH);
     }
     
-     // MÉTODO DE ACESSAR AS TELAS
+    //==========================CONSTRUTOR=================================
+
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
@@ -619,10 +611,6 @@ private void carregarTodasAsTabelasItensVenda() {
         lbVendasPagamento = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
         tbVendasPagamento = new javax.swing.JTable();
-        jpResumoPagamento = new javax.swing.JPanel();
-        lbResumoPagamento = new javax.swing.JLabel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        jTable12 = new javax.swing.JTable();
         jpCancelamento = new javax.swing.JPanel();
         jpCabecalhoDadosVenda = new javax.swing.JPanel();
         lbDadosVendaCancelamento = new javax.swing.JLabel();
@@ -715,10 +703,6 @@ private void carregarTodasAsTabelasItensVenda() {
         jpbtFiltrosBandeiras = new javax.swing.JPanel();
         btPesquisarBandeiras = new javax.swing.JButton();
         btLimparFiltrosBandeiras = new javax.swing.JButton();
-        jpListaBandeiras = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbListaBandeiras = new javax.swing.JTable();
-        lsListaBandeiras = new javax.swing.JLabel();
         jpParcelamentos = new javax.swing.JPanel();
         jpFiltrosParcelamentos = new javax.swing.JPanel();
         lbFiltrosParcelamentos = new javax.swing.JLabel();
@@ -747,10 +731,6 @@ private void carregarTodasAsTabelasItensVenda() {
         btNovoParcelamentos = new javax.swing.JButton();
         btEditarParcelamentos = new javax.swing.JButton();
         btExcluirParcelamentos = new javax.swing.JButton();
-        jpListaParcelamentos = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbListaParcelamentos = new javax.swing.JTable();
-        lbListaParcelamentos = new javax.swing.JLabel();
         jpTaxas = new javax.swing.JPanel();
         jpCadastroTaxas = new javax.swing.JPanel();
         lbCadastroTaxas = new javax.swing.JLabel();
@@ -779,10 +759,6 @@ private void carregarTodasAsTabelasItensVenda() {
         jpbtFiltrosTaxas = new javax.swing.JPanel();
         btPesquisarTaxas = new javax.swing.JButton();
         btLimparFiltrosTaxas = new javax.swing.JButton();
-        jpListaTaxas = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbListaTaxas = new javax.swing.JTable();
-        lbListaTaxas = new javax.swing.JLabel();
         jpContas = new javax.swing.JPanel();
         jpRelatoriosContas = new javax.swing.JPanel();
         lbRelatoriosContas = new javax.swing.JLabel();
@@ -1803,13 +1779,13 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbFormaPagamento)
                             .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
                         .addComponent(ftfDataInicialPagamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDataFinalPagamento)
                             .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1833,7 +1809,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDataInicialPagamento)
                     .addComponent(lbDataFinalPagamento))
@@ -1885,7 +1861,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addComponent(lbVendasPagamento)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpVendasPagamentoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
@@ -1899,62 +1875,6 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jpResumoPagamento.setBackground(new java.awt.Color(10, 4, 138));
-        jpResumoPagamento.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 1, true));
-        jpResumoPagamento.setForeground(new java.awt.Color(10, 4, 138));
-
-        lbResumoPagamento.setBackground(new java.awt.Color(255, 255, 255));
-        lbResumoPagamento.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbResumoPagamento.setForeground(new java.awt.Color(255, 255, 255));
-        lbResumoPagamento.setText("Resumo por categoria");
-
-        jTable12.setBackground(new java.awt.Color(255, 255, 255));
-        jTable12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTable12.setForeground(new java.awt.Color(0, 0, 0));
-        jTable12.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Categoria", "Qtd. Vendas", "Unid. Vendidas", "Valor Total"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane12.setViewportView(jTable12);
-
-        javax.swing.GroupLayout jpResumoPagamentoLayout = new javax.swing.GroupLayout(jpResumoPagamento);
-        jpResumoPagamento.setLayout(jpResumoPagamentoLayout);
-        jpResumoPagamentoLayout.setHorizontalGroup(
-            jpResumoPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpResumoPagamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpResumoPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpResumoPagamentoLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbResumoPagamento))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-        jpResumoPagamentoLayout.setVerticalGroup(
-            jpResumoPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpResumoPagamentoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbResumoPagamento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jpCategoriaLayout = new javax.swing.GroupLayout(jpCategoria);
         jpCategoria.setLayout(jpCategoriaLayout);
         jpCategoriaLayout.setHorizontalGroup(
@@ -1963,19 +1883,14 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGap(19, 19, 19)
                 .addGroup(jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpVendasPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jpCategoriaLayout.createSequentialGroup()
-                        .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(jpResumoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(45, 45, 45))
         );
         jpCategoriaLayout.setVerticalGroup(
             jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCategoriaLayout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addGroup(jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpResumoPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(26, 26, 26)
                 .addComponent(jpVendasPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -2975,76 +2890,19 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGap(22, 22, 22))
         );
 
-        jpListaBandeiras.setBackground(new java.awt.Color(10, 4, 138));
-
-        tbListaBandeiras.setBackground(new java.awt.Color(255, 255, 255));
-        tbListaBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbListaBandeiras.setForeground(new java.awt.Color(0, 0, 0));
-        tbListaBandeiras.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Código", "Descrição", "Tipo", "Ativa"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tbListaBandeiras);
-
-        lsListaBandeiras.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lsListaBandeiras.setForeground(new java.awt.Color(255, 255, 255));
-        lsListaBandeiras.setText("Lista de Bandeiras");
-
-        javax.swing.GroupLayout jpListaBandeirasLayout = new javax.swing.GroupLayout(jpListaBandeiras);
-        jpListaBandeiras.setLayout(jpListaBandeirasLayout);
-        jpListaBandeirasLayout.setHorizontalGroup(
-            jpListaBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpListaBandeirasLayout.createSequentialGroup()
-                .addGroup(jpListaBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpListaBandeirasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lsListaBandeiras))
-                    .addGroup(jpListaBandeirasLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jpListaBandeirasLayout.setVerticalGroup(
-            jpListaBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpListaBandeirasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lsListaBandeiras)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jpBandeirasLayout = new javax.swing.GroupLayout(jpBandeiras);
         jpBandeiras.setLayout(jpBandeirasLayout);
         jpBandeirasLayout.setHorizontalGroup(
             jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpBandeirasLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
+                .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jpFiltrosBandeiras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpCadastroBandeiras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpListaBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jpBandeirasLayout.createSequentialGroup()
-                        .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jpFiltrosBandeiras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpCadastroBandeiras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(760, Short.MAX_VALUE))
         );
         jpBandeirasLayout.setVerticalGroup(
@@ -3058,9 +2916,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jpListaBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(336, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Bandeiras", jpBandeiras);
@@ -3333,79 +3189,19 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jpListaParcelamentos.setBackground(new java.awt.Color(10, 4, 138));
-
-        tbListaParcelamentos.setAutoCreateColumnsFromModel(false);
-        tbListaParcelamentos.setAutoCreateRowSorter(true);
-        tbListaParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
-        tbListaParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbListaParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
-        tbListaParcelamentos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Forma de Pagamento", "Bandeira", "N° de Parcelas", "Taxa de Juros (%)", "Ativo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tbListaParcelamentos);
-
-        lbListaParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
-        lbListaParcelamentos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbListaParcelamentos.setForeground(new java.awt.Color(255, 255, 255));
-        lbListaParcelamentos.setText("Lista de Parcelamentos");
-
-        javax.swing.GroupLayout jpListaParcelamentosLayout = new javax.swing.GroupLayout(jpListaParcelamentos);
-        jpListaParcelamentos.setLayout(jpListaParcelamentosLayout);
-        jpListaParcelamentosLayout.setHorizontalGroup(
-            jpListaParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpListaParcelamentosLayout.createSequentialGroup()
-                .addGroup(jpListaParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpListaParcelamentosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbListaParcelamentos))
-                    .addGroup(jpListaParcelamentosLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 764, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jpListaParcelamentosLayout.setVerticalGroup(
-            jpListaParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpListaParcelamentosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbListaParcelamentos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jpParcelamentosLayout = new javax.swing.GroupLayout(jpParcelamentos);
         jpParcelamentos.setLayout(jpParcelamentosLayout);
         jpParcelamentosLayout.setHorizontalGroup(
             jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpParcelamentosLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
+                .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpFiltrosParcelamentos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpListaParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jpParcelamentosLayout.createSequentialGroup()
-                        .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpFiltrosParcelamentos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(725, Short.MAX_VALUE))
         );
         jpParcelamentosLayout.setVerticalGroup(
@@ -3419,9 +3215,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jpListaParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(346, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Parcelamentos", jpParcelamentos);
@@ -3704,59 +3498,6 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGap(42, 42, 42))
         );
 
-        jpListaTaxas.setBackground(new java.awt.Color(10, 4, 138));
-
-        tbListaTaxas.setBackground(new java.awt.Color(255, 255, 255));
-        tbListaTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbListaTaxas.setForeground(new java.awt.Color(0, 0, 0));
-        tbListaTaxas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Forma de Pagamento", "Bandeira", "Tipo de Taxa", "Valor", "Ativo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tbListaTaxas);
-
-        lbListaTaxas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbListaTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        lbListaTaxas.setText("Lista de Taxas");
-
-        javax.swing.GroupLayout jpListaTaxasLayout = new javax.swing.GroupLayout(jpListaTaxas);
-        jpListaTaxas.setLayout(jpListaTaxasLayout);
-        jpListaTaxasLayout.setHorizontalGroup(
-            jpListaTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpListaTaxasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpListaTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpListaTaxasLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbListaTaxas))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        jpListaTaxasLayout.setVerticalGroup(
-            jpListaTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpListaTaxasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbListaTaxas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jpTaxasLayout = new javax.swing.GroupLayout(jpTaxas);
         jpTaxas.setLayout(jpTaxasLayout);
         jpTaxasLayout.setHorizontalGroup(
@@ -3764,16 +3505,13 @@ private void carregarTodasAsTabelasItensVenda() {
             .addGroup(jpTaxasLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpListaTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jpTaxasLayout.createSequentialGroup()
-                        .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jpFiltrosTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpCadastroTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(757, Short.MAX_VALUE))
+                    .addComponent(jpFiltrosTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpCadastroTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(773, Short.MAX_VALUE))
         );
         jpTaxasLayout.setVerticalGroup(
             jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3786,9 +3524,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jpListaTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Taxas", jpTaxas);
@@ -4262,9 +3998,31 @@ private void carregarTodasAsTabelasItensVenda() {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbOperadorActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void carregarVendasPorFormaPagamento() {
+
+    DefaultTableModel modelo =
+            new DefaultTableModel();
+
+    modelo.addColumn("Forma de Pagamento");
+    modelo.addColumn("Quantidade de Vendas");
+    modelo.addColumn("Valor Médio");
+    modelo.addColumn("Valor Total");
+
+    VendasController controller =
+            new VendasController();
+
+    List<Object[]> lista =
+            controller.listarVendasPorFormaPagamento();
+
+    for (Object[] linha : lista) {
+
+        modelo.addRow(linha);
+
+    }
+
+    tbVendasPagamento.setModel(modelo);
+}
+    
     public static void main(String args[]) {
         Usuario usuario = new Usuario();
         /* Set the Nimbus look and feel */
@@ -4288,6 +4046,44 @@ private void carregarTodasAsTabelasItensVenda() {
         java.awt.EventQueue.invokeLater(() -> new TelaVendas(usuario).setVisible(true));
     }
     
+    private void carregarContasBancarias() {
+
+    DefaultTableModel modelo =
+            new DefaultTableModel();
+
+    modelo.addColumn("Código");
+    modelo.addColumn("Banco");
+    modelo.addColumn("Agência");
+    modelo.addColumn("Conta");
+    modelo.addColumn("Tipo");
+    modelo.addColumn("Ativa");
+
+    ContasFinanceirasController controller =
+            new ContasFinanceirasController();
+
+    List<ContasFinanceiras> lista =
+            controller.listar();
+
+    for (ContasFinanceiras conta : lista) {
+
+        modelo.addRow(new Object[]{
+
+            conta.getIdcontasFinanceiras(),
+            conta.getBanco(),
+            conta.getAgencia(),
+            conta.getNumeroConta(),
+            conta.getTipo(),
+
+            conta.getAtivo() == 1
+                    ? "Sim"
+                    : "Não"
+
+        });
+
+    }
+
+    tbContasBancarias.setModel(modelo);
+}
     
     
     
@@ -4363,20 +4159,15 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JFormattedTextField ftfPeriodoInicialContas;
     private javax.swing.JFormattedTextField ftxDataVenda;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTable jTable12;
     private javax.swing.JCheckBox jbcAtivoCadastroParcelamentos;
     private javax.swing.JCheckBox jcbAtivaCadastroBandeiras;
     private javax.swing.JCheckBox jcbAtivaContas;
@@ -4412,14 +4203,10 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JPanel jpItensVendaCancelamento;
     private javax.swing.JPanel jpItensVendaComprovante;
     private javax.swing.JPanel jpItensVendaEstorno;
-    private javax.swing.JPanel jpListaBandeiras;
-    private javax.swing.JPanel jpListaParcelamentos;
-    private javax.swing.JPanel jpListaTaxas;
     private javax.swing.JPanel jpOperador;
     private javax.swing.JPanel jpParcelamentos;
     private javax.swing.JPanel jpProduto;
     private javax.swing.JPanel jpRelatoriosContas;
-    private javax.swing.JPanel jpResumoPagamento;
     private javax.swing.JPanel jpTabVendas;
     private javax.swing.JPanel jpTaxas;
     private javax.swing.JPanel jpTotalVendaCancelamento;
@@ -4497,8 +4284,6 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JLabel lbItensVendaCancelamento;
     private javax.swing.JLabel lbItensVendaComprovante;
     private javax.swing.JLabel lbItensVendaEstorno;
-    private javax.swing.JLabel lbListaParcelamentos;
-    private javax.swing.JLabel lbListaTaxas;
     private javax.swing.JLabel lbLoginOperador;
     private javax.swing.JLabel lbMotivoEstorno;
     private javax.swing.JLabel lbNParcelasParcelamentos;
@@ -4523,7 +4308,6 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JLabel lbQuantVendasOperador;
     private javax.swing.JLabel lbQuantVendidaProduto;
     private javax.swing.JLabel lbRelatoriosContas;
-    private javax.swing.JLabel lbResumoPagamento;
     private javax.swing.JLabel lbTaxaJurosParcelamentos;
     private javax.swing.JLabel lbTipoBandeiras;
     private javax.swing.JLabel lbTipoCadastroBandeiras;
@@ -4546,16 +4330,12 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JLabel lbVendasPagamento;
     private javax.swing.JLabel lbVendasProduto;
     private javax.swing.JLabel lbVendasRealizadasOperador;
-    private javax.swing.JLabel lsListaBandeiras;
     private javax.swing.JLabel lvValorEstorno;
     private javax.swing.JTable tbContasBancarias;
     private javax.swing.JTable tbItensVendaCancelamento;
     private javax.swing.JTable tbItensVendaComprovante;
     private javax.swing.JTable tbItensVendaConsulta;
     private javax.swing.JTable tbItensVendaEstorno;
-    private javax.swing.JTable tbListaBandeiras;
-    private javax.swing.JTable tbListaParcelamentos;
-    private javax.swing.JTable tbListaTaxas;
     private javax.swing.JTable tbVendasCadastradasConsulta;
     private javax.swing.JTable tbVendasCadastradasProduto;
     private javax.swing.JTable tbVendasFiltro;
