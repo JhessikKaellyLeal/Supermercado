@@ -1121,7 +1121,7 @@ private void cadastrarAberturaCaixa() {
 
         cbxOpedaror.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
-        btncalendarioDataInicial.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
+        btncalendarioDataInicial.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
 
         lbDATAFinal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbDATAFinal.setText("Data Final:");
@@ -1131,7 +1131,7 @@ private void cadastrarAberturaCaixa() {
         lbValorRS.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbValorRS.setText("Valor (R$):");
 
-        btnCalendarioDataFinal.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
+        btnCalendarioDataFinal.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
 
         lbCaixaMovimentacoes.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbCaixaMovimentacoes.setText("Caixas:");
@@ -1142,7 +1142,7 @@ private void cadastrarAberturaCaixa() {
         cbxMovimentacoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         btnPesquisa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnPesquisa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\search.png")); // NOI18N
+        btnPesquisa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPesquisa.setText("Pesquisar");
 
         javax.swing.GroupLayout pnlMovimentacoesLayout = new javax.swing.GroupLayout(pnlMovimentacoes);
@@ -1214,20 +1214,20 @@ private void cadastrarAberturaCaixa() {
         );
 
         btnImprimi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnImprimi.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\impressora.png")); // NOI18N
+        btnImprimi.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimi.setText("Imprimir");
 
         btnExportarMovimentacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnExportarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\diskette (1).png")); // NOI18N
+        btnExportarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnExportarMovimentacoes.setText("Exportar");
 
         btnVizualiza.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnVizualiza.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\olho (1).png")); // NOI18N
+        btnVizualiza.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\olho (1).png")); // NOI18N
         btnVizualiza.setText("Vizualiar");
         btnVizualiza.addActionListener(this::btnVizualizaActionPerformed);
 
         btnVoltarMovimentacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnVoltarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\back-arrow.png")); // NOI18N
+        btnVoltarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back-arrow.png")); // NOI18N
         btnVoltarMovimentacoes.setText("Voltar");
 
         tbMovimentacoes.setModel(new javax.swing.table.DefaultTableModel(
@@ -1297,7 +1297,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnVizualiza, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(340, 340, 340)
                         .addComponent(btnVoltarMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3851, Short.MAX_VALUE))
+                .addGap(0, 3869, Short.MAX_VALUE))
             .addGroup(pnlMovimentacoesTelasLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(pnlMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1323,18 +1323,18 @@ private void cadastrarAberturaCaixa() {
         lbHistoricodeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbHistoricodeCaixa.setText("Historico de Caixas");
 
-        btnRelogio.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\clock (1).png")); // NOI18N
+        btnRelogio.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\clock (1).png")); // NOI18N
 
         lbDataInicialHistorico.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbDataInicialHistorico.setText("Data Inicial:");
         lbDataInicialHistorico.setToolTipText("");
 
-        btnDataInicial.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
+        btnDataInicial.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
 
         lbDataFinal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbDataFinal.setText("Data Final:");
 
-        btnDataFinal.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
+        btnDataFinal.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
 
         lbcaixa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbcaixa.setText("Caixa:");
@@ -1352,7 +1352,7 @@ private void cadastrarAberturaCaixa() {
         btnpesquisar.setBackground(new java.awt.Color(0, 0, 0));
         btnpesquisar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnpesquisar.setForeground(new java.awt.Color(255, 255, 255));
-        btnpesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\search.png")); // NOI18N
+        btnpesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnpesquisar.setText("Pesquisar");
 
         lbTipodeOperacao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1464,20 +1464,20 @@ private void cadastrarAberturaCaixa() {
         );
 
         btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\impressora.png")); // NOI18N
+        btnImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimir.setText("Imprimir");
 
         btnExporta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnExporta.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\diskette (1).png")); // NOI18N
+        btnExporta.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnExporta.setText("Exportar");
 
         btnVizualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnVizualizar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\olho (1).png")); // NOI18N
+        btnVizualizar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\olho (1).png")); // NOI18N
         btnVizualizar.setText("Vizualizar");
         btnVizualizar.setToolTipText("");
 
         btnVoltar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnVoltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\back-arrow.png")); // NOI18N
+        btnVoltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back-arrow.png")); // NOI18N
         btnVoltar.setText("Voltar");
 
         lbResgistrodeHistoricocaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -1547,7 +1547,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlRegistrodeHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlHistoricodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(3747, Short.MAX_VALUE))
+                .addContainerGap(3765, Short.MAX_VALUE))
         );
         pnlHistoricoTelasLayout.setVerticalGroup(
             pnlHistoricoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1579,7 +1579,7 @@ private void cadastrarAberturaCaixa() {
         lbDadeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbDadeCaixa.setText("Data:");
 
-        btnCalendario.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
+        btnCalendario.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
 
         btnOperador.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnOperador.setText("Operador:");
@@ -1707,28 +1707,28 @@ private void cadastrarAberturaCaixa() {
         );
 
         btnNovo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\marketing.png")); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\marketing.png")); // NOI18N
         btnNovo.setText("Novo");
 
         btnSalvar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\diskette (1).png")); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnSalvar.setText("Salvar");
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\pencil (2).png")); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\pencil (2).png")); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.addActionListener(this::btnEditarActionPerformed);
 
         btnExcluir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\bin.png")); // NOI18N
+        btnExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\bin.png")); // NOI18N
         btnExcluir.setText("Excluir");
 
         btnLimpar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\cleaning.png")); // NOI18N
+        btnLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\cleaning.png")); // NOI18N
         btnLimpar.setText("Limpar");
 
         btnPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\search.png")); // NOI18N
+        btnPesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPesquisar.setText("Pesquisar");
 
         lbRegistrodeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -1800,7 +1800,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3493, Short.MAX_VALUE))
+                .addGap(0, 3511, Short.MAX_VALUE))
             .addGroup(pnlDiferencadeCaixasTelasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlRegistrodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1940,27 +1940,27 @@ private void cadastrarAberturaCaixa() {
                         .addGap(201, 201, 201))))
         );
 
-        btnNOVO.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\marketing.png")); // NOI18N
+        btnNOVO.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\marketing.png")); // NOI18N
         btnNOVO.setText("Novo");
 
-        btnSALVAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\diskette (1).png")); // NOI18N
+        btnSALVAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnSALVAR.setText("Salvar");
         btnSALVAR.addActionListener(this::btnSALVARActionPerformed);
 
-        btnEDITAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\pencil (2).png")); // NOI18N
+        btnEDITAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\pencil (2).png")); // NOI18N
         btnEDITAR.setText("Editar");
 
-        btnEXCLUIR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\bin.png")); // NOI18N
+        btnEXCLUIR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\bin.png")); // NOI18N
         btnEXCLUIR.setText("Excluir");
 
-        btnLIMPAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\cleaning.png")); // NOI18N
+        btnLIMPAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\cleaning.png")); // NOI18N
         btnLIMPAR.setText("Limpar");
 
-        btnPESQUISAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\search.png")); // NOI18N
+        btnPESQUISAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPESQUISAR.setText("Pesquisar");
         btnPESQUISAR.addActionListener(this::btnPESQUISARActionPerformed);
 
-        btnVOLTAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\right-arrow.png")); // NOI18N
+        btnVOLTAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\right-arrow.png")); // NOI18N
         btnVOLTAR.setText("Voltar");
 
         tbPntosdeAtedimento.setModel(new javax.swing.table.DefaultTableModel(
@@ -1993,7 +1993,7 @@ private void cadastrarAberturaCaixa() {
             pnlPontosdeAtendimentoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
                 .addComponent(pnlDadosdeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3230, Short.MAX_VALUE))
+                .addGap(0, 3248, Short.MAX_VALUE))
             .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
                 .addGroup(pnlPontosdeAtendimentoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
@@ -2560,7 +2560,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlComprovanteSuprimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(182, 182, 182)
                         .addComponent(pnlConfirmacaodoComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3132, Short.MAX_VALUE))
+                .addGap(0, 3150, Short.MAX_VALUE))
         );
         pnlSuprimentosTelasLayout.setVerticalGroup(
             pnlSuprimentosTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3291,7 +3291,7 @@ private void cadastrarAberturaCaixa() {
                 .addGroup(pnlConferenciaTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlResumodeDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlChetkdeAprovacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 3003, Short.MAX_VALUE))
+                .addGap(0, 3021, Short.MAX_VALUE))
         );
         pnlConferenciaTelasLayout.setVerticalGroup(
             pnlConferenciaTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3687,7 +3687,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlTotaldeM, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(pnlComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(3474, Short.MAX_VALUE))
+                .addContainerGap(3492, Short.MAX_VALUE))
         );
         pnlSangriasTelasLayout.setVerticalGroup(
             pnlSangriasTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3773,12 +3773,17 @@ private void cadastrarAberturaCaixa() {
                             .addGap(14, 14, 14)
                             .addComponent(lbFiltros))
                         .addGroup(pnlFiltrosLayout.createSequentialGroup()
-                            .addGap(24, 24, 24)
                             .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbLoja)
-                                .addComponent(ffData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbDATA))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlFiltrosLayout.createSequentialGroup()
+                                    .addGap(24, 24, 24)
+                                    .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbLoja)
+                                        .addComponent(lbDATA))
+                                    .addGap(130, 130, 130))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(ffData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                             .addComponent(lbcalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(30, 30, 30)
                 .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -4255,7 +4260,7 @@ private void cadastrarAberturaCaixa() {
                     .addGroup(pnlCaixasAeFTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(pnlHistoricodeAlteracoes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pnlAcoesRapida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(3389, Short.MAX_VALUE))
+                .addContainerGap(3407, Short.MAX_VALUE))
         );
         pnlCaixasAeFTelasLayout.setVerticalGroup(
             pnlCaixasAeFTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4870,7 +4875,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlOPERADORES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlTroco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(3584, Short.MAX_VALUE))
+                .addContainerGap(3602, Short.MAX_VALUE))
         );
         pnlOperadoresdeTelasLayout.setVerticalGroup(
             pnlOperadoresdeTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
