@@ -1,8 +1,13 @@
 package View;
 
+import java.util.List;
+import Control.CupomController;
+import Control.PromocaoController;
+import Model.Cupom;
+import Model.Promocao;
 import Model.Usuario;
-import View.MenuPadrao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -13,28 +18,30 @@ import javax.swing.JOptionPane;
  *
  * @author RogerioSilva
  */
-public class TelaProdutos extends javax.swing.JFrame {
+public class TelaPromocoes extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaProdutos.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPromocoes.class.getName());
 
     private MenuPadrao menu;  
     private Usuario usuario;
     
-    public TelaProdutos(Usuario usuario) {
-        initComponents();
-          
-        this.usuario= usuario;
-        this.menu=MenuPadrao.instalar(
+    public TelaPromocoes(Usuario usuario) {
+    initComponents();
+    listarCupons();
+    listarPromocoes();
+
+    this.usuario = usuario;
+
+    this.menu = MenuPadrao.instalar(
         this,
         usuario,
         "produtos",
         this::navegar,
         this::dispose
     );
-        
-        this.setExtendedState(TelaProdutos.MAXIMIZED_BOTH);
-     
-    }
+
+    this.setExtendedState(TelaCaixa.MAXIMIZED_BOTH);
+}
 
      // MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
@@ -45,11 +52,11 @@ public void navegar(String idtela) {
             menu.abrirTela(this,new TelaHome(usuario));
             break;
 
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+        case "promocoes":
+            menu.abrirTela(this,new TelaPromocoes(usuario));
             break;
 
-        case "gerenciamentoProdutos":
+        case "produtos":
             menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
             break;
 
@@ -133,10 +140,507 @@ public void navegar(String idtela) {
     }
 }
 
+// ------------------------ LISTAR --------------------------------------------------------------
+
+// MÉTODO DE LISTAR CUPONS
+private void listarCupons() {
+    try {
+        CupomController controller = new CupomController();
+
+        List<Cupom> lista = controller.listarTodos();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCD.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Cupom cupom : lista) {
+            modelo.addRow(new Object[]{
+                cupom.getIdcupom(),
+                cupom.getCodigoCupom(),
+                cupom.getTipoDesconto(),
+                cupom.getValorDesconto(),
+                cupom.getValorMinimoCompra(),
+                cupom.getQttMaximaUso(),
+                cupom.getLimitePorCliente(),
+                cupom.getTipoUso(),
+                cupom.getDataInicio(),
+                cupom.getDataFinal(),
+                cupom.getObservacao(),
+                cupom.getPromocao_idpromocao()
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar cupons: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+// MÉTODO DE LISTAR PROMOÇÕES
+private void listarPromocoes() {
+    try {
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> lista = controller.listarTodos();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCP.getModel();
+
+        modelo.setRowCount(0);
+
+        // Limpar ComboBox
+        cbxPromocoesVinculada.removeAllItems();
+
+        // Opção inicial
+        cbxPromocoesVinculada.addItem("Selecione uma promoção");
+
+        for (Promocao promocao : lista) {
+
+            // Preencher tabela
+            modelo.addRow(new Object[]{
+                promocao.getIdpromocao(),
+                promocao.getNome(),
+                promocao.getTipo(),
+                promocao.isStatus(),
+                promocao.getDataInicio(),
+                promocao.getDataFinal(),
+                promocao.getRegras(),
+                promocao.getDesconto(),
+                promocao.getQttMinima()
+            });
+
+            // Preencher ComboBox
+            if (promocao.isStatus()) {
+                cbxPromocoesVinculada.addItem(promocao.getNome());
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar promoções: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+// ---------------- LIMPAR -----------------------------------------------------------------
+
+private void limparCamposCupom() {
+
+    tfCodigoCupomCD.setText("");
+    tfDataInicioCD.setText("");
+    tfDataFimCD.setText("");
+
+    cbxTipoDescontoCD.setSelectedIndex(-1);
+    cbxTipoUsoCD.setSelectedIndex(-1);
+
+    spnValorDescontoCD.setValue(0);
+    spnValorMinimoCD.setValue(0);
+    spnQtdMaxUsosCD.setValue(0);
+    spnLimiteClienteCD.setValue(0);
+}
+private void limparCamposPromocao() {
+
+    txDNdaPromocaoCP.setText("");
+
+    cbxProdutoCategoriaCP.setSelectedIndex(-1);
+    cbxTipoPromocaoCP.setSelectedIndex(-1);
+
+    ftfDataInicioCP.setValue(null);
+    ftfDataFimCP.setValue(null);
+
+    spnDescontoCP.setValue(0);
+    spnQtdeMinimaCP.setValue(0);
+
+    rbtnStatusAtivoCP.setSelected(false);
+    rbtnStatusInativoCP.setSelected(false);
+}
+
+// ------------------------------ CADASTRAR ------------------------------------------------
+
+private void cadastrarCupom() {
+
+    try {
+
+        // Capturar os dados
+        String codigoCupom = tfCodigoCupomCD.getText().trim();
+
+        String tipoDesconto = cbxTipoDescontoCD.getSelectedItem() != null
+                ? cbxTipoDescontoCD.getSelectedItem().toString()
+                : "";
+
+        String promocaoVinculada = cbxPromocoesVinculada.getSelectedItem() != null
+                ? cbxPromocoesVinculada.getSelectedItem().toString()
+                : "";
+
+        double valorDesconto = Double.parseDouble(
+                spnValorDescontoCD.getValue().toString()
+        );
+
+        double valorMinimoCompra = Double.parseDouble(
+                spnValorMinimoCD.getValue().toString()
+        );
+
+        int qtdMaximaUso = Integer.parseInt(
+                spnQtdMaxUsosCD.getValue().toString()
+        );
+
+        int limitePorCliente = Integer.parseInt(
+                spnLimiteClienteCD.getValue().toString()
+        );
+
+        String tipoUso = cbxTipoUsoCD.getSelectedItem() != null
+                ? cbxTipoUsoCD.getSelectedItem().toString()
+                : "";
+
+        String dataInicio = tfDataInicioCD.getText().trim();
+        String dataFinal = tfDataFimCD.getText().trim();
+
+        // Validar campos
+        if (codigoCupom.isEmpty()
+                || tipoDesconto.isEmpty()
+                || tipoUso.isEmpty()
+                || promocaoVinculada.isEmpty()
+                || dataInicio.isEmpty()
+                || dataFinal.isEmpty()
+                || valorDesconto <= 0
+                || valorMinimoCompra < 0
+                || qtdMaximaUso <= 0
+                || limitePorCliente <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios corretamente!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Criar objeto
+        Cupom cupom = new Cupom();
+
+        cupom.setCodigoCupom(codigoCupom);
+        cupom.setTipoDesconto(tipoDesconto);
+        cupom.setValorDesconto(valorDesconto);
+        cupom.setValorMinimoCompra(valorMinimoCompra);
+        cupom.setQttMaximaUso(qtdMaximaUso);
+        cupom.setLimitePorCliente(limitePorCliente);
+        cupom.setTipoUso(tipoUso);
+        cupom.setPromocaoVinculada(promocaoVinculada);
+        cupom.setDataInicio(dataInicio);
+        cupom.setDataFinal(dataFinal);
+
+        // Cadastrar
+        CupomController controller = new CupomController();
+
+        boolean sucesso = controller.cadastrar(cupom);
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cupom cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            listarCupons();
+            limparCamposCupom();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar o cupom!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe valores numéricos válidos!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar cupom: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
   
-    
-    
-    
+private void cadastrarPromocao() {
+
+    try {
+
+        // Capturar os dados
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem() != null
+                ? cbxTipoPromocaoCP.getSelectedItem().toString()
+                : "";
+
+        int status = rbtnStatusAtivoCP.isSelected() ? 1 : 0;
+
+        String categoria = cbxProdutoCategoriaCP.getSelectedItem() != null
+                ? cbxProdutoCategoriaCP.getSelectedItem().toString()
+                : "";
+
+        int qtdMinima = Integer.parseInt(
+                spnQtdeMinimaCP.getValue().toString()
+        );
+
+        int desconto = Integer.parseInt(
+                spnDescontoCP.getValue().toString()
+        );
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = "";
+
+        // Validar campos
+        if (nome.isEmpty()
+                || tipo.isEmpty()
+                || categoria.isEmpty()
+                || dataInicio.isEmpty()
+                || dataFinal.isEmpty()
+                || desconto <= 0
+                || qtdMinima <= 0
+                || (!rbtnStatusAtivoCP.isSelected()
+                && !rbtnStatusInativoCP.isSelected())) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios corretamente!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Criar objeto
+        Promocao promocao = new Promocao();
+
+        promocao.setNome(nome);
+        promocao.setTipo(tipo);
+        promocao.setStatus(status == 1);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFinal(dataFinal);
+        promocao.setRegras(regras);
+        promocao.setDesconto(desconto);
+        promocao.setQttMinima(qtdMinima);
+
+        // Cadastrar
+        PromocaoController controller = new PromocaoController();
+
+        boolean sucesso = controller.cadastrar(promocao);
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Promoção cadastrada com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            listarPromocoes();
+            limparCamposPromocao();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar a promoção!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe valores numéricos válidos!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar promoção: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+ 
+//======================PREENCHER CAMPOS====================================//
+
+private void preencherCamposPromocao() {
+
+    int linha = tbTabelaCP.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    // Identificar a linha selecionada
+    int linhaModelo = tbTabelaCP.convertRowIndexToModel(linha);
+
+    // Preencher nome
+    txDNdaPromocaoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Preencher tipo
+    cbxTipoPromocaoCP.setSelectedItem(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Preencher status
+    Object valorStatus = tbTabelaCP.getModel().getValueAt(linhaModelo, 3);
+
+    boolean ativo = Boolean.parseBoolean(valorStatus.toString());
+
+    rbtnStatusAtivoCP.setSelected(ativo);
+    rbtnStatusInativoCP.setSelected(!ativo);
+
+    // Preencher datas
+    ftfDataInicioCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 4).toString()
+    );
+
+    ftfDataFimCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 5).toString()
+    );
+
+    // Preencher regras e observações
+    txtaRegrasUsoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 6).toString()
+    );
+}
+
+private void preencherCamposCupom() {
+
+    int linha = tbTabelaCD.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    int linhaModelo = tbTabelaCD.convertRowIndexToModel(linha);
+
+    // Código do cupom
+    tfCodigoCupomCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Tipo de desconto
+    cbxTipoDescontoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Valor do desconto
+    spnValorDescontoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 3).toString()
+            )
+    );
+
+    // Valor mínimo da compra
+    spnValorMinimoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 4).toString()
+            )
+    );
+
+    // Quantidade máxima de usos
+    spnQtdMaxUsosCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 5).toString()
+            )
+    );
+
+    // Limite por cliente
+    spnLimiteClienteCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 6).toString()
+            )
+    );
+
+    // Tipo de uso
+    cbxTipoUsoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 7).toString()
+    );
+
+    // Data de início
+    tfDataInicioCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 8).toString()
+    );
+
+    // Data final
+    tfDataFimCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 9).toString()
+    );
+
+    // Promoção vinculada pelo ID
+    try {
+
+        String idPromocao = tbTabelaCD.getModel()
+                .getValueAt(linhaModelo, 11).toString();
+
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> promocoes = controller.listarTodos();
+
+        for (Promocao promocao : promocoes) {
+
+            if (String.valueOf(promocao.getIdpromocao()).equals(idPromocao)) {
+
+                cbxPromocoesVinculada.setSelectedItem(promocao.getNome());
+                break;
+            }
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar promoção vinculada: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+
+
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -158,7 +662,6 @@ public void navegar(String idtela) {
         lbQtdeMinima = new javax.swing.JLabel();
         spnQtdeMinimaCP = new javax.swing.JSpinner();
         lbDescontoCP = new javax.swing.JLabel();
-        cbxProdutoCategoria2CP = new javax.swing.JComboBox<>();
         spnDescontoCP = new javax.swing.JSpinner();
         lbDadosBasicos = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -169,7 +672,8 @@ public void navegar(String idtela) {
         lbDataFimCP = new javax.swing.JLabel();
         ftfDataFimCP = new javax.swing.JFormattedTextField();
         lbRegrasObservacoesCP = new javax.swing.JLabel();
-        pnRegrasObservacoesCP = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtaRegrasUsoCP = new javax.swing.JTextArea();
         btnNovoCP = new javax.swing.JButton();
         btnSalvarCP = new javax.swing.JButton();
         btnEditarCP = new javax.swing.JButton();
@@ -186,9 +690,9 @@ public void navegar(String idtela) {
         cbxTipoDescontoCD = new javax.swing.JComboBox<>();
         lbTipoDescontoCD = new javax.swing.JLabel();
         lbValorDescontoCD = new javax.swing.JLabel();
-        rbtnValorDescontoAtivaCD = new javax.swing.JRadioButton();
-        rbtnValorDescontoInativaCD = new javax.swing.JRadioButton();
         spnValorDescontoCD = new javax.swing.JSpinner();
+        cbxPromocoesVinculada = new javax.swing.JComboBox<>();
+        lbPromocoesVinculada = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lbValorMinimoCD = new javax.swing.JLabel();
         lbLimiteClienteCD = new javax.swing.JLabel();
@@ -207,7 +711,8 @@ public void navegar(String idtela) {
         lbDataFimCD = new javax.swing.JLabel();
         tfDataFimCD = new javax.swing.JFormattedTextField();
         lbObservacoesDescricaoCD = new javax.swing.JLabel();
-        pnObservacoesDescricaoCD = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtaObservacoesDescricaoCD = new javax.swing.JTextArea();
         btnNovoCD = new javax.swing.JButton();
         btnSalvarCD = new javax.swing.JButton();
         btnEditarCD = new javax.swing.JButton();
@@ -252,6 +757,11 @@ public void navegar(String idtela) {
         jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         pnCadastroPromocoes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        pnCadastroPromocoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnCadastroPromocoesMouseClicked(evt);
+            }
+        });
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -296,7 +806,7 @@ public void navegar(String idtela) {
                         .addComponent(rbtnStatusAtivoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(rbtnStatusInativoCP))
-                    .addComponent(txDNdaPromocaoCP))
+                    .addComponent(txDNdaPromocaoCP, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -334,6 +844,7 @@ public void navegar(String idtela) {
 
         btnBuscarProdutoCategoriaCP.setBackground(new java.awt.Color(204, 204, 204));
         btnBuscarProdutoCategoriaCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnBuscarProdutoCategoriaCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnBuscarProdutoCategoriaCP.setText("Buscar");
         btnBuscarProdutoCategoriaCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -345,10 +856,6 @@ public void navegar(String idtela) {
 
         lbDescontoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDescontoCP.setText("Desconto (% ou R$):");
-
-        cbxProdutoCategoria2CP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbxProdutoCategoria2CP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxProdutoCategoria2CP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         spnDescontoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spnDescontoCP.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
@@ -362,36 +869,29 @@ public void navegar(String idtela) {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
                     .addComponent(lbQtdeMinima))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(162, 162, 162))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(cbxProdutoCategoriaCP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(272, 272, 272)
                         .addComponent(lbDescontoCP)
                         .addGap(34, 34, 34)
-                        .addComponent(spnDescontoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(spnDescontoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(253, 253, 253))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel16)
-                        .addComponent(cbxProdutoCategoria2CP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
+                    .addComponent(btnBuscarProdutoCategoriaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbQtdeMinima)
                     .addComponent(spnQtdeMinimaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,29 +915,29 @@ public void navegar(String idtela) {
         lbDataInicioCP.setText("Data de Inicio:");
 
         ftfDataInicioCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        try {
+            ftfDataInicioCP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfDataInicioCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbDataFimCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDataFimCP.setText("Data de Fim:");
 
+        try {
+            ftfDataFimCP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfDataFimCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbRegrasObservacoesCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbRegrasObservacoesCP.setText("Regras de Uso/Observações:");
 
-        pnRegrasObservacoesCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnRegrasObservacoesCP.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        javax.swing.GroupLayout pnRegrasObservacoesCPLayout = new javax.swing.GroupLayout(pnRegrasObservacoesCP);
-        pnRegrasObservacoesCP.setLayout(pnRegrasObservacoesCPLayout);
-        pnRegrasObservacoesCPLayout.setHorizontalGroup(
-            pnRegrasObservacoesCPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnRegrasObservacoesCPLayout.setVerticalGroup(
-            pnRegrasObservacoesCPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-        );
+        txtaRegrasUsoCP.setColumns(20);
+        txtaRegrasUsoCP.setRows(5);
+        jScrollPane5.setViewportView(txtaRegrasUsoCP);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -445,7 +945,7 @@ public void navegar(String idtela) {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(lbDataInicioCP)
                         .addGap(115, 115, 115)
@@ -453,13 +953,12 @@ public void navegar(String idtela) {
                         .addGap(76, 76, 76)
                         .addComponent(lbDataFimCP)
                         .addGap(27, 27, 27)
-                        .addComponent(ftfDataFimCP, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(ftfDataFimCP, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(lbRegrasObservacoesCP)
                         .addGap(18, 18, 18)
-                        .addComponent(pnRegrasObservacoesCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane5)))
+                .addContainerGap(504, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,46 +972,54 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbRegrasObservacoesCP)
-                    .addComponent(pnRegrasObservacoesCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         btnNovoCP.setBackground(new java.awt.Color(204, 204, 204));
         btnNovoCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnNovoCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\+.png")); // NOI18N
         btnNovoCP.setText("Novo");
         btnNovoCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnSalvarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnSalvarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSalvarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCP.setText("Salvar");
         btnSalvarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnSalvarCP.addActionListener(this::btnSalvarCPActionPerformed);
 
         btnEditarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEditarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EDITAR.png")); // NOI18N
         btnEditarCP.setText("Editar");
         btnEditarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEditarCP.addActionListener(this::btnEditarCPActionPerformed);
 
         btnExcluirCP.setBackground(new java.awt.Color(204, 204, 204));
         btnExcluirCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnExcluirCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EXCLUIR.png")); // NOI18N
         btnExcluirCP.setText("Excluir");
         btnExcluirCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnExcluirCP.addActionListener(this::btnExcluirCPActionPerformed);
 
         btnLimparCP.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparCP.setText("Limpar");
         btnLimparCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparCP.addActionListener(this::btnLimparCPActionPerformed);
 
         btnPesquisarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarCP.setText("Pesquisar");
         btnPesquisarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarCP.addActionListener(this::btnPesquisarCPActionPerformed);
 
         btnVoltarCP.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarCP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarCP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarCP.setText("Voltar");
         btnVoltarCP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarCP.addActionListener(this::btnVoltarCPActionPerformed);
@@ -545,6 +1052,11 @@ public void navegar(String idtela) {
                 return canEdit [columnIndex];
             }
         });
+        tbTabelaCP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaCPMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbTabelaCP);
 
         javax.swing.GroupLayout pnCadastroPromocoesLayout = new javax.swing.GroupLayout(pnCadastroPromocoes);
@@ -552,26 +1064,17 @@ public void navegar(String idtela) {
         pnCadastroPromocoesLayout.setHorizontalGroup(
             pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lbVigenciaRegrasCP)
-                                .addComponent(jLabel20)
-                                .addComponent(lbDadosBasicos)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnCadastroPromocoesLayout.createSequentialGroup()
                             .addGap(34, 34, 34)
                             .addComponent(btnNovoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(54, 54, 54)
                             .addComponent(btnSalvarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(56, 56, 56)
                             .addComponent(btnEditarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                            .addGap(56, 56, 56)
                             .addComponent(btnExcluirCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(59, 59, 59)
                             .addComponent(btnLimparCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -579,25 +1082,34 @@ public void navegar(String idtela) {
                             .addComponent(btnPesquisarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(65, 65, 65)
                             .addComponent(btnVoltarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(39, 39, 39))))
-                .addContainerGap(842, Short.MAX_VALUE))
+                            .addGap(39, 39, 39)))
+                    .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDadosBasicos)
+                            .addComponent(lbVigenciaRegrasCP))))
+                .addContainerGap(823, Short.MAX_VALUE))
         );
         pnCadastroPromocoesLayout.setVerticalGroup(
             pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnCadastroPromocoesLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(lbDadosBasicos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbVigenciaRegrasCP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnCadastroPromocoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,7 +1120,7 @@ public void navegar(String idtela) {
                     .addComponent(btnVoltarCP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro De Pomoção", pnCadastroPromocoes);
@@ -633,17 +1145,17 @@ public void navegar(String idtela) {
         lbValorDescontoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbValorDescontoCD.setText("Valor do Desconto:");
 
-        rbtnValorDescontoAtivaCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        rbtnValorDescontoAtivaCD.setText("Ativa");
-        rbtnValorDescontoAtivaCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        rbtnValorDescontoInativaCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        rbtnValorDescontoInativaCD.setText("Inativa");
-        rbtnValorDescontoInativaCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         spnValorDescontoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spnValorDescontoCD.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, null, 1.0d));
         spnValorDescontoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        cbxPromocoesVinculada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbxPromocoesVinculada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxPromocoesVinculada.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cbxPromocoesVinculada.addActionListener(this::cbxPromocoesVinculadaActionPerformed);
+
+        lbPromocoesVinculada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbPromocoesVinculada.setText("Promoçao Vinculada:");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -664,10 +1176,10 @@ public void navegar(String idtela) {
                         .addComponent(lbValorDescontoCD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(83, 83, 83)
-                .addComponent(rbtnValorDescontoAtivaCD, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(rbtnValorDescontoInativaCD)
+                .addGap(32, 32, 32)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbPromocoesVinculada)
+                    .addComponent(cbxPromocoesVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -676,18 +1188,18 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCodigoCupomCD)
-                    .addComponent(tfCodigoCupomCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(tfCodigoCupomCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbPromocoesVinculada))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxTipoDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTipoDescontoCD))
+                    .addComponent(lbTipoDescontoCD)
+                    .addComponent(cbxPromocoesVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbValorDescontoCD)
-                    .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtnValorDescontoAtivaCD)
-                    .addComponent(rbtnValorDescontoInativaCD))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(spnValorDescontoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -714,6 +1226,7 @@ public void navegar(String idtela) {
 
         cbxTipoUsoCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbxTipoUsoCD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uso Único", "Múltiplos Usos" }));
+        cbxTipoUsoCD.addActionListener(this::cbxTipoUsoCDActionPerformed);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -775,28 +1288,28 @@ public void navegar(String idtela) {
         lbDataInicioCD.setText("Data de Inicio:");
 
         tfDataInicioCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        try {
+            tfDataInicioCD.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         lbDataFimCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDataFimCD.setText("Data de Fim:");
 
+        try {
+            tfDataFimCD.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         tfDataFimCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         lbObservacoesDescricaoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbObservacoesDescricaoCD.setText("Observações / Descrição:");
 
-        pnObservacoesDescricaoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnObservacoesDescricaoCD.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        javax.swing.GroupLayout pnObservacoesDescricaoCDLayout = new javax.swing.GroupLayout(pnObservacoesDescricaoCD);
-        pnObservacoesDescricaoCD.setLayout(pnObservacoesDescricaoCDLayout);
-        pnObservacoesDescricaoCDLayout.setHorizontalGroup(
-            pnObservacoesDescricaoCDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnObservacoesDescricaoCDLayout.setVerticalGroup(
-            pnObservacoesDescricaoCDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-        );
+        txtaObservacoesDescricaoCD.setColumns(20);
+        txtaObservacoesDescricaoCD.setRows(5);
+        jScrollPane4.setViewportView(txtaObservacoesDescricaoCD);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -814,10 +1327,9 @@ public void navegar(String idtela) {
                         .addGap(44, 44, 44)
                         .addComponent(lbDataFimCD)
                         .addGap(51, 51, 51)
-                        .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pnObservacoesDescricaoCD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -828,49 +1340,61 @@ public void navegar(String idtela) {
                     .addComponent(tfDataInicioCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDataFimCD)
                     .addComponent(tfDataFimCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbObservacoesDescricaoCD)
-                    .addComponent(pnObservacoesDescricaoCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbObservacoesDescricaoCD)
+                        .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         btnNovoCD.setBackground(new java.awt.Color(204, 204, 204));
         btnNovoCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnNovoCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\+.png")); // NOI18N
         btnNovoCD.setText("Novo");
         btnNovoCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnSalvarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnSalvarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSalvarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\SALVAR.png")); // NOI18N
         btnSalvarCD.setText("Salvar");
         btnSalvarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnSalvarCD.addActionListener(this::btnSalvarCDActionPerformed);
 
         btnEditarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnEditarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEditarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EDITAR.png")); // NOI18N
         btnEditarCD.setText("Editar");
         btnEditarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEditarCD.addActionListener(this::btnEditarCDActionPerformed);
 
         btnExcluirCD.setBackground(new java.awt.Color(204, 204, 204));
         btnExcluirCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnExcluirCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EXCLUIR.png")); // NOI18N
         btnExcluirCD.setText("Excluir");
         btnExcluirCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnExcluirCD.addActionListener(this::btnExcluirCDActionPerformed);
 
         btnLimparCD.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparCD.setText("Limpar");
         btnLimparCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparCD.addActionListener(this::btnLimparCDActionPerformed);
 
         btnPesquisarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarCD.setText("Pesquisar");
         btnPesquisarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarCD.addActionListener(this::btnPesquisarCDActionPerformed);
 
         btnVoltarCD.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarCD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarCD.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarCD.setText("Voltar");
         btnVoltarCD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarCD.addActionListener(this::btnVoltarCDActionPerformed);
@@ -901,6 +1425,11 @@ public void navegar(String idtela) {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tbTabelaCD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTabelaCDMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbTabelaCD);
@@ -966,7 +1495,7 @@ public void navegar(String idtela) {
                     .addComponent(btnVoltarCD, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cupons e Descontos", pnCuponsDesconto);
@@ -984,6 +1513,18 @@ public void navegar(String idtela) {
 
         lbPeriodoEntreHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbPeriodoEntreHP.setText("Período entre:");
+
+        try {
+            tfPeriodoDeHP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tfPeriodoAteHP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         lbAteHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbAteHP.setText("Até");
@@ -1126,6 +1667,7 @@ public void navegar(String idtela) {
 
         btnImprimirHP.setBackground(new java.awt.Color(204, 204, 204));
         btnImprimirHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnImprimirHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimirHP.setText("Imprimir");
         btnImprimirHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnImprimirHP.addActionListener(this::btnImprimirHPActionPerformed);
@@ -1138,18 +1680,21 @@ public void navegar(String idtela) {
 
         btnLimparHP.setBackground(new java.awt.Color(204, 204, 204));
         btnLimparHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimparHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\LIMPAR.png")); // NOI18N
         btnLimparHP.setText("Limpar Filtros");
         btnLimparHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnLimparHP.addActionListener(this::btnLimparHPActionPerformed);
 
         btnPesquisarHP.setBackground(new java.awt.Color(204, 204, 204));
         btnPesquisarHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnPesquisarHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\PESQUISAR.png")); // NOI18N
         btnPesquisarHP.setText("Pesquisar");
         btnPesquisarHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnPesquisarHP.addActionListener(this::btnPesquisarHPActionPerformed);
 
         btnVoltarHP.setBackground(new java.awt.Color(204, 204, 204));
         btnVoltarHP.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarHP.setIcon(new javax.swing.ImageIcon("C:\\Users\\RogerioSilva\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\VOLTAR.png")); // NOI18N
         btnVoltarHP.setText("Voltar");
         btnVoltarHP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnVoltarHP.addActionListener(this::btnVoltarHPActionPerformed);
@@ -1284,6 +1829,88 @@ public void navegar(String idtela) {
 
     private void btnEditarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCPActionPerformed
         // TODO add your handling code here:
+        int linhaSelecionada = tbTabelaCP.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Selecione uma promoção para editar.");
+        return;
+    }
+
+    try {
+
+        // Capturar o ID da promoção selecionada
+        int linhaModelo = tbTabelaCP.convertRowIndexToModel(linhaSelecionada);
+
+        int idPromocao = Integer.parseInt(
+                tbTabelaCP.getModel().getValueAt(linhaModelo, 0).toString()
+        );
+
+        // Capturar os dados dos campos
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem().toString();
+
+        boolean status = rbtnStatusAtivoCP.isSelected();
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = txtaRegrasUsoCP.getText().trim();
+
+        // Validar campos
+        if (nome.isEmpty() || tipo.isEmpty()
+                || dataInicio.isEmpty() || dataFinal.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        // Buscar os dados atuais para preservar desconto e quantidade mínima
+        PromocaoController controller = new PromocaoController();
+
+        Promocao promocao = controller.buscarPorId(idPromocao);
+
+        if (promocao == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Promoção não encontrada.");
+            return;
+        }
+
+        // Atualizar os dados alterados
+        promocao.setNome(nome);
+        promocao.setTipo(tipo);
+        promocao.setStatus(status);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFinal(dataFinal);
+        promocao.setRegras(regras);
+
+        // Salvar no banco
+        boolean atualizado = controller.atualizar(idPromocao, promocao);
+
+        if (atualizado) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Promoção atualizada com sucesso!");
+
+            listarPromocoes();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível atualizar a promoção.");
+
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar promoção: " + e.getMessage());
+
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnEditarCPActionPerformed
 
     private void btnExcluirCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCPActionPerformed
@@ -1334,6 +1961,40 @@ public void navegar(String idtela) {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxResponsavelHPActionPerformed
 
+    private void cbxTipoUsoCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoUsoCDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxTipoUsoCDActionPerformed
+
+    private void btnSalvarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCPActionPerformed
+                // TODO add your handling code here:
+        cadastrarPromocao();        
+                
+    }//GEN-LAST:event_btnSalvarCPActionPerformed
+
+    private void btnSalvarCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCDActionPerformed
+        // TODO add your handling code here:
+        cadastrarCupom();
+    }//GEN-LAST:event_btnSalvarCDActionPerformed
+
+    private void cbxPromocoesVinculadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPromocoesVinculadaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxPromocoesVinculadaActionPerformed
+
+    private void pnCadastroPromocoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnCadastroPromocoesMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_pnCadastroPromocoesMouseClicked
+
+    private void tbTabelaCPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaCPMouseClicked
+        // TODO add your handling code here:
+        preencherCamposPromocao();
+    }//GEN-LAST:event_tbTabelaCPMouseClicked
+
+    private void tbTabelaCDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTabelaCDMouseClicked
+        // TODO add your handling code here:
+        preencherCamposCupom();
+    }//GEN-LAST:event_tbTabelaCDMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1357,7 +2018,7 @@ public void navegar(String idtela) {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TelaProdutos(usuario).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TelaPromocoes(usuario).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1381,8 +2042,8 @@ public void navegar(String idtela) {
     private javax.swing.JButton btnVoltarCD;
     private javax.swing.JButton btnVoltarCP;
     private javax.swing.JButton btnVoltarHP;
-    private javax.swing.JComboBox<String> cbxProdutoCategoria2CP;
     private javax.swing.JComboBox<String> cbxProdutoCategoriaCP;
+    private javax.swing.JComboBox<String> cbxPromocoesVinculada;
     private javax.swing.JComboBox<String> cbxResponsavelHP;
     private javax.swing.JComboBox<String> cbxTipoCupomHP;
     private javax.swing.JComboBox<String> cbxTipoDescontoCD;
@@ -1405,6 +2066,8 @@ public void navegar(String idtela) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbAteHP;
     private javax.swing.JLabel lbCodigoCupomCD;
@@ -1422,6 +2085,7 @@ public void navegar(String idtela) {
     private javax.swing.JLabel lbLimiteClienteCD;
     private javax.swing.JLabel lbObservacoesDescricaoCD;
     private javax.swing.JLabel lbPeriodoEntreHP;
+    private javax.swing.JLabel lbPromocoesVinculada;
     private javax.swing.JLabel lbQtdMaxUsosCD;
     private javax.swing.JLabel lbQtdeMinima;
     private javax.swing.JLabel lbRegrasLimitacoesCD;
@@ -1441,15 +2105,11 @@ public void navegar(String idtela) {
     private javax.swing.JPanel pnCadastroPromocoes;
     private javax.swing.JPanel pnCuponsDesconto;
     private javax.swing.JPanel pnHistoricoPromocoes;
-    private javax.swing.JPanel pnObservacoesDescricaoCD;
-    private javax.swing.JPanel pnRegrasObservacoesCP;
     private javax.swing.JRadioButton rbtnApFinalizadasHP;
     private javax.swing.JRadioButton rbtnApenasAtivasHP;
     private javax.swing.JRadioButton rbtnAtivasFinalizadasHP;
     private javax.swing.JRadioButton rbtnStatusAtivoCP;
     private javax.swing.JRadioButton rbtnStatusInativoCP;
-    private javax.swing.JRadioButton rbtnValorDescontoAtivaCD;
-    private javax.swing.JRadioButton rbtnValorDescontoInativaCD;
     private javax.swing.JSpinner spnDescontoCP;
     private javax.swing.JSpinner spnLimiteClienteCD;
     private javax.swing.JSpinner spnQtdMaxUsosCD;
@@ -1465,5 +2125,14 @@ public void navegar(String idtela) {
     private javax.swing.JFormattedTextField tfPeriodoAteHP;
     private javax.swing.JFormattedTextField tfPeriodoDeHP;
     private javax.swing.JTextField txDNdaPromocaoCP;
+    private javax.swing.JTextArea txtaObservacoesDescricaoCD;
+    private javax.swing.JTextArea txtaRegrasUsoCP;
     // End of variables declaration//GEN-END:variables
+
+    private void reencherCamposPromocao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
+
+   
