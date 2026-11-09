@@ -50,13 +50,13 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lbNomeSupermercado.setText("jLabel1");
-        jPanel1.add(lbNomeSupermercado, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 120, 35));
+        jPanel1.add(lbNomeSupermercado, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 120, 35));
 
         lbUsuario.setText("Usuário ou e-mail");
         jPanel1.add(lbUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 190, -1));
 
         lbLogotipo.setText("jLabel3");
-        jPanel1.add(lbLogotipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 130, 28));
+        jPanel1.add(lbLogotipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 130, 28));
 
         lbSenha.setText("Senha");
         jPanel1.add(lbSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, 66, -1));

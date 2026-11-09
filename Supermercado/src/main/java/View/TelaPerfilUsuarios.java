@@ -67,7 +67,7 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
     private MenuPadrao menu;  
     private Usuario usuario;
     private final UsuarioController usuarioController = new UsuarioController();
-      
+     private int idUsuarioSelecionado = -1; 
 
     
     
@@ -75,7 +75,7 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
     public TelaPerfilUsuarios(Usuario usuario) {
         initComponents();
         listarUsuariosCombo();
-        listarTiposUsuarioCombo();
+        listarFuncionariosCombo();
         listarHistoricoAcessos();
         listarPermissoesTabela();
         
@@ -212,16 +212,17 @@ private void listarUsuariosCombo() {
     }
 }
 
+private void listarFuncionariosCombo() {
 
-private void listarTiposUsuarioCombo() {
+    cbTipoFuncionario.removeAllItems();
 
-    cbTipoUsuario.removeAllItems();
+    FuncionarioController controller = new FuncionarioController();
 
-    cbTipoUsuario.addItem("Administrador");
-    cbTipoUsuario.addItem("Gerente");
-    cbTipoUsuario.addItem("Funcionário");
-    cbTipoUsuario.addItem("Caixa");
-    cbTipoUsuario.addItem("Estoquista");
+    List<Funcionario> funcionarios = controller.listar();
+
+    for (Funcionario funcionario : funcionarios) {
+        cbTipoFuncionario.addItem(funcionario.getNome());
+    }
 }
 
 private int buscarIdUsuarioSelecionado() {
@@ -436,7 +437,7 @@ private void atualizarPermissoes() {
 
     try {
 
-        if (cbTipoUsuario.getSelectedItem() == null) {
+        if (cbTipoFuncionario.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this,
                     "Selecione um usuário!");
             return;
@@ -444,7 +445,7 @@ private void atualizarPermissoes() {
 
         Permissoes permissoes = new Permissoes();
 
-        permissoes.setTipo(cbTipoUsuario.getSelectedItem().toString());
+        permissoes.setTipo(cbTipoFuncionario.getSelectedItem().toString());
 
         permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
         permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
@@ -481,6 +482,22 @@ private void listarUsuarios() throws SQLException {
 
     adicionarUsuarioTabela();
 
+}
+
+private int buscarIdFuncionario(String nome) {
+
+    FuncionarioController controller = new FuncionarioController();
+
+    List<Funcionario> funcionarios = controller.listar();
+
+    for (Funcionario funcionario : funcionarios) {
+
+        if (funcionario.getNome().equals(nome)) {
+            return funcionario.getIdFuncionario();
+        }
+    }
+
+    return -1;
 }
 
 private void listarPermissoesTabela() {
@@ -598,48 +615,84 @@ private void cadastrarUsuario() {
 
     try {
 
-        // Validar campos
-        if (tfNomecompletoPerfil.getText().trim().isEmpty()
-                || ffCPFCadastroUsuario.getText().trim().isEmpty()
-                || tfEmailPerfil.getText().trim().isEmpty()
-                || tfSenha.getText().trim().isEmpty()) {
+        // Capturar dados dos campos
+        String nome = tfNomecompletoPerfil.getText().trim();
+        String cpf = ffCPFCadastroUsuario.getText().trim();
+        String email = tfEmailPerfil.getText().trim();
+        String senha = new String(pfSenhaUsuario.getPassword());
+
+        // Validar campos obrigatórios
+        if (nome.isEmpty() || cpf.isEmpty()
+                || email.isEmpty() || senha.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos obrigatórios!");
+                    "Preencha todos os campos!");
 
             return;
         }
 
-        Usuario usuario = new Usuario();
+        // Verificar funcionário selecionado
+        if (cbTipoFuncionario.getSelectedItem() == null) {
 
-        usuario.setNome(tfNomecompletoPerfil.getText().trim());
-        usuario.setCpf(ffCPFCadastroUsuario.getText().trim());
-        usuario.setEmail(tfEmailPerfil.getText().trim());
-        usuario.setSenha(tfSenha.getText());
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um funcionário!");
 
-        // 1 = Bloqueado / 0 = Ativo
-        usuario.setBloqueio(chbBloqueio.isSelected() ? 1 : 0);
+            return;
+        }
 
+        // Recuperar nome do funcionário
+        String nomeFuncionario =
+                cbTipoFuncionario.getSelectedItem().toString();
+
+        // Buscar ID do funcionário
+        int idFuncionario = buscarIdFuncionario(nomeFuncionario);
+
+        if (idFuncionario == -1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!");
+
+            return;
+        }
+
+        // Definir situação do usuário
+        int bloqueio = chbBloqueio.isSelected() ? 1 : 0;
+
+        // Chamar controller
         UsuarioController controller = new UsuarioController();
 
-        if (controller.cadastrar(usuario)) {
+        boolean sucesso = controller.cadastrar(
+                nome,
+                cpf,
+                email,
+                senha,
+                bloqueio,
+                idFuncionario
+        );
+
+        if (sucesso) {
 
             JOptionPane.showMessageDialog(this,
                     "Usuário cadastrado com sucesso!");
 
             limparCamposUsuario();
+
             listarUsuarios();
 
         } else {
 
             JOptionPane.showMessageDialog(this,
-                    "Não foi possível cadastrar o usuário!");
+                    "Não foi possível cadastrar o usuário. "
+                    + "Verifique se o CPF ou e-mail já existem.");
+
         }
 
-    } catch (SQLException e) {
+    } catch (Exception e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar usuário: " + e.getMessage());
+
+        e.printStackTrace();
     }
 }
 
@@ -744,7 +797,7 @@ private Permissoes obterDadosPermissoes() {
 
     Permissoes permissoes = new Permissoes();
 
-    permissoes.setTipo(cbTipoUsuario.getSelectedItem().toString());
+    permissoes.setTipo(cbTipoFuncionario.getSelectedItem().toString());
 
     permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
     permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
@@ -765,14 +818,50 @@ private Permissoes obterDadosPermissoes() {
 
 private void limparCamposUsuario() {
 
-    tfNomecompletoPerfil.setText("");
+   tfNomecompletoPerfil.setText("");
     ffCPFCadastroUsuario.setText("");
     tfEmailPerfil.setText("");
-    tfSenha.setText("");
+    pfSenhaUsuario.setText("");
 
     chbBloqueio.setSelected(false);
+
 }
 
+private void carregarDadosUsuario() {
+
+    int linha = tbUsuarios.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    // Capturar ID do usuário
+    idUsuarioSelecionado = Integer.parseInt(
+            tbUsuarios.getValueAt(linha, 0).toString()
+    );
+
+    // Carregar informações nos campos
+    tfNomecompletoPerfil.setText(
+            tbUsuarios.getValueAt(linha, 1).toString()
+    );
+
+    ffCPFCadastroUsuario.setText(
+            tbUsuarios.getValueAt(linha, 2).toString()
+    );
+
+    tfEmailPerfil.setText(
+            tbUsuarios.getValueAt(linha, 3).toString()
+    );
+
+    // Carregar situação do usuário
+    String situacao = tbUsuarios.getValueAt(linha, 4).toString();
+
+    chbBloqueio.setSelected(situacao.equalsIgnoreCase("Bloqueado"));
+
+    // Senha não é recuperada pela tabela
+    pfSenhaUsuario.setText("");
+
+}
 
 /**
      * This method is called from within the constructor to initialize the form.
@@ -820,14 +909,12 @@ private void limparCamposUsuario() {
         tfNomecompletoPerfil = new javax.swing.JTextField();
         tfEmailPerfil = new javax.swing.JTextField();
         lbSenhaPerfil = new javax.swing.JLabel();
-        lbTelefonePerfil = new javax.swing.JLabel();
-        tfSenha = new javax.swing.JTextField();
-        ffTelefonePerfil = new javax.swing.JFormattedTextField();
-        cbTipoUsuario = new javax.swing.JComboBox<>();
-        lbTipoUsuario = new javax.swing.JLabel();
+        cbTipoFuncionario = new javax.swing.JComboBox<>();
+        lbTipoFuncionario = new javax.swing.JLabel();
         btnSalvarUsuario = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         ffCPFCadastroUsuario = new javax.swing.JFormattedTextField();
+        pfSenhaUsuario = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -869,7 +956,7 @@ private void limparCamposUsuario() {
         areaHistoricoAcessoLayout.setVerticalGroup(
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(106, Short.MAX_VALUE)
+                .addContainerGap(118, Short.MAX_VALUE)
                 .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1051,7 +1138,7 @@ private void limparCamposUsuario() {
                     .addComponent(btnAtualizaAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Área Permissões", areaPermissoes);
@@ -1100,14 +1187,11 @@ private void limparCamposUsuario() {
         lbSenhaPerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         lbSenhaPerfil.setText("Senha");
 
-        lbTelefonePerfil.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbTelefonePerfil.setText("Telefone");
+        cbTipoFuncionario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        cbTipoFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        cbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lbTipoUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lbTipoUsuario.setText("Tipo de Usuário");
+        lbTipoFuncionario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTipoFuncionario.setText("Tipo de Funcionário");
 
         btnSalvarUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnSalvarUsuario.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
@@ -1119,6 +1203,9 @@ private void limparCamposUsuario() {
 
         ffCPFCadastroUsuario.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
 
+        pfSenhaUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        pfSenhaUsuario.setText("jPasswordField1");
+
         javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
         areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
         areaPerfilUsuarioLayout.setHorizontalGroup(
@@ -1127,69 +1214,63 @@ private void limparCamposUsuario() {
                 .addGap(18, 18, 18)
                 .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfNomecompletoPerfil)
+                                .addComponent(lbSenhaPerfil)
+                                .addComponent(lbEmailPerfil)
+                                .addComponent(lbNomeCompletoPerfil)
+                                .addComponent(tfEmailPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addComponent(ffCPFCadastroUsuario)
+                                .addComponent(pfSenhaUsuario))
                             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                                .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(119, 119, 119)
-                                .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tfNomecompletoPerfil)
-                            .addComponent(lbSenhaPerfil)
-                            .addComponent(lbEmailPerfil)
-                            .addComponent(lbNomeCompletoPerfil)
-                            .addComponent(tfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                            .addComponent(lbTelefonePerfil)
-                            .addComponent(tfEmailPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                            .addComponent(jLabel1)
-                            .addComponent(ffCPFCadastroUsuario))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                                .addComponent(cbTipoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(131, 131, 131)
+                                .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94))))
+                        .addGap(94, 94, 94))
+                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbTipoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(1621, Short.MAX_VALUE))))
         );
         areaPerfilUsuarioLayout.setVerticalGroup(
             areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addComponent(lbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbNomeCompletoPerfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(ffCPFCadastroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbEmailPerfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbSenhaPerfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbTelefonePerfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(ffTelefonePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(191, 191, 191))
-                    .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(lbTipoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbBloqueio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbNomeCompletoPerfil)
+                .addGap(18, 18, 18)
+                .addComponent(tfNomecompletoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(ffCPFCadastroUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbEmailPerfil)
+                .addGap(18, 18, 18)
+                .addComponent(tfEmailPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbSenhaPerfil)
+                .addGap(18, 18, 18)
+                .addComponent(pfSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92)
+                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(245, 245, 245))
+            .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
+                .addGap(117, 117, 117)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Cadastro do Usuário", areaPerfilUsuario);
@@ -1207,7 +1288,7 @@ private void limparCamposUsuario() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
@@ -1292,8 +1373,8 @@ private void limparCamposUsuario() {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbHistoricoAcesso;
+    private javax.swing.JComboBox<String> cbTipoFuncionario;
     private javax.swing.JComboBox<String> cbTipoFuncionarioAreaPermissoes;
-    private javax.swing.JComboBox<String> cbTipoUsuario;
     private javax.swing.JCheckBox chbBloqueio;
     private javax.swing.JCheckBox chbTelaCaixa;
     private javax.swing.JCheckBox chbTelaClientes;
@@ -1309,7 +1390,6 @@ private void limparCamposUsuario() {
     private javax.swing.JCheckBox chbTelaRelatorios;
     private javax.swing.JCheckBox chbTelaVendas;
     private javax.swing.JFormattedTextField ffCPFCadastroUsuario;
-    private javax.swing.JFormattedTextField ffTelefonePerfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1319,21 +1399,15 @@ private void limparCamposUsuario() {
     private javax.swing.JLabel lbFuncionarioAreaPermissoes1;
     private javax.swing.JLabel lbNomeCompletoPerfil;
     private javax.swing.JLabel lbSenhaPerfil;
-    private javax.swing.JLabel lbTelefonePerfil;
-    private javax.swing.JLabel lbTipoUsuario;
+    private javax.swing.JLabel lbTipoFuncionario;
+    private javax.swing.JPasswordField pfSenhaUsuario;
     private javax.swing.JTable tbHistoricoAcessos;
     private javax.swing.JTable tbPermissoes;
     private javax.swing.JTable tbUsuarios;
     private javax.swing.JTextField tfEmailPerfil;
     private javax.swing.JTextField tfNomecompletoPerfil;
-    private javax.swing.JTextField tfSenha;
     // End of variables declaration//GEN-END:variables
 
  
-
-  
-
-  
-
  
 }

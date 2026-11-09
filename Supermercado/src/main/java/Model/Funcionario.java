@@ -120,8 +120,8 @@ public class Funcionario {
     }
 
     // EXIBIR NOME NA COMBOBOX
-    @Override
-    public String toString() {
-        return nome;
-    }
+   @Override
+public String toString() {
+    return nome;
+}
 }

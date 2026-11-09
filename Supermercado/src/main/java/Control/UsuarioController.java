@@ -15,41 +15,39 @@ import java.util.List;
 
 public class UsuarioController {
 
-    // Cadastrar usuário
-    public boolean cadastrar(
-            String nome,
-            String cpf,
-            String email,
-            String senha,
-            int bloqueio,
-            int idFuncionario) {
+// Cadastrar usuário
+public boolean cadastrar(
+        String nome,
+        String cpf,
+        String email,
+        String senha,
+        int bloqueio,
+        int idFuncionario) {
 
-        String sql = "INSERT INTO usuario "
-                + "(nome, cpf, email, senha, bloqueio, "
-                + "Funcionario_idFuncionario) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO usuario "
+            + "(nome, cpf, email, senha, bloqueio, Funcionario_idFuncionario) "
+            + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+    try (Connection conexao = Conexao.conectar();
+         PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
-            stmt.setString(1, nome);
-            stmt.setString(2, cpf);
-            stmt.setString(3, email);
-            stmt.setString(4, senha);
-            stmt.setInt(5, bloqueio);
-            stmt.setInt(6, idFuncionario);
+        stmt.setString(1, nome);
+        stmt.setString(2, cpf);
+        stmt.setString(3, email);
+        stmt.setString(4, senha);
+        stmt.setInt(5, bloqueio);
+        stmt.setInt(6, idFuncionario);
 
-            return stmt.executeUpdate() > 0;
+        return stmt.executeUpdate() > 0;
 
-        } catch (SQLException erro) {
-            System.out.println("Erro ao cadastrar usuário: "
-                    + erro.getMessage());
-            return false;
-        }
+    } catch (SQLException erro) {
+
+        System.out.println("Erro ao cadastrar usuário: "
+                + erro.getMessage());
+
+        return false;
     }
-
-    // Login: verifica e-mail, senha e bloqueio
-   
+}
 public Usuario login(String email, String senha) {
 
     String sql = "SELECT idusuario, nome, cpf, email, "
@@ -75,9 +73,8 @@ public Usuario login(String email, String senha) {
                 usuario.setCpf(rs.getString("cpf"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setBloqueio(rs.getInt("bloqueio"));
-                usuario.setFuncionario_idfuncionario(
-                    rs.getInt("Funcionario_idFuncionario")
-                );
+                usuario.setFuncionario_idFuncionario(rs.getInt("Funcionario_idFuncionario"));
+                
 
                 return usuario;
             }
@@ -230,9 +227,7 @@ public Usuario login(String email, String senha) {
     return lista;
 }
 
-    public boolean cadastrar(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
    
 }

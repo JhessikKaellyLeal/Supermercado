@@ -6,10 +6,15 @@ package Model;
 
 
 public class Usuario {
-   
-    int idusuario, funcionario_idfuncionario;
-    String nome,cpf,email,senha;
-    int bloqueio;
+ 
+
+    private int idusuario;
+    private String nome;
+    private String cpf;
+    private String email;
+    private String senha;
+    private int bloqueio;
+    private int funcionario_idFuncionario;
 
     public Usuario() {
     }
@@ -20,14 +25,6 @@ public class Usuario {
 
     public void setIdusuario(int idusuario) {
         this.idusuario = idusuario;
-    }
-
-    public int getFuncionario_idfuncionario() {
-        return funcionario_idfuncionario;
-    }
-
-    public void setFuncionario_idfuncionario(int funcionario_idfuncionario) {
-        this.funcionario_idfuncionario = funcionario_idfuncionario;
     }
 
     public String getNome() {
@@ -62,10 +59,6 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int isBloqueio() {
-        return bloqueio;
-    }
-
     public int getBloqueio() {
         return bloqueio;
     }
@@ -74,12 +67,22 @@ public class Usuario {
         this.bloqueio = bloqueio;
     }
 
- @Override
-public String toString() {
-    return nome;
-} 
-    
+    public int getFuncionario_idFuncionario() {
+    return funcionario_idFuncionario;
+}
+
+public void setFuncionario_idFuncionario(int funcionario_idFuncionario) {
+    this.funcionario_idFuncionario = funcionario_idFuncionario;
+}
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+}
+
+
    
    
-}  
+
    
