@@ -464,7 +464,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel4">
+        <Container class="javax.swing.JPanel" name="pnlMovimentacoesTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Movimenta&#xe7;&#xf5;es">
@@ -482,11 +482,11 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnImprimi" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="btnExportarMovimentacoes" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnVizualiza" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="340" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="btnVoltarMovimentacoes" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="3851" max="32767" attributes="0"/>
@@ -505,8 +505,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnImprimi" alignment="0" pref="40" max="32767" attributes="0"/>
-                          <Component id="jButton5" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton6" alignment="1" max="32767" attributes="0"/>
+                          <Component id="btnExportarMovimentacoes" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnVoltarMovimentacoes" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnVizualiza" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -528,7 +528,7 @@
                               <Component id="btnPesquisa" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbDataInicialMovimentacoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="ffDataInicial" min="-2" pref="230" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -550,7 +550,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbCaixaMovimentacoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="cbxCaixas" alignment="0" pref="300" max="32767" attributes="0"/>
                                       <Component id="lbMovimentacoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="cbxMovimentacoes" alignment="0" max="32767" attributes="0"/>
@@ -566,9 +566,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbDataInicialMovimentacoes" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbDATAFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbCaixaMovimentacoes" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -605,7 +605,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel8">
+                <Component class="javax.swing.JLabel" name="lbDataInicialMovimentacoes">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -679,7 +679,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel9">
+                <Component class="javax.swing.JLabel" name="lbCaixaMovimentacoes">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -741,7 +741,7 @@
                 <Property name="text" type="java.lang.String" value="Imprimir"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="btnExportarMovimentacoes">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
@@ -766,7 +766,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVizualizaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
+            <Component class="javax.swing.JButton" name="btnVoltarMovimentacoes">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="12" style="1"/>
@@ -782,7 +782,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane19" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tbResgistrosdeMovimentacoes" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lbResgistrodeMovimentos" min="-2" max="-2" attributes="0"/>
@@ -796,14 +796,14 @@
                           <EmptySpace pref="17" max="32767" attributes="0"/>
                           <Component id="lbResgistrodeMovimentos" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jScrollPane19" min="-2" pref="370" max="-2" attributes="0"/>
+                          <Component id="tbResgistrosdeMovimentacoes" min="-2" pref="370" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane19">
+                <Container class="javax.swing.JScrollPane" name="tbResgistrosdeMovimentacoes">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -839,7 +839,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel6">
+        <Container class="javax.swing.JPanel" name="pnlHistoricoTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Hist&#xf3;rico">
@@ -921,7 +921,7 @@
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="btnDataInicial" min="-2" pref="50" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lbDataInicialHistorico" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -981,7 +981,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbDataInicialHistorico" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbcaixa" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lboperador" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1030,7 +1030,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel30">
+                <Component class="javax.swing.JLabel" name="lbDataInicialHistorico">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -1225,7 +1225,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane14" min="-2" pref="1000" max="-2" attributes="0"/>
+                          <Component id="tbResgistrosdeCaixa" min="-2" pref="1000" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -1241,7 +1241,7 @@
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Component id="lbResgistrodeHistoricocaixa" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jScrollPane14" min="-2" pref="265" max="-2" attributes="0"/>
+                          <Component id="tbResgistrosdeCaixa" min="-2" pref="265" max="-2" attributes="0"/>
                           <EmptySpace pref="8" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1256,7 +1256,7 @@
                     <Property name="text" type="java.lang.String" value="Resgistros do Historico de Caixa"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane14">
+                <Container class="javax.swing.JScrollPane" name="tbResgistrosdeCaixa">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -1287,7 +1287,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="java.awt.Panel" name="panel6">
+        <Container class="java.awt.Panel" name="pnlDiferencadeCaixasTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Diferen&#xe7;as de Caixas">
@@ -1343,7 +1343,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlRegistrodeCaixa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="1508" max="32767" attributes="0"/>
+                      <EmptySpace pref="1507" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1359,7 +1359,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="ffDatadaCaixa" min="-2" pref="350" max="-2" attributes="0"/>
+                                          <Component id="ffDatadeCaixa" min="-2" pref="350" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnCalendario" min="-2" pref="42" max="-2" attributes="0"/>
                                       </Group>
@@ -1382,7 +1382,7 @@
                                       <Component id="jLabel28" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="txfValorEsperando" alignment="0" max="32767" attributes="0"/>
                                       <Component id="lbValorcantado" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField15" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txfValorContado" alignment="0" max="32767" attributes="0"/>
                                       <Component id="txfDiferenca" alignment="0" pref="300" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
@@ -1435,9 +1435,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField15" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="ffDatadaCaixa" alignment="3" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txfValorContado" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="ffDatadeCaixa" min="-2" pref="31" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1495,7 +1495,7 @@
                     <Property name="text" type="java.lang.String" value="Data:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="ffDatadaCaixa">
+                <Component class="javax.swing.JFormattedTextField" name="ffDatadeCaixa">
                 </Component>
                 <Component class="javax.swing.JButton" name="btnCalendario">
                   <Properties>
@@ -1543,7 +1543,7 @@
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField15">
+                <Component class="javax.swing.JTextField" name="txfValorContado">
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbDiferenca">
                   <Properties>
@@ -1597,7 +1597,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea4">
+                    <Component class="javax.swing.JTextArea" name="txaObservacoesDiferenciadeCaixa">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
@@ -1752,7 +1752,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="java.awt.Panel" name="panel1">
+        <Container class="java.awt.Panel" name="pnlPontosdeAtendimentoTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Pontos de Atedimento">
@@ -1765,17 +1765,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlDadosdeAtendimento" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="3230" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                              <Component id="jButton22" min="-2" pref="34" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField6" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnNOVO" min="-2" pref="180" max="-2" attributes="0"/>
@@ -1804,7 +1798,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel2" min="-2" pref="270" max="-2" attributes="0"/>
+                      <Component id="pnlDadosdeAtendimento" min="-2" pref="270" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNOVO" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
@@ -1817,18 +1811,13 @@
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="jScrollPane5" min="-2" pref="317" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextField6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton22" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="446" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="1546" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel2">
+            <Container class="javax.swing.JPanel" name="pnlDadosdeAtendimento">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -1836,19 +1825,19 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbDadosdeAtendimento" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lbcodigo" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel24" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbDescricaodePontosdeAtendimento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbTipoPontosdeAtendimento" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jTextField5" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jComboBox5" alignment="0" pref="200" max="32767" attributes="0"/>
+                                      <Component id="txfCadigoPontosdeAtendimento" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txfDescricaoPontosdeAtendimento" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="cbxTipoPontosdeAtendimento" alignment="0" pref="200" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1876,7 +1865,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbObservacoePontosdeAtendimento" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane3" alignment="0" min="-2" pref="580" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1889,27 +1878,27 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                          <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbDadosdeAtendimento" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lbcodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField4" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="txfCadigoPontosdeAtendimento" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                                       <Component id="lbendereco" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="tfENDERECO" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="lbDescricaodePontosdeAtendimento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txfDescricaoPontosdeAtendimento" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="lbTELEFONE" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="tfTELEFONE" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBox5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="lbTipoPontosdeAtendimento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoPontosdeAtendimento" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="lbstatus" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnATIVO" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnINATIVO" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1918,7 +1907,7 @@
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbObservacoePontosdeAtendimento" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jScrollPane3" min="-2" pref="130" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="201" max="-2" attributes="0"/>
@@ -1929,7 +1918,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel23">
+                <Component class="javax.swing.JLabel" name="lbDadosdeAtendimento">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="1"/>
@@ -1945,7 +1934,7 @@
                     <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel22">
+                <Component class="javax.swing.JLabel" name="lbDescricaodePontosdeAtendimento">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
@@ -1953,7 +1942,7 @@
                     <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel24">
+                <Component class="javax.swing.JLabel" name="lbTipoPontosdeAtendimento">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
@@ -1961,11 +1950,11 @@
                     <Property name="text" type="java.lang.String" value="Tipo:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField4">
+                <Component class="javax.swing.JTextField" name="txfCadigoPontosdeAtendimento">
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField5">
+                <Component class="javax.swing.JTextField" name="txfDescricaoPontosdeAtendimento">
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox5">
+                <Component class="javax.swing.JComboBox" name="cbxTipoPontosdeAtendimento">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
@@ -2021,7 +2010,7 @@
                     <Property name="text" type="java.lang.String" value="Inativo"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel21">
+                <Component class="javax.swing.JLabel" name="lbObservacoePontosdeAtendimento">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
@@ -2036,7 +2025,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea2">
+                    <Component class="javax.swing.JTextArea" name="txaObservacoesPontosdeAtendimento">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
@@ -2131,22 +2120,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextField6">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Selecione um registro para vizualizar ou Editar dados."/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton22">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="!"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
-        <Container class="java.awt.Panel" name="panel4">
+        <Container class="java.awt.Panel" name="pnlSuprimentosTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Suprimentos">
@@ -2170,7 +2146,7 @@
                               <Component id="pnlAtualizacaodeSaldo" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
+                              <Component id="pnlComprovanteSuprimentos" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                               <Component id="pnlConfirmacaodoComprovante" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -2196,7 +2172,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnlComprovanteSuprimentos" min="-2" max="-2" attributes="0"/>
                           <Component id="pnlConfirmacaodoComprovante" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="1383" max="32767" attributes="0"/>
@@ -2223,11 +2199,11 @@
                                       <Component id="lbCaixaDestino" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jFormattedTextField6" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                                              <Component id="cbxMotivodoSuprimento" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                                              <Component id="cbxCaixaDestino" min="-2" pref="195" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="cbxMotivodoSuprimento" alignment="0" pref="195" max="32767" attributes="0"/>
+                                              <Component id="cbxCaixaDestino" pref="195" max="32767" attributes="0"/>
                                               <Component id="ffDataeHORAS" min="-2" pref="194" max="-2" attributes="0"/>
+                                              <Component id="txfValorASuprir" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -2261,7 +2237,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="lbValoraSuprir" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jFormattedTextField6" min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="txfValorASuprir" min="-2" pref="28" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lbObservacoesTX" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -2347,13 +2323,6 @@
                     <Property name="text" type="java.lang.String" value="Valor a suprir (R$)"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField6">
-                  <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="" subtype="-1" type="5"/>
-                    </Property>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JLabel" name="lbObservacoesTX">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2380,6 +2349,8 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JTextField" name="txfValorASuprir">
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pnlAutorizacao">
@@ -2399,7 +2370,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbUsuarioAutorizador" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
@@ -2410,7 +2381,7 @@
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="cbxUsuarioAutorizado" min="-2" pref="192" max="-2" attributes="0"/>
                                       <Component id="txfSenhadeAutorizacao" min="-2" pref="192" max="-2" attributes="0"/>
-                                      <Component id="jFormattedTextField7" min="-2" pref="192" max="-2" attributes="0"/>
+                                      <Component id="ffDeHdaAutorizacao" min="-2" pref="192" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnDeHdeAutorizacao" min="-2" pref="50" max="-2" attributes="0"/>
@@ -2426,7 +2397,7 @@
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Component id="lbAutorizacao" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbUsuarioAutorizador" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="cbxUsuarioAutorizado" min="-2" pref="28" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -2438,7 +2409,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="btnDeHdeAutorizacao" max="32767" attributes="0"/>
-                              <Component id="jFormattedTextField7" max="32767" attributes="0"/>
+                              <Component id="ffDeHdaAutorizacao" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -2457,7 +2428,7 @@
                     <Property name="text" type="java.lang.String" value="2. AUTORIZA&#xc7;&#xc3;O"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel14">
+                <Component class="javax.swing.JLabel" name="lbUsuarioAutorizador">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -2498,7 +2469,7 @@
                     <Property name="text" type="java.lang.String" value="Data e Hora da Autoriza&#xe7;&#xe3;o"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField7">
+                <Component class="javax.swing.JFormattedTextField" name="ffDeHdaAutorizacao">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
                       <Format format="" subtype="-1" type="5"/>
@@ -2730,7 +2701,7 @@
                                       <Component id="lbNovoSaldodoCaixa" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="ffSaldoAtualizado" max="32767" attributes="0"/>
-                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbSaldoAnteriordoCaixa" min="-2" max="-2" attributes="0"/>
                                           <Component id="lbValorAtualizado" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="ffValordoSuprimento" alignment="0" pref="198" max="32767" attributes="0"/>
                                       </Group>
@@ -2749,7 +2720,7 @@
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Component id="lbAtualizacaodeSaldo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbSaldoAnteriordoCaixa" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="ffSaldoAtualizado" min="-2" pref="28" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
@@ -2779,7 +2750,7 @@
                     <Property name="text" type="java.lang.String" value="ATULIZA&#xc7;&#xc3;O DE SALDO"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel15">
+                <Component class="javax.swing.JLabel" name="lbSaldoAnteriordoCaixa">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -2835,7 +2806,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel18">
+            <Container class="javax.swing.JPanel" name="pnlComprovanteSuprimentos">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -2891,7 +2862,7 @@
                                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                   <Component id="lbDiferencas" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jFormattedTextField8" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ffDiferencaSuprimentos" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -2912,12 +2883,12 @@
                                   <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbValordoSuprimento" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="ffValordoSuprimentos" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbTotalConferido" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="ffTotalConferido" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -2951,18 +2922,18 @@
                           </Group>
                           <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbTotalConferido" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="ffTotalConferido" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbValordoSuprimento" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="ffValordoSuprimentos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbDiferencas" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jFormattedTextField8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="ffDiferencaSuprimentos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="btnEmitirComprovante" min="-2" max="-2" attributes="0"/>
@@ -2990,7 +2961,7 @@
                     <Property name="text" type="java.lang.String" value="Total em Moedas"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel16">
+                <Component class="javax.swing.JLabel" name="lbTotalConferido">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -3019,7 +2990,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel17">
+                <Component class="javax.swing.JLabel" name="lbValordoSuprimento">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="12" style="1"/>
@@ -3042,7 +3013,7 @@
                     <Property name="text" type="java.lang.String" value="Diferen&#xe7;as"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField8">
+                <Component class="javax.swing.JFormattedTextField" name="ffDiferencaSuprimentos">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                       <Format format="#,###.00" subtype="-1" type="0"/>
@@ -3087,7 +3058,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="pnCadastrodeCaixa">
+        <Container class="javax.swing.JPanel" name="pnlCadastrodeCaixa">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Cadastro de Caixas">
@@ -3110,21 +3081,11 @@
                               <Component id="btnEditarCaixa" min="-2" pref="180" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnLimparCaixa" min="-2" pref="186" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="1340" max="-2" attributes="0"/>
-                              <Component id="jButton14" min="-2" pref="175" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton15" min="-2" pref="175" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton12" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton16" min="-2" pref="36" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="pnlDadosDoCaixa" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" alignment="0" min="-2" pref="1312" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="1258" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3135,30 +3096,18 @@
                       <Component id="pnlDadosDoCaixa" min="-2" pref="338" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="btnEditarCaixa" alignment="0" min="-2" pref="49" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="btnLimparCaixa" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                          <Component id="jButton14" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                          <Component id="jButton15" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="btnSalvodeCaixa" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Component id="btnEditarCaixa" alignment="0" min="-2" pref="49" max="-2" attributes="0"/>
+                                  <Component id="btnLimparCaixa" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jButton12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnSalvodeCaixa" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
                           </Group>
                           <Component id="btnNovodeCaixa" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="287" max="-2" attributes="0"/>
-                      <EmptySpace pref="1046" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton16" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="459" max="-2" attributes="0"/>
+                      <EmptySpace pref="1535" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3344,7 +3293,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jButton8" alignment="1" min="-2" pref="47" max="-2" attributes="0"/>
+                                          <Component id="btnHorariodefechamento" alignment="1" min="-2" pref="47" max="-2" attributes="0"/>
                                           <Component id="btnCalendarioFechamento" alignment="1" min="-2" pref="47" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -3383,7 +3332,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton8" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnHorariodefechamento" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="ffHoradeFechamento" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="lbHorariodeFechamento" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -3575,7 +3524,7 @@
                 <Component class="javax.swing.JButton" name="btnRelogioAberto">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\clock (1).png"/>
+                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\clock (1).png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -3612,14 +3561,14 @@
                 <Component class="javax.swing.JButton" name="btnCalendarioFechamento">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\calendar.png"/>
+                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\calendar.png"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton8">
+                <Component class="javax.swing.JButton" name="btnHorariodefechamento">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\clock (1).png"/>
+                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\clock (1).png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -3656,7 +3605,7 @@
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\diskette (1).png"/>
+                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\diskette (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvo"/>
               </Properties>
@@ -3667,24 +3616,13 @@
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\pencil (2).png"/>
+                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\pencil (2).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarCaixaActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton12">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\bin.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Excluir"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnLimparCaixa">
               <Properties>
@@ -3700,46 +3638,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparCaixaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton14">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\search.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Pesquisar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton15">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\right-arrow.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Voltar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton16">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="!"/>
-                <Property name="actionCommand" type="java.lang.String" value=""/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel20">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Selecionar um registro para visualizar ou editar os dados."/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnNovodeCaixa">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\marketing.png"/>
+                  <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\marketing.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -3749,7 +3651,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="java.awt.Panel" name="panel5">
+        <Container class="java.awt.Panel" name="pnlConferenciaTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Confer&#xea;ncia">
@@ -3767,11 +3669,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnlMeiosdePagamentos" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnlContagemdeCedulas" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnlContagemdeMoedas" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="pnlResulmoGeral" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -3780,7 +3682,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel16" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnlResumodeDinheiro" min="-2" max="-2" attributes="0"/>
                           <Component id="pnlChetkdeAprovacao" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="3003" max="32767" attributes="0"/>
@@ -3793,16 +3695,16 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Component id="jPanel16" min="-2" pref="362" max="-2" attributes="0"/>
+                              <Component id="pnlResumodeDinheiro" min="-2" pref="362" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnlChetkdeAprovacao" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pnlContagemdeCedulas" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
+                                      <Component id="pnlContagemdeMoedas" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -3821,7 +3723,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel1">
+            <Container class="javax.swing.JPanel" name="pnlContagemdeCedulas">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -4055,7 +3957,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel13">
+            <Container class="javax.swing.JPanel" name="pnlContagemdeMoedas">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -4340,7 +4242,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel16">
+            <Container class="javax.swing.JPanel" name="pnlResumodeDinheiro">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -4386,7 +4288,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable4">
+                    <Component class="javax.swing.JTable" name="tbResumodeDinheiro">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="4" rowCount="10">
@@ -4447,7 +4349,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel5">
+        <Container class="javax.swing.JPanel" name="pnlSangriasTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Sangrias">
@@ -4461,35 +4363,27 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlSolicitacao" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="pnlSolicitacao" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                              <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="pnlValores" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                      <Component id="lbSangriasdeCaixa" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="pnlTotaldeM" min="-2" pref="450" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="pnlComprovante" min="-2" pref="330" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="pnlValores" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="pnlAutorizacaoSangrias" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="pnlTotaldeM" min="-2" pref="450" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="pnlComprovante" min="-2" pref="330" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="3474" max="32767" attributes="0"/>
@@ -4504,29 +4398,27 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbSangriasdeCaixa" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="pnlValores" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jPanel12" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pnlAutorizacaoSangrias" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="pnlTotaldeM" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="pnlComprovante" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
-                              <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="pnlSolicitacao" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="1291" max="32767" attributes="0"/>
+                      <EmptySpace pref="1530" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel25">
+            <Component class="javax.swing.JLabel" name="lbSangriasdeCaixa">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="24" style="1"/>
@@ -4544,22 +4436,22 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbSolicitacoes" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="lbCAIXA" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                                  <Component id="jTextField7" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
-                                                  <Component id="jComboBox6" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                                                  <Component id="txfNumerodaSolicitacoes" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                                                  <Component id="cbxCaixaSangrias" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="lbNumerodaS" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="lbDatadaS" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField8" alignment="0" pref="199" max="32767" attributes="0"/>
+                                              <Component id="txfDatadaSolicitacao" alignment="0" pref="199" max="32767" attributes="0"/>
                                               <Component id="lbOperadorS" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField9" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="txfOperadorSolicitante" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -4577,7 +4469,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbSolicitacoes" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbNumerodaS" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -4585,8 +4477,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txfNumerodaSolicitacoes" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txfDatadaSolicitacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -4595,8 +4487,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jComboBox6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxCaixaSangrias" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txfOperadorSolicitante" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="pnlMotivodaS" min="-2" max="-2" attributes="0"/>
@@ -4606,7 +4498,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel26">
+                <Component class="javax.swing.JLabel" name="lbSolicitacoes">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
@@ -4630,16 +4522,13 @@
                     <Property name="text" type="java.lang.String" value="Caixa"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField7">
+                <Component class="javax.swing.JTextField" name="txfNumerodaSolicitacoes">
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox6">
+                <Component class="javax.swing.JComboBox" name="cbxCaixaSangrias">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="1">
+                        <StringItem index="0" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -4655,7 +4544,7 @@
                     <Property name="text" type="java.lang.String" value="Data da solicita&#xe7;&#xe3;o"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField8">
+                <Component class="javax.swing.JTextField" name="txfDatadaSolicitacao">
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbOperadorS">
                   <Properties>
@@ -4665,7 +4554,7 @@
                     <Property name="text" type="java.lang.String" value="Operador solicitante"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField9">
+                <Component class="javax.swing.JTextField" name="txfOperadorSolicitante">
                 </Component>
                 <Container class="javax.swing.JPanel" name="pnlMotivodaS">
 
@@ -4680,7 +4569,7 @@
                                           <Component id="lbMdaSangria" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                              <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lbMotivo" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -4691,9 +4580,9 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbObservacoesSangria" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jScrollPane6" alignment="0" min="-2" pref="410" max="-2" attributes="0"/>
-                                          <Component id="jComboBox7" alignment="0" min="-2" pref="410" max="-2" attributes="0"/>
+                                          <Component id="cbxMotivoSangria" alignment="0" min="-2" pref="410" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -4707,11 +4596,11 @@
                               <EmptySpace pref="20" max="32767" attributes="0"/>
                               <Component id="lbMdaSangria" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbMotivo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox7" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxMotivoSangria" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbObservacoesSangria" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane6" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -4729,7 +4618,7 @@
                         <Property name="text" type="java.lang.String" value="Motivo da sangria"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBox7">
+                    <Component class="javax.swing.JComboBox" name="cbxMotivoSangria">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -4744,7 +4633,7 @@
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel31">
+                    <Component class="javax.swing.JLabel" name="lbMotivo">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="12" style="1"/>
@@ -4752,7 +4641,7 @@
                         <Property name="text" type="java.lang.String" value="Motivo*"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel32">
+                    <Component class="javax.swing.JLabel" name="lbObservacoesSangria">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="12" style="1"/>
@@ -4856,7 +4745,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextPane" name="jTextPane2">
+                    <Component class="javax.swing.JTextPane" name="txfValorSolicitado">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -4881,7 +4770,7 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel12">
+            <Container class="javax.swing.JPanel" name="pnlAutorizacaoSangrias">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -4889,7 +4778,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel36" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
+                              <Component id="lbAutorizacaoSangria" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
                               <Component id="lbUsuarioautorizacao" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="cbxUautorizacao" alignment="0" pref="360" max="32767" attributes="0"/>
                               <Component id="lbSenha" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -4903,7 +4792,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="jLabel36" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbAutorizacaoSangria" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="lbUsuarioautorizacao" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -4918,7 +4807,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel36">
+                <Component class="javax.swing.JLabel" name="lbAutorizacaoSangria">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
@@ -5020,118 +4909,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel14">
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextField10" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTextField11" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTextField12" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="jLabel44" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                  <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace pref="55" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="jTextField11" alignment="3" max="32767" attributes="0"/>
-                                  <Component id="jTextField12" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jTextField10" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel37">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Atualiza&#xe7;&#xe3;o do Saldo"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel40">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Saldo anterior do Caixa (R$)"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField10">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel41">
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField11">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel43">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Valor de Sangria(R$)"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField12">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel44">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Novo Saldo da Caixa(R$)"/>
-                  </Properties>
-                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pnlComprovante">
@@ -5244,7 +5021,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="java.awt.Panel" name="panel3">
+        <Container class="java.awt.Panel" name="pnlCaixasAeFTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Caixa Abertos/Fechados">
@@ -5258,32 +5035,24 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnlFiltros" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jPanel8" max="32767" attributes="0"/>
+                                      <Component id="pnlTabelasCaixa" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pnlCaixa" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
-                              <Component id="filler1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="pnlDetalhesdoCaixa" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="pnlHistoricodeAlteracoes" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="pnlAcoesRapida" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                          <Component id="pnlDetalhesdoCaixa" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="pnlHistoricodeAlteracoes" alignment="0" max="32767" attributes="0"/>
+                              <Component id="pnlAcoesRapida" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="3389" max="32767" attributes="0"/>
@@ -5296,26 +5065,24 @@
                       <Component id="pnlDetalhesdoCaixa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlAcoesRapida" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="filler1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="pnlHistoricodeAlteracoes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1133" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlFiltros" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlCaixa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlTabelasCaixa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel11">
+            <Container class="javax.swing.JPanel" name="pnlFiltros">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -5332,7 +5099,7 @@
                                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="lbLoja" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jFormattedTextField5" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="ffData" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                                           <Component id="lbDATA" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -5344,8 +5111,8 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lbStatusdeCaixa" min="-2" max="-2" attributes="0"/>
                               <Component id="cbxStatusdeCaixa" pref="150" max="32767" attributes="0"/>
-                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lbPeriodo" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxPeriodo" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -5399,17 +5166,17 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbDATA" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jComboBox3" alignment="3" pref="31" max="32767" attributes="0"/>
+                                  <Component id="cbxPeriodo" alignment="3" pref="31" max="32767" attributes="0"/>
                                   <Component id="btnLimparFLT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnAplicarFLT" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                               </Group>
                               <Component id="lbcalendario" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jFormattedTextField5" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ffData" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="41" max="32767" attributes="0"/>
                       </Group>
@@ -5453,10 +5220,10 @@
                     <Property name="text" type="java.lang.String" value="Data"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField5">
+                <Component class="javax.swing.JFormattedTextField" name="ffData">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                      <Format format="##/##/####" subtype="-1" type="1"/>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                      <Format format="##/##/####" subtype="-1" type="5"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -5490,7 +5257,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel10">
+                <Component class="javax.swing.JLabel" name="lbPeriodo">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
@@ -5498,7 +5265,7 @@
                     <Property name="text" type="java.lang.String" value="Periodo"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox3">
+                <Component class="javax.swing.JComboBox" name="cbxPeriodo">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
@@ -5507,7 +5274,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox3ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxPeriodoActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -5580,9 +5347,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.Box$Filler" name="filler1">
-            </Component>
-            <Container class="javax.swing.JPanel" name="jPanel17">
+            <Container class="javax.swing.JPanel" name="pnlCaixa">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -5996,9 +5761,9 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                                  <Component id="btnFecharCaixa" max="32767" attributes="0"/>
+                                  <Component id="btnFecharCaixa" pref="40" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="btnEncerrarPausar" max="32767" attributes="0"/>
+                                  <Component id="btnEncerrarPausar" pref="40" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="btnCancelarConferencia" min="-2" pref="33" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -6016,7 +5781,7 @@
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="btnTransferirOperador" max="32767" attributes="0"/>
+                          <Component id="btnTransferirOperador" pref="52" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -6158,7 +5923,7 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel8">
+            <Container class="javax.swing.JPanel" name="pnlTabelasCaixa">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -6225,7 +5990,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel3">
+        <Container class="javax.swing.JPanel" name="pnlOperadoresdeTelas">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Operadores">
@@ -6242,7 +6007,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jPanel9" min="-2" pref="451" max="-2" attributes="0"/>
+                                      <Component id="pnlInformacoesdaVenda" min="-2" pref="451" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="pnlRecebimento" max="32767" attributes="0"/>
                                   </Group>
@@ -6278,7 +6043,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel9" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
+                                  <Component id="pnlInformacoesdaVenda" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
                                   <Component id="pnlRecebimento" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -6309,7 +6074,7 @@
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="lbTotalaReceber" min="-2" pref="93" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextField13" min="-2" pref="150" max="-2" attributes="0"/>
+                                  <Component id="txfTotalaReceberOperadores" min="-2" pref="150" max="-2" attributes="0"/>
                               </Group>
                               <Component id="lbOperacaodeDinheoC" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -6326,7 +6091,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jTextField13" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txfTotalaReceberOperadores" min="-2" pref="30" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -6349,7 +6114,7 @@
                     <Property name="text" type="java.lang.String" value="Total a Receber:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField13">
+                <Component class="javax.swing.JTextField" name="txfTotalaReceberOperadores">
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbOperacaodeDinheoC">
                   <Properties>
@@ -6410,9 +6175,9 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton27" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnImagemTroco" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jTextField14" min="-2" pref="118" max="-2" attributes="0"/>
+                                  <Component id="txfTrocoOperadores" min="-2" pref="118" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -6430,8 +6195,8 @@
                           <Component id="lbTroco" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jTextField14" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton27" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txfTrocoOperadores" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnImagemTroco" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="24" max="32767" attributes="0"/>
                       </Group>
@@ -6447,19 +6212,19 @@
                     <Property name="text" type="java.lang.String" value="Troco:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField14">
+                <Component class="javax.swing.JTextField" name="txfTrocoOperadores">
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton27">
+                <Component class="javax.swing.JButton" name="btnImagemTroco">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\ProjetoPI_Supermercado\GerenciamentoSupermercado\src\main\java\com\mycompany\gerenciamentosupermercado\coin.png"/>
+                      <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\coin.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="R$:"/>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel9">
+            <Container class="javax.swing.JPanel" name="pnlInformacoesdaVenda">
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -6512,7 +6277,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel10" max="32767" attributes="0"/>
+                          <Component id="pnlCedulasOperadores" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -6553,7 +6318,7 @@
                               <Component id="lbValorTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jPanel10" min="-2" pref="277" max="-2" attributes="0"/>
+                          <Component id="pnlCedulasOperadores" min="-2" pref="277" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -6674,7 +6439,7 @@
                     <Property name="text" type="java.lang.String" value="- R$ 5,00"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanel10">
+                <Container class="javax.swing.JPanel" name="pnlCedulasOperadores">
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -6686,7 +6451,7 @@
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel15" min="-2" pref="454" max="-2" attributes="0"/>
+                                  <Component id="pnlCedulas" min="-2" pref="454" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -6702,7 +6467,7 @@
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel15" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pnlCedulas" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -6730,7 +6495,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel15">
+                    <Container class="javax.swing.JPanel" name="pnlCedulas">
 
                       <Layout>
                         <DimensionLayout dim="0">
@@ -6909,7 +6674,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                  <Component id="jButton17" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="btnImagemValorRecebido" min="-2" pref="50" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txfValorTotalRecebido" max="32767" attributes="0"/>
                               </Group>
@@ -6936,7 +6701,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="txfValorTotalRecebido" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton17" alignment="0" pref="40" max="32767" attributes="0"/>
+                              <Component id="btnImagemValorRecebido" alignment="0" pref="40" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="71" max="32767" attributes="0"/>
                           <Component id="lbTrocoCalculado" min="-2" max="-2" attributes="0"/>
@@ -6964,7 +6729,7 @@
                     <Property name="text" type="java.lang.String" value="Valor recebido"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton17">
+                <Component class="javax.swing.JButton" name="btnImagemValorRecebido">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="C:\Users\PedroLeite\Documents\Supermercado\Supermercado\src\main\resources\assets\money-bag.png"/>
@@ -7103,7 +6868,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbMoedas" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="tbValorqttMoedas" alignment="0" pref="416" max="32767" attributes="0"/>
@@ -7116,7 +6881,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbMoedas" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="tbValorqttMoedas" pref="0" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -7125,7 +6890,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel27">
+                <Component class="javax.swing.JLabel" name="lbMoedas">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="1"/>
@@ -7189,7 +6954,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable3">
+                    <Component class="javax.swing.JTable" name="tbCedulasdeOperadores">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="3" rowCount="15">
