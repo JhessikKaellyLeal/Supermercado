@@ -23,6 +23,7 @@ C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\Funcionario_has_feriasController.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\ItensCompraController.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\ItensPedidosController.java
+C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\ItensVendasController.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\LotesProdutosController.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\MarcasController.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Control\MetasController.java
@@ -75,6 +76,7 @@ C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\Fu
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\HistoricosAcessos.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\ItensCompras.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\ItensPedidos.java
+C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\ItensVendas.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\ItensVendidos.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\LotesProdutos.java
 C:\Users\JordanaLeite\Documents\Supermercado\Supermercado\src\main\java\Model\Marcas.java

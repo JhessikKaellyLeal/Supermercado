@@ -38,7 +38,6 @@ Control\CondicoesPagamentoController.class
 View\TelaPerfilUsuarios$2.class
 Control\CodigoBarrasController.class
 Model\FechamentoCaixa.class
-View\TelaVendas$14.class
 View\TelaVendas$8.class
 Model\FormasPagamento.class
 View\Tela_Funcionarios_RH.class
@@ -113,7 +112,6 @@ View\TelaVendas$6.class
 Control\CupomController.class
 Model\Caixas.class
 Control\ContasPagarController.class
-View\TelaVendas$12.class
 Control\ContasFinanceirasController.class
 Control\SaldoCaixaController.class
 Model\Sangria.class
@@ -121,7 +119,7 @@ View\TelaVendas$7.class
 View\TelaVendaPagamentos.class
 Model\Promocao_has_Produtos.class
 View\TelaPerfilUsuarios$3.class
-View\TelaVendas$13.class
+Control\ItensVendasController.class
 Control\Produtos_has_etiquetasController.class
 Conection\Conexao.class
 Control\PermissoesController.class
@@ -142,10 +140,10 @@ Control\ItensCompraController.class
 Model\Afastamentos.class
 View\TelaVendas$5.class
 Control\EntregaController.class
+Model\ItensVendas.class
 Model\Compras.class
 Model\Estoque.class
 View\TelaVendas$2.class
-View\TelaVendas$11.class
 View\TelaVendaPagamentos$14.class
 Model\Turnos.class
 Control\AfastamentosController.class

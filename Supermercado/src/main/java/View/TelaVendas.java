@@ -42,6 +42,8 @@ public class TelaVendas extends javax.swing.JFrame {
       carregarTodasAsTabelasItensVenda();
       carregarVendasPorFormaPagamento();  
       carregarContasBancarias();  
+      configurarPesquisas();
+
         
        this.usuario= usuario;
        this.menu= MenuPadrao.instalar(
@@ -163,8 +165,6 @@ private void preencherCombo(JComboBox<String> combo, List<String> dados) {
     }
 }
 
-
-
 private void listarCategorias() {
     try {
         CategoriasController controller = new CategoriasController();
@@ -265,8 +265,6 @@ private void listarTiposContas() {
                 "Erro ao listar tipos de contas: " + e.getMessage());
     }
 }
-
-
 
 private void listarAndamentoVendas() {
     try {
@@ -498,6 +496,50 @@ private void carregarTodasAsTabelasItensVenda() {
 
     }
 }
+
+//=========================BOTÕES============================
+private void configurarPesquisas() {
+
+    btPesquisarConsulta.addActionListener(e -> pesquisar());
+
+    btPesquisarFiltro.addActionListener(e -> pesquisar());
+
+    btPesquisarOperador.addActionListener(e -> pesquisar());
+
+    btPesquisarProduto.addActionListener(e -> pesquisar());
+
+    btPesquisarPagamento.addActionListener(e -> pesquisar());
+
+    btPesquisarCancelamento.addActionListener(e -> pesquisar());
+
+    btPesquisarEstorno.addActionListener(e -> pesquisar());
+
+    btPesquisarComprovante.addActionListener(e -> pesquisar());
+
+    btPesquisarBandeiras.addActionListener(e -> pesquisar());
+
+    btPesquisarParcelamentos.addActionListener(e -> pesquisar());
+
+    btPesquisarTaxas.addActionListener(e -> pesquisar());
+
+    btPesquisarContas.addActionListener(e -> pesquisar());
+
+}
+private void pesquisar() {
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Pesquisa executada."
+    );
+
+}
+
+
+
+
+//===============================================================================================
+//===============================================================================================
+//===============================================================================================
  @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -505,7 +547,7 @@ private void carregarTodasAsTabelasItensVenda() {
         tpInicio = new javax.swing.JTabbedPane();
         jpConsulta = new javax.swing.JPanel();
         jpCabecalhoConsulta = new javax.swing.JPanel();
-        btPesquisa = new javax.swing.JButton();
+        btPesquisarConsulta = new javax.swing.JButton();
         tfPesquisa = new javax.swing.JTextField();
         lbConsultaVenda = new javax.swing.JLabel();
         jpDetalhesVenda = new javax.swing.JPanel();
@@ -546,7 +588,6 @@ private void carregarTodasAsTabelasItensVenda() {
         lbFormasPgFiltro = new javax.swing.JLabel();
         lbAndamentoFiltro = new javax.swing.JLabel();
         btPesquisarFiltro = new javax.swing.JButton();
-        btLimparFiltro = new javax.swing.JButton();
         jpTabVendas = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tbVendasFiltro = new javax.swing.JTable();
@@ -567,10 +608,11 @@ private void carregarTodasAsTabelasItensVenda() {
         lbValorTotalOperador = new javax.swing.JLabel();
         tfValorTotalOperador = new javax.swing.JTextField();
         lbOperador = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        tbVendasOperador = new javax.swing.JTable();
+        btPesquisarOperador = new javax.swing.JButton();
         jpVendasOperador = new javax.swing.JPanel();
         lbVendasOperador = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tbVendasOperador = new javax.swing.JTable();
         jpProduto = new javax.swing.JPanel();
         jpCabecalhoProduto = new javax.swing.JPanel();
         lbProduto = new javax.swing.JLabel();
@@ -607,6 +649,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbFormaPagamento = new javax.swing.JLabel();
         lbDataInicialPagamento = new javax.swing.JLabel();
         lbDataFinalPagamento = new javax.swing.JLabel();
+        btPesquisarPagamento = new javax.swing.JButton();
         jpVendasPagamento = new javax.swing.JPanel();
         lbVendasPagamento = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -644,6 +687,7 @@ private void carregarTodasAsTabelasItensVenda() {
         jpTotalVendaEstorno = new javax.swing.JPanel();
         lbTotalVendaEstorno = new javax.swing.JLabel();
         tfTotalVendaEstorno = new javax.swing.JTextField();
+        btPesquisarEstorno = new javax.swing.JButton();
         jpItensVendaEstorno = new javax.swing.JPanel();
         lbItensVendaEstorno = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -656,21 +700,19 @@ private void carregarTodasAsTabelasItensVenda() {
         tfObservacaoEstorno = new javax.swing.JTextField();
         lvValorEstorno = new javax.swing.JLabel();
         tfValorEstorno = new javax.swing.JTextField();
-        btVoltarEstorno = new javax.swing.JButton();
         btConfirmarEstorno = new javax.swing.JButton();
         jpComprovante = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         lbDadosVendaComprovante = new javax.swing.JLabel();
         lbNVendaComprovante = new javax.swing.JLabel();
         tfNVendaComprovante = new javax.swing.JTextField();
-        btNVendaComprovante = new javax.swing.JButton();
+        btPesquisarComprovante = new javax.swing.JButton();
         lbFormaPagamentoComprovante = new javax.swing.JLabel();
         lbOperadorComprovante = new javax.swing.JLabel();
         lbDataHoraComprovante = new javax.swing.JLabel();
         tfDataHoraComprovante = new javax.swing.JTextField();
         tfOperadorComprovante = new javax.swing.JTextField();
         tfFormaPagamentoComprovante = new javax.swing.JTextField();
-        btImprimirComprovante = new javax.swing.JButton();
         jpTotalVendasComprovante = new javax.swing.JPanel();
         lbTotalVendaComprovante = new javax.swing.JLabel();
         tfTotalVendaComprovante = new javax.swing.JTextField();
@@ -809,15 +851,14 @@ private void carregarTodasAsTabelasItensVenda() {
         tpInicio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
         jpConsulta.setBackground(new java.awt.Color(255, 255, 255));
-        jpConsulta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoConsulta.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoConsulta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
-        btPesquisa.setBackground(new java.awt.Color(10, 4, 138));
-        btPesquisa.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btPesquisa.setForeground(new java.awt.Color(255, 255, 255));
-        btPesquisa.setText("Pesquisar");
+        btPesquisarConsulta.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarConsulta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarConsulta.setText("Pesquisar");
 
         tfPesquisa.setBackground(new java.awt.Color(255, 255, 255));
         tfPesquisa.setForeground(new java.awt.Color(0, 0, 0));
@@ -839,7 +880,7 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addGroup(jpCabecalhoConsultaLayout.createSequentialGroup()
                         .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btPesquisa)))
+                        .addComponent(btPesquisarConsulta)))
                 .addContainerGap(221, Short.MAX_VALUE))
         );
         jpCabecalhoConsultaLayout.setVerticalGroup(
@@ -849,12 +890,10 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addComponent(lbConsultaVenda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpCabecalhoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPesquisa)
+                    .addComponent(btPesquisarConsulta)
                     .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
-
-        jpConsulta.add(jpCabecalhoConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 820, -1));
 
         jpDetalhesVenda.setBackground(new java.awt.Color(255, 255, 255));
         jpDetalhesVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
@@ -1014,8 +1053,6 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jpConsulta.add(jpDetalhesVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 126, -1, -1));
-
         jpItensVenda.setBackground(new java.awt.Color(10, 4, 138));
         jpItensVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
@@ -1064,11 +1101,9 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap()
                 .addComponent(lbItensVenda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(JScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        jpConsulta.add(jpItensVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 126, 430, 250));
 
         tbVendasCadastradasConsulta.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasCadastradasConsulta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -1094,8 +1129,6 @@ private void carregarTodasAsTabelasItensVenda() {
         });
         jScrollPane7.setViewportView(tbVendasCadastradasConsulta);
 
-        jpConsulta.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 422, 1380, 190));
-
         jpVendasCadastradas.setBackground(new java.awt.Color(10, 4, 138));
 
         lbVendasCadastradas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -1109,7 +1142,7 @@ private void carregarTodasAsTabelasItensVenda() {
             .addGroup(jpVendasCadastradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasCadastradas)
-                .addContainerGap(1238, Short.MAX_VALUE))
+                .addContainerGap(638, Short.MAX_VALUE))
         );
         jpVendasCadastradasLayout.setVerticalGroup(
             jpVendasCadastradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1119,12 +1152,43 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(222, Short.MAX_VALUE))
         );
 
-        jpConsulta.add(jpVendasCadastradas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 1420, 250));
+        javax.swing.GroupLayout jpConsultaLayout = new javax.swing.GroupLayout(jpConsulta);
+        jpConsulta.setLayout(jpConsultaLayout);
+        jpConsultaLayout.setHorizontalGroup(
+            jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConsultaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpCabecalhoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jpConsultaLayout.setVerticalGroup(
+            jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConsultaLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jpCabecalhoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         tpInicio.addTab("Consulta e Detalhes de Pagamento", jpConsulta);
 
         jpFiltros.setBackground(new java.awt.Color(255, 255, 255));
-        jpFiltros.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoPeriodoVendas.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoPeriodoVendas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
@@ -1171,11 +1235,6 @@ private void carregarTodasAsTabelasItensVenda() {
         btPesquisarFiltro.setForeground(new java.awt.Color(255, 255, 255));
         btPesquisarFiltro.setText("Pesquisar");
 
-        btLimparFiltro.setBackground(new java.awt.Color(10, 4, 138));
-        btLimparFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btLimparFiltro.setForeground(new java.awt.Color(255, 255, 255));
-        btLimparFiltro.setText("Limpar");
-
         javax.swing.GroupLayout jpCabecalhoPeriodoVendasLayout = new javax.swing.GroupLayout(jpCabecalhoPeriodoVendas);
         jpCabecalhoPeriodoVendas.setLayout(jpCabecalhoPeriodoVendasLayout);
         jpCabecalhoPeriodoVendasLayout.setHorizontalGroup(
@@ -1187,26 +1246,21 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ftfDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 95, Short.MAX_VALUE)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbDataFinalFiltros)
-                                    .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(72, 72, 72)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbFormasPgFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(61, 61, 61)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbAndamentoFiltro)
-                                    .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
-                                .addComponent(btPesquisarFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btLimparFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(ftfDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(85, 85, 85)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbDataFinalFiltros)
+                            .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbFormasPgFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbAndamentoFiltro)
+                            .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPesquisarFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(23, 23, 23))
         );
         jpCabecalhoPeriodoVendasLayout.setVerticalGroup(
@@ -1226,14 +1280,10 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPesquisarFiltro)
-                    .addComponent(btLimparFiltro))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(btPesquisarFiltro)
+                .addGap(34, 34, 34))
         );
-
-        jpFiltros.add(jpCabecalhoPeriodoVendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jpTabVendas.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -1277,7 +1327,7 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addGroup(jpTabVendasLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbVendasFiltros)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jpTabVendasLayout.setVerticalGroup(
             jpTabVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1289,12 +1339,29 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGap(14, 14, 14))
         );
 
-        jpFiltros.add(jpTabVendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 740, 320));
+        javax.swing.GroupLayout jpFiltrosLayout = new javax.swing.GroupLayout(jpFiltros);
+        jpFiltros.setLayout(jpFiltrosLayout);
+        jpFiltrosLayout.setHorizontalGroup(
+            jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFiltrosLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jpCabecalhoPeriodoVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpTabVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
+        );
+        jpFiltrosLayout.setVerticalGroup(
+            jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFiltrosLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jpCabecalhoPeriodoVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jpTabVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Filtros por Período", jpFiltros);
 
         jpOperador.setBackground(new java.awt.Color(255, 255, 255));
-        jpOperador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoOperador.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoOperador.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
@@ -1367,6 +1434,11 @@ private void carregarTodasAsTabelasItensVenda() {
         lbOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbOperador.setText("Operador");
 
+        btPesquisarOperador.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarOperador.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarOperador.setText("Pesquisar");
+
         javax.swing.GroupLayout jpCabecalhoOperadorLayout = new javax.swing.GroupLayout(jpCabecalhoOperador);
         jpCabecalhoOperador.setLayout(jpCabecalhoOperadorLayout);
         jpCabecalhoOperadorLayout.setHorizontalGroup(
@@ -1380,32 +1452,30 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                         .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
+                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(tfNomeOperador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(tfLoginOperador))
+                                .addGap(254, 254, 254))
+                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                                 .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbDadosOperador)
                                     .addComponent(lbNomeOperador)
-                                    .addComponent(lbLoginOperador))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE))
-                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfLoginOperador, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfNomeOperador))
-                                .addGap(244, 244, 244))
-                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                                .addComponent(cbNivelAcessoOperador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(lbLoginOperador)
+                                    .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbNivelAcessoOperador, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbOperador, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbValorTotalOperador)
-                            .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfValorTotalOperador)
-                                .addComponent(lbQuantVendasOperador, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(tfQuantVendasOperador)
-                                .addComponent(lbVendasRealizadasOperador, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(98, 98, 98))
-                    .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                        .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNivelAcessoOperador)
-                            .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btPesquisarOperador)
+                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(tfValorTotalOperador)
+                                    .addComponent(lbQuantVendasOperador, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfQuantVendasOperador)
+                                    .addComponent(lbVendasRealizadasOperador, javax.swing.GroupLayout.Alignment.LEADING))))
+                        .addGap(74, 74, 74))))
         );
         jpCabecalhoOperadorLayout.setVerticalGroup(
             jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1413,19 +1483,17 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGap(12, 12, 12)
                 .addComponent(lbOperador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
+                        .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbDadosOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbNomeOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNomeOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbLoginOperador)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfLoginOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbLoginOperador))
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                         .addComponent(lbVendasRealizadasOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1436,14 +1504,23 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addComponent(lbValorTotalOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfValorTotalOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfLoginOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(lbNivelAcessoOperador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btPesquisarOperador))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jpOperador.add(jpCabecalhoOperador, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 37, -1, -1));
+        jpVendasOperador.setBackground(new java.awt.Color(10, 4, 138));
+
+        lbVendasOperador.setBackground(new java.awt.Color(0, 0, 0));
+        lbVendasOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbVendasOperador.setForeground(new java.awt.Color(255, 255, 255));
+        lbVendasOperador.setText("Vendas cadastradas");
 
         tbVendasOperador.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -1469,38 +1546,52 @@ private void carregarTodasAsTabelasItensVenda() {
         });
         jScrollPane9.setViewportView(tbVendasOperador);
 
-        jpOperador.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 350, 720, 240));
-
-        jpVendasOperador.setBackground(new java.awt.Color(10, 4, 138));
-
-        lbVendasOperador.setBackground(new java.awt.Color(0, 0, 0));
-        lbVendasOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbVendasOperador.setForeground(new java.awt.Color(255, 255, 255));
-        lbVendasOperador.setText("Vendas cadastradas");
-
         javax.swing.GroupLayout jpVendasOperadorLayout = new javax.swing.GroupLayout(jpVendasOperador);
         jpVendasOperador.setLayout(jpVendasOperadorLayout);
         jpVendasOperadorLayout.setHorizontalGroup(
             jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasOperadorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbVendasOperador)
-                .addContainerGap(623, Short.MAX_VALUE))
+                .addGroup(jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpVendasOperadorLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbVendasOperador))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jpVendasOperadorLayout.setVerticalGroup(
             jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasOperadorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasOperador)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jpOperador.add(jpVendasOperador, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 770, 280));
+        javax.swing.GroupLayout jpOperadorLayout = new javax.swing.GroupLayout(jpOperador);
+        jpOperador.setLayout(jpOperadorLayout);
+        jpOperadorLayout.setHorizontalGroup(
+            jpOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jpCabecalhoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jpVendasOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jpOperadorLayout.setVerticalGroup(
+            jpOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jpCabecalhoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jpVendasOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Operador", jpOperador);
 
         jpProduto.setBackground(new java.awt.Color(255, 255, 255));
-        jpProduto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoProduto.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoProduto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
@@ -1590,7 +1681,7 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbValorUnitarioProduto)
                             .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
+                        .addGap(18, 18, 18)
                         .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbEstoqueAtualProduto)))
@@ -1635,36 +1726,37 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addComponent(tfProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btPesquisarProduto))
                 .addGap(18, 18, 18)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDadosProduto)
-                    .addComponent(lbVendasProduto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCodigoProduto)
-                    .addComponent(lbNomeProduto)
-                    .addComponent(lbQuantVendidaProduto)
-                    .addComponent(lbValorTotalProduto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfQuantVendidaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfValorTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbValorUnitarioProduto, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbCategoriaProduto)
-                        .addComponent(lbEstoqueAtualProduto)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpCabecalhoProdutoLayout.createSequentialGroup()
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDadosProduto)
+                            .addComponent(lbVendasProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbCodigoProduto)
+                            .addComponent(lbNomeProduto)
+                            .addComponent(lbQuantVendidaProduto)
+                            .addComponent(lbValorTotalProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfQuantVendidaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfValorTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbValorUnitarioProduto, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbCategoriaProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jpCabecalhoProdutoLayout.createSequentialGroup()
+                        .addComponent(lbEstoqueAtualProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
-
-        jpProduto.add(jpCabecalhoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 34, -1, -1));
 
         jpVendasCadastradasProduto.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -1720,7 +1812,26 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jpProduto.add(jpVendasCadastradasProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 810, 270));
+        javax.swing.GroupLayout jpProdutoLayout = new javax.swing.GroupLayout(jpProduto);
+        jpProduto.setLayout(jpProdutoLayout);
+        jpProdutoLayout.setHorizontalGroup(
+            jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpProdutoLayout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jpCabecalhoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpVendasCadastradasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+        jpProdutoLayout.setVerticalGroup(
+            jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpProdutoLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jpCabecalhoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jpVendasCadastradasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         tpInicio.addTab("Produto", jpProduto);
 
@@ -1768,6 +1879,11 @@ private void carregarTodasAsTabelasItensVenda() {
         lbDataFinalPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbDataFinalPagamento.setText("Data final");
 
+        btPesquisarPagamento.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarPagamento.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarPagamento.setText("Pesquisar");
+
         javax.swing.GroupLayout jpFiltrosPagamentoLayout = new javax.swing.GroupLayout(jpFiltrosPagamento);
         jpFiltrosPagamento.setLayout(jpFiltrosPagamentoLayout);
         jpFiltrosPagamentoLayout.setHorizontalGroup(
@@ -1776,48 +1892,61 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap()
                 .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbFormaPagamento)
-                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbFiltrosPagamento)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addComponent(ftfDataInicialPagamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDataInicialPagamento))
+                                .addGap(269, 269, 269))
+                            .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                                .addComponent(cbCategoriaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(134, 134, 134)))
                         .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDataFinalPagamento)
-                            .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbFormaPagamento))
+                        .addGap(290, 290, 290))
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbFiltrosPagamento)
-                            .addComponent(lbDataInicialPagamento))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(134, 134, 134)
+                        .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFiltrosPagamentoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btPesquisarPagamento)
+                .addGap(53, 53, 53))
         );
         jpFiltrosPagamentoLayout.setVerticalGroup(
             jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbFiltrosPagamento)
-                .addGap(38, 38, 38)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCategoriaPagamento)
-                    .addComponent(lbFormaPagamento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDataInicialPagamento)
-                    .addComponent(lbDataFinalPagamento))
-                .addGap(5, 5, 5)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                        .addComponent(lbFiltrosPagamento)
+                        .addGap(38, 38, 38)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbCategoriaPagamento)
+                            .addComponent(lbFormaPagamento))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 89, Short.MAX_VALUE))
+                    .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDataInicialPagamento)
+                            .addComponent(lbDataFinalPagamento))
+                        .addGap(5, 5, 5)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(17, 17, 17)
+                .addComponent(btPesquisarPagamento)
+                .addGap(35, 35, 35))
         );
 
         jpVendasPagamento.setBackground(new java.awt.Color(10, 4, 138));
@@ -1858,21 +1987,23 @@ private void carregarTodasAsTabelasItensVenda() {
             jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbVendasPagamento)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpVendasPagamentoLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGroup(jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane10))
+                    .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
+                        .addComponent(lbVendasPagamento)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jpVendasPagamentoLayout.setVerticalGroup(
             jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasPagamento)
-                .addGap(7, 7, 7)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpCategoriaLayout = new javax.swing.GroupLayout(jpCategoria);
@@ -1884,22 +2015,21 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpVendasPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(45, 45, 45))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
         jpCategoriaLayout.setVerticalGroup(
             jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCategoriaLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(28, 28, 28)
                 .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(jpVendasPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGap(38, 38, 38))
         );
 
         tpInicio.addTab("Categoria e Pagamento", jpCategoria);
 
         jpCancelamento.setBackground(new java.awt.Color(255, 255, 255));
-        jpCancelamento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoDadosVenda.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoDadosVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 1, true));
@@ -1999,16 +2129,15 @@ private void carregarTodasAsTabelasItensVenda() {
                                 .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tfOperadorCancelamento, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                                     .addComponent(tfFormaPagamentoCancelamento))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jpTotalVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                        .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tfDataHoraCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                                .addComponent(lbNVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(tfVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbNVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tfDataHoraCancelamento, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(tfVendaCancelamento))
                         .addGap(29, 29, 29)
                         .addComponent(btPesquisarCancelamento)
                         .addGap(262, 262, 262))))
@@ -2019,7 +2148,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap()
                 .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                        .addGap(0, 108, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jpTotalVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
                         .addComponent(lbDadosVendaCancelamento)
@@ -2040,11 +2169,9 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbFormaPagamentoCancelamento)
                             .addComponent(tfFormaPagamentoCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 37, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        jpCancelamento.add(jpCabecalhoDadosVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 770, 220));
 
         jpItensVendaCancelamento.setBackground(new java.awt.Color(10, 4, 138));
         jpItensVendaCancelamento.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 1, true));
@@ -2100,7 +2227,24 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jpCancelamento.add(jpItensVendaCancelamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 770, -1));
+        javax.swing.GroupLayout jpCancelamentoLayout = new javax.swing.GroupLayout(jpCancelamento);
+        jpCancelamento.setLayout(jpCancelamentoLayout);
+        jpCancelamentoLayout.setHorizontalGroup(
+            jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCancelamentoLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpCabecalhoDadosVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jpCancelamentoLayout.setVerticalGroup(
+            jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCancelamentoLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jpCabecalhoDadosVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jpItensVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Cancelamento", jpCancelamento);
 
@@ -2119,6 +2263,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbDataHoraEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbDataHoraEstorno.setText("Data/Hora:");
 
+        tfNVendaEstorno.setBackground(new java.awt.Color(255, 255, 255));
         tfNVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         lbOperadorEstorno.setBackground(new java.awt.Color(255, 255, 255));
@@ -2136,10 +2281,13 @@ private void carregarTodasAsTabelasItensVenda() {
         lbNVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbNVendaEstorno.setText("N° da Venda:");
 
+        tfFormaPagamentoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         tfFormaPagamentoEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
+        tfOperadorEstorno.setBackground(new java.awt.Color(255, 255, 255));
         tfOperadorEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
+        tfDataHoraEstorno.setBackground(new java.awt.Color(255, 255, 255));
         tfDataHoraEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         jpTotalVendaEstorno.setBackground(new java.awt.Color(10, 4, 138));
@@ -2177,6 +2325,11 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        btPesquisarEstorno.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarEstorno.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarEstorno.setText("Pesquisar");
+
         javax.swing.GroupLayout jpDadosVendaEstornoLayout = new javax.swing.GroupLayout(jpDadosVendaEstorno);
         jpDadosVendaEstorno.setLayout(jpDadosVendaEstornoLayout);
         jpDadosVendaEstornoLayout.setHorizontalGroup(
@@ -2197,13 +2350,16 @@ private void carregarTodasAsTabelasItensVenda() {
                             .addComponent(lbDataHoraEstorno)
                             .addComponent(lbNVendaEstorno))
                         .addGap(32, 32, 32)
-                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfOperadorEstorno)
-                            .addComponent(tfFormaPagamentoEstorno)
-                            .addComponent(tfNVendaEstorno)
+                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfOperadorEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(tfFormaPagamentoEstorno)
+                                .addComponent(tfNVendaEstorno))
                             .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPesquisarEstorno))
                         .addGap(21, 21, 21))))
         );
         jpDadosVendaEstornoLayout.setVerticalGroup(
@@ -2222,18 +2378,18 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbFormaPagamentoEstorno))
                     .addGroup(jpDadosVendaEstornoLayout.createSequentialGroup()
-                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jpDadosVendaEstornoLayout.createSequentialGroup()
-                                .addComponent(tfNVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32))
-                            .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfNVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(tfOperadorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfFormaPagamentoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosVendaEstornoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btPesquisarEstorno)
+                .addGap(18, 18, 18)
                 .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2312,9 +2468,11 @@ private void carregarTodasAsTabelasItensVenda() {
         lbObservacaoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbObservacaoEstorno.setText("Observação:");
 
+        cbMotivoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         cbMotivoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         cbMotivoEstorno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desistência da compra", "Cobrança duplicada", "Valor cobrado incorretamente", "Produto cancelado", "Erro na forma de pagamento", "Problema da transação", "Outros" }));
 
+        tfObservacaoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         tfObservacaoEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         lvValorEstorno.setBackground(new java.awt.Color(255, 255, 255));
@@ -2323,10 +2481,6 @@ private void carregarTodasAsTabelasItensVenda() {
         lvValorEstorno.setText("Valor a Estornar:");
 
         tfValorEstorno.setForeground(new java.awt.Color(0, 0, 0));
-
-        btVoltarEstorno.setBackground(new java.awt.Color(10, 4, 138));
-        btVoltarEstorno.setForeground(new java.awt.Color(255, 255, 255));
-        btVoltarEstorno.setText("Voltar");
 
         btConfirmarEstorno.setBackground(new java.awt.Color(10, 4, 138));
         btConfirmarEstorno.setForeground(new java.awt.Color(255, 255, 255));
@@ -2339,7 +2493,9 @@ private void carregarTodasAsTabelasItensVenda() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                        .addComponent(lbDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72))
                     .addGroup(jpDadosEstornoLayout.createSequentialGroup()
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbMotivoEstorno)
@@ -2347,67 +2503,66 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addGap(72, 72, 72)
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tfObservacaoEstorno)
-                            .addComponent(cbMotivoEstorno, 0, 362, Short.MAX_VALUE))))
-                .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                            .addComponent(cbMotivoEstorno, 0, 362, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(lvValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72))
-                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btConfirmarEstorno)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btVoltarEstorno)
-                        .addGap(14, 14, 14))))
+                        .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(lvValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(btConfirmarEstorno)
+                                .addGap(17, 17, 17))))))
         );
         jpDadosEstornoLayout.setVerticalGroup(
             jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbDadosEstorno)
-                .addGap(18, 18, 18)
-                .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbMotivoEstorno)
-                    .addComponent(cbMotivoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lvValorEstorno)
-                    .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpDadosEstornoLayout.createSequentialGroup()
-                        .addComponent(lbObservacaoEstorno)
-                        .addGap(44, 44, 44)
+                        .addGap(18, 18, 18)
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btConfirmarEstorno)
-                            .addComponent(btVoltarEstorno))
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addComponent(tfObservacaoEstorno))
-                .addContainerGap())
+                            .addComponent(lbMotivoEstorno)
+                            .addComponent(cbMotivoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvValorEstorno)
+                            .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(lbObservacaoEstorno)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(tfObservacaoEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btConfirmarEstorno)
+                        .addGap(23, 23, 23))))
         );
 
         javax.swing.GroupLayout jpEstornoLayout = new javax.swing.GroupLayout(jpEstorno);
         jpEstorno.setLayout(jpEstornoLayout);
         jpEstornoLayout.setHorizontalGroup(
             jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEstornoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 839, Short.MAX_VALUE)
-                    .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpDadosEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(43, 43, 43))
+            .addGroup(jpEstornoLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 839, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jpEstornoLayout.setVerticalGroup(
             jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEstornoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Estorno", jpEstorno);
@@ -2431,10 +2586,10 @@ private void carregarTodasAsTabelasItensVenda() {
         tfNVendaComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfNVendaComprovante.setForeground(new java.awt.Color(0, 0, 0));
 
-        btNVendaComprovante.setBackground(new java.awt.Color(10, 4, 138));
-        btNVendaComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btNVendaComprovante.setForeground(new java.awt.Color(255, 255, 255));
-        btNVendaComprovante.setText("Pesquisar");
+        btPesquisarComprovante.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarComprovante.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarComprovante.setText("Pesquisar");
 
         lbFormaPagamentoComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentoComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -2462,11 +2617,6 @@ private void carregarTodasAsTabelasItensVenda() {
         tfFormaPagamentoComprovante.setBackground(new java.awt.Color(255, 255, 255));
         tfFormaPagamentoComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfFormaPagamentoComprovante.setForeground(new java.awt.Color(0, 0, 0));
-
-        btImprimirComprovante.setBackground(new java.awt.Color(10, 4, 138));
-        btImprimirComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btImprimirComprovante.setForeground(new java.awt.Color(255, 255, 255));
-        btImprimirComprovante.setText("Imprimir");
 
         jpTotalVendasComprovante.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -2531,9 +2681,8 @@ private void carregarTodasAsTabelasItensVenda() {
                                 .addGap(18, 18, 18)
                                 .addComponent(tfNVendaComprovante, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                                 .addGap(27, 27, 27)
-                                .addComponent(btNVendaComprovante)
-                                .addGap(103, 103, 103)
-                                .addComponent(btImprimirComprovante)))))
+                                .addComponent(btPesquisarComprovante)
+                                .addGap(179, 179, 179)))))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -2545,8 +2694,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNVendaComprovante)
                     .addComponent(tfNVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btNVendaComprovante)
-                    .addComponent(btImprimirComprovante))
+                    .addComponent(btPesquisarComprovante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDataHoraComprovante)
@@ -2629,7 +2777,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpItensVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(742, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jpComprovanteLayout.setVerticalGroup(
             jpComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2638,7 +2786,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpItensVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Comprovante", jpComprovante);
@@ -2801,7 +2949,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpCadastroBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbAtivaCadastroBandeiras)
                     .addComponent(jcbDesativaCadastroBandeiras))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpbtCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
@@ -2844,7 +2992,7 @@ private void carregarTodasAsTabelasItensVenda() {
         jpbtCadastroBandeirasLayout.setVerticalGroup(
             jpbtCadastroBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpbtCadastroBandeirasLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(35, Short.MAX_VALUE)
                 .addComponent(btSalvarBandeiras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btNovoBandeiras)
@@ -2903,20 +3051,20 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(760, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jpBandeirasLayout.setVerticalGroup(
             jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpBandeirasLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap(181, Short.MAX_VALUE)
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81)
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(336, Short.MAX_VALUE))
+                    .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(113, 113, 113))
         );
 
         tpInicio.addTab("Bandeiras", jpBandeiras);
@@ -2936,6 +3084,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbFormasPagamentoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbFormasPagamentoParcelamentos.setText("Forma de Pagamento:");
 
+        cbFormaPagamentoParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbFormaPagamentoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbFormaPagamentoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "Crediário" }));
@@ -2945,6 +3094,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbBandeiraParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraParcelamentos.setText("Bandeira:");
 
+        cbBandeiraParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbBandeiraParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbBandeiraParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbBandeiraParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
@@ -2997,6 +3147,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbCodigoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoParcelamentos.setText("Código:");
 
+        tfCodigoParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         tfCodigoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfCodigoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -3005,6 +3156,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbBandeiraCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraCadastroParcelamentos.setText("Bandeira:");
 
+        cbBandeiraCadastroParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbBandeiraCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbBandeiraCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbBandeiraCadastroParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
@@ -3014,6 +3166,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbNParcelasParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbNParcelasParcelamentos.setText("N° de Parcelas:");
 
+        cbNParcelasParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbNParcelasParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbNParcelasParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbNParcelasParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1x", "2x", "3x", "4x", "5x", "6x" }));
@@ -3023,6 +3176,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbTaxaJurosParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbTaxaJurosParcelamentos.setText("Taxa de Juros (%):");
 
+        cbTaxaJurosParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbTaxaJurosParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbTaxaJurosParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbTaxaJurosParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0%", "0,5%", "1%", "1,5%", "2%", "2,5", "3%", "3,5%", "4%" }));
@@ -3037,6 +3191,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbFormaPagamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentos.setText("Forma de Pagamento:");
 
+        cbFormaPagamentoCadastroParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         cbFormaPagamentoCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbFormaPagamentoCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoCadastroParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "Crediário" }));
@@ -3102,7 +3257,7 @@ private void carregarTodasAsTabelasItensVenda() {
                     .addComponent(cbBandeiraCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbNParcelasParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbTaxaJurosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpbtFiltrosParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
@@ -3186,7 +3341,7 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addComponent(btEditarParcelamentos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btExcluirParcelamentos)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jpParcelamentosLayout = new javax.swing.GroupLayout(jpParcelamentos);
@@ -3202,20 +3357,20 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(725, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jpParcelamentosLayout.setVerticalGroup(
             jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpParcelamentosLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(100, 100, 100)
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(346, Short.MAX_VALUE))
+                    .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(111, 111, 111))
         );
 
         tpInicio.addTab("Parcelamentos", jpParcelamentos);
@@ -3511,20 +3666,20 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(773, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jpTaxasLayout.setVerticalGroup(
             jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpTaxasLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(120, Short.MAX_VALUE)
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(82, 82, 82)
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addGap(113, 113, 113))
         );
 
         tpInicio.addTab("Taxas", jpTaxas);
@@ -3626,12 +3781,14 @@ private void carregarTodasAsTabelasItensVenda() {
         lbCodigoContas.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoContas.setText("Código:");
 
+        tfCodigoContas.setBackground(new java.awt.Color(255, 255, 255));
         tfCodigoContas.setForeground(new java.awt.Color(0, 0, 0));
 
         lbTipoCadastroContas.setBackground(new java.awt.Color(255, 255, 255));
         lbTipoCadastroContas.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoCadastroContas.setText("Tipo de Conta:");
 
+        cbTipoCadastroContas.setBackground(new java.awt.Color(255, 255, 255));
         cbTipoCadastroContas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoCadastroContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Conta Corrente", "Conta Poupança", "Conta Pagamento", "Conta Salário" }));
 
@@ -3639,6 +3796,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbBancoContas.setForeground(new java.awt.Color(0, 0, 0));
         lbBancoContas.setText("Banco:");
 
+        cbBancoContas.setBackground(new java.awt.Color(255, 255, 255));
         cbBancoContas.setForeground(new java.awt.Color(0, 0, 0));
         cbBancoContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bando do Brasil", "Banco Inter", "C6 Bank", "Caixa Econômica Federal", "Bradesco", "Itaú", "Santander", "Nubank", "Sicredi", "Sicoob" }));
 
@@ -3650,12 +3808,14 @@ private void carregarTodasAsTabelasItensVenda() {
         lbAgenciaContas.setForeground(new java.awt.Color(0, 0, 0));
         lbAgenciaContas.setText("Agência:");
 
+        tfAgenciaContas.setBackground(new java.awt.Color(255, 255, 255));
         tfAgenciaContas.setForeground(new java.awt.Color(0, 0, 0));
 
         lbCadastroContaContas.setBackground(new java.awt.Color(255, 255, 255));
         lbCadastroContaContas.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroContaContas.setText("Conta:");
 
+        tfCadastroContaContas.setBackground(new java.awt.Color(255, 255, 255));
         tfCadastroContaContas.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jpCadastroContasLayout = new javax.swing.GroupLayout(jpCadastroContas);
@@ -3733,6 +3893,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbBancoFiltrosContas.setForeground(new java.awt.Color(0, 0, 0));
         lbBancoFiltrosContas.setText("Banco:");
 
+        cbBancoFiltrosContas.setBackground(new java.awt.Color(255, 255, 255));
         cbBancoFiltrosContas.setForeground(new java.awt.Color(0, 0, 0));
         cbBancoFiltrosContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bando do Brasil", "Banco Inter", "C6 Bank", "Caixa Econômica Federal", "Bradesco", "Itaú", "Santander", "Nubank", "Sicredi", "Sicoob" }));
 
@@ -3740,6 +3901,7 @@ private void carregarTodasAsTabelasItensVenda() {
         lbTipoFiltroContas.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoFiltroContas.setText("Tipo de Conta:");
 
+        cbTipoFiltroContas.setBackground(new java.awt.Color(255, 255, 255));
         cbTipoFiltroContas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoFiltroContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Conta Corrente", "Conta Poupança", "Conta Pagamento", "Conta Salário" }));
 
@@ -3901,9 +4063,11 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addGroup(jpContasBancariasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpContasBancariasLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbContasBancarias))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4))
+                    .addGroup(jpContasBancariasLayout.createSequentialGroup()
+                        .addComponent(lbContasBancarias)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jpContasBancariasLayout.setVerticalGroup(
             jpContasBancariasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3911,8 +4075,8 @@ private void carregarTodasAsTabelasItensVenda() {
                 .addContainerGap()
                 .addComponent(lbContasBancarias)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpContasLayout = new javax.swing.GroupLayout(jpContas);
@@ -3922,9 +4086,9 @@ private void carregarTodasAsTabelasItensVenda() {
             .addGroup(jpContasLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jpContasLayout.createSequentialGroup()
-                        .addComponent(jpContasBancarias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpContasLayout.createSequentialGroup()
+                        .addComponent(jpContasBancarias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jpRelatoriosContas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpContasLayout.createSequentialGroup()
                         .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -3934,12 +4098,12 @@ private void carregarTodasAsTabelasItensVenda() {
                         .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jpbtFiltrosContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jpbtCadastroContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jpContasLayout.setVerticalGroup(
             jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpContasLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpbtFiltrosContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpFiltrosContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3961,12 +4125,15 @@ private void carregarTodasAsTabelasItensVenda() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(tpInicio)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -4085,7 +4252,49 @@ private void carregarTodasAsTabelasItensVenda() {
     tbContasBancarias.setModel(modelo);
 }
     
-    
+//=======================================BOTÕES=======================================
+    private void pesquisarVendas(String texto, JTable tabela) {
+
+    DefaultTableModel modelo = new DefaultTableModel();
+
+    modelo.addColumn("ID");
+    modelo.addColumn("Data");
+    modelo.addColumn("Horário");
+    modelo.addColumn("Valor Total");
+    modelo.addColumn("Valor Pago");
+    modelo.addColumn("Troco");
+    modelo.addColumn("Itens");
+    modelo.addColumn("Status");
+    modelo.addColumn("Cliente");
+    modelo.addColumn("Usuário");
+    modelo.addColumn("Caixa");
+    modelo.addColumn("Cupom");
+
+    VendasController controller = new VendasController();
+
+    List<Vendas> lista = controller.pesquisar(texto);
+
+    for (Vendas venda : lista) {
+
+        modelo.addRow(new Object[]{
+            venda.getIdvendas(),
+            venda.getDataVenda(),
+            venda.getHorarioVenda(),
+            venda.getValorTotal(),
+            venda.getValorPago(),
+            venda.getTroco(),
+            venda.getQuantidadeItens(),
+            venda.getStatusVenda(),
+            venda.getNomeCliente(),
+            venda.getNomeUsuario(),
+            venda.getNomeCaixa(),
+            venda.getCodigoCupom()
+        });
+    }
+
+    tabela.setModel(modelo);
+}
+//=======================================BOTÕES=======================================
     
     
     //====================================VARIÁVEIS==========================================
@@ -4102,23 +4311,24 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JButton btExcluirParcelamentos;
     private javax.swing.JButton btExcluirTaxas;
     private javax.swing.JButton btGerarRelatorioContas;
-    private javax.swing.JButton btImprimirComprovante;
     private javax.swing.JButton btLimparContas;
-    private javax.swing.JButton btLimparFiltro;
     private javax.swing.JButton btLimparFiltrosBandeiras;
     private javax.swing.JButton btLimparFiltrosContas;
     private javax.swing.JButton btLimparFiltrosParcelamentos;
     private javax.swing.JButton btLimparFiltrosTaxas;
-    private javax.swing.JButton btNVendaComprovante;
     private javax.swing.JButton btNovoBandeiras;
     private javax.swing.JButton btNovoContas;
     private javax.swing.JButton btNovoParcelamentos;
     private javax.swing.JButton btNovoTaxas;
-    private javax.swing.JButton btPesquisa;
     private javax.swing.JButton btPesquisarBandeiras;
     private javax.swing.JButton btPesquisarCancelamento;
+    private javax.swing.JButton btPesquisarComprovante;
+    private javax.swing.JButton btPesquisarConsulta;
     private javax.swing.JButton btPesquisarContas;
+    private javax.swing.JButton btPesquisarEstorno;
     private javax.swing.JButton btPesquisarFiltro;
+    private javax.swing.JButton btPesquisarOperador;
+    private javax.swing.JButton btPesquisarPagamento;
     private javax.swing.JButton btPesquisarParcelamentos;
     private javax.swing.JButton btPesquisarProduto;
     private javax.swing.JButton btPesquisarTaxas;
@@ -4126,7 +4336,6 @@ private void carregarTodasAsTabelasItensVenda() {
     private javax.swing.JButton btSalvarContas;
     private javax.swing.JButton btSalvarParcelamentos;
     private javax.swing.JButton btSalvarTaxas;
-    private javax.swing.JButton btVoltarEstorno;
     private javax.swing.JComboBox<String> cbAndamentoFiltro;
     private javax.swing.JComboBox<String> cbBancoContas;
     private javax.swing.JComboBox<String> cbBancoFiltrosContas;

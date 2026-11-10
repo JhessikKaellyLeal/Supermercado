@@ -417,6 +417,71 @@ public List<Object[]> listarVendasPorFormaPagamento() {
     return lista;
 }
 
+public List<Vendas> pesquisar(String textoPesquisa) {
 
+    List<Vendas> lista = new ArrayList<>();
+
+    String sql =
+            "SELECT " +
+            "v.idvendas, " +
+            "v.dataVenda, " +
+            "v.horarioVenda, " +
+            "v.statusVenda, " +
+            "v.valorTotal, " +
+            "c.nome AS cliente, " +
+            "u.nome AS usuario, " +
+            "cp.codigoCupom AS cupom " +
+            "FROM vendas v " +
+            "LEFT JOIN cliente c ON v.cliente_idcliente = c.idcliente " +
+            "LEFT JOIN usuario u ON v.usuario_idusuario = u.idusuario " +
+            "LEFT JOIN cupom cp ON v.cupom_idcupom = cp.idcupom " +
+            "WHERE " +
+            "CAST(v.idvendas AS CHAR) LIKE ? " +
+            "OR c.nome LIKE ? " +
+            "OR u.nome LIKE ? " +
+            "OR cp.codigoCupom LIKE ? " +
+            "OR v.statusVenda LIKE ?";
+
+    try {
+
+        Connection con = Conexao.conectar();
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        String filtro = "%" + textoPesquisa + "%";
+
+        pst.setString(1, filtro);
+        pst.setString(2, filtro);
+        pst.setString(3, filtro);
+        pst.setString(4, filtro);
+        pst.setString(5, filtro);
+
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+
+            Vendas venda = new Vendas();
+
+            venda.setIdvendas(rs.getInt("idvendas"));
+            venda.setDataVenda(rs.getString("dataVenda"));
+            venda.setHorarioVenda(rs.getString("horarioVenda"));
+            venda.setStatusVenda(rs.getString("statusVenda"));
+            venda.setValorTotal(rs.getDouble("valorTotal"));
+
+            lista.add(venda);
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+    } catch (Exception e) {
+
+        System.out.println("Erro ao pesquisar venda: " + e.getMessage());
+
+    }
+
+    return lista;
+}
 
 }
