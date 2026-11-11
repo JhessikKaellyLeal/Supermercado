@@ -1,19 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class MovimentacoesFinanceiras {
-  private int  idmovimentacoesFinanceiras, contasFinanceiras_idcontasFinanceiras;
-  private String tipo, dataHora, descricao, origem;
-private double valor;
+
+    private int idmovimentacoesFinanceiras;
+    private String tipo;
+    private double valor;
+    private String dataHora;
+    private String descricao;
+    private String origem;
+    private int contasFinanceiras_idcontasFinanceiras;
 
     public MovimentacoesFinanceiras() {
+    }
+
+    public MovimentacoesFinanceiras(int idmovimentacoesFinanceiras,
+            String tipo, double valor, String dataHora,
+            String descricao, String origem,
+            int contasFinanceiras_idcontasFinanceiras) {
+
+        this.idmovimentacoesFinanceiras = idmovimentacoesFinanceiras;
+        this.tipo = tipo;
+        this.valor = valor;
+        this.dataHora = dataHora;
+        this.descricao = descricao;
+        this.origem = origem;
+        this.contasFinanceiras_idcontasFinanceiras = contasFinanceiras_idcontasFinanceiras;
     }
 
     public int getIdmovimentacoesFinanceiras() {
@@ -24,20 +36,20 @@ private double valor;
         this.idmovimentacoesFinanceiras = idmovimentacoesFinanceiras;
     }
 
-    public int getContasFinanceiras_idcontasFinanceiras() {
-        return contasFinanceiras_idcontasFinanceiras;
-    }
-
-    public void setContasFinanceiras_idcontasFinanceiras(int contasFinanceiras_idcontasFinanceiras) {
-        this.contasFinanceiras_idcontasFinanceiras = contasFinanceiras_idcontasFinanceiras;
-    }
-
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public String getDataHora() {
@@ -64,12 +76,11 @@ private double valor;
         this.origem = origem;
     }
 
-    public double getValor() {
-        return valor;
+    public int getContasFinanceiras_idcontasFinanceiras() {
+        return contasFinanceiras_idcontasFinanceiras;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setContasFinanceiras_idcontasFinanceiras(int contasFinanceiras_idcontasFinanceiras) {
+        this.contasFinanceiras_idcontasFinanceiras = contasFinanceiras_idcontasFinanceiras;
     }
-
 }

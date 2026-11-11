@@ -1,29 +1,29 @@
+
 package Model;
 
 public class Usuario {
- 
 
     private int idusuario;
     private String nome;
     private String cpf;
     private String email;
     private String senha;
-    private int bloqueio;
-    private int funcionario_idFuncionario;
-
-    private int idusuario;
-    private String nome;
-    private String cpf;
-    private String email;
-    private String senha;
-    private int bloqueio;
+    private Integer bloqueio;
     private int Funcionario_idFuncionario;
 
-    // CONSTRUTOR VAZIO
     public Usuario() {
     }
 
-    // GETTERS E SETTERS
+    public Usuario(int idusuario, String nome, String cpf, String email,
+                   String senha, Integer bloqueio, int Funcionario_idFuncionario) {
+        this.idusuario = idusuario;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.bloqueio = bloqueio;
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+    }
 
     public int getIdusuario() {
         return idusuario;
@@ -65,30 +65,19 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public int getBloqueio() {
+    public Integer getBloqueio() {
         return bloqueio;
     }
 
-    public void setBloqueio(int bloqueio) {
+    public void setBloqueio(Integer bloqueio) {
         this.bloqueio = bloqueio;
     }
 
     public int getFuncionario_idFuncionario() {
-    return funcionario_idFuncionario;
-}
+        return Funcionario_idFuncionario;
+    }
 
-public void setFuncionario_idFuncionario(int funcionario_idFuncionario) {
-    this.funcionario_idFuncionario = funcionario_idFuncionario;
-}
-
-    @Override
-    public String toString() {
-        return nome;
+    public void setFuncionario_idFuncionario(int Funcionario_idFuncionario) {
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
     }
 }
-
-
-   
-   
-
-   

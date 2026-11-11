@@ -1,19 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Veiculos {
-    private int idveiculos, anoVeiculo;
-    private String tipoVeiculo, marca, modelo, statusVeiculo, placa, observacoes,cor;
-    private double capacidadeCarga;
 
+    private int idveiculos;
+    private String tipoVeiculo;
+    private String marca;
+    private String modelo;
+    private int anoVeiculo;
+    private String cor;
+    private double capacidadeCarga;
+    private String statusVeiculo;
+    private String placa;
+    private String observacoes;
+
+    // CONSTRUTOR VAZIO
     public Veiculos() {
+    }
+
+    // CONSTRUTOR COMPLETO
+    public Veiculos(int idveiculos, String tipoVeiculo, String marca,
+            String modelo, int anoVeiculo, String cor,
+            double capacidadeCarga, String statusVeiculo,
+            String placa, String observacoes) {
+
+        this.idveiculos = idveiculos;
+        this.tipoVeiculo = tipoVeiculo;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anoVeiculo = anoVeiculo;
+        this.cor = cor;
+        this.capacidadeCarga = capacidadeCarga;
+        this.statusVeiculo = statusVeiculo;
+        this.placa = placa;
+        this.observacoes = observacoes;
     }
 
     public int getIdveiculos() {
@@ -22,14 +42,6 @@ public class Veiculos {
 
     public void setIdveiculos(int idveiculos) {
         this.idveiculos = idveiculos;
-    }
-
-    public int getAnoVeiculo() {
-        return anoVeiculo;
-    }
-
-    public void setAnoVeiculo(int anoVeiculo) {
-        this.anoVeiculo = anoVeiculo;
     }
 
     public String getTipoVeiculo() {
@@ -56,6 +68,30 @@ public class Veiculos {
         this.modelo = modelo;
     }
 
+    public int getAnoVeiculo() {
+        return anoVeiculo;
+    }
+
+    public void setAnoVeiculo(int anoVeiculo) {
+        this.anoVeiculo = anoVeiculo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public double getCapacidadeCarga() {
+        return capacidadeCarga;
+    }
+
+    public void setCapacidadeCarga(double capacidadeCarga) {
+        this.capacidadeCarga = capacidadeCarga;
+    }
+
     public String getStatusVeiculo() {
         return statusVeiculo;
     }
@@ -79,21 +115,4 @@ public class Veiculos {
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
-
-    public double getCapacidadeCarga() {
-        return capacidadeCarga;
-    }
-
-    public void setCapacidadeCarga(double capacidadeCarga) {
-        this.capacidadeCarga = capacidadeCarga;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-   
 }

@@ -4,22 +4,33 @@
  */
 package View;
 
+import Conection.Conexao;
 import Control.CategoriasController;
 import Control.EstoqueController;
 import Control.MarcasController;
+import Control.MovimentacaoEstoqueController;
 import Control.ProdutosController;
 import Control.UnidadeMedidasController;
 import Model.Categorias;
+import Model.Estoque;
 import Model.Marcas;
+import Model.MovimentacaoEstoque;
 import Model.PerdasEstoque;
 import Model.Produtos;
 import Model.UnidadesMedidas;
 import Model.Usuario;
-import control.PerdasEstoqueController;
+import Control.PerdasEstoqueController;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -48,6 +59,14 @@ public class TelaEstoque extends javax.swing.JFrame {
     listarCategoriasCE();
     listarMarcasCE();
     listarUnidadesCE();
+    listarProdutosCE();
+    listarCategoriasCE();
+    listarMarcasCE();
+    listarUnidadesCE();
+    listarTodasMovimentacoes();
+    listarTodosEstoque();
+     listarTodasPerdas();
+    
     
         this.usuario= usuario;
         this.menu=MenuPadrao.instalar(
@@ -60,89 +79,83 @@ public class TelaEstoque extends javax.swing.JFrame {
      this.setExtendedState(TelaEstoque.MAXIMIZED_BOTH);
     }
    
-     // MÉTODO DE ACESSAR AS TELAS
+ 
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -157,8 +170,563 @@ public void navegar(String idtela) {
     }
 }
 
+// ------------------- LISTAR NA COMBOBOX -----------------------------------------------
+
+   private void listarProdutosCE() {
+
+    try {
+
+        ProdutosController controller = new ProdutosController();
+
+        listaProdutosCE = controller.listar();
+
+        cbProdutoCE.removeAllItems();
+         cbProdutoPE.removeAllItems();
+          cbProdutoME.removeAllItems();
+
+        for (Produtos p : listaProdutosCE) {
+            cbProdutoCE.addItem(p.getNome());
+            cbProdutoPE.addItem(p.getNome());
+            cbProdutoME.addItem(p.getNome());
+        }
+
+        cbProdutoPE.setSelectedIndex(-1);
+        cbProdutoME.setSelectedIndex(-1);
+        cbProdutoCE.setSelectedIndex(-1);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar produtos: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
+    private void listarCategoriasCE() {
+
+    try {
+
+        CategoriasController controller = new CategoriasController();
+
+        listaCategoriasCE = controller.listar();
+        
+        cbCategoriaCE.removeAllItems();
+        cbCategoriaME.removeAllItems();
+        cbCategoriaPE.removeAllItems();
+
+        for (Categorias c : listaCategoriasCE) {
+            cbCategoriaCE.addItem(c.getNome());
+            cbCategoriaPE.addItem(c.getNome());
+            cbCategoriaME.addItem(c.getNome());
+                       
+        }
+
+        cbCategoriaME.setSelectedIndex(-1);
+        cbCategoriaPE.setSelectedIndex(-1);
+        cbCategoriaCE.setSelectedIndex(-1);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar categorias: " + e.getMessage());
+    }
+}
+    private void listarMarcasCE() {
+
+    try {
+
+        MarcasController controller = new MarcasController();
+
+        listaMarcasCE = controller.listar();
+
+        cbMarcaME.removeAllItems();
+         cbMarcaPE.removeAllItems();
+          cbMarcaCE.removeAllItems();
+
+        for (Marcas m : listaMarcasCE) {
+            cbMarcaME.addItem(m.getNome());
+            cbMarcaPE.addItem(m.getNome());
+            cbMarcaCE.addItem(m.getNome());
+        }
+
+        cbMarcaME.setSelectedIndex(-1);
+        cbMarcaPE.setSelectedIndex(-1);
+        cbMarcaCE.setSelectedIndex(-1);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar marcas: " + e.getMessage());
+    }
+}
+    private void listarUnidadesCE() {
+
+    try {
+
+        UnidadeMedidasController controller = new UnidadeMedidasController();
+
+        listaUnidadesCE = controller.listar();
+
+        cbUnidadeMedidaME.removeAllItems();
+        cbUnidadeMedidaPE.removeAllItems();
+        cbUnidadeMedidaCE.removeAllItems();
+
+        for (UnidadesMedidas u : listaUnidadesCE) {
+            cbUnidadeMedidaME.addItem(u.getNome());
+            cbUnidadeMedidaPE.addItem(u.getNome());
+            cbUnidadeMedidaCE.addItem(u.getNome());
+        }
+
+        cbUnidadeMedidaME.setSelectedIndex(-1);
+        cbUnidadeMedidaPE.setSelectedIndex(-1);
+        cbUnidadeMedidaCE.setSelectedIndex(-1);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar unidades de medida: " + e.getMessage());
+    }
+}
+    private void listarTiposMovimentacao() {
+
+    cbTipoMovimentacaoME.removeAllItems();
+
+    cbTipoMovimentacaoME.addItem("Entrada");
+    cbTipoMovimentacaoME.addItem("Saída");
+    cbTipoMovimentacaoME.addItem("Ajuste de Estoque");
+
+    cbTipoMovimentacaoME.setSelectedIndex(-1);
+} 
+    private void listarMotivosPerda() {
+
+    cbMotivoPE.removeAllItems();
+
+    cbMotivoPE.addItem("Produto Vencido");
+    cbMotivoPE.addItem("Produto Danificado");
+    cbMotivoPE.addItem("Produto Quebrado");
+    cbMotivoPE.addItem("Produto Estragado");
+    cbMotivoPE.addItem("Contaminação");
+    cbMotivoPE.addItem("Perda Operacional");
+
+    cbMotivoPE.setSelectedIndex(-1);
+}
+
+
+ // ---------------------- LISTAR NAS TABELAS ----------------------------------------   
+    
+  
+    private void listarPerdasPorProduto(String nomeProduto) {
+
+    try {
+
+        PerdasEstoqueController controller = new PerdasEstoqueController();
+
+        List<PerdasEstoque> listaPerdasEstoque = controller.listarPorNomeProduto(nomeProduto);
+
+        DefaultTableModel modelo = (DefaultTableModel) tabelaPerdasEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (PerdasEstoque perda : listaPerdasEstoque) {
+
+            modelo.addRow(new Object[]{
+                perda.getIdperdasEstoque(),
+                perda.getProdutos_idprodutos(),
+                perda.getQuantidade(),
+                perda.getDataRegistro(),
+                perda.getMotivo()
+            });
+
+        }
+
+        if (listaPerdasEstoque.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Nenhuma perda encontrada para este produto!",
+                "Pesquisa",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao listar perdas: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+    
+    
+    
+    private void listarConsultaEstoquePorProduto(String nomeProduto) {
+
+    try {
+
+        EstoqueController controller = new EstoqueController();
+
+        List<Estoque> listaConsultaEstoque =
+                controller.listarPorNomeProduto(nomeProduto);
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaConsultaEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Estoque estoque : listaConsultaEstoque) {
+
+            modelo.addRow(new Object[]{
+                estoque.getIdestoque(),
+                estoque.getQuantidadeAtual(),
+                estoque.getQuantidadeReservada(),
+                estoque.getDataAtualizacao(),
+                estoque.getProdutos_idprodutos(),
+                estoque.getProdutos_categorias_idcategorias(),
+                estoque.getProdutos_marcas_idmarcas(),
+                estoque.getProdutos_unidadeMedidas_idunidadeMedidas()
+            });
+
+        }
+
+        if (listaConsultaEstoque.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Nenhum estoque encontrado para este produto!",
+                "Pesquisa",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao listar estoque: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+    
+    
+private void listarTodasMovimentacoes() {
+    try {
+        MovimentacaoEstoqueController controller =
+                new MovimentacaoEstoqueController();
+
+        List<MovimentacaoEstoque> lista = controller.listar();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaMovimentacaoEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (MovimentacaoEstoque movimentacao : lista) {
+            modelo.addRow(new Object[]{
+                movimentacao.getIdmovimentacaoEstoque(),
+                movimentacao.getTipoMovimentacao(),
+                movimentacao.getQuantidade(),
+                movimentacao.getDataMovimentacao(),
+                movimentacao.getHoraMovimentacao(),
+                movimentacao.getProdutos_idprodutos(),
+                movimentacao.getProdutos_categorias_idcategorias(),
+                movimentacao.getProdutos_marcas_idmarcas(),
+                movimentacao.getProdutos_unidadeMedidas_idunidadeMedidas()
+            });
+        }
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Nenhuma movimentação cadastrada!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar movimentações: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    }
+} 
  
+ private void listarTodosEstoque() {
+
+    try {
+        EstoqueController controller = new EstoqueController();
+
+        List<Estoque> listaEstoque = controller.listar();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaConsultaEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Estoque estoque : listaEstoque) {
+
+            modelo.addRow(new Object[]{
+                estoque.getIdestoque(),
+                estoque.getQuantidadeAtual(),
+                estoque.getQuantidadeReservada(),
+                estoque.getDataAtualizacao(),
+                estoque.getProdutos_idprodutos(),
+                estoque.getProdutos_categorias_idcategorias(),
+                estoque.getProdutos_marcas_idmarcas(),
+                estoque.getProdutos_unidadeMedidas_idunidadeMedidas()
+            });
+        }
+
+        if (listaEstoque.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Nenhum registro de estoque encontrado!",
+                    "Consulta de Estoque",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar estoque: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
  
+ private void listarTodasPerdas() {
+
+    try {
+        PerdasEstoqueController controller =
+                new PerdasEstoqueController();
+
+        List<PerdasEstoque> lista = controller.listar();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaPerdasEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (PerdasEstoque perda : lista) {
+
+            modelo.addRow(new Object[]{
+                perda.getIdperdasEstoque(),
+                perda.getProdutos_idprodutos(),
+                perda.getQuantidade(),
+                perda.getDataRegistro(),
+                perda.getMotivo()
+            });
+        }
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Nenhuma perda de estoque cadastrada!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar perdas de estoque: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
+// ------------ LIMPAR ----------------------------------------------------------------
+  private void limparCamposCE() {
+
+    // Limpar JSpinner
+    spQuantidadeAtual.setValue(0);
+    spQuantidadeReservada.setValue(0);
+
+    // Limpar JFormattedTextField
+    ftfDataAtualizacaoCE.setValue(null);
+
+    // Limpar JComboBox
+    cbProdutoCE.setSelectedIndex(-1);
+    cbCategoriaCE.setSelectedIndex(-1);
+    cbMarcaCE.setSelectedIndex(-1);
+    cbUnidadeMedidaCE.setSelectedIndex(-1);
+
+    // Limpar JTextField
+    tfIDEstoque.setText("");
+}  
+
+// ------------------ CADASTRAR ---------------------------------------------------------
+
+private void cadastrarEstoque() {
+
+    try {
+
+        // Capturar os valores dos campos
+        int quantidadeAtual = Integer.parseInt(
+                spQuantidadeAtual.getValue().toString()
+        );
+
+        int quantidadeReservada = Integer.parseInt(
+                spQuantidadeReservada.getValue().toString()
+        );
+
+        String dataAtualizacao = ftfDataAtualizacaoCE.getText().trim();
+
+        // Capturar os IDs selecionados
+        int idProduto = Integer.parseInt(
+                cbProdutoCE.getSelectedItem().toString()
+        );
+
+        int idCategoria = Integer.parseInt(
+                cbCategoriaCE.getSelectedItem().toString()
+        );
+
+        int idMarca = Integer.parseInt(
+                cbMarcaCE.getSelectedItem().toString()
+        );
+
+        int idUnidadeMedida = Integer.parseInt(
+                cbUnidadeMedidaCE.getSelectedItem().toString()
+        );
+
+        // Validar campos obrigatórios
+        if (dataAtualizacao.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar quantidades
+        if (quantidadeAtual < 0 || quantidadeReservada < 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "As quantidades não podem ser negativas!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Criar o Model
+        Estoque estoque = new Estoque();
+
+        estoque.setQuantidadeAtual(quantidadeAtual);
+        estoque.setQuantidadeReservada(quantidadeReservada);
+        estoque.setDataAtualizacao(dataAtualizacao);
+        estoque.setProdutos_idprodutos(idProduto);
+        estoque.setProdutos_categorias_idcategorias(idCategoria);
+        estoque.setProdutos_marcas_idmarcas(idMarca);
+        estoque.setProdutos_unidadeMedidas_idunidadeMedidas(idUnidadeMedida);
+
+        // Chamar o Controller
+        EstoqueController controller = new EstoqueController();
+
+        controller.cadastrar(estoque);
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Estoque cadastrado com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        limparCamposCE();
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Verifique as quantidades e os IDs selecionados!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar estoque: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+private void listarMovimentacoesPorProduto() {
+
+    try {
+
+        // Capturar o produto selecionado
+        if (cbProdutoME.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um produto!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        String nomeProduto = cbProdutoME.getSelectedItem().toString();
+
+        // Consultar movimentações
+        MovimentacaoEstoqueController controller =
+                new MovimentacaoEstoqueController();
+
+        List<MovimentacaoEstoque> lista =
+                controller.listarMovimentacoesPorProduto(nomeProduto);
+
+        // Carregar tabela
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaMovimentacaoEstoque.getModel();
+
+        modelo.setRowCount(0);
+
+        for (MovimentacaoEstoque movimentacao : lista) {
+
+            modelo.addRow(new Object[]{
+                movimentacao.getIdmovimentacaoEstoque(),
+                movimentacao.getTipoMovimentacao(),
+                movimentacao.getQuantidade(),
+                movimentacao.getDataMovimentacao(),
+                movimentacao.getHoraMovimentacao(),
+                movimentacao.getProdutos_idprodutos(),
+                movimentacao.getProdutos_categorias_idcategorias(),
+                movimentacao.getProdutos_marcas_idmarcas(),
+                movimentacao.getProdutos_unidadeMedidas_idunidadeMedidas()
+            });
+        }
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhuma movimentação encontrada para esse produto!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao consultar movimentações: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -179,7 +747,7 @@ public void navegar(String idtela) {
         jlProdutoCE = new javax.swing.JLabel();
         cbProdutoCE = new javax.swing.JComboBox<>();
         jlQuantidadeAtual = new javax.swing.JLabel();
-        txtQuantidadeAtual = new javax.swing.JSpinner();
+        spQuantidadeAtual = new javax.swing.JSpinner();
         jlQuantidadeReservadaCE = new javax.swing.JLabel();
         spQuantidadeReservada = new javax.swing.JSpinner();
         jlCategoriaCE = new javax.swing.JLabel();
@@ -187,7 +755,7 @@ public void navegar(String idtela) {
         jlMarca = new javax.swing.JLabel();
         cbMarcaCE = new javax.swing.JComboBox<>();
         jlDataAtualizacao = new javax.swing.JLabel();
-        ftfDataAtualizacao = new javax.swing.JFormattedTextField();
+        ftfDataAtualizacaoCE = new javax.swing.JFormattedTextField();
         btnPesquisarCE = new javax.swing.JButton();
         btnEditarCE = new javax.swing.JButton();
         btnExcluirCE = new javax.swing.JButton();
@@ -203,7 +771,7 @@ public void navegar(String idtela) {
         tfMovimentacao = new javax.swing.JTextField();
         jlUnidadeM = new javax.swing.JLabel();
         jlTipoM = new javax.swing.JLabel();
-        cbTipoMovimentacao = new javax.swing.JComboBox<>();
+        cbTipoMovimentacaoME = new javax.swing.JComboBox<>();
         jlDataM = new javax.swing.JLabel();
         ftfDataMovimentacao = new javax.swing.JFormattedTextField();
         jlProdutoME = new javax.swing.JLabel();
@@ -211,12 +779,12 @@ public void navegar(String idtela) {
         jlHoraMovimentacao = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cbCategoriaME = new javax.swing.JComboBox<>();
-        ftfHoraMovimentacao = new javax.swing.JFormattedTextField();
-        ftfHoraMovimentacaoATE = new javax.swing.JFormattedTextField();
+        ftfHoraMovimentacaoME = new javax.swing.JFormattedTextField();
+        ftfHoraMovimentacaoATEME = new javax.swing.JFormattedTextField();
         jlMarcaME = new javax.swing.JLabel();
         cbMarcaME = new javax.swing.JComboBox<>();
         jlDocumentoReferencia = new javax.swing.JLabel();
-        tfDocumentoReferencia = new javax.swing.JTextField();
+        tfDocumentoReferenciaME = new javax.swing.JTextField();
         btnPesquisarME = new javax.swing.JButton();
         cbUnidadeMedidaME = new javax.swing.JComboBox<>();
         btnSalvarME = new javax.swing.JButton();
@@ -231,11 +799,11 @@ public void navegar(String idtela) {
         jpnPerdasEstoque = new javax.swing.JPanel();
         jlPerdasPE = new javax.swing.JLabel();
         jlMarcasPE = new javax.swing.JLabel();
-        tfPerdas = new javax.swing.JTextField();
+        tfPerdasPE = new javax.swing.JTextField();
         cbMarcaPE = new javax.swing.JComboBox<>();
         jlDataRegistroPE = new javax.swing.JLabel();
         jlUnidadeMedidaPE = new javax.swing.JLabel();
-        ftfDataRegistro = new javax.swing.JFormattedTextField();
+        ftfDataRegistroPE = new javax.swing.JFormattedTextField();
         cbUnidadeMedidaPE = new javax.swing.JComboBox<>();
         jlMotivoPE = new javax.swing.JLabel();
         jlProdutoPE = new javax.swing.JLabel();
@@ -245,7 +813,7 @@ public void navegar(String idtela) {
         cbCategoriaPE = new javax.swing.JComboBox<>();
         btnPesquisarPE = new javax.swing.JButton();
         jlLote = new javax.swing.JLabel();
-        tfLote = new javax.swing.JTextField();
+        tfLotePE = new javax.swing.JTextField();
         btnSalvarPE = new javax.swing.JButton();
         btnEditarPE = new javax.swing.JButton();
         btnExcluirPE = new javax.swing.JButton();
@@ -298,7 +866,7 @@ public void navegar(String idtela) {
         jlDataAtualizacao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlDataAtualizacao.setText("Data de Atualização:");
 
-        ftfDataAtualizacao.addActionListener(this::ftfDataAtualizacaoActionPerformed);
+        ftfDataAtualizacaoCE.addActionListener(this::ftfDataAtualizacaoCEActionPerformed);
 
         btnPesquisarCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnPesquisarCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa (1).png"))); // NOI18N
@@ -334,7 +902,7 @@ public void navegar(String idtela) {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlQuantidadeAtual, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                            .addComponent(txtQuantidadeAtual))
+                            .addComponent(spQuantidadeAtual))
                         .addGap(62, 62, 62)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlQuantidadeReservadaCE)
@@ -342,7 +910,7 @@ public void navegar(String idtela) {
                         .addGap(54, 54, 54)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlDataAtualizacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ftfDataAtualizacao)))
+                            .addComponent(ftfDataAtualizacaoCE)))
                     .addComponent(cbMarcaCE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
@@ -378,9 +946,9 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cbUnidadeMedidaCE, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(txtQuantidadeAtual)
+                    .addComponent(spQuantidadeAtual)
                     .addComponent(spQuantidadeReservada)
-                    .addComponent(ftfDataAtualizacao))
+                    .addComponent(ftfDataAtualizacaoCE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -396,6 +964,7 @@ public void navegar(String idtela) {
         btnLimparCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LIMPAR.png"))); // NOI18N
         btnLimparCE.setText("Limpar");
 
+        tabelaConsultaEstoque.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tabelaConsultaEstoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -435,6 +1004,7 @@ public void navegar(String idtela) {
         btnSalvarCE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnSalvarCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SALVAR.png"))); // NOI18N
         btnSalvarCE.setText("Salvar");
+        btnSalvarCE.addActionListener(this::btnSalvarCEActionPerformed);
 
         javax.swing.GroupLayout pnConsultaELayout = new javax.swing.GroupLayout(pnConsultaE);
         pnConsultaE.setLayout(pnConsultaELayout);
@@ -489,13 +1059,13 @@ public void navegar(String idtela) {
             .addGroup(pnConsultaEstoqueLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(pnConsultaE, javax.swing.GroupLayout.PREFERRED_SIZE, 1404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
         pnConsultaEstoqueLayout.setVerticalGroup(
             pnConsultaEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnConsultaEstoqueLayout.createSequentialGroup()
                 .addComponent(pnConsultaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 154, Short.MAX_VALUE))
         );
 
         tpnTelaEstoque.addTab("Consulta do Estoque", pnConsultaEstoque);
@@ -509,9 +1079,9 @@ public void navegar(String idtela) {
         jlTipoM.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlTipoM.setText("Tipo de Movimentação:");
 
-        cbTipoMovimentacao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        cbTipoMovimentacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbTipoMovimentacao.addActionListener(this::cbTipoMovimentacaoActionPerformed);
+        cbTipoMovimentacaoME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cbTipoMovimentacaoME.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoMovimentacaoME.addActionListener(this::cbTipoMovimentacaoMEActionPerformed);
 
         jlDataM.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlDataM.setText("Data da Movimentação:");
@@ -543,6 +1113,7 @@ public void navegar(String idtela) {
         btnPesquisarME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnPesquisarME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa (1).png"))); // NOI18N
         btnPesquisarME.setText("Pesquisar");
+        btnPesquisarME.addActionListener(this::btnPesquisarMEActionPerformed);
 
         cbUnidadeMedidaME.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cbUnidadeMedidaME.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -561,7 +1132,7 @@ public void navegar(String idtela) {
                 .addGap(38, 38, 38)
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlTipoM)
-                    .addComponent(cbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoMovimentacaoME, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlDataM)
                     .addComponent(ftfDataMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(63, 63, 63)
@@ -585,13 +1156,13 @@ public void navegar(String idtela) {
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnMELayout.createSequentialGroup()
-                                .addComponent(ftfHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ftfHoraMovimentacaoME, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
-                                .addComponent(ftfHoraMovimentacaoATE, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ftfHoraMovimentacaoATEME, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(90, 90, 90)
                         .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlDocumentoReferencia)
-                            .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfDocumentoReferenciaME, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         pnMELayout.setVerticalGroup(
@@ -612,7 +1183,7 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoMovimentacaoME, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbCategoriaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbMarcaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbProdutoME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -627,9 +1198,9 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ftfDataMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(ftfHoraMovimentacaoATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfHoraMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfDocumentoReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfHoraMovimentacaoATEME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfHoraMovimentacaoME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfDocumentoReferenciaME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbUnidadeMedidaME))
                 .addGap(39, 39, 39))
         );
@@ -698,11 +1269,11 @@ public void navegar(String idtela) {
                     .addGroup(pnMovimentacaoELayout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jlMovimentacaodeEstoque))
-                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1438, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnMovimentacaoELayout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(pnME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                        .addComponent(pnME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 1641, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnMovimentacaoELayout.setVerticalGroup(
             pnMovimentacaoELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -719,7 +1290,7 @@ public void navegar(String idtela) {
                     .addComponent(btnSalvarME))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnMovimentacaoEstoqueLayout = new javax.swing.GroupLayout(pnMovimentacaoEstoque);
@@ -728,7 +1299,7 @@ public void navegar(String idtela) {
             pnMovimentacaoEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnMovimentacaoEstoqueLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnMovimentacaoE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnMovimentacaoE, javax.swing.GroupLayout.PREFERRED_SIZE, 1558, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnMovimentacaoEstoqueLayout.setVerticalGroup(
@@ -746,7 +1317,7 @@ public void navegar(String idtela) {
         jlMarcasPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jlMarcasPE.setText("Marca:");
 
-        tfPerdas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        tfPerdasPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         cbMarcaPE.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cbMarcaPE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -794,7 +1365,7 @@ public void navegar(String idtela) {
                 .addGap(28, 28, 28)
                 .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jlMarcasPE)
-                    .addComponent(tfPerdas)
+                    .addComponent(tfPerdasPE)
                     .addComponent(jlPerdasPE, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbMarcaPE, 0, 220, Short.MAX_VALUE))
                 .addGap(32, 32, 32)
@@ -807,7 +1378,7 @@ public void navegar(String idtela) {
                                     .addGap(88, 88, 88)
                                     .addComponent(jlMotivoPE, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
-                                    .addComponent(ftfDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ftfDataRegistroPE, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(109, 109, 109)
                                     .addComponent(cbMotivoPE, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jpnPerdasEstoqueLayout.createSequentialGroup()
@@ -826,7 +1397,7 @@ public void navegar(String idtela) {
                         .addGap(51, 51, 51)
                         .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlLote)
-                            .addComponent(tfLote, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfLotePE, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnPesquisarPE)
                 .addGap(87, 87, 87))
@@ -843,8 +1414,8 @@ public void navegar(String idtela) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfPerdas, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addComponent(ftfDataRegistro))
+                        .addComponent(tfPerdasPE, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(ftfDataRegistroPE))
                     .addGroup(jpnPerdasEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbMotivoPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbProdutoPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -871,7 +1442,7 @@ public void navegar(String idtela) {
                                 .addGap(28, 28, 28)
                                 .addComponent(jlLote)
                                 .addGap(2, 2, 2)))
-                        .addComponent(tfLote, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfLotePE, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
 
@@ -993,7 +1564,7 @@ public void navegar(String idtela) {
 
         tpnTelaEstoque.addTab("Perdas De Estoque", pnPerdasEstoque);
 
-        getContentPane().add(tpnTelaEstoque, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, 1, 1480, 680));
+        getContentPane().add(tpnTelaEstoque, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, 1, 1480, 760));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1002,13 +1573,13 @@ public void navegar(String idtela) {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbMarcaCEActionPerformed
 
-    private void ftfDataAtualizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfDataAtualizacaoActionPerformed
+    private void ftfDataAtualizacaoCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfDataAtualizacaoCEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ftfDataAtualizacaoActionPerformed
+    }//GEN-LAST:event_ftfDataAtualizacaoCEActionPerformed
 
-    private void cbTipoMovimentacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoMovimentacaoActionPerformed
+    private void cbTipoMovimentacaoMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoMovimentacaoMEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbTipoMovimentacaoActionPerformed
+    }//GEN-LAST:event_cbTipoMovimentacaoMEActionPerformed
 
     private void btnSalvarMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarMEActionPerformed
         // TODO add your handling code here:
@@ -1022,12 +1593,24 @@ listarPerdasPorProduto((String) cbProdutoPE.getSelectedItem());
     }//GEN-LAST:event_btnPesquisarPEActionPerformed
 
     private void btnPesquisarCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarCEActionPerformed
-
-
+   listarConsultaEstoquePorProduto(cbProdutoCE.getSelectedItem().toString());
     
         
 // TODO add your handling code here:
     }//GEN-LAST:event_btnPesquisarCEActionPerformed
+
+    private void btnSalvarCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCEActionPerformed
+      
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvarCEActionPerformed
+
+    private void btnPesquisarMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarMEActionPerformed
+      listarMovimentacoesPorProduto();
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnPesquisarMEActionPerformed
   
     
           
@@ -1083,15 +1666,15 @@ listarPerdasPorProduto((String) cbProdutoPE.getSelectedItem());
     private javax.swing.JComboBox<String> cbProdutoCE;
     private javax.swing.JComboBox<String> cbProdutoME;
     private javax.swing.JComboBox<String> cbProdutoPE;
-    private javax.swing.JComboBox<String> cbTipoMovimentacao;
+    private javax.swing.JComboBox<String> cbTipoMovimentacaoME;
     private javax.swing.JComboBox<String> cbUnidadeMedidaCE;
     private javax.swing.JComboBox<String> cbUnidadeMedidaME;
     private javax.swing.JComboBox<String> cbUnidadeMedidaPE;
-    private javax.swing.JFormattedTextField ftfDataAtualizacao;
+    private javax.swing.JFormattedTextField ftfDataAtualizacaoCE;
     private javax.swing.JFormattedTextField ftfDataMovimentacao;
-    private javax.swing.JFormattedTextField ftfDataRegistro;
-    private javax.swing.JFormattedTextField ftfHoraMovimentacao;
-    private javax.swing.JFormattedTextField ftfHoraMovimentacaoATE;
+    private javax.swing.JFormattedTextField ftfDataRegistroPE;
+    private javax.swing.JFormattedTextField ftfHoraMovimentacaoATEME;
+    private javax.swing.JFormattedTextField ftfHoraMovimentacaoME;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -1132,16 +1715,16 @@ listarPerdasPorProduto((String) cbProdutoPE.getSelectedItem());
     private javax.swing.JPanel pnMovimentacaoEstoque;
     private javax.swing.JPanel pnPerdasEs;
     private javax.swing.JPanel pnPerdasEstoque;
+    private javax.swing.JSpinner spQuantidadeAtual;
     private javax.swing.JSpinner spQuantidadeReservada;
     private javax.swing.JTable tabelaConsultaEstoque;
     private javax.swing.JTable tabelaMovimentacaoEstoque;
     private javax.swing.JTable tabelaPerdasEstoque;
-    private javax.swing.JTextField tfDocumentoReferencia;
+    private javax.swing.JTextField tfDocumentoReferenciaME;
     private javax.swing.JTextField tfIDEstoque;
-    private javax.swing.JTextField tfLote;
+    private javax.swing.JTextField tfLotePE;
     private javax.swing.JTextField tfMovimentacao;
-    private javax.swing.JTextField tfPerdas;
+    private javax.swing.JTextField tfPerdasPE;
     private javax.swing.JTabbedPane tpnTelaEstoque;
-    private javax.swing.JSpinner txtQuantidadeAtual;
     // End of variables declaration//GEN-END:variables
 }

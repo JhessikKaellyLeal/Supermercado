@@ -1,90 +1,146 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author AntônioVieira
- */
 import Conection.Conexao;
-import java.sql.*;
-import java.util.*;
+import Model.FechamentoCaixa;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FechamentoCaixaController {
- public boolean cadastrar(String data, String horario, double valor,
-            int idAbertura, int idFuncionario, int idCargo,
-            int idSetor, int idTurno) throws SQLException {
 
+    public void cadastrar(FechamentoCaixa fechamento) throws SQLException {
         String sql = "INSERT INTO fechamentoCaixa "
-            + "(dataFechamento, horarioFechamento, valorFinal, "
-            + "aberturaCaixa_idaberturaCaixa, Funcionario_idFuncionario, "
-            + "Funcionario_cargos_idcargos, Funcionario_setores_idsetores, "
-            + "Funcionario_turnos_idturnos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(dataFechamento, horarioFechamento, valorFinal, "
+                + "funcionario_idFuncionario) VALUES (?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, data);
-            ps.setString(2, horario);
-            ps.setDouble(3, valor);
-            ps.setInt(4, idAbertura);
-            ps.setInt(5, idFuncionario);
-            ps.setInt(6, idCargo);
-            ps.setInt(7, idSetor);
-            ps.setInt(8, idTurno);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, fechamento.getDataFechamento());
+            stmt.setString(2, fechamento.getHorarioFechamento());
+            stmt.setDouble(3, fechamento.getValorFinal());
+            stmt.setInt(4, fechamento.getFuncionario_idFuncionario());
+
+            stmt.executeUpdate();
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(
-                 "SELECT * FROM fechamentoCaixa");
-             ResultSet rs = ps.executeQuery()) {
+    public List<FechamentoCaixa> listar() throws SQLException {
+        List<FechamentoCaixa> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM fechamentoCaixa";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                ResultSetMetaData md = rs.getMetaData();
-                for (int i = 1; i <= md.getColumnCount(); i++)
-                    m.put(md.getColumnLabel(i), rs.getObject(i));
-                lista.add(m);
+                lista.add(mapearFechamento(rs));
             }
         }
+
         return lista;
     }
 
-    public boolean atualizar(int id, String data, String horario,
-            double valor, int idAbertura, int idFuncionario,
-            int idCargo, int idSetor, int idTurno) throws SQLException {
+    public FechamentoCaixa buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM fechamentoCaixa "
+                + "WHERE idfechamentoCaixa = ?";
 
-        String sql = "UPDATE fechamentoCaixa SET dataFechamento=?, "
-            + "horarioFechamento=?, valorFinal=?, "
-            + "aberturaCaixa_idaberturaCaixa=?, Funcionario_idFuncionario=?, "
-            + "Funcionario_cargos_idcargos=?, Funcionario_setores_idsetores=?, "
-            + "Funcionario_turnos_idturnos=? WHERE idfechamentoCaixa=?";
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, data);
-            ps.setString(2, horario);
-            ps.setDouble(3, valor);
-            ps.setInt(4, idAbertura);
-            ps.setInt(5, idFuncionario);
-            ps.setInt(6, idCargo);
-            ps.setInt(7, idSetor);
-            ps.setInt(8, idTurno);
-            ps.setInt(9, id);
-            return ps.executeUpdate() > 0;
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearFechamento(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void atualizar(FechamentoCaixa fechamento) throws SQLException {
+        String sql = "UPDATE fechamentoCaixa SET "
+                + "dataFechamento = ?, "
+                + "horarioFechamento = ?, "
+                + "valorFinal = ?, "
+                + "funcionario_idFuncionario = ? "
+                + "WHERE idfechamentoCaixa = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, fechamento.getDataFechamento());
+            stmt.setString(2, fechamento.getHorarioFechamento());
+            stmt.setDouble(3, fechamento.getValorFinal());
+            stmt.setInt(4, fechamento.getFuncionario_idFuncionario());
+            stmt.setInt(5, fechamento.getIdfechamentoCaixa());
+
+            stmt.executeUpdate();
         }
     }
 
-    public boolean excluir(int id) throws SQLException {
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(
-                 "DELETE FROM fechamentoCaixa WHERE idfechamentoCaixa=?")) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM fechamentoCaixa "
+                + "WHERE idfechamentoCaixa = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
-}   
 
+    public List<FechamentoCaixa> buscarPorFuncionario(int idFuncionario)
+            throws SQLException {
+
+        List<FechamentoCaixa> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM fechamentoCaixa "
+                + "WHERE funcionario_idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearFechamento(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    private FechamentoCaixa mapearFechamento(ResultSet rs)
+            throws SQLException {
+
+        FechamentoCaixa fechamento = new FechamentoCaixa();
+
+        fechamento.setIdfechamentoCaixa(
+                rs.getInt("idfechamentoCaixa"));
+
+        fechamento.setDataFechamento(
+                rs.getString("dataFechamento"));
+
+        fechamento.setHorarioFechamento(
+                rs.getString("horarioFechamento"));
+
+        fechamento.setValorFinal(
+                rs.getDouble("valorFinal"));
+
+        fechamento.setFuncionario_idFuncionario(
+                rs.getInt("funcionario_idFuncionario"));
+
+        return fechamento;
+    }
+}

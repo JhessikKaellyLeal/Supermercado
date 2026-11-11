@@ -1,17 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Funcionario_has_Ferias {
- private int Funcionario_idFuncionario,   Funcionario_cargos_idcargos,  Funcionario_setores_idsetores, Funcionario_turnos_idturnos, ferias_idferias;
+
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
+    private int ferias_idferias;
 
     public Funcionario_has_Ferias() {
+    
+    }
+    
+
+    public Funcionario_has_Ferias(int Funcionario_idFuncionario,
+            int Funcionario_cargos_idcargos,
+            int Funcionario_setores_idsetores,
+            int Funcionario_turnos_idturnos,
+            int ferias_idferias) {
+
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+        this.Funcionario_cargos_idcargos = Funcionario_cargos_idcargos;
+        this.Funcionario_setores_idsetores = Funcionario_setores_idsetores;
+        this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
+        this.ferias_idferias = ferias_idferias;
     }
 
     public int getFuncionario_idFuncionario() {
@@ -53,5 +66,4 @@ public class Funcionario_has_Ferias {
     public void setFerias_idferias(int ferias_idferias) {
         this.ferias_idferias = ferias_idferias;
     }
- 
 }

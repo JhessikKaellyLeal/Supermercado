@@ -1,20 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Cargos {
-   private int idcargos, cargahorario;
-   private String nome, descricao;
-   private double salariobase, adicionalpericulosidade, adicionalinsalubridade, adicionalnoturno;
-   private boolean statuscargo;
+
+    private int idcargos;
+    private String nome;
+    private String descricao;
+    private double salarioBase;
+    private int cargaHoraria;
+    private double adicionalPericulosidade;
+    private double adicionalInsalubridade;
+    private int statusCargo;
+    private double adicionalNoturno;
 
     public Cargos() {
+    }
+
+    public Cargos(int idcargos, String nome, String descricao,
+            double salarioBase, int cargaHoraria,
+            double adicionalPericulosidade,
+            double adicionalInsalubridade,
+            int statusCargo, double adicionalNoturno) {
+
+        this.idcargos = idcargos;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.salarioBase = salarioBase;
+        this.cargaHoraria = cargaHoraria;
+        this.adicionalPericulosidade = adicionalPericulosidade;
+        this.adicionalInsalubridade = adicionalInsalubridade;
+        this.statusCargo = statusCargo;
+        this.adicionalNoturno = adicionalNoturno;
     }
 
     public int getIdcargos() {
@@ -23,14 +38,6 @@ public class Cargos {
 
     public void setIdcargos(int idcargos) {
         this.idcargos = idcargos;
-    }
-
-    public int getCargahorario() {
-        return cargahorario;
-    }
-
-    public void setCargahorario(int cargahorario) {
-        this.cargahorario = cargahorario;
     }
 
     public String getNome() {
@@ -49,52 +56,51 @@ public class Cargos {
         this.descricao = descricao;
     }
 
-    public double getSalariobase() {
-        return salariobase;
+    public double getSalarioBase() {
+        return salarioBase;
     }
 
-    public void setSalariobase(double salariobase) {
-        this.salariobase = salariobase;
+    public void setSalarioBase(double salarioBase) {
+        this.salarioBase = salarioBase;
     }
 
-    public double getAdicionalpericulosidade() {
-        return adicionalpericulosidade;
+    public int getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public void setAdicionalpericulosidade(double adicionalpericulosidade) {
-        this.adicionalpericulosidade = adicionalpericulosidade;
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
-    public double getAdicionalinsalubridade() {
-        return adicionalinsalubridade;
+    public double getAdicionalPericulosidade() {
+        return adicionalPericulosidade;
     }
 
-    public void setAdicionalinsalubridade(double adicionalinsalubridade) {
-        this.adicionalinsalubridade = adicionalinsalubridade;
+    public void setAdicionalPericulosidade(double adicionalPericulosidade) {
+        this.adicionalPericulosidade = adicionalPericulosidade;
     }
 
-    public double getAdicionalnoturno() {
-        return adicionalnoturno;
+    public double getAdicionalInsalubridade() {
+        return adicionalInsalubridade;
     }
 
-    public void setAdicionalnoturno(double adicionalnoturno) {
-        this.adicionalnoturno = adicionalnoturno;
+    public void setAdicionalInsalubridade(double adicionalInsalubridade) {
+        this.adicionalInsalubridade = adicionalInsalubridade;
     }
 
-    public boolean isStatuscargo() {
-        return statuscargo;
+    public int getStatusCargo() {
+        return statusCargo;
     }
 
-    public void setStatuscargo(boolean statuscargo) {
-        this.statuscargo = statuscargo;
+    public void setStatusCargo(int statusCargo) {
+        this.statusCargo = statusCargo;
     }
-   
-    
-   
-   
-   
-   
-   
-   
-   
+
+    public double getAdicionalNoturno() {
+        return adicionalNoturno;
+    }
+
+    public void setAdicionalNoturno(double adicionalNoturno) {
+        this.adicionalNoturno = adicionalNoturno;
+    }
 }

@@ -10,12 +10,15 @@ import Control.EntregaController;
 import Control.FuncionarioController;
 import Control.TaxasEntregaController;
 import Control.VeiculosController;
+import Model.Entregas;
 import Model.Funcionario;
+import Model.TaxasEntregas;
 import View.MenuPadrao;
 import Model.Usuario;
+import Model.Veiculos;
 import View.TelaHome;
 import View.TelaPerfilUsuarios;
-import View.TelaPromocoes;
+
 import View.Tela_Funcionarios_RH;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +55,6 @@ public class TelaEntregas extends javax.swing.JFrame {
     public TelaEntregas(Usuario usuario) {
         initComponents();
         this.usuario= usuario;
-      
         this.menu=MenuPadrao.instalar(
         this,
         usuario,
@@ -60,94 +62,88 @@ public class TelaEntregas extends javax.swing.JFrame {
         this::navegar,
         this::dispose
     );
-          this.setExtendedState(TelaEntregas.MAXIMIZED_BOTH);
+        this.setExtendedState(TelaEntregas.MAXIMIZED_BOTH);
+        
        
     }
 
     
-      // MÉTODO DE ACESSAR AS TELAS
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -162,8 +158,622 @@ public void navegar(String idtela) {
     }
 }
 
- 
+
+
+private void cadastrarEntrega() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String dataEntrega = ftfDataEntrega.getText().trim();
+        String horarioEntrega = ftfHorarioEntrega.getText().trim();
+
+        String statusEntrega = cbStatusEntrega.getSelectedItem() != null
+                ? cbStatusEntrega.getSelectedItem().toString().trim()
+                : "";
+
+        // Validar campos obrigatórios
+        if (dataEntrega.isEmpty()
+                || horarioEntrega.isEmpty()
+                || statusEntrega.isEmpty()) {
+            
+            System.out.println("Data: [" + dataEntrega + "]");
+            System.out.println("Horário: [" + horarioEntrega + "]");
+            System.out.println("Status: [" + statusEntrega + "]");
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar seleção do veículo
         
+       if (tfVeiculoEntregas.getText().trim().isEmpty()) {
+               JOptionPane.showMessageDialog(this,
+               "Informe o veículo para a entrega!");
+            return;
+            }
+
+        // Validar seleção do entregador
+        if (tfEntregadorEntregas.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um entregador!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        /*
+         * IMPORTANTE:
+         * Antes de chamar o controller, precisamos obter os IDs
+         * do cliente, veículo, taxa e funcionário, incluindo os
+         * IDs de cargo, setor e turno exigidos pelo banco.
+         *
+         * Os nomes exibidos nos JComboBox não são necessariamente
+         * os IDs armazenados no banco de dados.
+         */
+
+        // Chamar o controller de entregas
+        EntregaController controller = new EntregaController();
+
+        /*
+         * A chamada ao método cadastrar será definida conforme
+         * os parâmetros existentes no seu EntregasController.
+         */
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar entrega: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+       
+    
+
+private void cadastrarEndereco() {
+    try {
+        EnderecoController controller = new EnderecoController();
+        
+        String cpfDigitado = ftfCpfClienteEntregas.getText().trim();
+        
+        System.out.println("CPF digitado: " + cpfDigitado);
+        
+        int idCliente = controller.buscarIdClientePorCpf(cpfDigitado);
+        System.out.println("ID encontrado: " + idCliente);
+        
+        
+        
+        try {
+            
+            // Capturar os dados dos campos
+            String bairro = txtBairroEnderecos.getText().trim();
+            
+            String cep = txtCepEnderecos.getText()
+                    .replaceAll("[^0-9]", "");
+            
+            String cidade = txtCidadeEnderecos.getText().trim();
+            
+            String estado = cbEstadoEnderecos.getSelectedItem() != null
+                    ? cbEstadoEnderecos.getSelectedItem().toString().trim()
+                    : "";
+            
+            String rua = txtRuaEnderecos.getText().trim();
+            
+            String numero = txtNumeroEnderecos.getText().trim();
+            
+            // Validar campos obrigatórios
+            if (bairro.isEmpty()
+                    || cep.isEmpty()
+                    || cidade.isEmpty()
+                    || estado.isEmpty()
+                    || rua.isEmpty()
+                    || numero.isEmpty()) {
+                
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Preencha todos os campos obrigatórios!",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                
+                return;
+            }
+            
+            // Validar CEP
+            if (cep.length() != 8) {
+                
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Informe um CEP válido!",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                
+                return;
+            }
+            
+            // Verificar se existe cliente selecionado
+            if (ftfCpfClienteEnderecos.getText().trim().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Selecione um cliente!",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                
+                return;
+            }
+            
+            
+            
+            /*
+            * A chamada cadastrar depende da assinatura
+            * existente no seu EnderecoController.
+            */
+            
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao cadastrar endereço: " + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+        }
+    } catch (SQLException ex) {
+
+            System.getLogger(TelaEntregas.class.getName()).log(                System.Logger.Level.ERROR
+        ,   (String) null, ex);
+
+    }
+}
+    
+
+
+private void cadastrarVeiculo() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String tipoVeiculo = txtTipoVeiculo.getText().trim();
+        String marca = txtMarcaVeiculo.getText().trim();
+        String modelo = txtModeloVeiculo.getText().trim();
+
+        String anoTexto = ftfAnoVeiculo.getText().trim();
+        String cor = ""; // Substituir pelo campo de cor da JFrame
+
+        String cargaTexto = txtCapacidadeCarga.getText().trim();
+
+        String statusVeiculo = cbStatusVeiculo.getSelectedItem() != null
+                ? cbStatusVeiculo.getSelectedItem().toString().trim()
+                : "";
+
+        String placa = txtPlacaVeiculo.getText().trim();
+
+        String observacoes = txtObservacoesVeiculo.getText().trim();
+
+        // Validar campos obrigatórios
+        if (tipoVeiculo.isEmpty()
+                || marca.isEmpty()
+                || modelo.isEmpty()
+                || anoTexto.isEmpty()
+                || cor.isEmpty()
+                || cargaTexto.isEmpty()
+                || statusVeiculo.isEmpty()
+                || placa.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Converter ano e capacidade de carga
+        int anoVeiculo = Integer.parseInt(anoTexto);
+        double capacidadeCarga = Double.parseDouble(
+                cargaTexto.replace(",", ".")
+        );
+
+        // Validar ano
+        if (anoVeiculo <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe um ano válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar capacidade de carga
+        if (capacidadeCarga <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe uma capacidade de carga válida!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Chamar o controller
+        VeiculosController controller = new VeiculosController();
+
+        /*
+         * A chamada controller.cadastrar() será ajustada
+         * conforme os parâmetros do seu VeiculosController.
+         */
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Verifique o ano e a capacidade de carga!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar veículo: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+   
+    
+
+private void cadastrarTaxa() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String regiao = cbRegiaoTaxas.getSelectedItem() != null
+                ? cbRegiaoTaxas.getSelectedItem().toString().trim()
+                : "";
+
+        String tipoTaxa = cbTipoTaxa.getSelectedItem() != null
+                ? cbTipoTaxa.getSelectedItem().toString().trim()
+                : "";
+
+        String valorTexto = txtValorTaxa.getText().trim();
+
+        String observacao = txtObservacaoTaxa.getText().trim();
+
+        // Validar campos obrigatórios
+        if (regiao.isEmpty()
+                || tipoTaxa.isEmpty()
+                || valorTexto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Converter valor da taxa
+        double valorTaxa = Double.parseDouble(
+                valorTexto.replace(",", ".")
+        );
+
+        // Validar valor da taxa
+        if (valorTaxa <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe um valor de taxa válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Chamar o controller
+        TaxasEntregaController controller = new TaxasEntregaController();
+
+        /*
+         * A chamada controller.cadastrar() será ajustada
+         * conforme os parâmetros do seu controller.
+         */
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe um valor numérico válido para a taxa!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar taxa: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+   
+    
+
+private void cadastrarFuncionario() {
+
+    try {
+
+        // Capturar os dados dos campos
+        String nome = txtNome.getText().trim();
+
+        String dataNascimento = ftfDataNascimento.getText().trim();
+
+        String cpf = ftfCpf.getText().replaceAll("[^0-9]", "");
+
+        String telefone = ftfTelefone.getText()
+                .replaceAll("[^0-9]", "");
+
+        // Capturar o status
+        String statusTexto = cbStatusEntregadores.getSelectedItem() != null
+                ? cbStatusEntregadores.getSelectedItem().toString().trim()
+                : "";
+
+        // Validar campos obrigatórios
+        if (nome.isEmpty()
+                || dataNascimento.isEmpty()
+                || cpf.isEmpty()
+                || telefone.isEmpty()
+                || statusTexto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validar CPF
+        if (cpf.length() != 11) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe um CPF válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Converter status para TINYINT
+        int statusFuncionario;
+
+        if (statusTexto.equalsIgnoreCase("Ativo")) {
+            statusFuncionario = 1;
+
+        } else if (statusTexto.equalsIgnoreCase("Inativo")) {
+            statusFuncionario = 0;
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um status válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        // Chamar o controller
+        FuncionarioController controller = new FuncionarioController();
+
+        /*
+         * A chamada controller.cadastrar() será definida
+         * conforme os parâmetros do seu controller.
+         */
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar funcionário: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+}
+
+
+
+public class FuncionarioController {
+
+    public boolean cadastrar(Funcionario funcionario) {
+
+        String sql = "INSERT INTO Funcionario "
+                + "(nome, dataNascimento, cpf, telefone, "
+                + "dataAdmissao, statusFuncionario, "
+                + "cargos_idcargos, setores_idsetores, turnos_idturnos) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getDataNascimento());
+            stmt.setString(3, funcionario.getCpf());
+            stmt.setString(4, funcionario.getTelefone());
+            stmt.setNull(5, Types.VARCHAR);
+            stmt.setInt(6, funcionario.getStatusFuncionario());
+            stmt.setNull(7, Types.INTEGER);
+            stmt.setNull(8, Types.INTEGER);
+            stmt.setNull(9, Types.INTEGER);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Funcionario> listar() {
+
+        List<Funcionario> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM Funcionario ORDER BY nome";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Funcionario funcionario = new Funcionario();
+
+                funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setDataNascimento(rs.getString("dataNascimento"));
+                funcionario.setCpf(rs.getString("cpf"));
+                funcionario.setTelefone(rs.getString("telefone"));
+                funcionario.setDataAdmissao(rs.getString("dataAdmissao"));
+                funcionario.setStatusFuncionario(
+                        rs.getInt("statusFuncionario"));
+
+                funcionario.setCargos_idcargos(
+                        rs.getInt("cargos_idcargos"));
+                funcionario.setSetores_idsetores(
+                        rs.getInt("setores_idsetores"));
+                funcionario.setTurnos_idturnos(
+                        rs.getInt("turnos_idturnos"));
+
+                lista.add(funcionario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public Funcionario buscarPorId(int idFuncionario) {
+
+        String sql = "SELECT * FROM Funcionario WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Funcionario funcionario = new Funcionario();
+
+                    funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
+                    funcionario.setNome(rs.getString("nome"));
+                    funcionario.setDataNascimento(rs.getString("dataNascimento"));
+                    funcionario.setCpf(rs.getString("cpf"));
+                    funcionario.setTelefone(rs.getString("telefone"));
+                    funcionario.setDataAdmissao(rs.getString("dataAdmissao"));
+                    funcionario.setStatusFuncionario(
+                            rs.getInt("statusFuncionario"));
+
+                    funcionario.setCargos_idcargos(rs.getInt("cargos_idcargos"));
+                    funcionario.setSetores_idsetores(rs.getInt("setores_idsetores"));
+                    funcionario.setTurnos_idturnos(rs.getInt("turnos_idturnos"));
+
+                    return funcionario;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public boolean atualizar(Funcionario funcionario) {
+
+        String sql = "UPDATE Funcionario SET nome = ?, "
+                + "dataNascimento = ?, cpf = ?, telefone = ?, "
+                + "statusFuncionario = ? WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getDataNascimento());
+            stmt.setString(3, funcionario.getCpf());
+            stmt.setString(4, funcionario.getTelefone());
+            stmt.setInt(5, funcionario.getStatusFuncionario());
+            stmt.setInt(6, funcionario.getIdFuncionario());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean excluir(int idFuncionario) {
+
+        String sql = "DELETE FROM Funcionario WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
     
 
@@ -174,100 +784,118 @@ public void navegar(String idtela) {
 private void cadastrarVeiculos() {
 
     try {
-
         String tipo = txtTipoVeiculo.getText().trim();
         String marca = txtMarcaVeiculo.getText().trim();
         String modelo = txtModeloVeiculo.getText().trim();
-        int ano = Integer.parseInt(ftfAnoVeiculo.getText().trim());
+        String anoTexto = ftfAnoVeiculo.getText().trim();
         String cor = txtCorVeiculo.getText().trim();
-        double capacidade = Double.parseDouble(
-                txtCapacidadeCarga.getText().trim().replace(",", "."));
-        String status = cbStatusVeiculo.getSelectedItem().toString();
+        String capacidadeTexto = txtCapacidadeCarga.getText().trim();
+
+        String status = cbStatusVeiculo.getSelectedItem() != null
+                ? cbStatusVeiculo.getSelectedItem().toString().trim()
+                : "";
+
         String placa = txtPlacaVeiculo.getText().trim();
         String observacoes = txtObservacoesVeiculo.getText().trim();
 
+        // VALIDAR CAMPOS OBRIGATÓRIOS
         if (tipo.isEmpty() || marca.isEmpty() || modelo.isEmpty()
-                || cor.isEmpty() || placa.isEmpty()) {
+                || anoTexto.isEmpty() || cor.isEmpty()
+                || capacidadeTexto.isEmpty() || status.isEmpty()
+                || placa.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos obrigatórios!");
-
             return;
         }
 
+        // CONVERTER VALORES
+        int ano = Integer.parseInt(anoTexto);
+
+        double capacidade = Double.parseDouble(
+                capacidadeTexto.replace(",", ".")
+        );
+
+        if (ano <= 0 || capacidade <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Informe um ano e uma capacidade de carga válidos!");
+            return;
+        }
+
+        // CRIAR MODEL
+        Veiculos veiculo = new Veiculos();
+
+        veiculo.setTipoVeiculo(tipo);
+        veiculo.setMarca(marca);
+        veiculo.setModelo(modelo);
+        veiculo.setAnoVeiculo(ano);
+        veiculo.setCor(cor);
+        veiculo.setCapacidadeCarga(capacidade);
+        veiculo.setStatusVeiculo(status);
+        veiculo.setPlaca(placa);
+        veiculo.setObservacoes(observacoes);
+
+        // CADASTRAR PELO CONTROLLER
         VeiculosController controller = new VeiculosController();
 
-        boolean sucesso = controller.cadastrar(
-                tipo, marca, modelo, ano, cor,
-                capacidade, status, placa, observacoes);
+        controller.cadastrar(veiculo);
 
-        if (sucesso) {
+        JOptionPane.showMessageDialog(this,
+                "Veículo cadastrado com sucesso!");
 
-            JOptionPane.showMessageDialog(this,
-                    "Veículo cadastrado com sucesso!");
-
-            limparCamposVeiculos();
-            carregarTabelaVeiculos();
-
-        }
+        limparCamposVeiculos();
+        carregarTabelaVeiculos();
 
     } catch (NumberFormatException e) {
 
         JOptionPane.showMessageDialog(this,
                 "Verifique os campos de ano e capacidade de carga!");
 
-    } catch (SQLException e) {
+    } catch (Exception e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar veículo: " + e.getMessage());
-
     }
-}   
-    
+}
+
 private void carregarTabelaVeiculos() {
 
     try {
-
         VeiculosController controller = new VeiculosController();
 
-        List<Map<String, Object>> lista = controller.listar();
+        List<Veiculos> lista = controller.listar();
 
-        DefaultTableModel modelo = (DefaultTableModel) tblVeiculos.getModel();
+        DefaultTableModel modelo =
+                (DefaultTableModel) tblVeiculos.getModel();
 
         modelo.setRowCount(0);
 
-        for (Map<String, Object> veiculo : lista) {
+        for (Veiculos veiculo : lista) {
 
             modelo.addRow(new Object[]{
-                veiculo.get("idveiculos"),
-                veiculo.get("tipoVeiculo"),
-                veiculo.get("marca"),
-                veiculo.get("modelo"),
-                veiculo.get("anoVeiculo"),
-                veiculo.get("cor"),
-                veiculo.get("capacidadeCarga"),
-                veiculo.get("statusVeiculo"),
-                veiculo.get("placa"),
-                veiculo.get("observacoes")
+                veiculo.getIdveiculos(),
+                veiculo.getTipoVeiculo(),
+                veiculo.getMarca(),
+                veiculo.getModelo(),
+                veiculo.getAnoVeiculo(),
+                veiculo.getCor(),
+                veiculo.getCapacidadeCarga(),
+                veiculo.getStatusVeiculo(),
+                veiculo.getPlaca(),
+                veiculo.getObservacoes()
             });
         }
 
-    } catch (SQLException e) {
-
+    } catch (Exception e) {
         JOptionPane.showMessageDialog(this,
                 "Erro ao carregar veículos: " + e.getMessage());
-
     }
-}    
-     
+}
 private void alterarVeiculo() {
-    
 
     if (idVeiculoSelecionado == -1) {
-
         JOptionPane.showMessageDialog(this,
                 "Selecione um veículo na tabela!");
-
         return;
     }
 
@@ -276,55 +904,86 @@ private void alterarVeiculo() {
         String tipo = txtTipoVeiculo.getText().trim();
         String marca = txtMarcaVeiculo.getText().trim();
         String modelo = txtModeloVeiculo.getText().trim();
-        int ano = Integer.parseInt(ftfAnoVeiculo.getText().trim());
+        String anoTexto = ftfAnoVeiculo.getText().trim();
         String cor = txtCorVeiculo.getText().trim();
+        String capacidadeTexto = txtCapacidadeCarga.getText().trim();
 
-        double capacidade = Double.parseDouble(
-                txtCapacidadeCarga.getText().trim().replace(",", "."));
+        String status = cbStatusVeiculo.getSelectedItem() != null
+                ? cbStatusVeiculo.getSelectedItem().toString().trim()
+                : "";
 
-        String status = cbStatusVeiculo.getSelectedItem().toString();
         String placa = txtPlacaVeiculo.getText().trim();
         String observacoes = txtObservacoesVeiculo.getText().trim();
 
-        VeiculosController controller = new VeiculosController();
-
-        boolean sucesso = controller.atualizar(
-                idVeiculoSelecionado,
-                tipo, marca, modelo, ano, cor,
-                capacidade, status, placa, observacoes);
-
-        if (sucesso) {
+        // VALIDAR CAMPOS OBRIGATÓRIOS
+        if (tipo.isEmpty() || marca.isEmpty() || modelo.isEmpty()
+                || anoTexto.isEmpty() || cor.isEmpty()
+                || capacidadeTexto.isEmpty() || status.isEmpty()
+                || placa.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
-                    "Veículo alterado com sucesso!");
-
-            idVeiculoSelecionado = -1;
-
-            limparCamposVeiculos();
-            carregarTabelaVeiculos();
-
+                    "Preencha todos os campos obrigatórios!");
+            return;
         }
+
+        // CONVERTER VALORES
+        int ano = Integer.parseInt(anoTexto);
+
+        double capacidade = Double.parseDouble(
+                capacidadeTexto.replace(",", ".")
+        );
+
+        if (ano <= 0 || capacidade <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Informe um ano e uma capacidade de carga válidos!");
+            return;
+        }
+
+        // CRIAR MODEL
+        Veiculos veiculo = new Veiculos();
+
+        veiculo.setIdveiculos(idVeiculoSelecionado);
+        veiculo.setTipoVeiculo(tipo);
+        veiculo.setMarca(marca);
+        veiculo.setModelo(modelo);
+        veiculo.setAnoVeiculo(ano);
+        veiculo.setCor(cor);
+        veiculo.setCapacidadeCarga(capacidade);
+        veiculo.setStatusVeiculo(status);
+        veiculo.setPlaca(placa);
+        veiculo.setObservacoes(observacoes);
+
+        // ATUALIZAR PELO CONTROLLER
+        VeiculosController controller = new VeiculosController();
+
+        controller.atualizar(veiculo);
+
+        JOptionPane.showMessageDialog(this,
+                "Veículo alterado com sucesso!");
+
+        idVeiculoSelecionado = -1;
+
+        limparCamposVeiculos();
+        carregarTabelaVeiculos();
 
     } catch (NumberFormatException e) {
 
         JOptionPane.showMessageDialog(this,
                 "Verifique os campos numéricos!");
 
-    } catch (SQLException e) {
+    } catch (Exception e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao alterar veículo: " + e.getMessage());
-
     }
-}    
+}
      
 private void excluirVeiculo() {
 
-    if ( idVeiculoSelecionado == -1) {
+    if (idVeiculoSelecionado == -1) {
 
         JOptionPane.showMessageDialog(this,
                 "Selecione um veículo na tabela!");
-
         return;
     }
 
@@ -341,28 +1000,23 @@ private void excluirVeiculo() {
 
             VeiculosController controller = new VeiculosController();
 
-            boolean sucesso = controller.excluir(idVeiculoSelecionado);
+            controller.excluir(idVeiculoSelecionado);
 
-            if (sucesso) {
+            JOptionPane.showMessageDialog(this,
+                    "Veículo excluído com sucesso!");
 
-                JOptionPane.showMessageDialog(this,
-                        "Veículo excluído com sucesso!");
+            idVeiculoSelecionado = -1;
 
-                idVeiculoSelecionado = -1;
-
-                limparCamposVeiculos();
-                carregarTabelaVeiculos();
-
-            }
+            limparCamposVeiculos();
+            carregarTabelaVeiculos();
 
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(this,
                     "Erro ao excluir veículo: " + e.getMessage());
-
         }
     }
-}    
+}   
 
 
 private void limparCamposVeiculos() {
@@ -384,85 +1038,103 @@ private void limparCamposVeiculos() {
 }
 
 
-
 private void cadastrarTaxas() {
 
     try {
-        String regiao = cbRegiaoTaxas.getSelectedItem().toString();
-        String tipoTaxa = cbTipoTaxa.getSelectedItem().toString();
+        String regiao = cbRegiaoTaxas.getSelectedItem() != null
+                ? cbRegiaoTaxas.getSelectedItem().toString().trim()
+                : "";
 
-        double valorTaxa = Double.parseDouble(
-            txtValorTaxa.getText().trim().replace(",", ".")
-        );
+        String tipoTaxa = cbTipoTaxa.getSelectedItem() != null
+                ? cbTipoTaxa.getSelectedItem().toString().trim()
+                : "";
 
+        String valorTexto = txtValorTaxa.getText().trim();
         String observacao = txtObservacaoTaxa.getText().trim();
 
+        // VALIDAR CAMPOS OBRIGATÓRIOS
         if (regiao.isEmpty() || tipoTaxa.isEmpty()
-                || txtValorTaxa.getText().trim().isEmpty()) {
+                || valorTexto.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
-                "Preencha todos os campos obrigatórios!");
+                    "Preencha todos os campos obrigatórios!");
             return;
         }
 
-        TaxasEntregaController controller = new TaxasEntregaController();
-
-        boolean sucesso = controller.cadastrar(
-            regiao, tipoTaxa, valorTaxa, observacao
+        // CONVERTER VALOR
+        double valorTaxa = Double.parseDouble(
+                valorTexto.replace(",", ".")
         );
 
-        if (sucesso) {
+        if (valorTaxa <= 0) {
             JOptionPane.showMessageDialog(this,
-                "Taxa cadastrada com sucesso!");
-
-            limparCamposTaxas();
-            carregarTabelaTaxas();
+                    "Informe um valor válido para a taxa!");
+            return;
         }
 
-    } catch (NumberFormatException e) {
+        // CRIAR MODEL
+        TaxasEntregas taxa = new TaxasEntregas();
+
+        taxa.setRegiao(regiao);
+        taxa.setTipoTaxa(tipoTaxa);
+        taxa.setValorTaxa(valorTaxa);
+        taxa.setObservacao(observacao);
+
+        // CADASTRAR PELO CONTROLLER
+        TaxasEntregaController controller = new TaxasEntregaController();
+
+        controller.cadastrar(taxa);
+
         JOptionPane.showMessageDialog(this,
-            "Informe um valor válido para a taxa!");
+                "Taxa cadastrada com sucesso!");
+
+        limparCamposTaxas();
+        carregarTabelaTaxas();
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Informe um valor numérico válido para a taxa!");
 
     } catch (SQLException e) {
+
         JOptionPane.showMessageDialog(this,
-            "Erro ao cadastrar taxa: " + e.getMessage());
+                "Erro ao cadastrar taxa: " + e.getMessage());
     }
 }
-
 private void carregarTabelaTaxas() {
 
     try {
         TaxasEntregaController controller = new TaxasEntregaController();
 
-        List<Map<String, Object>> lista = controller.listar();
+        List<TaxasEntregas> lista = controller.listar();
 
         DefaultTableModel modelo = (DefaultTableModel)
-            tblListaTaxas.getModel();
+                tblListaTaxas.getModel();
 
         modelo.setRowCount(0);
 
-        for (Map<String, Object> taxa : lista) {
+        for (TaxasEntregas taxa : lista) {
 
             modelo.addRow(new Object[]{
-                taxa.get("idtaxasEntrega"),
-                taxa.get("regiao"),
-                taxa.get("tipoTaxa"),
-                taxa.get("valorTaxa"),
-                taxa.get("observacao")
+                taxa.getIdtaxasEntrega(),
+                taxa.getRegiao(),
+                taxa.getTipoTaxa(),
+                taxa.getValorTaxa(),
+                taxa.getObservacao()
             });
         }
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this,
-            "Erro ao listar taxas: " + e.getMessage());
+                "Erro ao listar taxas: " + e.getMessage());
     }
 }
-
 private void alterarTaxa() {
 
     if (idTaxaSelecionada == -1) {
         JOptionPane.showMessageDialog(this,
-            "Selecione uma taxa na tabela!");
+                "Selecione uma taxa na tabela!");
         return;
     }
 
@@ -471,36 +1143,49 @@ private void alterarTaxa() {
         String tipoTaxa = cbTipoTaxa.getSelectedItem().toString();
 
         double valorTaxa = Double.parseDouble(
-            txtValorTaxa.getText().trim().replace(",", ".")
+                txtValorTaxa.getText().trim().replace(",", ".")
         );
 
         String observacao = txtObservacaoTaxa.getText().trim();
 
+        if (regiao.isEmpty() || tipoTaxa.isEmpty()
+                || txtValorTaxa.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!");
+            return;
+        }
+
+        if (valorTaxa <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Informe um valor válido para a taxa!");
+            return;
+        }
+
+        TaxasEntregas taxa = new TaxasEntregas();
+
+        taxa.setIdtaxasEntrega(idTaxaSelecionada);
+        taxa.setRegiao(regiao);
+        taxa.setTipoTaxa(tipoTaxa);
+        taxa.setValorTaxa(valorTaxa);
+        taxa.setObservacao(observacao);
+
         TaxasEntregaController controller = new TaxasEntregaController();
 
-        boolean sucesso = controller.atualizar(
-            idTaxaSelecionada,
-            regiao,
-            tipoTaxa,
-            valorTaxa,
-            observacao
-        );
+        controller.atualizar(taxa);
 
-        if (sucesso) {
-            JOptionPane.showMessageDialog(this,
+        JOptionPane.showMessageDialog(this,
                 "Taxa alterada com sucesso!");
 
-            limparCamposTaxas();
-            carregarTabelaTaxas();
-        }
+        limparCamposTaxas();
+        carregarTabelaTaxas();
 
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this,
-            "Informe um valor válido para a taxa!");
+                "Informe um valor válido para a taxa!");
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this,
-            "Erro ao alterar taxa: " + e.getMessage());
+                "Erro ao alterar taxa: " + e.getMessage());
     }
 }
 
@@ -508,35 +1193,34 @@ private void excluirTaxa() {
 
     if (idTaxaSelecionada == -1) {
         JOptionPane.showMessageDialog(this,
-            "Selecione uma taxa na tabela!");
+                "Selecione uma taxa na tabela!");
         return;
     }
 
     int confirmacao = JOptionPane.showConfirmDialog(
-        this,
-        "Deseja realmente excluir esta taxa?",
-        "Confirmar exclusão",
-        JOptionPane.YES_NO_OPTION
+            this,
+            "Deseja realmente excluir esta taxa?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION
     );
 
     if (confirmacao == JOptionPane.YES_OPTION) {
 
         try {
-            TaxasEntregaController controller = new TaxasEntregaController();
+            TaxasEntregaController controller =
+                    new TaxasEntregaController();
 
-            boolean sucesso = controller.excluir(idTaxaSelecionada);
+            controller.excluir(idTaxaSelecionada);
 
-            if (sucesso) {
-                JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(this,
                     "Taxa excluída com sucesso!");
 
-                limparCamposTaxas();
-                carregarTabelaTaxas();
-            }
+            limparCamposTaxas();
+            carregarTabelaTaxas();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                "Erro ao excluir taxa: " + e.getMessage());
+                    "Erro ao excluir taxa: " + e.getMessage());
         }
     }
 }
@@ -586,30 +1270,64 @@ private void selecionarTaxa() {
     
     
 
+
 private void cadastrarEnderecos() {
 
     try {
+        // Criar o controller
+        EnderecoController controller = new EnderecoController();
+
+        // Capturar o ID do cliente pelo CPF
+        int idCliente = controller.buscarIdClientePorCpf(
+                ftfCpfClienteEntregas.getText().trim()
+        );
+
+        // Capturar os dados dos campos
         String cidade = txtCidadeEnderecos.getText().trim();
         String cep = txtCepEnderecos.getText().trim();
-        String estado = cbEstadoEnderecos.getSelectedItem().toString();
+        String estado = cbEstadoEnderecos.getSelectedItem() == null
+                ? ""
+                : cbEstadoEnderecos.getSelectedItem().toString();
+
         String rua = txtRuaEnderecos.getText().trim();
         String bairro = txtBairroEnderecos.getText().trim();
         String numero = txtNumeroEnderecos.getText().trim();
 
+        // Mostrar os dados no Output
+        System.out.println("Bairro: " + bairro);
+        System.out.println("CEP: " + cep);
+        System.out.println("Cidade: " + cidade);
+        System.out.println("Estado: " + estado);
+        System.out.println("Rua: " + rua);
+        System.out.println("Número: " + numero);
+        System.out.println("ID Cliente: " + idCliente);
+
+        // Validar campos
         if (cidade.isEmpty() || cep.isEmpty()
-                || rua.isEmpty() || bairro.isEmpty()
-                || numero.isEmpty() || idClienteSelecionado == -1) {
+                || estado.isEmpty() || rua.isEmpty()
+                || bairro.isEmpty() || numero.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos e selecione um cliente!");
+                    "Preencha todos os campos obrigatórios!");
             return;
         }
 
-        EnderecoController controller = new EnderecoController();
+        // Validar cliente
+        if (idCliente <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Cliente não encontrado! Verifique o CPF.");
+            return;
+        }
 
+        // Cadastrar endereço
         boolean sucesso = controller.cadastrar(
-                bairro, cep, cidade, estado,
-                rua, numero, idClienteSelecionado
+                bairro,
+                cep,
+                cidade,
+                estado,
+                rua,
+                numero,
+                idCliente
         );
 
         if (sucesso) {
@@ -618,6 +1336,10 @@ private void cadastrarEnderecos() {
 
             limparCamposEnderecos();
             carregarTabelaEnderecos();
+
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível cadastrar o endereço.");
         }
 
     } catch (SQLException e) {
@@ -625,6 +1347,7 @@ private void cadastrarEnderecos() {
                 "Erro ao cadastrar endereço: " + e.getMessage());
     }
 }
+
 
 private void carregarTabelaEnderecos() {
 
@@ -676,7 +1399,7 @@ private void alterarEndereco() {
 
         if (cidade.isEmpty() || cep.isEmpty()
                 || rua.isEmpty() || bairro.isEmpty()
-                || numero.isEmpty() || idClienteSelecionado == -1) {
+                || numero.isEmpty() ||idClienteSelecionado <= 0) {
 
             JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos e selecione um cliente!");
@@ -745,7 +1468,7 @@ private void excluirEndereco() {
 private void limparCamposEnderecos() {
 
     txtCidadeEnderecos.setText("");
-    txtClienteEnderecos.setText("");
+    ftfCpfClienteEnderecos.setText("");
     txtCepEnderecos.setText("");
     txtRuaEnderecos.setText("");
     txtBairroEnderecos.setText("");
@@ -773,7 +1496,7 @@ private void selecionarEndereco() {
                 tblListaEnderecos.getValueAt(linha, 1).toString()
         );
 
-        txtClienteEnderecos.setText(
+        ftfCpfClienteEnderecos.setText(
                 "ID: " + idClienteSelecionado
         );
 
@@ -811,10 +1534,33 @@ private void cadastrarEntregas() {
         String data = ftfDataEntrega.getText().trim();
         String horario = ftfHorarioEntrega.getText().trim();
 
-        String status = cbStatusEntrega.getSelectedItem().toString();
+        String status = cbStatusEntrega.getSelectedItem() != null
+                ? cbStatusEntrega.getSelectedItem().toString()
+                : "";
 
-        if (data.isEmpty() || horario.isEmpty()
-                || idClienteSelecionado == -1
+        // CAPTURAR CPF E BUSCAR ID DO CLIENTE
+        String cpf = ftfCpfClienteEntregas.getText()
+                .replaceAll("[^0-9]", "");
+
+        if (cpf.length() != 11) {
+            JOptionPane.showMessageDialog(this,
+                    "Informe um CPF válido!");
+            return;
+        }
+
+        EntregaController controller = new EntregaController();
+
+        int idClienteSelecionado =
+                controller.buscarIdClientePorCpf(cpf);
+
+        if (idClienteSelecionado == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Cliente não encontrado no banco de dados!");
+            return;
+        }
+
+        // VALIDAR CAMPOS OBRIGATÓRIOS
+        if (data.isEmpty() || horario.isEmpty() || status.isEmpty()
                 || idVeiculoSelecionado == -1
                 || idTaxaSelecionada == -1
                 || idEntregadorSelecionado == -1
@@ -827,20 +1573,22 @@ private void cadastrarEntregas() {
             return;
         }
 
-        EntregaController controller = new EntregaController();
+        // CRIAR MODEL
+        Entregas entrega = new Entregas();
 
-        boolean sucesso = controller.cadastrar(
-                data,
-                horario,
-                status,
-                idClienteSelecionado,
-                idVeiculoSelecionado,
-                idTaxaSelecionada,
-                idEntregadorSelecionado,
-                idCargoSelecionado,
-                idSetorSelecionado,
-                idTurnoSelecionado
-        );
+        entrega.setDataEntrega(data);
+        entrega.setHorarioEntrega(horario);
+        entrega.setStatusEntrega(status);
+        entrega.setCliente_idcliente(idClienteSelecionado);
+        entrega.setVeiculos_idveiculos(idVeiculoSelecionado);
+        entrega.setTaxasEntrega_idtaxasEntrega(idTaxaSelecionada);
+        entrega.setFuncionario_idFuncionario(idEntregadorSelecionado);
+        entrega.setFuncionario_cargos_idcargos(idCargoSelecionado);
+        entrega.setFuncionario_setores_idsetores(idSetorSelecionado);
+        entrega.setFuncionario_turnos_idturnos(idTurnoSelecionado);
+
+        // CADASTRAR
+        boolean sucesso = controller.cadastrar(entrega);
 
         if (sucesso) {
             JOptionPane.showMessageDialog(this,
@@ -848,6 +1596,10 @@ private void cadastrarEntregas() {
 
             limparCamposEntregas();
             carregarTabelaEntregas();
+
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível cadastrar a entrega!");
         }
 
     } catch (SQLException e) {
@@ -861,24 +1613,24 @@ private void carregarTabelaEntregas() {
     try {
         EntregaController controller = new EntregaController();
 
-        List<Map<String, Object>> lista = controller.listar();
+        List<Entregas> lista = controller.listar();
 
         DefaultTableModel modelo =
                 (DefaultTableModel) tblEntregas.getModel();
 
         modelo.setRowCount(0);
 
-        for (Map<String, Object> entrega : lista) {
+        for (Entregas entrega : lista) {
 
             modelo.addRow(new Object[]{
-                entrega.get("identregas"),
-                entrega.get("dataEntrega"),
-                entrega.get("cliente_idcliente"),
-                entrega.get("Funcionario_idFuncionario"),
-                entrega.get("veiculos_idveiculos"),
-                entrega.get("Funcionario_setores_idsetores"),
-                entrega.get("taxasEntrega_idtaxasEntrega"),
-                entrega.get("statusEntrega")
+                entrega.getIdentregas(),
+                entrega.getDataEntrega(),
+                entrega.getCliente_idcliente(),
+                entrega.getFuncionario_idFuncionario(),
+                entrega.getVeiculos_idveiculos(),
+                entrega.getFuncionario_setores_idsetores(),
+                entrega.getTaxasEntrega_idtaxasEntrega(),
+                entrega.getStatusEntrega()
             });
         }
 
@@ -887,7 +1639,6 @@ private void carregarTabelaEntregas() {
                 "Erro ao listar entregas: " + e.getMessage());
     }
 }
-
 private void alterarEntrega() {
 
     if (idEntregaSelecionada == -1) {
@@ -900,10 +1651,33 @@ private void alterarEntrega() {
         String data = ftfDataEntrega.getText().trim();
         String horario = ftfHorarioEntrega.getText().trim();
 
-        String status = cbStatusEntrega.getSelectedItem().toString();
+        String status = cbStatusEntrega.getSelectedItem() != null
+                ? cbStatusEntrega.getSelectedItem().toString()
+                : "";
 
-        if (data.isEmpty() || horario.isEmpty()
-                || idClienteSelecionado == -1
+        // BUSCAR ID DO CLIENTE PELO CPF
+        String cpf = ftfCpfClienteEntregas.getText()
+                .replaceAll("[^0-9]", "");
+
+        if (cpf.length() != 11) {
+            JOptionPane.showMessageDialog(this,
+                    "Informe um CPF válido!");
+            return;
+        }
+
+        EntregaController controller = new EntregaController();
+
+        int idClienteSelecionado =
+                controller.buscarIdClientePorCpf(cpf);
+
+        if (idClienteSelecionado == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Cliente não encontrado no banco de dados!");
+            return;
+        }
+
+        // VALIDAR CAMPOS OBRIGATÓRIOS
+        if (data.isEmpty() || horario.isEmpty() || status.isEmpty()
                 || idVeiculoSelecionado == -1
                 || idTaxaSelecionada == -1
                 || idEntregadorSelecionado == -1
@@ -916,21 +1690,23 @@ private void alterarEntrega() {
             return;
         }
 
-        EntregaController controller = new EntregaController();
+        // CRIAR MODEL
+        Entregas entrega = new Entregas();
 
-        boolean sucesso = controller.atualizar(
-                idEntregaSelecionada,
-                data,
-                horario,
-                status,
-                idClienteSelecionado,
-                idVeiculoSelecionado,
-                idTaxaSelecionada,
-                idEntregadorSelecionado,
-                idCargoSelecionado,
-                idSetorSelecionado,
-                idTurnoSelecionado
-        );
+        entrega.setIdentregas(idEntregaSelecionada);
+        entrega.setDataEntrega(data);
+        entrega.setHorarioEntrega(horario);
+        entrega.setStatusEntrega(status);
+        entrega.setCliente_idcliente(idClienteSelecionado);
+        entrega.setVeiculos_idveiculos(idVeiculoSelecionado);
+        entrega.setTaxasEntrega_idtaxasEntrega(idTaxaSelecionada);
+        entrega.setFuncionario_idFuncionario(idEntregadorSelecionado);
+        entrega.setFuncionario_cargos_idcargos(idCargoSelecionado);
+        entrega.setFuncionario_setores_idsetores(idSetorSelecionado);
+        entrega.setFuncionario_turnos_idturnos(idTurnoSelecionado);
+
+        // ATUALIZAR
+        boolean sucesso = controller.atualizar(entrega);
 
         if (sucesso) {
             JOptionPane.showMessageDialog(this,
@@ -938,6 +1714,10 @@ private void alterarEntrega() {
 
             limparCamposEntregas();
             carregarTabelaEntregas();
+
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível alterar a entrega!");
         }
 
     } catch (SQLException e) {
@@ -987,13 +1767,13 @@ private void limparCamposEntregas() {
 
     ftfDataEntrega.setText("");
     ftfHorarioEntrega.setText("");
-    txtClienteEntregas.setText("");
+    tfVeiculoEntregas.setText("");
+    tfEntregadorEntregas.setText("");
+    ftfCpfClienteEntregas.setText("");
     txtTaxaEntrega.setText("");
 
     cbStatusEntrega.setSelectedIndex(0);
-    cbVeiculoEntregas.setSelectedIndex(0);
-    cbEntregadorEntregas.setSelectedIndex(0);
-
+    
     idEntregaSelecionada = -1;
     idClienteSelecionado = -1;
     idVeiculoSelecionado = -1;
@@ -1080,13 +1860,6 @@ private void selecionarEntrega() {
         txtCorVeiculo = new javax.swing.JTextField();
         lblCarga = new javax.swing.JLabel();
         txtCapacidadeCarga = new javax.swing.JFormattedTextField();
-        lblMotorista = new javax.swing.JLabel();
-        cdMotorista = new javax.swing.JComboBox<>();
-        lblDocumentacao = new javax.swing.JLabel();
-        lblCnh = new javax.swing.JLabel();
-        ftfCnh = new javax.swing.JFormattedTextField();
-        lblVencimentoCnh = new javax.swing.JLabel();
-        ftfVencimentoCnh = new javax.swing.JFormattedTextField();
         btnNovoVeiculos = new javax.swing.JButton();
         btnSalvarVeiculos = new javax.swing.JButton();
         btnAlterarVeiculos = new javax.swing.JButton();
@@ -1098,28 +1871,6 @@ private void selecionarEntrega() {
         lblObservacoesVeiculos = new javax.swing.JLabel();
         jScrollPane21 = new javax.swing.JScrollPane();
         txtObservacoesVeiculo = new javax.swing.JTextArea();
-        regiao = new javax.swing.JPanel();
-        tituloRegiao = new javax.swing.JLabel();
-        lblNomeRegiao = new javax.swing.JLabel();
-        txtNomeRegiao = new javax.swing.JTextField();
-        lblTipoRegiao = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        lblCodigoRegiao = new javax.swing.JLabel();
-        lblValorTaxaRegiao = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        txtValorTaxaRegiao = new javax.swing.JTextField();
-        lblBairroRegiao = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtaBairroRegiao = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tblRegioes = new javax.swing.JTable();
-        lblObservacoesRegioes = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtaObservacoesRegiao = new javax.swing.JTextArea();
-        btnNovoRegioes = new javax.swing.JButton();
-        btnSalvarRegioes = new javax.swing.JButton();
-        btnAlterarRegioes = new javax.swing.JButton();
-        btnExcluirRegioes = new javax.swing.JButton();
         taxas = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblRegiaoTaxas = new javax.swing.JLabel();
@@ -1139,9 +1890,8 @@ private void selecionarEntrega() {
         tblListaTaxas = new javax.swing.JTable();
         endereço = new javax.swing.JPanel();
         lblTituloEntrega = new javax.swing.JLabel();
-        lblClienteEnderecos = new javax.swing.JLabel();
+        lblCpfClienteEnderecos = new javax.swing.JLabel();
         txtCidadeEnderecos = new javax.swing.JTextField();
-        txtClienteEnderecos = new javax.swing.JTextField();
         lblCepEnderecos = new javax.swing.JLabel();
         txtCepEnderecos = new javax.swing.JTextField();
         lblEstadoEnderecos = new javax.swing.JLabel();
@@ -1160,6 +1910,7 @@ private void selecionarEntrega() {
         txtBairroEnderecos = new javax.swing.JTextField();
         txtNumeroEnderecos = new javax.swing.JTextField();
         btnSalvarEnderecos = new javax.swing.JButton();
+        ftfCpfClienteEnderecos = new javax.swing.JFormattedTextField();
         entregas = new javax.swing.JPanel();
         lbltituloEntregas = new javax.swing.JLabel();
         lblDataEntregas = new javax.swing.JLabel();
@@ -1167,13 +1918,10 @@ private void selecionarEntrega() {
         lblTaxaEntregas = new javax.swing.JLabel();
         txtTaxaEntrega = new javax.swing.JTextField();
         lblClienteEntregas = new javax.swing.JLabel();
-        txtClienteEntregas = new javax.swing.JTextField();
         lblEntregadorEntregas = new javax.swing.JLabel();
-        cbEntregadorEntregas = new javax.swing.JComboBox<>();
         lblStatusEntregas = new javax.swing.JLabel();
         cbStatusEntrega = new javax.swing.JComboBox<>();
         lblVeiculoEntregas = new javax.swing.JLabel();
-        cbVeiculoEntregas = new javax.swing.JComboBox<>();
         lblHoraEntregas = new javax.swing.JLabel();
         ftfHorarioEntrega = new javax.swing.JFormattedTextField();
         btnNovoEntregas = new javax.swing.JButton();
@@ -1184,6 +1932,29 @@ private void selecionarEntrega() {
         btnVoltarEntregas = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblEntregas = new javax.swing.JTable();
+        tfVeiculoEntregas = new javax.swing.JTextField();
+        ftfCpfClienteEntregas = new javax.swing.JFormattedTextField();
+        tfEntregadorEntregas = new javax.swing.JTextField();
+        regiao = new javax.swing.JPanel();
+        tituloRegiao = new javax.swing.JLabel();
+        lblNomeRegiao = new javax.swing.JLabel();
+        txtNomeRegiao = new javax.swing.JTextField();
+        lblTipoRegiao = new javax.swing.JLabel();
+        cbTipoRegiao = new javax.swing.JComboBox<>();
+        lblEstadoRegiao = new javax.swing.JLabel();
+        cbEstadoRegiao = new javax.swing.JComboBox<>();
+        lblBairroRegiao = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtaBairroRegiao = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblRegioes = new javax.swing.JTable();
+        lblObservacoesRegioes = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtaObservacoesRegiao = new javax.swing.JTextArea();
+        btnNovoRegioes = new javax.swing.JButton();
+        btnSalvarRegioes = new javax.swing.JButton();
+        btnAlterarRegioes = new javax.swing.JButton();
+        btnExcluirRegioes = new javax.swing.JButton();
         dataHorario = new javax.swing.JPanel();
         lbltituloDataHorario = new javax.swing.JLabel();
         lblDataInicial = new javax.swing.JLabel();
@@ -1498,42 +2269,36 @@ private void selecionarEntrega() {
         btnNovoEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEntregadores.setText("Novo");
         btnNovoEntregadores.setIconTextGap(6);
 
         btnSalvaEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvaEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvaEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvaEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvaEntregadores.setText("Salvar");
         btnSalvaEntregadores.addActionListener(this::btnSalvaEntregadoresActionPerformed);
 
         btnAlterarEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEntregadores.setText("Alterar");
 
         btnExcluirEntregadores.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEntregadores.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEntregadores.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEntregadores.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEntregadores.setText("Excluir");
+        btnExcluirEntregadores.addActionListener(this::btnExcluirEntregadoresActionPerformed);
 
         tblEntregadores.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         tblEntregadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "CPF", "Telefone", "Veículo", "Status", "Data de Contratação"
+                "Nome", "CPF", "Telefone", "Status"
             }
         ));
         jScrollPane1.setViewportView(tblEntregadores);
@@ -1667,7 +2432,7 @@ private void selecionarEntrega() {
                     .addComponent(btnExcluirEntregadores))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(526, Short.MAX_VALUE))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Entregadores", entregadores);
@@ -1722,51 +2487,28 @@ private void selecionarEntrega() {
         txtCapacidadeCarga.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         txtCapacidadeCarga.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
-        lblMotorista.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblMotorista.setText("Motorista");
-
-        cdMotorista.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        cdMotorista.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        lblDocumentacao.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        lblDocumentacao.setForeground(new java.awt.Color(10, 4, 138));
-        lblDocumentacao.setText("Documentação");
-
-        lblCnh.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblCnh.setText("CNH");
-
-        ftfCnh.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ftfCnh.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-
-        lblVencimentoCnh.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblVencimentoCnh.setText("Vencimento da CNH");
-
-        ftfVencimentoCnh.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ftfVencimentoCnh.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-
         btnNovoVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoVeiculos.setText("Novo");
 
         btnSalvarVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarVeiculos.setText("Salvar");
+        btnSalvarVeiculos.addActionListener(this::btnSalvarVeiculosActionPerformed);
 
         btnAlterarVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarVeiculos.setText("Alterar");
+        btnAlterarVeiculos.addActionListener(this::btnAlterarVeiculosActionPerformed);
 
         btnExcluirVeiculos.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirVeiculos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirVeiculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirVeiculos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirVeiculos.setText("Excluir");
+        btnExcluirVeiculos.addActionListener(this::btnExcluirVeiculosActionPerformed);
 
         lblStatusVeiculos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblStatusVeiculos.setText("Status");
@@ -1777,19 +2519,19 @@ private void selecionarEntrega() {
         tblVeiculos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         tblVeiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Placa", "Tipo", "Marca", "Modelo", "Ano", "Cor", "Capacidade", "Motorista", "Status"
+                "Placa", "Tipo", "Marca", "Modelo", "Ano", "Cor", "Capacidade", "Status"
             }
         ));
         jScrollPane2.setViewportView(tblVeiculos);
@@ -1808,69 +2550,54 @@ private void selecionarEntrega() {
         veiculosLayout.setHorizontalGroup(
             veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(veiculosLayout.createSequentialGroup()
-                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtCapacidadeCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(veiculosLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(txtPlacaVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(veiculosLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lblPlaca))
-                            .addGroup(veiculosLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(ftfCnh))))
-                    .addGroup(veiculosLayout.createSequentialGroup()
+                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCapacidadeCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, veiculosLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(txtPlacaVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, veiculosLayout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(lblPlaca)))
+                .addGap(0, 1824, Short.MAX_VALUE))
+            .addGroup(veiculosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(veiculosLayout.createSequentialGroup()
+                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tituloVeiculo)
+                            .addComponent(lblModelo)
+                            .addComponent(txtModeloVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCarga))
+                        .addGap(7, 7, 7)
+                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblTipoVeiculo)
+                                .addComponent(txtTipoVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblStatusVeiculos)
+                                .addComponent(cbStatusVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblAno)
+                                .addComponent(ftfAnoVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(31, 31, 31)
+                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblMarca)
+                            .addComponent(txtMarcaVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(lblCor)
+                            .addComponent(txtCorVeiculo))
+                        .addGap(53, 53, 53)
+                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblObservacoesVeiculos)
+                            .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(veiculosLayout.createSequentialGroup()
                         .addComponent(btnNovoVeiculos)
                         .addGap(18, 18, 18)
                         .addComponent(btnSalvarVeiculos)
                         .addGap(18, 18, 18)
                         .addComponent(btnAlterarVeiculos)
                         .addGap(18, 18, 18)
-                        .addComponent(btnExcluirVeiculos)))
-                .addGap(0, 1492, Short.MAX_VALUE))
-            .addGroup(veiculosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(veiculosLayout.createSequentialGroup()
-                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tituloVeiculo)
-                            .addComponent(lblModelo)
-                            .addComponent(txtModeloVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCarga)
-                            .addComponent(lblDocumentacao)
-                            .addComponent(lblCnh))
-                        .addGap(7, 7, 7)
-                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblVencimentoCnh)
-                            .addComponent(ftfVencimentoCnh, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(veiculosLayout.createSequentialGroup()
-                                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTipoVeiculo)
-                                            .addComponent(txtTipoVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblAno)
-                                            .addComponent(ftfAnoVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(lblMotorista)
-                                    .addComponent(cdMotorista, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(31, 31, 31)
-                                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblStatusVeiculos)
-                                    .addComponent(lblMarca)
-                                    .addComponent(txtMarcaVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                    .addComponent(lblCor)
-                                    .addComponent(txtCorVeiculo)
-                                    .addComponent(cbStatusVeiculo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(53, 53, 53)
-                                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblObservacoesVeiculos)
-                                    .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(1017, Short.MAX_VALUE))
+                        .addComponent(btnExcluirVeiculos))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1059, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         veiculosLayout.setVerticalGroup(
             veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1903,206 +2630,24 @@ private void selecionarEntrega() {
                         .addGap(18, 18, 18)
                         .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCarga)
-                            .addComponent(lblMotorista)
                             .addComponent(lblStatusVeiculos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCapacidadeCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cdMotorista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbStatusVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(lblDocumentacao)
-                .addGap(18, 18, 18)
+                .addGap(65, 65, 65)
                 .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCnh)
-                    .addComponent(lblVencimentoCnh))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfCnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfVencimentoCnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(veiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAlterarVeiculos)
                     .addComponent(btnNovoVeiculos)
-                    .addComponent(btnExcluirVeiculos)
-                    .addComponent(btnSalvarVeiculos))
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(519, Short.MAX_VALUE))
+                    .addComponent(btnSalvarVeiculos)
+                    .addComponent(btnAlterarVeiculos)
+                    .addComponent(btnExcluirVeiculos))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(586, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Veículos", veiculos);
-
-        regiao.setBackground(new java.awt.Color(236, 236, 236));
-
-        tituloRegiao.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        tituloRegiao.setForeground(new java.awt.Color(10, 4, 138));
-        tituloRegiao.setText("Cadastro de Regiões");
-
-        lblNomeRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblNomeRegiao.setText("Nome da Região");
-
-        txtNomeRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtNomeRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        lblTipoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblTipoRegiao.setText("Tipo de Região");
-
-        jComboBox1.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo", "Rural", "Urbano", " " }));
-        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
-
-        lblCodigoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblCodigoRegiao.setText("Código da Região");
-
-        lblValorTaxaRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblValorTaxaRegiao.setText("Valor da Taxa de Entrega");
-
-        jComboBox2.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Estado", "AC - Acre", "AL - Alagoas", "AM - Amazonas", "AP - Amapá", "BA - Bahia", "CE - Ceará", "DF - Distrito Federal", "ES - Espírito Santo", "GO - Goiás", "MA - Maranhão", "MG - Minas Gerais", "MS - Mato Grosso do Sul", "MT - Mato Grosso", "PA - Pará", "PB - Paraíba", "PE - Pernambuco", "PI - Piauí", "PR - Paraná", "RJ - Rio de Janeiro", "RN - Rio Grande do Norte", "RO - Rondônia", "RR - Roraima", "RS - Rio Grande do Sul", "SC - Santa Catarina", "SE - Sergipe", "SP - São Paulo", "TO - Tocantins" }));
-
-        txtValorTaxaRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtValorTaxaRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        lblBairroRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblBairroRegiao.setText("Bairro(s) Atendido(s)");
-
-        txtaBairroRegiao.setColumns(20);
-        txtaBairroRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtaBairroRegiao.setRows(5);
-        txtaBairroRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jScrollPane3.setViewportView(txtaBairroRegiao);
-
-        tblRegioes.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        tblRegioes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Nome da Região", "Bairro(s) Atendido(s)", "Tipo", "Valor da Taxa", "Observações"
-            }
-        ));
-        jScrollPane4.setViewportView(tblRegioes);
-
-        lblObservacoesRegioes.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblObservacoesRegioes.setText("Observações");
-
-        txtaObservacoesRegiao.setColumns(20);
-        txtaObservacoesRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtaObservacoesRegiao.setRows(5);
-        txtaObservacoesRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jScrollPane5.setViewportView(txtaObservacoesRegiao);
-
-        btnNovoRegioes.setBackground(new java.awt.Color(10, 4, 138));
-        btnNovoRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        btnNovoRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
-        btnNovoRegioes.setText("Novo");
-
-        btnSalvarRegioes.setBackground(new java.awt.Color(10, 4, 138));
-        btnSalvarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        btnSalvarRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
-        btnSalvarRegioes.setText("Salvar");
-
-        btnAlterarRegioes.setBackground(new java.awt.Color(10, 4, 138));
-        btnAlterarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        btnAlterarRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
-        btnAlterarRegioes.setText("Alterar");
-
-        btnExcluirRegioes.setBackground(new java.awt.Color(10, 4, 138));
-        btnExcluirRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        btnExcluirRegioes.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirRegioes.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
-        btnExcluirRegioes.setText("Excluir");
-
-        javax.swing.GroupLayout regiaoLayout = new javax.swing.GroupLayout(regiao);
-        regiao.setLayout(regiaoLayout);
-        regiaoLayout.setHorizontalGroup(
-            regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(regiaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(regiaoLayout.createSequentialGroup()
-                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tituloRegiao)
-                            .addGroup(regiaoLayout.createSequentialGroup()
-                                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 216, Short.MAX_VALUE)
-                                    .addComponent(lblNomeRegiao, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNomeRegiao, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCodigoRegiao, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(46, 46, 46)
-                                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblValorTaxaRegiao)
-                                    .addComponent(lblTipoRegiao)
-                                    .addComponent(jComboBox1, 0, 187, Short.MAX_VALUE)
-                                    .addComponent(txtValorTaxaRegiao)))
-                            .addComponent(lblBairroRegiao)
-                            .addComponent(jScrollPane3))
-                        .addGap(56, 56, 56)
-                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblObservacoesRegioes)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(regiaoLayout.createSequentialGroup()
-                        .addComponent(btnNovoRegioes)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalvarRegioes)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAlterarRegioes)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcluirRegioes)))
-                .addContainerGap(1083, Short.MAX_VALUE))
-        );
-        regiaoLayout.setVerticalGroup(
-            regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(regiaoLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(tituloRegiao)
-                .addGap(18, 18, 18)
-                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNomeRegiao)
-                    .addComponent(lblTipoRegiao)
-                    .addComponent(lblObservacoesRegioes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(regiaoLayout.createSequentialGroup()
-                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNomeRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCodigoRegiao)
-                            .addComponent(lblValorTaxaRegiao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValorTaxaRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addComponent(lblBairroRegiao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNovoRegioes)
-                    .addComponent(btnSalvarRegioes)
-                    .addComponent(btnAlterarRegioes)
-                    .addComponent(btnExcluirRegioes))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(496, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Regiões", regiao);
 
         taxas.setBackground(new java.awt.Color(236, 236, 236));
 
@@ -2141,40 +2686,36 @@ private void selecionarEntrega() {
         btnNovoTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoTaxas.setText("Novo");
 
         btnSalvarTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarTaxas.setText("Salvar");
+        btnSalvarTaxas.addActionListener(this::btnSalvarTaxasActionPerformed);
 
         btnAlterarTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarTaxas.setText("Alterar");
+        btnAlterarTaxas.addActionListener(this::btnAlterarTaxasActionPerformed);
 
         btnExcluirTaxas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirTaxas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirTaxas.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirTaxas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirTaxas.setText("Excluir");
+        btnExcluirTaxas.addActionListener(this::btnExcluirTaxasActionPerformed);
 
         tblListaTaxas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         tblListaTaxas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Região", "Faixa do Pedido", "Tipo", "Valor da Taxa ", " Valor Mínimo ", "Observações"
+                "Região", "Tipo", "Valor da Taxa", " Observações"
             }
         ));
         jScrollPane7.setViewportView(tblListaTaxas);
@@ -2239,7 +2780,7 @@ private void selecionarEntrega() {
                     .addComponent(btnExcluirTaxas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(528, Short.MAX_VALUE))
+                .addContainerGap(540, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Taxas", taxas);
@@ -2250,14 +2791,11 @@ private void selecionarEntrega() {
         lblTituloEntrega.setForeground(new java.awt.Color(10, 4, 138));
         lblTituloEntrega.setText("Endereços de Entrega");
 
-        lblClienteEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblClienteEnderecos.setText("Cliente");
+        lblCpfClienteEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblCpfClienteEnderecos.setText("CPF do Cliente");
 
         txtCidadeEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         txtCidadeEnderecos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        txtClienteEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtClienteEnderecos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblCepEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblCepEnderecos.setText("CEP");
@@ -2275,23 +2813,21 @@ private void selecionarEntrega() {
         btnPesquisarEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarEnderecos.setText("Pesquisar");
 
         tblListaEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         tblListaEnderecos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Pedido", "Cliente", "Endereco", "Número", "Bairro", "Região", "CEP", "Status"
+                "Cidade", "Cliente", "CEP", "Estado", "Rua", "Bairro", "Numero"
             }
         ));
         jScrollPane8.setViewportView(tblListaEnderecos);
@@ -2299,20 +2835,19 @@ private void selecionarEntrega() {
         btnNovoEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEnderecos.setText("Novo");
 
         btnAlterarEndercos.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEndercos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEndercos.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEndercos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEndercos.setText("Alterar");
+        btnAlterarEndercos.addActionListener(this::btnAlterarEndercosActionPerformed);
 
         btnExcluirEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEnderecos.setText("Excluir");
+        btnExcluirEnderecos.addActionListener(this::btnExcluirEnderecosActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         jLabel3.setText("Cidade");
@@ -2340,8 +2875,16 @@ private void selecionarEntrega() {
         btnSalvarEnderecos.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarEnderecos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarEnderecos.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarEnderecos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarEnderecos.setText("Salvar");
+        btnSalvarEnderecos.addActionListener(this::btnSalvarEnderecosActionPerformed);
+
+        ftfCpfClienteEnderecos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        try {
+            ftfCpfClienteEnderecos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        ftfCpfClienteEnderecos.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout endereçoLayout = new javax.swing.GroupLayout(endereço);
         endereço.setLayout(endereçoLayout);
@@ -2354,22 +2897,26 @@ private void selecionarEntrega() {
                         .addComponent(lblTituloEntrega)
                         .addComponent(jScrollPane8)
                         .addGroup(endereçoLayout.createSequentialGroup()
-                            .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(endereçoLayout.createSequentialGroup()
+                                    .addComponent(lblRuaEnderecos)
+                                    .addGap(218, 218, 218))
                                 .addGroup(endereçoLayout.createSequentialGroup()
                                     .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCidadeEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel3))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtClienteEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblClienteEnderecos)
-                                        .addComponent(lblBairroEnderecos)))
-                                .addComponent(lblRuaEnderecos)
-                                .addGroup(endereçoLayout.createSequentialGroup()
-                                    .addComponent(txtRuaEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtBairroEnderecos)))
-                            .addGap(18, 18, 18)
+                                        .addGroup(endereçoLayout.createSequentialGroup()
+                                            .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtCidadeEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel3))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblCpfClienteEnderecos)
+                                                .addComponent(lblBairroEnderecos)
+                                                .addComponent(ftfCpfClienteEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(endereçoLayout.createSequentialGroup()
+                                            .addComponent(txtRuaEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtBairroEnderecos)))
+                                    .addGap(18, 18, 18)))
                             .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lblNumeroEnderecos)
                                 .addGroup(endereçoLayout.createSequentialGroup()
@@ -2392,7 +2939,7 @@ private void selecionarEntrega() {
                         .addComponent(btnExcluirEnderecos)
                         .addGap(18, 18, 18)
                         .addComponent(btnSalvarEnderecos)))
-                .addContainerGap(945, Short.MAX_VALUE))
+                .addContainerGap(1006, Short.MAX_VALUE))
         );
         endereçoLayout.setVerticalGroup(
             endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2403,16 +2950,17 @@ private void selecionarEntrega() {
                 .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblEstadoEnderecos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblClienteEnderecos)
+                        .addComponent(lblCpfClienteEnderecos)
                         .addComponent(lblCepEnderecos)
                         .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCidadeEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtClienteEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCepEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbEstadoEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisarEnderecos))
+                .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCidadeEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCepEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbEstadoEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisarEnderecos))
+                    .addComponent(ftfCpfClienteEnderecos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(endereçoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRuaEnderecos)
@@ -2431,7 +2979,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarEndercos)
                     .addComponent(btnExcluirEnderecos)
                     .addComponent(btnSalvarEnderecos))
-                .addContainerGap(604, Short.MAX_VALUE))
+                .addContainerGap(616, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Endereços", endereço);
@@ -2460,15 +3008,10 @@ private void selecionarEntrega() {
         txtTaxaEntrega.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblClienteEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        lblClienteEntregas.setText("Cliente");
-
-        txtClienteEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        txtClienteEntregas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblClienteEntregas.setText("CPF do Cliente");
 
         lblEntregadorEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblEntregadorEntregas.setText("Entregador");
-
-        cbEntregadorEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
         lblStatusEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblStatusEntregas.setText("Status");
@@ -2478,9 +3021,6 @@ private void selecionarEntrega() {
 
         lblVeiculoEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblVeiculoEntregas.setText("Veículo");
-
-        cbVeiculoEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        cbVeiculoEntregas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o veículo", " " }));
 
         lblHoraEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblHoraEntregas.setText("Hora da Entrega");
@@ -2496,37 +3036,34 @@ private void selecionarEntrega() {
         btnNovoEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoEntregas.setText("Novo");
 
         btnSalvarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarEntregas.setText("Salvar");
+        btnSalvarEntregas.addActionListener(this::btnSalvarEntregasActionPerformed);
 
         btnAlterarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarEntregas.setText("Alterar");
+        btnAlterarEntregas.addActionListener(this::btnAlterarEntregasActionPerformed);
 
         btnExcluirEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirEntregas.setText("Excluir");
+        btnExcluirEntregas.addActionListener(this::btnExcluirEntregasActionPerformed);
 
         btnPesquisarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarEntregas.setText("Pesquisar");
 
         btnVoltarEntregas.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarEntregas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarEntregas.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarEntregas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarEntregas.setText("Voltar");
 
         tblEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -2546,6 +3083,20 @@ private void selecionarEntrega() {
         ));
         jScrollPane11.setViewportView(tblEntregas);
 
+        tfVeiculoEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tfVeiculoEntregas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        ftfCpfClienteEntregas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        try {
+            ftfCpfClienteEntregas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        ftfCpfClienteEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+
+        tfEntregadorEntregas.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tfEntregadorEntregas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout entregasLayout = new javax.swing.GroupLayout(entregas);
         entregas.setLayout(entregasLayout);
         entregasLayout.setHorizontalGroup(
@@ -2554,25 +3105,25 @@ private void selecionarEntrega() {
                 .addContainerGap()
                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(entregasLayout.createSequentialGroup()
-                        .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(entregasLayout.createSequentialGroup()
-                                .addComponent(ftfDataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(txtClienteEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(entregasLayout.createSequentialGroup()
-                                .addComponent(lblDataEntregas)
-                                .addGap(82, 82, 82)
-                                .addComponent(lblClienteEntregas))
+                        .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(entregasLayout.createSequentialGroup()
                                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblEntregadorEntregas)
-                                    .addComponent(cbEntregadorEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(51, 51, 51)
+                                    .addComponent(tfEntregadorEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(52, 52, 52)
                                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbVeiculoEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblVeiculoEntregas)))
+                                    .addComponent(lblVeiculoEntregas)
+                                    .addComponent(tfVeiculoEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lblTaxaEntregas)
-                            .addComponent(txtTaxaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTaxaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(entregasLayout.createSequentialGroup()
+                                .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDataEntregas)
+                                    .addComponent(ftfDataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(35, 35, 35)
+                                .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblClienteEntregas)
+                                    .addComponent(ftfCpfClienteEntregas))))
                         .addGap(24, 24, 24)
                         .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblStatusEntregas)
@@ -2581,7 +3132,7 @@ private void selecionarEntrega() {
                             .addComponent(ftfHorarioEntrega)))
                     .addComponent(lbltituloEntregas)
                     .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(entregasLayout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, entregasLayout.createSequentialGroup()
                             .addComponent(btnNovoEntregas)
                             .addGap(18, 18, 18)
                             .addComponent(btnSalvarEntregas)
@@ -2593,7 +3144,7 @@ private void selecionarEntrega() {
                             .addComponent(btnPesquisarEntregas)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnVoltarEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(1053, Short.MAX_VALUE))
         );
         entregasLayout.setVerticalGroup(
@@ -2607,10 +3158,11 @@ private void selecionarEntrega() {
                     .addComponent(lblClienteEntregas)
                     .addComponent(lblStatusEntregas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfDataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtClienteEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStatusEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ftfDataEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbStatusEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ftfCpfClienteEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEntregadorEntregas)
@@ -2618,14 +3170,14 @@ private void selecionarEntrega() {
                     .addComponent(lblHoraEntregas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbEntregadorEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbVeiculoEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfHorarioEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ftfHorarioEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfVeiculoEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfEntregadorEntregas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lblTaxaEntregas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTaxaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
                 .addGroup(entregasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoEntregas)
                     .addComponent(btnSalvarEntregas)
@@ -2635,10 +3187,164 @@ private void selecionarEntrega() {
                     .addComponent(btnVoltarEntregas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(363, Short.MAX_VALUE))
+                .addContainerGap(575, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Entregas", entregas);
+
+        regiao.setBackground(new java.awt.Color(236, 236, 236));
+
+        tituloRegiao.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        tituloRegiao.setForeground(new java.awt.Color(10, 4, 138));
+        tituloRegiao.setText("Cadastro de Regiões");
+
+        lblNomeRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblNomeRegiao.setText("Nome da Região");
+
+        txtNomeRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        txtNomeRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblTipoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblTipoRegiao.setText("Tipo de Região");
+
+        cbTipoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        cbTipoRegiao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo", "Rural", "Urbano", " " }));
+        cbTipoRegiao.addActionListener(this::cbTipoRegiaoActionPerformed);
+
+        lblEstadoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblEstadoRegiao.setText("Estado");
+
+        cbEstadoRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        cbEstadoRegiao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o Estado", "AC - Acre", "AL - Alagoas", "AM - Amazonas", "AP - Amapá", "BA - Bahia", "CE - Ceará", "DF - Distrito Federal", "ES - Espírito Santo", "GO - Goiás", "MA - Maranhão", "MG - Minas Gerais", "MS - Mato Grosso do Sul", "MT - Mato Grosso", "PA - Pará", "PB - Paraíba", "PE - Pernambuco", "PI - Piauí", "PR - Paraná", "RJ - Rio de Janeiro", "RN - Rio Grande do Norte", "RO - Rondônia", "RR - Roraima", "RS - Rio Grande do Sul", "SC - Santa Catarina", "SE - Sergipe", "SP - São Paulo", "TO - Tocantins" }));
+        cbEstadoRegiao.addActionListener(this::cbEstadoRegiaoActionPerformed);
+
+        lblBairroRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblBairroRegiao.setText("Bairro(s) Atendido(s)");
+
+        txtaBairroRegiao.setColumns(20);
+        txtaBairroRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        txtaBairroRegiao.setRows(5);
+        txtaBairroRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jScrollPane3.setViewportView(txtaBairroRegiao);
+
+        tblRegioes.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tblRegioes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nome da Região", "Bairro(s) Atendido(s)", "Tipo ", "Estado", "Observações"
+            }
+        ));
+        jScrollPane4.setViewportView(tblRegioes);
+
+        lblObservacoesRegioes.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        lblObservacoesRegioes.setText("Observações");
+
+        txtaObservacoesRegiao.setColumns(20);
+        txtaObservacoesRegiao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        txtaObservacoesRegiao.setRows(5);
+        txtaObservacoesRegiao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jScrollPane5.setViewportView(txtaObservacoesRegiao);
+
+        btnNovoRegioes.setBackground(new java.awt.Color(10, 4, 138));
+        btnNovoRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnNovoRegioes.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovoRegioes.setText("Novo");
+
+        btnSalvarRegioes.setBackground(new java.awt.Color(10, 4, 138));
+        btnSalvarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnSalvarRegioes.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvarRegioes.setText("Salvar");
+
+        btnAlterarRegioes.setBackground(new java.awt.Color(10, 4, 138));
+        btnAlterarRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnAlterarRegioes.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlterarRegioes.setText("Alterar");
+
+        btnExcluirRegioes.setBackground(new java.awt.Color(10, 4, 138));
+        btnExcluirRegioes.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnExcluirRegioes.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluirRegioes.setText("Excluir");
+
+        javax.swing.GroupLayout regiaoLayout = new javax.swing.GroupLayout(regiao);
+        regiao.setLayout(regiaoLayout);
+        regiaoLayout.setHorizontalGroup(
+            regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(regiaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(regiaoLayout.createSequentialGroup()
+                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tituloRegiao)
+                            .addGroup(regiaoLayout.createSequentialGroup()
+                                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cbEstadoRegiao, javax.swing.GroupLayout.Alignment.LEADING, 0, 216, Short.MAX_VALUE)
+                                    .addComponent(lblNomeRegiao, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNomeRegiao, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblEstadoRegiao, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(46, 46, 46)
+                                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTipoRegiao)
+                                    .addComponent(cbTipoRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblBairroRegiao)
+                            .addComponent(jScrollPane3))
+                        .addGap(56, 56, 56)
+                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblObservacoesRegioes)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(regiaoLayout.createSequentialGroup()
+                        .addComponent(btnNovoRegioes)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalvarRegioes)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlterarRegioes)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExcluirRegioes)))
+                .addContainerGap(1083, Short.MAX_VALUE))
+        );
+        regiaoLayout.setVerticalGroup(
+            regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(regiaoLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(tituloRegiao)
+                .addGap(18, 18, 18)
+                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNomeRegiao)
+                    .addComponent(lblTipoRegiao)
+                    .addComponent(lblObservacoesRegioes))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(regiaoLayout.createSequentialGroup()
+                        .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNomeRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbTipoRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblEstadoRegiao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbEstadoRegiao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(lblBairroRegiao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(regiaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNovoRegioes)
+                    .addComponent(btnSalvarRegioes)
+                    .addComponent(btnAlterarRegioes)
+                    .addComponent(btnExcluirRegioes))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(508, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Regiões", regiao);
 
         dataHorario.setBackground(new java.awt.Color(236, 236, 236));
 
@@ -2703,7 +3409,6 @@ private void selecionarEntrega() {
         btnPesquisarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarDataHorario.setText("Pesquisar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -2725,7 +3430,6 @@ private void selecionarEntrega() {
         lblNumeroEntregasDiaDH.setText("Nº");
 
         lblIconeEntregasDia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEntregasDia.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pendente (2).png")); // NOI18N
 
         lblTotalEntregasDH1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblTotalEntregasDH1.setForeground(new java.awt.Color(39, 34, 160));
@@ -2735,20 +3439,17 @@ private void selecionarEntrega() {
         lblNumeroTotalDH1.setText("Nº");
 
         lblIconeTotalEntregas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeTotalEntregas1.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\fast-delivery.png")); // NOI18N
 
         lblAndamento.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblAndamento.setForeground(new java.awt.Color(39, 34, 160));
         lblAndamento.setText("Em andamento");
 
         lblIconeAndamento.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeAndamento.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\entrega.png")); // NOI18N
 
         lnlNumeroAndamento.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lnlNumeroAndamento.setText("Nº");
 
         lblIconeConcluidas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluidas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\concluido.png")); // NOI18N
 
         lblConcluidas.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblConcluidas.setForeground(new java.awt.Color(39, 34, 160));
@@ -2778,26 +3479,22 @@ private void selecionarEntrega() {
         btnNovoDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoDataHorario.setText("Novo");
         btnNovoDataHorario.setIconTextGap(6);
 
         btnAlterarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarDataHorario.setText("Alterar");
 
         btnExcluirDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirDataHorario.setText("Excluir");
 
         btnVoltarDataHorario.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarDataHorario.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarDataHorario.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarDataHorario.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarDataHorario.setText("Voltar");
 
         javax.swing.GroupLayout dataHorarioLayout = new javax.swing.GroupLayout(dataHorario);
@@ -2999,14 +3696,12 @@ private void selecionarEntrega() {
         btnPesquisarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarAgenda.setText("Pesquisar");
 
         lblTotalEntregasAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblTotalEntregasAgenda.setText("Total de Entregas");
 
         lblIconeEntregasAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEntregasAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\fast-delivery.png")); // NOI18N
 
         lblNumeroEntregasAgenda.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         lblNumeroEntregasAgenda.setText("Nº");
@@ -3020,7 +3715,6 @@ private void selecionarEntrega() {
         lblNUmeroAndamentoAgenda.setText("Nº");
 
         lblIconrPendentesAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconrPendentesAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pendente (2).png")); // NOI18N
 
         lblPendentesAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblPendentesAgenda.setText("Pendentes");
@@ -3029,7 +3723,6 @@ private void selecionarEntrega() {
         lblNumeroPendentesAgenda.setText("Nº");
 
         lblIconeConcluidasAgenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluidasAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\concluido.png")); // NOI18N
 
         lblConcluidasAgenda.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblConcluidasAgenda.setText("Concluídas");
@@ -3077,29 +3770,24 @@ private void selecionarEntrega() {
         btnNovoAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoAgenda.setText("Novo");
 
         btnAlterarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarAgenda.setText("Alterar");
 
         btnExcluirAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirAgenda.setText("Excluir");
 
         btnVoltarAgenda.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarAgenda.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarAgenda.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarAgenda.setText("Voltar");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\entrega.png")); // NOI18N
 
         javax.swing.GroupLayout agendaLayout = new javax.swing.GroupLayout(agenda);
         agenda.setLayout(agendaLayout);
@@ -3133,7 +3821,7 @@ private void selecionarEntrega() {
                                             .addGroup(agendaLayout.createSequentialGroup()
                                                 .addGap(30, 30, 30)
                                                 .addComponent(lblNumeroPendentesAgenda)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblIconrPendentesAgenda)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(agendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3259,7 +3947,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarAgenda)
                     .addComponent(btnExcluirAgenda)
                     .addComponent(btnVoltarAgenda))
-                .addContainerGap(553, Short.MAX_VALUE))
+                .addContainerGap(565, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agenda", agenda);
@@ -3348,31 +4036,26 @@ private void selecionarEntrega() {
         btnNovoDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoDistribuicao.setText("Novo");
 
         btnSalvarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnSalvarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\Salvar.png")); // NOI18N
         btnSalvarDistribuicao.setText("Salvar");
 
         btnAlterarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarDistribuicao.setText("Alterar");
 
         btnExcluirDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirDistribuicao.setText("Excluir");
 
         btnVoltarDistribuicao.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarDistribuicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarDistribuicao.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarDistribuicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarDistribuicao.setText("Voltar");
 
         tblListaDistribuicao.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -3415,31 +4098,31 @@ private void selecionarEntrega() {
                                 .addComponent(btnExcluirDistribuicao))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, distribuicaoLayout.createSequentialGroup()
                                 .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(distribuicaoLayout.createSequentialGroup()
-                                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblPedidoDistribuicao)
-                                            .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(txtPedidoDistribuicao, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txtClienteDistribuicao, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.LEADING))
-                                            .addComponent(lblClienteDistribuicao))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblRegiaoDistribuicao)
-                                            .addComponent(cbRegiaoDistribuicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblEntregadorDistribuicao)
-                                            .addComponent(cbEntregadorDistribuicao, 0, 199, Short.MAX_VALUE)
-                                            .addComponent(lblVeiculoDistribuicao)
-                                            .addComponent(cbVeiculoDistribuicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(32, 32, 32)
-                                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblDataDistribuicao)
-                                            .addComponent(ftfDataDistribuicao)
-                                            .addComponent(lblHorarioEntregaDistribuicao)
-                                            .addComponent(ftfHorarioDistribuicao)
-                                            .addComponent(lblStatusDistribuicao)
-                                            .addComponent(cbStatusDistribuicao, 0, 168, Short.MAX_VALUE)))
-                                    .addComponent(lblEnderecoDistribuicao))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblPedidoDistribuicao)
+                                        .addComponent(txtPedidoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblClienteDistribuicao)
+                                    .addComponent(txtClienteDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEnderecoDistribuicao)
+                                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34)
+                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblRegiaoDistribuicao)
+                                        .addComponent(cbRegiaoDistribuicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbEntregadorDistribuicao, 0, 199, Short.MAX_VALUE)
+                                        .addComponent(lblVeiculoDistribuicao)
+                                        .addComponent(cbVeiculoDistribuicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(lblEntregadorDistribuicao))
+                                .addGap(32, 32, 32)
+                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblHorarioEntregaDistribuicao)
+                                    .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblDataDistribuicao)
+                                        .addComponent(ftfDataDistribuicao)
+                                        .addComponent(ftfHorarioDistribuicao)
+                                        .addComponent(lblStatusDistribuicao)
+                                        .addComponent(cbStatusDistribuicao, 0, 168, Short.MAX_VALUE)))
                                 .addGap(43, 43, 43)
                                 .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblObservacoesDistribuicao)
@@ -3464,39 +4147,32 @@ private void selecionarEntrega() {
                 .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(distribuicaoLayout.createSequentialGroup()
-                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ftfDataDistribuicao, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtPedidoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbRegiaoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(distribuicaoLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(lblClienteDistribuicao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtClienteDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblEnderecoDistribuicao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(distribuicaoLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblEntregadorDistribuicao)
-                                    .addComponent(lblHorarioEntregaDistribuicao))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cbEntregadorDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ftfHorarioDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblVeiculoDistribuicao)
-                                    .addComponent(lblStatusDistribuicao))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cbVeiculoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbStatusDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPedidoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbRegiaoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfDataDistribuicao))
                         .addGap(18, 18, 18)
+                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblClienteDistribuicao)
+                            .addComponent(lblEntregadorDistribuicao)
+                            .addComponent(lblHorarioEntregaDistribuicao))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtClienteDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbEntregadorDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfHorarioDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEnderecoDistribuicao)
+                            .addComponent(lblVeiculoDistribuicao)
+                            .addComponent(lblStatusDistribuicao))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbVeiculoDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbStatusDistribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(211, 211, 211)
                         .addGroup(distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNovoDistribuicao)
                             .addComponent(btnSalvarDistribuicao)
@@ -3546,7 +4222,6 @@ private void selecionarEntrega() {
         txtClienteStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblIconePagamentoStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconePagamentoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\pagamento-com-cartao-de-credito.png")); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(39, 34, 160));
@@ -3556,7 +4231,6 @@ private void selecionarEntrega() {
         lblNumeroPagamentoStatus.setText("Nº");
 
         lblIconeSeparacaoStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeSeparacaoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\separacao-em-lote (1).png")); // NOI18N
 
         lblSeparacaoStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblSeparacaoStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -3566,7 +4240,6 @@ private void selecionarEntrega() {
         lblNumeroSeparacaoStatus.setText("Nº");
 
         lblIconeProntosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeProntosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\armazem.png")); // NOI18N
 
         lblProntosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblProntosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -3576,7 +4249,6 @@ private void selecionarEntrega() {
         lblNumeroProntosStatus.setText("Nº");
 
         lblIconeEnviadosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEnviadosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\aviao-de-papel.png")); // NOI18N
 
         lblEnviadosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblEnviadosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -3586,7 +4258,6 @@ private void selecionarEntrega() {
         lblNumeroEnviadosStatus.setText("Nº");
 
         lblIconeConcluídos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeConcluídos.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\correto (2).png")); // NOI18N
 
         lblConcluidosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblConcluidosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -3596,7 +4267,6 @@ private void selecionarEntrega() {
         lblNumeroConcluidosStatus.setText("Nº");
 
         lblIconeCanceladosStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeCanceladosStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\cancelar.png")); // NOI18N
 
         lblCanceladosStatus.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblCanceladosStatus.setForeground(new java.awt.Color(39, 34, 160));
@@ -3625,25 +4295,21 @@ private void selecionarEntrega() {
         btnNovoStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoStatus.setText("Novo");
 
         btnAlterarStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarStatus.setText("Alterar");
 
         btnExcluirStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirStatus.setText("Excluir");
 
         btnVoltarStatus.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarStatus.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarStatus.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarStatus.setText("Voltar");
 
         javax.swing.GroupLayout statusLayout = new javax.swing.GroupLayout(status);
@@ -3802,7 +4468,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarStatus)
                     .addComponent(btnExcluirStatus)
                     .addComponent(btnVoltarStatus))
-                .addContainerGap(372, Short.MAX_VALUE))
+                .addContainerGap(524, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Status", status);
@@ -3845,7 +4511,6 @@ private void selecionarEntrega() {
         btnPesquisarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarTentativas.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarTentativas.setText("Pesquisar");
 
         lblIconeTotalTentativas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -3859,7 +4524,6 @@ private void selecionarEntrega() {
         lblNumeroTotalTentativas.setText("Nº");
 
         lblIconeEntreguesTentativas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeEntreguesTentativas.setText("Icone");
 
         lblEntreguesTentativas.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblEntreguesTentativas.setForeground(new java.awt.Color(39, 34, 160));
@@ -3869,7 +4533,7 @@ private void selecionarEntrega() {
         lblNumeroEntreguesTentativas.setText("Nº");
 
         lblIconeAguardandoTentativas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeAguardandoTentativas.setText("Icone");
+        lblIconeAguardandoTentativas.setText(" ");
 
         lblAguardandoTentativas.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblAguardandoTentativas.setForeground(new java.awt.Color(39, 34, 160));
@@ -3879,7 +4543,6 @@ private void selecionarEntrega() {
         lblNumeroAguardandoTentativas.setText("Nº");
 
         lblIconeCanceladasTentativas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIconeCanceladasTentativas.setText("Icone");
 
         lblCanceladasTentativas.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         lblCanceladasTentativas.setForeground(new java.awt.Color(39, 34, 160));
@@ -3909,25 +4572,21 @@ private void selecionarEntrega() {
         btnNovoTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoTentativas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoTentativas.setText("Novo");
 
         btnAlterarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarTentativas.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarTentativas.setText("Alterar");
 
         btnExcluirTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirTentativas.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirTentativas.setText("Excluir");
 
         btnVoltarTentativas.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarTentativas.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarTentativas.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarTentativas.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarTentativas.setText("Voltar");
 
         javax.swing.GroupLayout tentativasLayout = new javax.swing.GroupLayout(tentativas);
@@ -3952,7 +4611,7 @@ private void selecionarEntrega() {
                                             .addComponent(lblClienteTentativas)
                                             .addComponent(txtClienteTentativas, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(tentativasLayout.createSequentialGroup()
-                                        .addGap(85, 85, 85)
+                                        .addGap(70, 70, 70)
                                         .addComponent(lblIconeEntreguesTentativas)))
                                 .addGroup(tentativasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(tentativasLayout.createSequentialGroup()
@@ -3968,9 +4627,9 @@ private void selecionarEntrega() {
                                                 .addGap(38, 38, 38)
                                                 .addComponent(btnPesquisarTentativas))))
                                     .addGroup(tentativasLayout.createSequentialGroup()
-                                        .addGap(172, 172, 172)
+                                        .addGap(158, 158, 158)
                                         .addComponent(lblIconeAguardandoTentativas)
-                                        .addGap(316, 316, 316)
+                                        .addGap(314, 314, 314)
                                         .addComponent(lblIconeCanceladasTentativas))))))
                     .addGroup(tentativasLayout.createSequentialGroup()
                         .addGap(61, 61, 61)
@@ -4027,12 +4686,16 @@ private void selecionarEntrega() {
                     .addComponent(lblEntreguesTentativas)
                     .addComponent(lblAguardandoTentativas)
                     .addComponent(lblCanceladasTentativas))
-                .addGap(12, 12, 12)
-                .addGroup(tentativasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIconeTotalTentativas)
-                    .addComponent(lblIconeEntreguesTentativas)
-                    .addComponent(lblIconeAguardandoTentativas)
-                    .addComponent(lblIconeCanceladasTentativas))
+                .addGroup(tentativasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tentativasLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(tentativasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIconeEntreguesTentativas)
+                            .addComponent(lblIconeAguardandoTentativas)
+                            .addComponent(lblIconeTotalTentativas)))
+                    .addGroup(tentativasLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblIconeCanceladasTentativas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tentativasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroTotalTentativas)
@@ -4047,7 +4710,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarTentativas)
                     .addComponent(btnExcluirTentativas)
                     .addComponent(btnVoltarTentativas))
-                .addContainerGap(579, Short.MAX_VALUE))
+                .addContainerGap(552, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Tentativas", tentativas);
@@ -4090,7 +4753,6 @@ private void selecionarEntrega() {
         btnPesquisarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarConfirmacao.setText("Pesquisar");
 
         lblIconeEntregasConfirmadas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -4153,25 +4815,21 @@ private void selecionarEntrega() {
         btnNovoConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnNovoConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnNovoConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
-        btnNovoConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\botao-mais.png")); // NOI18N
         btnNovoConfirmacao.setText("Novo");
 
         btnAlterarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnAlterarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnAlterarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
-        btnAlterarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\editar.png")); // NOI18N
         btnAlterarConfirmacao.setText("Alterar");
 
         btnExcluirConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnExcluirConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnExcluirConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
-        btnExcluirConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\excluir.png")); // NOI18N
         btnExcluirConfirmacao.setText("Excluir");
 
         btnVoltarConfirmacao.setBackground(new java.awt.Color(10, 4, 138));
         btnVoltarConfirmacao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnVoltarConfirmacao.setForeground(new java.awt.Color(255, 255, 255));
-        btnVoltarConfirmacao.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\seta-esquerda (1).png")); // NOI18N
         btnVoltarConfirmacao.setText("Voltar");
 
         javax.swing.GroupLayout confirmacaoLayout = new javax.swing.GroupLayout(confirmacao);
@@ -4295,7 +4953,7 @@ private void selecionarEntrega() {
                     .addComponent(btnAlterarConfirmacao)
                     .addComponent(btnExcluirConfirmacao)
                     .addComponent(btnVoltarConfirmacao))
-                .addContainerGap(567, Short.MAX_VALUE))
+                .addContainerGap(579, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Confirmação", confirmacao);
@@ -4338,7 +4996,6 @@ private void selecionarEntrega() {
         btnPesquisarHistoricoRelatorio.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarHistoricoRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPesquisarHistoricoRelatorio.setForeground(new java.awt.Color(255, 255, 255));
-        btnPesquisarHistoricoRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\SamaraTavares\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\icones\\lupa.png")); // NOI18N
         btnPesquisarHistoricoRelatorio.setText("Pesquisar");
 
         lblIconeTotalHistoricoRelatorio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -4579,7 +5236,7 @@ private void selecionarEntrega() {
                         .addComponent(btnRelatorioStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnExportarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(639, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Histórico e Relatórios", historicoRelatorio);
@@ -4589,9 +5246,9 @@ private void selecionarEntrega() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbTipoRegiaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoRegiaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cbTipoRegiaoActionPerformed
 
     private void cbEstadoEnderecosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoEnderecosActionPerformed
         // TODO add your handling code here:
@@ -4607,8 +5264,78 @@ private void selecionarEntrega() {
 
     private void btnSalvaEntregadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaEntregadoresActionPerformed
         // TODO add your handling code here:
-        cadastrarEntregas();
+        
     }//GEN-LAST:event_btnSalvaEntregadoresActionPerformed
+
+    private void cbEstadoRegiaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoRegiaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbEstadoRegiaoActionPerformed
+
+    private void btnSalvarVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarVeiculosActionPerformed
+        // TODO add your handling code here:
+        cadastrarVeiculos();
+    }//GEN-LAST:event_btnSalvarVeiculosActionPerformed
+
+    private void btnSalvarTaxasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarTaxasActionPerformed
+        // TODO add your handling code here:
+        cadastrarTaxas();
+    }//GEN-LAST:event_btnSalvarTaxasActionPerformed
+
+    private void btnSalvarEnderecosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarEnderecosActionPerformed
+        // TODO add your handling code here:
+        cadastrarEnderecos();
+    }//GEN-LAST:event_btnSalvarEnderecosActionPerformed
+
+    private void btnAlterarVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarVeiculosActionPerformed
+        // TODO add your handling code here:
+        alterarVeiculo();
+    }//GEN-LAST:event_btnAlterarVeiculosActionPerformed
+
+    private void btnExcluirVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirVeiculosActionPerformed
+        // TODO add your handling code here:
+        excluirVeiculo();
+    }//GEN-LAST:event_btnExcluirVeiculosActionPerformed
+
+    private void btnAlterarTaxasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarTaxasActionPerformed
+        // TODO add your handling code here:
+        alterarTaxa();
+    }//GEN-LAST:event_btnAlterarTaxasActionPerformed
+
+    private void btnExcluirTaxasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirTaxasActionPerformed
+        // TODO add your handling code here:
+        excluirTaxa();
+    }//GEN-LAST:event_btnExcluirTaxasActionPerformed
+
+    private void btnAlterarEndercosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEndercosActionPerformed
+        // TODO add your handling code here:
+        alterarEndereco();
+    }//GEN-LAST:event_btnAlterarEndercosActionPerformed
+
+    private void btnExcluirEnderecosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEnderecosActionPerformed
+        // TODO add your handling code here:
+        excluirEndereco();
+    }//GEN-LAST:event_btnExcluirEnderecosActionPerformed
+
+    private void btnSalvarEntregasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarEntregasActionPerformed
+        // TODO add your handling code here:
+        cadastrarEntregas();
+    }//GEN-LAST:event_btnSalvarEntregasActionPerformed
+
+    private void btnAlterarEntregasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEntregasActionPerformed
+        // TODO add your handling code here:
+        alterarEntrega();
+    }//GEN-LAST:event_btnAlterarEntregasActionPerformed
+
+    private void btnExcluirEntregasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEntregasActionPerformed
+        // TODO add your handling code here:
+        excluirEntrega();
+    }//GEN-LAST:event_btnExcluirEntregasActionPerformed
+
+    private void btnExcluirEntregadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEntregadoresActionPerformed
+        // TODO add your handling code here:
+       
+       
+    }//GEN-LAST:event_btnExcluirEntregadoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4706,12 +5433,12 @@ private void selecionarEntrega() {
     private javax.swing.JComboBox<String> cbEntregadorConfirmacao;
     private javax.swing.JComboBox<String> cbEntregadorDataHorario;
     private javax.swing.JComboBox<String> cbEntregadorDistribuicao;
-    private javax.swing.JComboBox<String> cbEntregadorEntregas;
     private javax.swing.JComboBox<String> cbEntregadorHistoricoRelatorio;
     private javax.swing.JComboBox<String> cbEntregadorStatus;
     private javax.swing.JComboBox<String> cbEntregadorTentativas;
     private javax.swing.JComboBox<String> cbEstadoEnderecos;
     private javax.swing.JComboBox<String> cbEstadoEntregadores;
+    private javax.swing.JComboBox<String> cbEstadoRegiao;
     private javax.swing.JComboBox<String> cbRegiaoAgenda;
     private javax.swing.JComboBox<String> cbRegiaoDistribuicao;
     private javax.swing.JComboBox<String> cbRegiaoTaxas;
@@ -4724,12 +5451,11 @@ private void selecionarEntrega() {
     private javax.swing.JComboBox<String> cbStatusHistoricoRelatorio;
     private javax.swing.JComboBox<String> cbStatusTentativas;
     private javax.swing.JComboBox<String> cbStatusVeiculo;
+    private javax.swing.JComboBox<String> cbTipoRegiao;
     private javax.swing.JComboBox<String> cbTipoRelatorio;
     private javax.swing.JComboBox<String> cbTipoTaxa;
     private javax.swing.JComboBox<String> cbVeiculoAgenda;
     private javax.swing.JComboBox<String> cbVeiculoDistribuicao;
-    private javax.swing.JComboBox<String> cbVeiculoEntregas;
-    private javax.swing.JComboBox<String> cdMotorista;
     private javax.swing.JPanel confirmacao;
     private javax.swing.JPanel dataHorario;
     private javax.swing.JPanel distribuicao;
@@ -4737,8 +5463,9 @@ private void selecionarEntrega() {
     private javax.swing.JPanel entregadores;
     private javax.swing.JPanel entregas;
     private javax.swing.JFormattedTextField ftfAnoVeiculo;
-    private javax.swing.JFormattedTextField ftfCnh;
     private javax.swing.JFormattedTextField ftfCpf;
+    private javax.swing.JFormattedTextField ftfCpfClienteEnderecos;
+    private javax.swing.JFormattedTextField ftfCpfClienteEntregas;
     private javax.swing.JFormattedTextField ftfDataAgenda;
     private javax.swing.JFormattedTextField ftfDataDistribuicao;
     private javax.swing.JFormattedTextField ftfDataEntrega;
@@ -4753,10 +5480,7 @@ private void selecionarEntrega() {
     private javax.swing.JFormattedTextField ftfPeriodoStatus;
     private javax.swing.JFormattedTextField ftfPeriodoTentativas;
     private javax.swing.JFormattedTextField ftfTelefone;
-    private javax.swing.JFormattedTextField ftfVencimentoCnh;
     private javax.swing.JPanel historicoRelatorio;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -4804,23 +5528,20 @@ private void selecionarEntrega() {
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblClienteConfirmacao;
     private javax.swing.JLabel lblClienteDistribuicao;
-    private javax.swing.JLabel lblClienteEnderecos;
     private javax.swing.JLabel lblClienteEntregas;
     private javax.swing.JLabel lblClienteTentativas;
-    private javax.swing.JLabel lblCnh;
-    private javax.swing.JLabel lblCodigoRegiao;
     private javax.swing.JLabel lblConcluidas;
     private javax.swing.JLabel lblConcluidasAgenda;
     private javax.swing.JLabel lblConcluidosStatus;
     private javax.swing.JLabel lblCor;
     private javax.swing.JLabel lblCpf;
+    private javax.swing.JLabel lblCpfClienteEnderecos;
     private javax.swing.JLabel lblDataAgenda;
     private javax.swing.JLabel lblDataDistribuicao;
     private javax.swing.JLabel lblDataEntregas;
     private javax.swing.JLabel lblDataFinal;
     private javax.swing.JLabel lblDataInicial;
     private javax.swing.JLabel lblDataNascimento;
-    private javax.swing.JLabel lblDocumentacao;
     private javax.swing.JLabel lblEnderecoDistribuicao;
     private javax.swing.JLabel lblEntregadorAgenda;
     private javax.swing.JLabel lblEntregadorConfirmacao;
@@ -4837,6 +5558,7 @@ private void selecionarEntrega() {
     private javax.swing.JLabel lblEnviadosStatus;
     private javax.swing.JLabel lblEstadoEnderecos;
     private javax.swing.JLabel lblEstadoEntregadores;
+    private javax.swing.JLabel lblEstadoRegiao;
     private javax.swing.JLabel lblHoraEntregas;
     private javax.swing.JLabel lblHorarioEntregaDistribuicao;
     private javax.swing.JLabel lblHorarioFinal;
@@ -4870,7 +5592,6 @@ private void selecionarEntrega() {
     private javax.swing.JLabel lblIconrPendentesAgenda;
     private javax.swing.JLabel lblMarca;
     private javax.swing.JLabel lblModelo;
-    private javax.swing.JLabel lblMotorista;
     private javax.swing.JLabel lblNUmeroAndamentoAgenda;
     private javax.swing.JLabel lblNaoConfirmada;
     private javax.swing.JLabel lblNome;
@@ -4948,12 +5669,10 @@ private void selecionarEntrega() {
     private javax.swing.JLabel lblTotalEntregasDH1;
     private javax.swing.JLabel lblTotalHistoricoRelatorio;
     private javax.swing.JLabel lblTotalTentativas;
-    private javax.swing.JLabel lblValorTaxaRegiao;
     private javax.swing.JLabel lblValorTaxas;
     private javax.swing.JLabel lblVeiculoAgenda;
     private javax.swing.JLabel lblVeiculoDistribuicao;
     private javax.swing.JLabel lblVeiculoEntregas;
-    private javax.swing.JLabel lblVencimentoCnh;
     private javax.swing.JLabel lbltituloDataHorario;
     private javax.swing.JLabel lbltituloEntregas;
     private javax.swing.JLabel lnlNumeroAndamento;
@@ -4973,6 +5692,8 @@ private void selecionarEntrega() {
     private javax.swing.JTable tblTentativasEntrega;
     private javax.swing.JTable tblVeiculos;
     private javax.swing.JPanel tentativas;
+    private javax.swing.JTextField tfEntregadorEntregas;
+    private javax.swing.JTextField tfVeiculoEntregas;
     private javax.swing.JLabel tituloDadosEntregadores;
     private javax.swing.JLabel tituloEndereco;
     private javax.swing.JLabel tituloRegiao;
@@ -4986,8 +5707,6 @@ private void selecionarEntrega() {
     private javax.swing.JTextField txtCidadeEnderecos;
     private javax.swing.JTextField txtClienteConfirmacao;
     private javax.swing.JTextField txtClienteDistribuicao;
-    private javax.swing.JTextField txtClienteEnderecos;
-    private javax.swing.JTextField txtClienteEntregas;
     private javax.swing.JTextField txtClienteStatus;
     private javax.swing.JTextField txtClienteTentativas;
     private javax.swing.JTextField txtCorVeiculo;
@@ -5007,7 +5726,6 @@ private void selecionarEntrega() {
     private javax.swing.JTextField txtTaxaEntrega;
     private javax.swing.JTextField txtTipoVeiculo;
     private javax.swing.JTextField txtValorTaxa;
-    private javax.swing.JTextField txtValorTaxaRegiao;
     private javax.swing.JTextArea txtaBairroRegiao;
     private javax.swing.JTextArea txtaEnderecoDistribuicao;
     private javax.swing.JTextArea txtaObservacoesDistribuicao;

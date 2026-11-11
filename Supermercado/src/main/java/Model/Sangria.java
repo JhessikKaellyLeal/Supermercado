@@ -1,19 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Sangria {
- private int idsangria, aberturaCaixa_idaberturaCaixa, Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos;
- private String dataSolicitacao,  motivo, observacao,  horaSolicitacao;
- private double valorSolicitado, valorRetirado;
+
+    private int idsangria;
+    private String dataSolicitacao;
+    private String motivo;
+    private String observacao;
+    private double valorSolicitado;
+    private double valorRetirado;
+    private String horaSolicitacao;
+    private int aberturaCaixa_idaberturaCaixa;
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
 
     public Sangria() {
+    }
+
+    public Sangria(int idsangria, String dataSolicitacao, String motivo,
+            String observacao, double valorSolicitado, double valorRetirado,
+            String horaSolicitacao, int aberturaCaixa_idaberturaCaixa,
+            int Funcionario_idFuncionario, int Funcionario_cargos_idcargos,
+            int Funcionario_setores_idsetores, int Funcionario_turnos_idturnos) {
+
+        this.idsangria = idsangria;
+        this.dataSolicitacao = dataSolicitacao;
+        this.motivo = motivo;
+        this.observacao = observacao;
+        this.valorSolicitado = valorSolicitado;
+        this.valorRetirado = valorRetirado;
+        this.horaSolicitacao = horaSolicitacao;
+        this.aberturaCaixa_idaberturaCaixa = aberturaCaixa_idaberturaCaixa;
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+        this.Funcionario_cargos_idcargos = Funcionario_cargos_idcargos;
+        this.Funcionario_setores_idsetores = Funcionario_setores_idsetores;
+        this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
 
     public int getIdsangria() {
@@ -22,6 +45,54 @@ public class Sangria {
 
     public void setIdsangria(int idsangria) {
         this.idsangria = idsangria;
+    }
+
+    public String getDataSolicitacao() {
+        return dataSolicitacao;
+    }
+
+    public void setDataSolicitacao(String dataSolicitacao) {
+        this.dataSolicitacao = dataSolicitacao;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public double getValorSolicitado() {
+        return valorSolicitado;
+    }
+
+    public void setValorSolicitado(double valorSolicitado) {
+        this.valorSolicitado = valorSolicitado;
+    }
+
+    public double getValorRetirado() {
+        return valorRetirado;
+    }
+
+    public void setValorRetirado(double valorRetirado) {
+        this.valorRetirado = valorRetirado;
+    }
+
+    public String getHoraSolicitacao() {
+        return horaSolicitacao;
+    }
+
+    public void setHoraSolicitacao(String horaSolicitacao) {
+        this.horaSolicitacao = horaSolicitacao;
     }
 
     public int getAberturaCaixa_idaberturaCaixa() {
@@ -63,53 +134,4 @@ public class Sangria {
     public void setFuncionario_turnos_idturnos(int Funcionario_turnos_idturnos) {
         this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
-
-    public String getDataSolicitacao() {
-        return dataSolicitacao;
-    }
-
-    public void setDataSolicitacao(String dataSolicitacao) {
-        this.dataSolicitacao = dataSolicitacao;
-    }
-
-    public String getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    public String getHoraSolicitacao() {
-        return horaSolicitacao;
-    }
-
-    public void setHoraSolicitacao(String horaSolicitacao) {
-        this.horaSolicitacao = horaSolicitacao;
-    }
-
-    public double getValorSolicitado() {
-        return valorSolicitado;
-    }
-
-    public void setValorSolicitado(double valorSolicitado) {
-        this.valorSolicitado = valorSolicitado;
-    }
-
-    public double getValorRetirado() {
-        return valorRetirado;
-    }
-
-    public void setValorRetirado(double valorRetirado) {
-        this.valorRetirado = valorRetirado;
-    }
- 
 }

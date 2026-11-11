@@ -1,96 +1,203 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author AntônioVieira
- */
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
-import View.AberturaCaixa;
-import java.sql.*;
-import java.util.*;
+import Model.AberturaCaixas;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AberturaCaixaController {
- public boolean cadastrar(String data, String horario, double valor,
-            int idCaixa, int idFuncionario, int idCargo,
-            int idSetor, int idTurno) throws SQLException {
+
+    // CADASTRAR
+    public boolean cadastrar(AberturaCaixas abertura) throws SQLException {
 
         String sql = "INSERT INTO aberturaCaixa "
-            + "(dataAbertura, horarioAbertura, valorInicial, "
-            + "caixas_idcaixas, Funcionario_idFuncionario, "
-            + "Funcionario_cargos_idcargos, "
-            + "Funcionario_setores_idsetores, Funcionario_turnos_idturnos) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(dataAbertura, horarioAbertura, valorInicial, "
+                + "caixas_idcaixas, Funcionario_idFuncionario, "
+                + "Funcionario_cargos_idcargos, "
+                + "Funcionario_setores_idsetores, "
+                + "Funcionario_turnos_idturnos) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, data);
-            ps.setString(2, horario);
-            ps.setDouble(3, valor);
-            ps.setInt(4, idCaixa);
-            ps.setInt(5, idFuncionario);
-            ps.setInt(6, idCargo);
-            ps.setInt(7, idSetor);
-            ps.setInt(8, idTurno);
-            return ps.executeUpdate() > 0;
-        }
-    }
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(
-                 "SELECT * FROM aberturaCaixa");
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                ResultSetMetaData md = rs.getMetaData();
-                for (int i = 1; i <= md.getColumnCount(); i++)
-                    m.put(md.getColumnLabel(i), rs.getObject(i));
-                lista.add(m);
+            stmt.setString(1, abertura.getDataAbertura());
+            stmt.setString(2, abertura.getHorarioAbertura());
+            stmt.setDouble(3, abertura.getValorInicial());
+            stmt.setInt(4, abertura.getCaixas_idcaixas());
+            stmt.setInt(5, abertura.getFuncionario_idFuncionario());
+            stmt.setInt(6, abertura.getFuncionario_cargos_idcargos());
+            stmt.setInt(7, abertura.getFuncionario_setores_idsetores());
+            stmt.setInt(8, abertura.getFuncionario_turnos_idturnos());
+
+            int linhas = stmt.executeUpdate();
+
+            if (linhas > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        abertura.setIdaberturaCaixa(rs.getInt(1));
+                    }
+                }
+                return true;
             }
         }
+
+        return false;
+    }
+
+    // LISTAR TODAS AS ABERTURAS
+    public List<AberturaCaixas> listar() throws SQLException {
+
+        List<AberturaCaixas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM aberturaCaixa "
+                + "ORDER BY idaberturaCaixa DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                AberturaCaixas abertura = new AberturaCaixas();
+
+                abertura.setIdaberturaCaixa(
+                        rs.getInt("idaberturaCaixa"));
+
+                abertura.setDataAbertura(
+                        rs.getString("dataAbertura"));
+
+                abertura.setHorarioAbertura(
+                        rs.getString("horarioAbertura"));
+
+                abertura.setValorInicial(
+                        rs.getDouble("valorInicial"));
+
+                abertura.setCaixas_idcaixas(
+                        rs.getInt("caixas_idcaixas"));
+
+                abertura.setFuncionario_idFuncionario(
+                        rs.getInt("Funcionario_idFuncionario"));
+
+                abertura.setFuncionario_cargos_idcargos(
+                        rs.getInt("Funcionario_cargos_idcargos"));
+
+                abertura.setFuncionario_setores_idsetores(
+                        rs.getInt("Funcionario_setores_idsetores"));
+
+                abertura.setFuncionario_turnos_idturnos(
+                        rs.getInt("Funcionario_turnos_idturnos"));
+
+                lista.add(abertura);
+            }
+        }
+
         return lista;
     }
 
-    public boolean atualizar(int id, String data, String horario,
-            double valor, int idCaixa, int idFuncionario,
-            int idCargo, int idSetor, int idTurno) throws SQLException {
+    // BUSCAR POR ID
+    public AberturaCaixas buscarPorId(int id) throws SQLException {
 
-        String sql = "UPDATE aberturaCaixa SET dataAbertura=?, "
-            + "horarioAbertura=?, valorInicial=?, caixas_idcaixas=?, "
-            + "Funcionario_idFuncionario=?, Funcionario_cargos_idcargos=?, "
-            + "Funcionario_setores_idsetores=?, Funcionario_turnos_idturnos=? "
-            + "WHERE idaberturaCaixa=?";
+        String sql = "SELECT * FROM aberturaCaixa "
+                + "WHERE idaberturaCaixa = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, data);
-            ps.setString(2, horario);
-            ps.setDouble(3, valor);
-            ps.setInt(4, idCaixa);
-            ps.setInt(5, idFuncionario);
-            ps.setInt(6, idCargo);
-            ps.setInt(7, idSetor);
-            ps.setInt(8, idTurno);
-            ps.setInt(9, id);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    AberturaCaixas abertura = new AberturaCaixas();
+
+                    abertura.setIdaberturaCaixa(
+                            rs.getInt("idaberturaCaixa"));
+
+                    abertura.setDataAbertura(
+                            rs.getString("dataAbertura"));
+
+                    abertura.setHorarioAbertura(
+                            rs.getString("horarioAbertura"));
+
+                    abertura.setValorInicial(
+                            rs.getDouble("valorInicial"));
+
+                    abertura.setCaixas_idcaixas(
+                            rs.getInt("caixas_idcaixas"));
+
+                    abertura.setFuncionario_idFuncionario(
+                            rs.getInt("Funcionario_idFuncionario"));
+
+                    abertura.setFuncionario_cargos_idcargos(
+                            rs.getInt("Funcionario_cargos_idcargos"));
+
+                    abertura.setFuncionario_setores_idsetores(
+                            rs.getInt("Funcionario_setores_idsetores"));
+
+                    abertura.setFuncionario_turnos_idturnos(
+                            rs.getInt("Funcionario_turnos_idturnos"));
+
+                    return abertura;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ATUALIZAR
+    public boolean atualizar(AberturaCaixas abertura) throws SQLException {
+
+        String sql = "UPDATE aberturaCaixa SET "
+                + "dataAbertura = ?, "
+                + "horarioAbertura = ?, "
+                + "valorInicial = ?, "
+                + "caixas_idcaixas = ?, "
+                + "Funcionario_idFuncionario = ?, "
+                + "Funcionario_cargos_idcargos = ?, "
+                + "Funcionario_setores_idsetores = ?, "
+                + "Funcionario_turnos_idturnos = ? "
+                + "WHERE idaberturaCaixa = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, abertura.getDataAbertura());
+            stmt.setString(2, abertura.getHorarioAbertura());
+            stmt.setDouble(3, abertura.getValorInicial());
+            stmt.setInt(4, abertura.getCaixas_idcaixas());
+            stmt.setInt(5, abertura.getFuncionario_idFuncionario());
+            stmt.setInt(6, abertura.getFuncionario_cargos_idcargos());
+            stmt.setInt(7, abertura.getFuncionario_setores_idsetores());
+            stmt.setInt(8, abertura.getFuncionario_turnos_idturnos());
+            stmt.setInt(9, abertura.getIdaberturaCaixa());
+
+            return stmt.executeUpdate() > 0;
         }
     }
 
+    // EXCLUIR
     public boolean excluir(int id) throws SQLException {
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(
-                 "DELETE FROM aberturaCaixa WHERE idaberturaCaixa=?")) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
-        }
-    }
 
-    public boolean cadastrar(AberturaCaixa abertura) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "DELETE FROM aberturaCaixa "
+                + "WHERE idaberturaCaixa = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            return stmt.executeUpdate() > 0;
+        }
     }
 }

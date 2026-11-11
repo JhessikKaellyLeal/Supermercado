@@ -1,18 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Estoque {
-  private int   idestoque,  quantidadeAtual, quantidadeReservada, produtos_idprodutos, produtos_categorias_idcategorias, produtos_marcas_idmarcas, produtos_unidadeMedidas_idunidadeMedidas;
-  private String dataAtualizacao;
+
+    private int idestoque;
+    private int quantidadeAtual;
+    private int quantidadeReservada;
+    private String dataAtualizacao;
+    private int produtos_idprodutos;
+    private int produtos_categorias_idcategorias;
+    private int produtos_marcas_idmarcas;
+    private int produtos_unidadeMedidas_idunidadeMedidas;
 
     public Estoque() {
+    }
+
+    public Estoque(int idestoque, int quantidadeAtual,
+            int quantidadeReservada, String dataAtualizacao,
+            int produtos_idprodutos,
+            int produtos_categorias_idcategorias,
+            int produtos_marcas_idmarcas,
+            int produtos_unidadeMedidas_idunidadeMedidas) {
+
+        this.idestoque = idestoque;
+        this.quantidadeAtual = quantidadeAtual;
+        this.quantidadeReservada = quantidadeReservada;
+        this.dataAtualizacao = dataAtualizacao;
+        this.produtos_idprodutos = produtos_idprodutos;
+        this.produtos_categorias_idcategorias = produtos_categorias_idcategorias;
+        this.produtos_marcas_idmarcas = produtos_marcas_idmarcas;
+        this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIdestoque() {
@@ -37,6 +54,14 @@ public class Estoque {
 
     public void setQuantidadeReservada(int quantidadeReservada) {
         this.quantidadeReservada = quantidadeReservada;
+    }
+
+    public String getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(String dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 
     public int getProdutos_idprodutos() {
@@ -70,13 +95,4 @@ public class Estoque {
     public void setProdutos_unidadeMedidas_idunidadeMedidas(int produtos_unidadeMedidas_idunidadeMedidas) {
         this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
-
-    public String getDataAtualizacao() {
-        return dataAtualizacao;
-    }
-
-    public void setDataAtualizacao(String dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
-  
 }

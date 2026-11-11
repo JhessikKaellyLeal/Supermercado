@@ -486,9 +486,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
               <Events>
@@ -505,9 +502,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -526,9 +520,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
@@ -542,9 +533,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
@@ -560,9 +548,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -576,9 +561,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -669,9 +651,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\vassoura (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
                 <Property name="iconTextGap" type="int" value="8"/>
@@ -1032,9 +1011,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -1194,9 +1170,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
             </Component>
@@ -1211,9 +1184,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\visualizar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar"/>
               </Properties>
             </Component>
@@ -1227,9 +1197,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir"/>
               </Properties>
@@ -1626,9 +1593,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -1913,9 +1877,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\visualizar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar Pedido"/>
               </Properties>
             </Component>
@@ -1929,9 +1890,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir lista"/>
               </Properties>
@@ -1947,9 +1905,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\verificar (2).png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Marcar como Separado"/>
               </Properties>
             </Component>
@@ -1963,9 +1918,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2194,9 +2146,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -2366,9 +2315,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir Lista"/>
               </Properties>
             </Component>
@@ -2382,9 +2328,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\documento (2).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Detalhes"/>
               </Properties>
@@ -2660,9 +2603,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
@@ -2921,9 +2861,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar Altera&#xe7;&#xe3;o"/>
               </Properties>
@@ -3212,9 +3149,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -3465,9 +3399,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\imprimir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Imprimir Comprovante"/>
               </Properties>
             </Component>
@@ -3481,9 +3412,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>

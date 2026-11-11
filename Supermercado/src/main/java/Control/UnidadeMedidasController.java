@@ -2,72 +2,250 @@
 package Control;
 
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
 import Model.UnidadesMedidas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnidadeMedidasController {
+    
+    public int buscarIdPorNome(String nome) throws SQLException {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
-            ps.setString(2, nome);
-            ps.setBoolean(3, status);
-            ps.setString(4, descricao);
-            return ps.executeUpdate() > 0;
-        }
-    }
+    String sql = "SELECT idunidadeMedidas FROM unidadeMedidas WHERE nomeUnidade = ?";
 
-   public List<UnidadesMedidas> listar() throws SQLException {
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                m.put("idunidadeMedidas",
-                      rs.getInt("idunidadeMedidas"));
-                m.put("codigo", rs.getInt("codigo"));
-                m.put("nome", rs.getString("nome"));
-                m.put("status", rs.getBoolean("status"));
-                m.put("descricao", rs.getString("descricao"));
-                lista.add(m);
+        stmt.setString(1, nome);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("idunidadeMedidas");
             }
         }
     }
 
-    return lista;
+    return 0;
 }
 
-    public boolean editar(int id, int codigo, String nome,
-                          boolean status, String descricao)
-                          throws SQLException {
-        String sql = "UPDATE unidadeMedidas SET codigo=?, nome=?, "
-                   + "status=?, descricao=? WHERE idunidadeMedidas=?";
+    public void cadastrar(UnidadesMedidas unidade) throws SQLException {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
-            ps.setString(2, nome);
-            ps.setBoolean(3, status);
-            ps.setString(4, descricao);
-            ps.setInt(5, id);
-            return ps.executeUpdate() > 0;
+        String sql = "INSERT INTO unidadeMedidas "
+                + "(codigo, nome, status, descricao) "
+                + "VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, unidade.getCodigo());
+            stmt.setString(2, unidade.getNome());
+            stmt.setInt(3, unidade.getStatus());
+
+            if (unidade.getDescricao() == null) {
+                stmt.setNull(4, Types.VARCHAR);
+            } else {
+                stmt.setString(4, unidade.getDescricao());
+            }
+
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR UNIDADE DE MEDIDA
-    public boolean excluir(int id) throws SQLException {
+    public List<UnidadesMedidas> listar() throws SQLException {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        List<UnidadesMedidas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM unidadeMedidas ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearUnidade(rs));
+            }
         }
+
+        return lista;
+    }
+
+    public UnidadesMedidas buscarPorId(int id) throws SQLException {
+
+        String sql = "SELECT * FROM unidadeMedidas "
+                + "WHERE idunidadeMedidas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearUnidade(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<UnidadesMedidas> buscarPorNome(String nome)
+            throws SQLException {
+
+        List<UnidadesMedidas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM unidadeMedidas "
+                + "WHERE nome LIKE ? ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearUnidade(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public UnidadesMedidas buscarPorCodigo(int codigo)
+            throws SQLException {
+
+        String sql = "SELECT * FROM unidadeMedidas WHERE codigo = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, codigo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearUnidade(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<UnidadesMedidas> buscarPorStatus(int status)
+            throws SQLException {
+
+        List<UnidadesMedidas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM unidadeMedidas "
+                + "WHERE status = ? ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearUnidade(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<UnidadesMedidas> listarAtivas() throws SQLException {
+
+        List<UnidadesMedidas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM unidadeMedidas "
+                + "WHERE status = 1 ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearUnidade(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(UnidadesMedidas unidade) throws SQLException {
+
+        String sql = "UPDATE unidadeMedidas SET "
+                + "codigo = ?, nome = ?, status = ?, descricao = ? "
+                + "WHERE idunidadeMedidas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, unidade.getCodigo());
+            stmt.setString(2, unidade.getNome());
+            stmt.setInt(3, unidade.getStatus());
+
+            if (unidade.getDescricao() == null) {
+                stmt.setNull(4, Types.VARCHAR);
+            } else {
+                stmt.setString(4, unidade.getDescricao());
+            }
+
+            stmt.setInt(5, unidade.getIdunidadeMedidas());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void alterarStatus(int id, int status)
+            throws SQLException {
+
+        String sql = "UPDATE unidadeMedidas SET status = ? "
+                + "WHERE idunidadeMedidas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void excluir(int id) throws SQLException {
+
+        String sql = "DELETE FROM unidadeMedidas "
+                + "WHERE idunidadeMedidas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    private UnidadesMedidas mapearUnidade(ResultSet rs)
+            throws SQLException {
+
+        UnidadesMedidas unidade = new UnidadesMedidas();
+
+        unidade.setIdunidadeMedidas(
+                rs.getInt("idunidadeMedidas")
+        );
+        unidade.setCodigo(rs.getInt("codigo"));
+        unidade.setNome(rs.getString("nome"));
+        unidade.setStatus(rs.getInt("status"));
+        unidade.setDescricao(rs.getString("descricao"));
+
+        return unidade;
     }
 }

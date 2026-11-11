@@ -3,7 +3,6 @@ package Control;
 
 import Conection.Conexao;
 import Model.Funcionario;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +12,168 @@ import java.util.List;
 
 public class FuncionarioController {
 
-    // MÉTODO AUXILIAR PARA CONVERTER RESULTSET EM FUNCIONÁRIO
-    private Funcionario mapearFuncionario(ResultSet rs) throws SQLException {
+    public void cadastrar(Funcionario funcionario) throws SQLException {
+        String sql = "INSERT INTO Funcionario "
+                + "(nome, dataNascimento, cpf, telefone, dataAdmissao, "
+                + "statusFuncionario, cargos_idcargos, setores_idsetores, "
+                + "turnos_idturnos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getDataNascimento());
+            stmt.setString(3, funcionario.getCpf());
+            stmt.setString(4, funcionario.getTelefone());
+            stmt.setString(5, funcionario.getDataAdmissao());
+            stmt.setInt(6, funcionario.getStatusFuncionario());
+            stmt.setInt(7, funcionario.getCargos_idcargos());
+            stmt.setInt(8, funcionario.getSetores_idsetores());
+            stmt.setInt(9, funcionario.getTurnos_idturnos());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Funcionario> listar() throws SQLException {
+        List<Funcionario> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM Funcionario";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearFuncionario(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public Funcionario buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM Funcionario "
+                + "WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearFuncionario(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Funcionario buscarPorCpf(String cpf) throws SQLException {
+        String sql = "SELECT * FROM Funcionario WHERE cpf = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cpf);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearFuncionario(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<Funcionario> buscarPorNome(String nome)
+            throws SQLException {
+
+        List<Funcionario> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM Funcionario WHERE nome LIKE ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearFuncionario(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Funcionario> buscarPorStatus(int status)
+            throws SQLException {
+
+        List<Funcionario> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM Funcionario "
+                + "WHERE statusFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearFuncionario(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(Funcionario funcionario) throws SQLException {
+        String sql = "UPDATE Funcionario SET "
+                + "nome = ?, dataNascimento = ?, cpf = ?, telefone = ?, "
+                + "dataAdmissao = ?, statusFuncionario = ?, "
+                + "cargos_idcargos = ?, setores_idsetores = ?, "
+                + "turnos_idturnos = ? "
+                + "WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getDataNascimento());
+            stmt.setString(3, funcionario.getCpf());
+            stmt.setString(4, funcionario.getTelefone());
+            stmt.setString(5, funcionario.getDataAdmissao());
+            stmt.setInt(6, funcionario.getStatusFuncionario());
+            stmt.setInt(7, funcionario.getCargos_idcargos());
+            stmt.setInt(8, funcionario.getSetores_idsetores());
+            stmt.setInt(9, funcionario.getTurnos_idturnos());
+            stmt.setInt(10, funcionario.getIdFuncionario());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM Funcionario "
+                + "WHERE idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    private Funcionario mapearFuncionario(ResultSet rs)
+            throws SQLException {
 
         Funcionario funcionario = new Funcionario();
 
@@ -30,220 +189,5 @@ public class FuncionarioController {
         funcionario.setTurnos_idturnos(rs.getInt("turnos_idturnos"));
 
         return funcionario;
-    }
-
-    // CADASTRAR FUNCIONÁRIO
-    public boolean cadastrar(
-            String nome,
-            String dataNascimento,
-            String cpf,
-            String telefone,
-            String dataAdmissao,
-            int status,
-            int idCargo,
-            int idSetor,
-            int idTurno) {
-
-        String sql = "INSERT INTO Funcionario "
-                + "(nome, dataNascimento, cpf, telefone, dataAdmissao, "
-                + "statusFuncionario, cargos_idcargos, setores_idsetores, "
-                + "turnos_idturnos) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, nome);
-            stmt.setString(2, dataNascimento);
-            stmt.setString(3, cpf);
-            stmt.setString(4, telefone);
-            stmt.setString(5, dataAdmissao);
-            stmt.setInt(6, status);
-            stmt.setInt(7, idCargo);
-            stmt.setInt(8, idSetor);
-            stmt.setInt(9, idTurno);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar funcionário:");
-            e.printStackTrace();
-            return false;
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao cadastrar funcionário:");
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // LISTAR TODOS OS FUNCIONÁRIOS
-    public List<Funcionario> listar() {
-
-        List<Funcionario> funcionarios = new ArrayList<>();
-
-        String sql = "SELECT idFuncionario, nome, dataNascimento, cpf, "
-                + "telefone, dataAdmissao, statusFuncionario, "
-                + "cargos_idcargos, setores_idsetores, turnos_idturnos "
-                + "FROM Funcionario ORDER BY nome ASC";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                funcionarios.add(mapearFuncionario(rs));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar funcionários:");
-            e.printStackTrace();
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao listar funcionários:");
-            e.printStackTrace();
-        }
-
-        return funcionarios;
-    }
-
-    // BUSCAR FUNCIONÁRIO PELO ID
-    public Funcionario buscarPorId(int idFuncionario) {
-
-        String sql = "SELECT * FROM Funcionario WHERE idFuncionario = ?";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idFuncionario);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                if (rs.next()) {
-                    return mapearFuncionario(rs);
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar funcionário:");
-            e.printStackTrace();
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao buscar funcionário:");
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    // ATUALIZAR FUNCIONÁRIO
-    public boolean atualizar(
-            int idFuncionario,
-            String nome,
-            String dataNascimento,
-            String cpf,
-            String telefone,
-            String dataAdmissao,
-            int status,
-            int idCargo,
-            int idSetor,
-            int idTurno) {
-
-        String sql = "UPDATE Funcionario SET "
-                + "nome = ?, "
-                + "dataNascimento = ?, "
-                + "cpf = ?, "
-                + "telefone = ?, "
-                + "dataAdmissao = ?, "
-                + "statusFuncionario = ?, "
-                + "cargos_idcargos = ?, "
-                + "setores_idsetores = ?, "
-                + "turnos_idturnos = ? "
-                + "WHERE idFuncionario = ?";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, nome);
-            stmt.setString(2, dataNascimento);
-            stmt.setString(3, cpf);
-            stmt.setString(4, telefone);
-            stmt.setString(5, dataAdmissao);
-            stmt.setInt(6, status);
-            stmt.setInt(7, idCargo);
-            stmt.setInt(8, idSetor);
-            stmt.setInt(9, idTurno);
-            stmt.setInt(10, idFuncionario);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao atualizar funcionário:");
-            e.printStackTrace();
-            return false;
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao atualizar funcionário:");
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // EXCLUIR FUNCIONÁRIO
-    public boolean excluir(int idFuncionario) {
-
-        String sql = "DELETE FROM Funcionario WHERE idFuncionario = ?";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idFuncionario);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao excluir funcionário:");
-            e.printStackTrace();
-            return false;
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao excluir funcionário:");
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // PESQUISAR FUNCIONÁRIO POR NOME OU CPF
-    public List<Funcionario> pesquisar(String pesquisa) {
-
-        List<Funcionario> funcionarios = new ArrayList<>();
-
-        String sql = "SELECT * FROM Funcionario "
-                + "WHERE nome LIKE ? OR cpf LIKE ? "
-                + "ORDER BY nome ASC";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, "%" + pesquisa + "%");
-            stmt.setString(2, "%" + pesquisa + "%");
-
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                while (rs.next()) {
-                    funcionarios.add(mapearFuncionario(rs));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao pesquisar funcionário:");
-            e.printStackTrace();
-
-        } catch (RuntimeException e) {
-            System.out.println("Erro inesperado ao pesquisar funcionário:");
-            e.printStackTrace();
-        }
-
-        return funcionarios;
     }
 }

@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ParcelasReceber {
-   private int idparcelasReceber;
+
+    private int idparcelasReceber;
     private int numeroParcela;
     private double valorParcela;
     private String dataVencimento;
@@ -20,6 +14,24 @@ public class ParcelasReceber {
     private int contasReceber_idcontasReceber;
 
     public ParcelasReceber() {
+    }
+
+    public ParcelasReceber(int idparcelasReceber, int numeroParcela,
+            double valorParcela, String dataVencimento,
+            String dataPagamento, Double valorRecebido,
+            String statusParcela, String observacao,
+            int contasReceber_idcontasReceber) {
+
+        this.idparcelasReceber = idparcelasReceber;
+        this.numeroParcela = numeroParcela;
+        this.valorParcela = valorParcela;
+        this.dataVencimento = dataVencimento;
+        this.dataPagamento = dataPagamento;
+        this.valorRecebido = valorRecebido;
+        this.statusParcela = statusParcela;
+        this.observacao = observacao;
+        this.contasReceber_idcontasReceber =
+                contasReceber_idcontasReceber;
     }
 
     public int getIdparcelasReceber() {
@@ -90,9 +102,9 @@ public class ParcelasReceber {
         return contasReceber_idcontasReceber;
     }
 
-    public void setContasReceber_idcontasReceber(int contasReceber_idcontasReceber) {
-        this.contasReceber_idcontasReceber = contasReceber_idcontasReceber;
+    public void setContasReceber_idcontasReceber(
+            int contasReceber_idcontasReceber) {
+        this.contasReceber_idcontasReceber =
+                contasReceber_idcontasReceber;
     }
-
- 
 }

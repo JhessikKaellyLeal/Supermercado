@@ -25,27 +25,22 @@ public class MenuPadrao extends JPanel {
    // ID da opção no código e texto exibido no menu.
 private static final String[][] OPCOES = {
     {"inicio", "Início"},
-    {"produtos", "Produtos"},
-    {"promocoes", "Promocoes"},
+    {"gerenciamentoProdutos", "Produtos"},
+    {"promocoes", "Promoções"},
     {"estoque", "Estoque"},
-    {"fornecedores", "Fornecedores"},
-    {"fornecedoresTerceirizados", "Fornecedores Terceirizados"},
+    {"fornecedoresTerceirizados", "Fornecedores"},
     {"clientes", "Clientes"},
     {"pedidos", "Pedidos"},
     {"entregas", "Entregas"},
+    {"pdvRealizacao", "PDV"},
     {"vendas", "Vendas"},
-    {"pdv", "PDV"},
-    {"vendaPagamentos", "Venda e Pagamentos"},
     {"caixa", "Caixa"},
     {"financeiro", "Financeiro"},
     {"funcionariosRH", "Funcionários / RH"},
-    {"perfilUsuarios", "Perfil de Usuários"},
     {"solicitacao", "Solicitações"},
-    {"alterarSenha", "Alterar Senha"},
-    {"recuperacaoSenha", "Recuperação de Senha"}
-    
+    {"perfilUsuarios", "Perfil de Usuários"},
+    {"alterarSenha", "Alterar Senha"}
 };
-
     public MenuPadrao() {
     }
 public void abrirTela(JFrame telaAtual, JFrame proximaTela) {

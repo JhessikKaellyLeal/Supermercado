@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
 public class Cliente {
 
-    // Atributos
     private int idcliente;
     private String nome;
     private String cpf;
@@ -18,11 +13,24 @@ public class Cliente {
     private int status;
     private String senha;
 
-    // Construtor vazio
     public Cliente() {
     }
 
-    // GETTERS E SETTERS
+    public Cliente(int idcliente, String nome, String cpf, String rg,
+            String dataNascimento, String genero, String email,
+            String telefone, int status, String senha) {
+
+        this.idcliente = idcliente;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+        this.email = email;
+        this.telefone = telefone;
+        this.status = status;
+        this.senha = senha;
+    }
 
     public int getIdcliente() {
         return idcliente;
@@ -103,5 +111,4 @@ public class Cliente {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
 }

@@ -5,11 +5,12 @@
 package View;
 
 import Control.PedidosController;
+import Model.Pedidos;
 import View.MenuPadrao;
 import Model.Usuario;
 import View.TelaHome;
 import View.TelaPerfilUsuarios;
-import View.TelaPromocoes;
+
 import View.Tela_Funcionarios_RH;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,7 +39,7 @@ public class TelaPedidos extends javax.swing.JFrame {
         
         
         this.usuario= usuario;
-       this.menu= MenuPadrao.instalar(
+        this.menu=MenuPadrao.instalar(
         this,
         usuario,
         "pedidos",
@@ -46,92 +47,89 @@ public class TelaPedidos extends javax.swing.JFrame {
         this::dispose
     );
         this.setExtendedState(TelaPedidos.MAXIMIZED_BOTH);
+        
+       
+        
        
     }
     
-     // MÉTODO DE ACESSAR AS TELAS
+
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -146,19 +144,19 @@ public void navegar(String idtela) {
     }
 }
 
- 
 
-    
-    
-       
-    
-private void cadastrarPedido() {
+private void cadastrarPedidos(int clienteId, int usuarioId, int entregaId) {
+
     try {
 
         // Capturar os dados dos campos
         String numeroPedido = txtNumeroPedidoCadastro.getText().trim();
         String dataPedido = ftfDataPedidoCadastro.getText().trim();
-        String statusPedido = cbStatusPedidoCadastro.getSelectedItem().toString();
+
+        String statusPedido = cbStatusPedidoCadastro.getSelectedItem() != null
+                ? cbStatusPedidoCadastro.getSelectedItem().toString()
+                : "";
+
         String observacao = txtaObservacoesCadastro.getText().trim();
 
         // Validar campos obrigatórios
@@ -166,10 +164,10 @@ private void cadastrarPedido() {
                 || statusPedido.isEmpty()) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
             );
             return;
         }
@@ -178,60 +176,51 @@ private void cadastrarPedido() {
         if (clienteId <= 0 || usuarioId <= 0 || entregaId <= 0) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Selecione um cliente, usuário e entrega válidos!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Selecione um cliente, usuário e entrega válidos!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
             );
             return;
         }
 
-        // Chamar o controller
+        // Criar Model
+        Pedidos pedido = new Pedidos();
+
+        pedido.setNumeroPedido(numeroPedido);
+        pedido.setDatapedido(dataPedido);
+        pedido.setStatusPedido(statusPedido);
+        pedido.setObservacao(observacao);
+        pedido.setCliente_idcliente(clienteId);
+        pedido.setUsuario_idusuario(usuarioId);
+        pedido.setEntregas_identregas(entregaId);
+
+        // Chamar Controller
         PedidosController controller = new PedidosController();
 
-        boolean sucesso = controller.cadastrar(
-            numeroPedido,
-            dataPedido,
-            statusPedido,
-            observacao,
-            clienteId,
-            usuarioId,
-            entregaId
-        );
+        controller.cadastrar(pedido);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 this,
                 "Pedido cadastrado com sucesso!",
                 "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE
-            );
+        );
 
-           limparCamposCadastro();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o pedido!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposCadastro();
 
     } catch (Exception e) {
 
         JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar pedido: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
+                this,
+                "Erro ao cadastrar pedido: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
         );
 
+        e.printStackTrace();
     }
 }
-
 
 private void definirVinculosPedido(int idCliente, int idUsuario, int idEntrega) {
     this.idClientePedido = idCliente;
@@ -300,30 +289,28 @@ private void cadastrarPedido() {
         }
 
         // Cadastrar pedido
-        boolean sucesso = controller.cadastrar(
-                numeroPedido,
-                dataPedido,
-                statusPedido,
-                observacao,
-                idcliente,
-                idusuario,
-                identrega
-        );
+       // Criar Model
+Pedidos pedido = new Pedidos();
 
-        if (sucesso) {
+pedido.setNumeroPedido(numeroPedido);
+pedido.setDatapedido(dataPedido);
+pedido.setStatusPedido(statusPedido);
+pedido.setObservacao(observacao);
+pedido.setCliente_idcliente(idcliente);
+pedido.setUsuario_idusuario(idusuario);
+pedido.setEntregas_identregas(identrega);
 
-            JOptionPane.showMessageDialog(this,
-                    "Pedido cadastrado com sucesso!");
+// Cadastrar pedido
+controller.cadastrar(pedido);
 
-            listarPedidosCadastro();
-            limparCamposCadastro();
+JOptionPane.showMessageDialog(
+        this,
+        "Pedido cadastrado com sucesso!",
+        "Sucesso",
+        JOptionPane.INFORMATION_MESSAGE
+);
 
-        } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "Não foi possível cadastrar o pedido.");
-
-        }
+        
 
     } catch (SQLException e) {
 
@@ -346,45 +333,47 @@ private void listarPedidosCadastro() {
 
         PedidosController controller = new PedidosController();
 
-        List<Map<String, Object>> pedidos = controller.listar();
+        List<Pedidos> pedidos = controller.listar();
 
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblPedidosCadastro.getModel();
 
-        modelo.addColumn("ID");
-        modelo.addColumn("Número do Pedido");
-        modelo.addColumn("Data");
-        modelo.addColumn("Status");
-        modelo.addColumn("Observação");
-        modelo.addColumn("ID Cliente");
-        modelo.addColumn("ID Usuário");
-        modelo.addColumn("ID Entrega");
+        modelo.setRowCount(0);
 
-        for (Map<String, Object> pedido : pedidos) {
+        for (Pedidos pedido : pedidos) {
 
             modelo.addRow(new Object[]{
-                pedido.get("idpedidos"),
-                pedido.get("numeroPedido"),
-                pedido.get("datapedido"),
-                pedido.get("statusPedido"),
-                pedido.get("observacao"),
-                pedido.get("cliente_idcliente"),
-                pedido.get("usuario_idusuario"),
-                pedido.get("entregas_identregas")
+                pedido.getIdpedidos(),
+                pedido.getNumeroPedido(),
+                pedido.getDatapedido(),
+                pedido.getStatusPedido(),
+                pedido.getObservacao(),
+                pedido.getCliente_idcliente(),
+                pedido.getUsuario_idusuario(),
+                pedido.getEntregas_identregas()
             });
 
         }
 
-        tblPedidosCadastro.setModel(modelo);
+        if (pedidos.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum pedido cadastrado!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
 
     } catch (SQLException e) {
 
-        JOptionPane.showMessageDialog(this,
-                "Erro ao listar pedidos: " + e.getMessage());
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar pedidos: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
 
     }
 }
-
-
 private void pesquisarPedidoCadastro() {
 
     try {
@@ -392,65 +381,67 @@ private void pesquisarPedidoCadastro() {
         String numeroPesquisa = txtNumeroPedidoCadastro.getText().trim();
 
         if (numeroPesquisa.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Digite o número do pedido para pesquisar!");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Digite o número do pedido para pesquisar!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
 
         PedidosController controller = new PedidosController();
 
-        List<Map<String, Object>> pedidos = controller.listar();
+        List<Pedidos> pedidos = controller.listar();
 
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo =
+                (DefaultTableModel) tblPedidosCadastro.getModel();
 
-        modelo.addColumn("ID");
-        modelo.addColumn("Número do Pedido");
-        modelo.addColumn("Data");
-        modelo.addColumn("Status");
-        modelo.addColumn("Observação");
-        modelo.addColumn("ID Cliente");
-        modelo.addColumn("ID Usuário");
-        modelo.addColumn("ID Entrega");
+        modelo.setRowCount(0);
 
         boolean encontrado = false;
 
-        for (Map<String, Object> pedido : pedidos) {
+        for (Pedidos pedido : pedidos) {
 
-            String numero = String.valueOf(pedido.get("numeroPedido"));
+            String numero = String.valueOf(pedido.getNumeroPedido());
 
             if (numero.equalsIgnoreCase(numeroPesquisa)) {
 
                 modelo.addRow(new Object[]{
-                    pedido.get("idpedidos"),
-                    pedido.get("numeroPedido"),
-                    pedido.get("datapedido"),
-                    pedido.get("statusPedido"),
-                    pedido.get("observacao"),
-                    pedido.get("cliente_idcliente"),
-                    pedido.get("usuario_idusuario"),
-                    pedido.get("entregas_identregas")
+                    pedido.getIdpedidos(),
+                    pedido.getNumeroPedido(),
+                    pedido.getDatapedido(),
+                    pedido.getStatusPedido(),
+                    pedido.getObservacao(),
+                    pedido.getCliente_idcliente(),
+                    pedido.getUsuario_idusuario(),
+                    pedido.getEntregas_identregas()
                 });
 
                 encontrado = true;
             }
         }
 
-        tblPedidosCadastro.setModel(modelo);
-
         if (!encontrado) {
-            JOptionPane.showMessageDialog(this,
-                    "Nenhum pedido encontrado!");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum pedido encontrado!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
 
     } catch (SQLException e) {
 
-        JOptionPane.showMessageDialog(this,
-                "Erro ao pesquisar pedido: " + e.getMessage());
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao pesquisar pedido: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
 
     }
 }
-
-
 private void selecionarPedidoCadastro() {
 
     int linha = tblPedidosCadastro.getSelectedRow();
@@ -492,11 +483,16 @@ private void editarPedidoCadastro() {
     try {
 
         if (idPedidoSelecionado <= 0) {
-            JOptionPane.showMessageDialog(this,
-                    "Selecione um pedido na tabela para editar!");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um pedido na tabela para editar!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
 
+        // Capturar os dados
         String numeroPedido = txtNumeroPedidoCadastro.getText().trim();
         String dataPedido = ftfDataPedidoCadastro.getText().trim();
 
@@ -506,38 +502,71 @@ private void editarPedidoCadastro() {
 
         String observacao = txtaObservacoesCadastro.getText().trim();
 
-        if (numeroPedido.isEmpty() || dataPedido.isEmpty() || statusPedido.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos obrigatórios!");
+        // Validar campos
+        if (numeroPedido.isEmpty() || dataPedido.isEmpty()
+                || statusPedido.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
 
+        // Validar chaves estrangeiras
+        if (idClientePedido <= 0 || idUsuarioPedido <= 0 || idEntregaPedido <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cliente, usuário ou entrega inválidos!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // Criar Model
+        Pedidos pedido = new Pedidos();
+
+        pedido.setIdpedidos(idPedidoSelecionado);
+        pedido.setNumeroPedido(numeroPedido);
+        pedido.setDatapedido(dataPedido);
+        pedido.setStatusPedido(statusPedido);
+        pedido.setObservacao(observacao);
+        pedido.setCliente_idcliente(idClientePedido);
+        pedido.setUsuario_idusuario(idUsuarioPedido);
+        pedido.setEntregas_identregas(idEntregaPedido);
+
+        // Atualizar pelo Controller
         PedidosController controller = new PedidosController();
 
-        controller.atualizar(
-                idPedidoSelecionado,
-                numeroPedido,
-                dataPedido,
-                statusPedido,
-                observacao,
-                idClientePedido,
-                idUsuarioPedido,
-                idEntregaPedido
-        );
+        controller.atualizar(pedido);
 
-        JOptionPane.showMessageDialog(this,
-                "Pedido atualizado com sucesso!");
+        JOptionPane.showMessageDialog(
+                this,
+                "Pedido atualizado com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
 
         listarPedidosCadastro();
         limparCamposCadastro();
 
     } catch (SQLException e) {
 
-        JOptionPane.showMessageDialog(this,
-                "Erro ao atualizar pedido: " + e.getMessage());
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao atualizar pedido: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
 
+        e.printStackTrace();
     }
 }
+
 
 
 private void excluirPedidoCadastro() {

@@ -13,12 +13,18 @@ import Control.PontoController;
 import Control.SetoresController;
 import Control.FuncionarioController;
 import Control.CargosController;
+import Control.EscalaController;
 import Control.TurnosController;
+import Model.Afastamentos;
 import Model.Cargos;
+import Model.Escala;
+import Model.Ferias;
 import Model.Setores;
 import Model.Turnos;
 import Model.Usuario;
 import Model.Funcionario;
+import Model.Metas;
+import Model.Ponto;
 import View.TelaPedidos;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -68,89 +74,82 @@ public class Tela_Funcionarios_RH extends javax.swing.JFrame {
        
     }
     
-       // MÉTODO DE ACESSAR AS TELAS
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -164,9 +163,53 @@ public void navegar(String idtela) {
             break;
     }
 }
+ 
+private int buscarIdCargo(String nomeCargo) throws SQLException {
 
-   
-    
+    CargosController controller = new CargosController();
+
+    List<Cargos> lista = controller.listar();
+
+    for (Cargos cargo : lista) {
+
+        if (cargo.getNome().equalsIgnoreCase(nomeCargo)) {
+            return cargo.getIdcargos();
+        }
+    }
+
+    return -1;
+}   
+private int buscarIdSetor(String nomeSetor) throws SQLException {
+
+    SetoresController controller = new SetoresController();
+
+    List<Setores> lista = controller.listar();
+
+    for (Setores setor : lista) {
+
+        if (setor.getNome().equalsIgnoreCase(nomeSetor)) {
+            return setor.getIdsetores();
+        }
+    }
+
+    return -1;
+}
+private int buscarIdTurno(String nomeTurno) throws SQLException {
+
+    TurnosController controller = new TurnosController();
+
+    List<Turnos> lista = controller.listar();
+
+    for (Turnos turno : lista) {
+
+        if (turno.getNome().equalsIgnoreCase(nomeTurno)) {
+            return turno.getIdturnos();
+        }
+    }
+
+    return -1;
+}
+
 
 private void cadastrarFuncionario() {
 
@@ -179,14 +222,6 @@ private void cadastrarFuncionario() {
         String dataNascimento = ftfDataNascimento.getText().trim();
         String dataAdmissao = ftfDataAdimissao.getText().trim();
 
-        // Capturar os IDs dos relacionamentos
-        int idCargo = cbCargo.getSelectedIndex();
-        int idSetor = cbSetorFuncionarios.getSelectedIndex();
-        int idTurno = cbTurnoFuncionario.getSelectedIndex();
-
-        // Capturar o status
-        int status = cbStatus.getSelectedIndex();
-
         // Validar campos obrigatórios
         if (nome.isEmpty() || cpf.isEmpty() || telefone.isEmpty()
                 || dataNascimento.isEmpty() || dataAdmissao.isEmpty()
@@ -195,86 +230,79 @@ private void cadastrarFuncionario() {
                 || cbTurnoFuncionario.getSelectedItem() == null
                 || cbStatus.getSelectedItem() == null) {
 
-            JOptionPane.showMessageDialog(
-                    this,
+            JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos obrigatórios!",
                     "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return; 
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         // Validar CPF
         if (cpf.length() != 11) {
-
-            JOptionPane.showMessageDialog(
-                    this,
+            JOptionPane.showMessageDialog(this,
                     "Informe um CPF válido!",
                     "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Validar IDs selecionados
-        if (idCargo <= 0 || idSetor <= 0 || idTurno <= 0) {
+        // Buscar os IDs pelos nomes selecionados
+        String nomeCargo = cbCargo.getSelectedItem().toString();
+        String nomeSetor = cbSetorFuncionarios.getSelectedItem().toString();
+        String nomeTurno = cbTurnoFuncionario.getSelectedItem().toString();
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Selecione um cargo, setor e turno válidos!",
+        int idCargo = buscarIdCargo(nomeCargo);
+        int idSetor = buscarIdSetor(nomeSetor);
+        int idTurno = buscarIdTurno(nomeTurno);
+
+        if (idCargo == -1 || idSetor == -1 || idTurno == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível identificar o cargo, setor ou turno selecionado!",
                     "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Chamar o controller
+        // Capturar status
+        int status = cbStatus.getSelectedIndex();
+
+        // Criar Model
+        Funcionario funcionario = new Funcionario();
+
+        funcionario.setNome(nome);
+        funcionario.setCpf(cpf);
+        funcionario.setTelefone(telefone);
+        funcionario.setDataNascimento(dataNascimento);
+        funcionario.setDataAdmissao(dataAdmissao);
+        funcionario.setStatusFuncionario(status);
+        funcionario.setCargos_idcargos(idCargo);
+        funcionario.setSetores_idsetores(idSetor);
+        funcionario.setTurnos_idturnos(idTurno);
+
+        // Cadastrar
         FuncionarioController controller = new FuncionarioController();
 
-        boolean sucesso = controller.cadastrar(
-                nome,
-                dataNascimento,
-                cpf,
-                telefone,
-                dataAdmissao,
-                status,
-                idCargo,
-                idSetor,
-                idTurno
-        );
+        controller.cadastrar(funcionario);
 
-        if (sucesso) {
+        JOptionPane.showMessageDialog(this,
+                "Funcionário cadastrado com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Funcionário cadastrado com sucesso!",
-                    "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-           // limparCamposCadastro();
-
-        } else { 
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Não foi possível cadastrar o funcionário!",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+        // limparCamposCadastro();
+        // listarFuncionarios();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar funcionário: " + e.getMessage(),
                 "Erro",
-                JOptionPane.ERROR_MESSAGE
-        );
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposFuncionario() {
 
@@ -305,97 +333,88 @@ private void limparCamposFuncionario() {
 }     
 
 
+
 private void cadastrarSetor() {
 
     try {
 
-        // Capturar os dados dos campos
+        // Capturar os dados
         String nome = tfNomeSetor.getText().trim();
         String descricao = tfDescricaoSetores.getText().trim();
 
-        // Capturar o status
-        int status = cbStatusSetores22.getSelectedItem().toString().equalsIgnoreCase("Ativo") ? 1 : 0;
+        // Validar status selecionado
+        if (cbStatusSetores22.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione o status do setor!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int status = cbStatusSetores22.getSelectedItem()
+                .toString().equalsIgnoreCase("Ativo") ? 1 : 0;
 
         // Validar campos obrigatórios
         if (nome.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe o nome do setor!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe o nome do setor!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar tamanho do nome
         if (nome.length() > 45) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "O nome do setor deve possuir no máximo 45 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "O nome do setor deve possuir no máximo 45 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar tamanho da descrição
         if (descricao.length() > 200) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "A descrição deve possuir no máximo 200 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "A descrição deve possuir no máximo 200 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Chamar o controller
+        // Criar Model
+        Setores setor = new Setores();
+
+        setor.setNome(nome);
+        setor.setDescricao(descricao);
+        setor.setStatus(status);
+
+        // Cadastrar
         SetoresController controller = new SetoresController();
 
-        boolean sucesso = controller.cadastrar(
-            nome,
-            descricao,
-            status
-        );
+        controller.cadastrar(setor);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Setor cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposSetores();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o setor!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposSetores();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar setor: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar setor: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposSetores() {
     tfCodigoSetores.setText("");
@@ -410,6 +429,7 @@ private void limparCamposSetores() {
 
 }
 
+
 private void cadastrarCargo() {
 
     try {
@@ -418,147 +438,130 @@ private void cadastrarCargo() {
         String nome = tfNomeCargo.getText().trim();
         String descricao = tfDescricao.getText().trim();
 
-        // Capturar e converter os valores numéricos
-        double salarioBase = Double.parseDouble(
-            ftfSalarioBase.getText()
-        );
-
-        int cargaHoraria = Integer.parseInt(
-            ftfCargaHorariaSemanalh.getText().trim()
-        );
-
-        double adicionalPericulosidade = ftfAdicionalPericulocidade.getText().trim().isEmpty()
-            ? 0.0
-            : Double.parseDouble(ftfAdicionalPericulocidade.getText());
-
-        double adicionalInsalubridade = ftfAdicionalInsalubridade.getText().trim().isEmpty()
-            ? 0.0
-            : Double.parseDouble(ftfAdicionalInsalubridade.getText());
-
-        // Capturar o status
-        int status = chbCargoAtivo.isSelected() ? 1 : 0;
-
-        // Validar campos obrigatórios
-        if (nome.isEmpty() || ftfSalarioBase.getText().trim().isEmpty()
+        // Validar campos obrigatórios antes da conversão
+        if (nome.isEmpty()
+                || ftfSalarioBase.getText().trim().isEmpty()
                 || ftfCargaHorariaSemanalh.getText().trim().isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
+
+        // Converter valores numéricos
+        double salarioBase = Double.parseDouble(
+                ftfSalarioBase.getText().trim().replace(",", "."));
+
+        int cargaHoraria = Integer.parseInt(
+                ftfCargaHorariaSemanalh.getText().trim());
+
+        double adicionalPericulosidade =
+                ftfAdicionalPericulocidade.getText().trim().isEmpty()
+                ? 0.0
+                : Double.parseDouble(
+                        ftfAdicionalPericulocidade.getText().trim().replace(",", "."));
+
+        double adicionalInsalubridade =
+                ftfAdicionalInsalubridade.getText().trim().isEmpty()
+                ? 0.0
+                : Double.parseDouble(
+                        ftfAdicionalInsalubridade.getText().trim().replace(",", "."));
+
+        // Capturar status
+        int status = chbCargoAtivo.isSelected() ? 1 : 0;
 
         // Validar tamanho do nome
         if (nome.length() > 45) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "O nome do cargo deve possuir no máximo 45 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "O nome do cargo deve possuir no máximo 45 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar tamanho da descrição
         if (descricao.length() > 300) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "A descrição deve possuir no máximo 300 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "A descrição deve possuir no máximo 300 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar salário
         if (salarioBase <= 0) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe um salário-base válido!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe um salário-base válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar carga horária
         if (cargaHoraria <= 0) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe uma carga horária válida!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe uma carga horária válida!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Chamar o Controller
+        if (adicionalPericulosidade < 0 || adicionalInsalubridade < 0) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Os adicionais não podem ser negativos!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Criar Model
+        Cargos cargo = new Cargos();
+
+        cargo.setNome(nome);
+        cargo.setDescricao(descricao);
+        cargo.setSalarioBase(salarioBase);
+        cargo.setCargaHoraria(cargaHoraria);
+        cargo.setAdicionalPericulosidade(adicionalPericulosidade);
+        cargo.setAdicionalInsalubridade(adicionalInsalubridade);
+        cargo.setStatusCargo(status);
+
+        // Cadastrar
         CargosController controller = new CargosController();
 
-        boolean sucesso = controller.cadastrar(
-            nome,
-            descricao,
-            salarioBase,
-            cargaHoraria,
-            adicionalPericulosidade,
-            adicionalInsalubridade,
-            status,
-            0.0
-        );
+        controller.cadastrar(cargo);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Cargo cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposCargos();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o cargo!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposCargos();
 
     } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Verifique os valores numéricos informados!",
-            "Atenção",
-            JOptionPane.WARNING_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Verifique os valores numéricos informados!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar cargo: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar cargo: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposCargos() {
 
@@ -579,6 +582,7 @@ private void limparCamposCargos() {
     tfNomeCargo.requestFocus();
 }    
 
+
 private void cadastrarTurno() {
 
     try {
@@ -593,147 +597,118 @@ private void cadastrarTurno() {
         String intervaloInicio = ftfIntervaloInicio.getText().trim();
         String intervaloFinal = ftfIntervaloFim.getText().trim();
 
-        // Capturar a duração do turno
-        int duracaoTurno = Integer.parseInt(
-            ftfDuracaoTurno.getText().trim()
-        );
-
-        // Capturar o turno noturno
-        int turnoNoturno = cbTurno.isSelected() ? 1 : 0;
-
-        // Capturar o status
-        int status = cbStatusSetores.getSelectedItem()
-                .toString().equalsIgnoreCase("Ativo") ? 1 : 0;
+        String duracaoTexto = ftfDuracaoTurno.getText().trim();
 
         // Validar campos obrigatórios
         if (nome.isEmpty() || horaInicio.isEmpty()
                 || horaSaida.isEmpty() || intervaloInicio.isEmpty()
-                || intervaloFinal.isEmpty()
-                || ftfDuracaoTurno.getText().trim().isEmpty()) {
+                || intervaloFinal.isEmpty() || duracaoTexto.isEmpty()
+                || cbStatusSetores.getSelectedItem() == null) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar tamanho do nome
         if (nome.length() > 45) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "O nome do turno deve possuir no máximo 45 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "O nome do turno deve possuir no máximo 45 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar tamanho da descrição
         if (descricao.length() > 200) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "A descrição deve possuir no máximo 200 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "A descrição deve possuir no máximo 200 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Validar duração
+        // Converter duração
+        int duracaoTurno = Integer.parseInt(duracaoTexto);
+
         if (duracaoTurno <= 0) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe uma duração válida para o turno!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe uma duração válida para o turno!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar horários
         java.time.format.DateTimeFormatter formato =
-            java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+                java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 
         java.time.LocalTime.parse(horaInicio, formato);
         java.time.LocalTime.parse(horaSaida, formato);
         java.time.LocalTime.parse(intervaloInicio, formato);
         java.time.LocalTime.parse(intervaloFinal, formato);
 
-        // Chamar o Controller
+        // Capturar turno noturno e status
+        int turnoNoturno = cbTurno.isSelected() ? 1 : 0;
+
+        int status = cbStatusSetores.getSelectedItem()
+                .toString().equalsIgnoreCase("Ativo") ? 1 : 0;
+
+        // Criar Model
+        Turnos turno = new Turnos();
+
+        turno.setNome(nome);
+        turno.setDescricao(descricao);
+        turno.setHoraInicio(horaInicio);
+        turno.setHoraSaida(horaSaida);
+        turno.setIntervaloInicio(intervaloInicio);
+        turno.setIntervaloFinal(intervaloFinal);
+        turno.setDuracaoTurno(duracaoTurno);
+        turno.setTurnoNoturno(turnoNoturno);
+        turno.setStatus(status);
+
+        // Cadastrar
         TurnosController controller = new TurnosController();
 
-        boolean sucesso = controller.cadastrar(
-            nome,
-            descricao,
-            horaInicio,
-            horaSaida,
-            intervaloInicio,
-            intervaloFinal,
-            duracaoTurno,
-            turnoNoturno,
-            status
-        );
+        controller.cadastrar(turno);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Turno cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposTurnos();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o turno!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposTurnos();
 
     } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Informe uma duração válida para o turno!",
-            "Atenção",
-            JOptionPane.WARNING_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Informe uma duração válida para o turno!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
 
     } catch (java.time.format.DateTimeParseException e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Informe os horários no formato HH:mm (exemplo: 07:00)!",
-            "Atenção",
-            JOptionPane.WARNING_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Informe os horários no formato HH:mm (exemplo: 07:00)!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar turno: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar turno: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposTurnos() {
 
@@ -765,6 +740,7 @@ private void limparCamposTurnos() {
 }
 
 
+
 private void cadastrarEscala() {
 
     try {
@@ -773,7 +749,7 @@ private void cadastrarEscala() {
         String periodoInicial = ftfPeriodoInicio.getText().trim();
         String periodoFinal = ftfPeriodoFim.getText().trim();
 
-        // Capturar os IDs das ComboBoxes
+        // Capturar os IDs selecionados
         Integer idFuncionario = obterIdSelecionado(cbFuncionarioEscala);
         Integer idSetor = obterIdSelecionado(cbSetorEscala);
         Integer idTurno = obterIdSelecionado(cbTurnoEscala);
@@ -784,61 +760,46 @@ private void cadastrarEscala() {
                 || idSetor == null
                 || idTurno == null) {
 
-            JOptionPane.showMessageDialog(
-                    this,
+            JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos obrigatórios!",
                     "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Criar o Controller
+        // Criar Model
+        Escala escala = new Escala();
+
+        escala.setPeriodoInicial(periodoInicial);
+        escala.setPeriodoFinal(periodoFinal);
+        escala.setFuncionario_idFuncionario(idFuncionario);
+        escala.setFuncionario_setores_idsetores(idSetor);
+        escala.setFuncionario_turnos_idturnos(idTurno);
+
+        // Cadastrar
         EscalaController controller = new EscalaController();
 
-        // Cadastrar escala
-        boolean sucesso = controller.cadastrar(
-                periodoInicial,
-                periodoFinal,
-                idFuncionario,
-                idSetor,
-                idTurno
-        );
+        controller.cadastrar(escala);
 
-        if (sucesso) {
+        JOptionPane.showMessageDialog(this,
+                "Escala cadastrada com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Escala cadastrada com sucesso!",
-                    "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            // Limpar os campos
-            limparCamposEscala();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Não foi possível cadastrar a escala!",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+        // Limpar os campos
+        limparCamposEscala();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar escala: " + e.getMessage(),
                 "Erro",
-                JOptionPane.ERROR_MESSAGE
-        );
+                JOptionPane.ERROR_MESSAGE);
 
         e.printStackTrace();
     }
 }
+
 
 
 private void limparCamposEscala() {
@@ -876,6 +837,21 @@ private Integer obterIdSelecionado(JComboBox<String> cb) {
     return ids.get(indice);
 }
 
+private int buscarIdFuncionario(String nomeFuncionario) throws SQLException {
+
+    FuncionarioController controller = new FuncionarioController();
+
+    List<Funcionario> funcionarios = controller.listar();
+
+    for (Funcionario funcionario : funcionarios) {
+
+        if (funcionario.getNome().equalsIgnoreCase(nomeFuncionario)) {
+            return funcionario.getIdFuncionario();
+        }
+    }
+
+    return -1;
+}
 
 private void cadastrarPonto() {
 
@@ -892,85 +868,105 @@ private void cadastrarPonto() {
                 || cbSetorEscala1.getSelectedItem() == null
                 || cbTurnoPonto.getSelectedItem() == null) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar justificativa
         if (justificativa.length() > 200) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "A justificativa deve possuir no máximo 200 caracteres!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "A justificativa deve possuir no máximo 200 caracteres!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Recuperar os IDs dos registros selecionados
-        // Substitua estas linhas pelos métodos do seu Model/Controller
-        int idFuncionario = 1/* ID do funcionário selecionado */;
-        int idCargo = 1 /* ID do cargo do funcionário */;
-        int idSetor = 1 /* ID do setor selecionado */;
-        int idTurno = 1 /* ID do turno selecionado */;
+        // Recuperar nomes selecionados
+        String nomeFuncionario =
+                cbFuncionarioEscala1.getSelectedItem().toString();
+
+        String nomeSetor =
+                cbSetorEscala1.getSelectedItem().toString();
+
+        String nomeTurno =
+                cbTurnoPonto.getSelectedItem().toString();
+
+        // Buscar IDs reais
+        int idFuncionario = buscarIdFuncionario(nomeFuncionario);
+        int idSetor = buscarIdSetor(nomeSetor);
+        int idTurno = buscarIdTurno(nomeTurno);
+
+        // Buscar cargo vinculado ao funcionário
+        FuncionarioController funcionarioController =
+                new FuncionarioController();
+
+        Funcionario funcionario =
+                funcionarioController.buscarPorId(idFuncionario);
+
+        if (funcionario == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idCargo = funcionario.getCargos_idcargos();
+
+        // Validar IDs
+        if (idFuncionario <= 0 || idCargo <= 0
+                || idSetor <= 0 || idTurno <= 0) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível identificar os dados selecionados!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         // Arquivo opcional
         byte[] arquivo = null;
 
-        // Chamar o Controller
+        // Criar Model
+        Ponto ponto = new Ponto();
+
+        ponto.setData(data);
+        ponto.setHorario(horario);
+        ponto.setJustificativa(justificativa);
+        ponto.setArquivo(arquivo);
+        ponto.setFuncionario_idFuncionario(idFuncionario);
+        ponto.setFuncionario_cargos_idcargos(idCargo);
+        ponto.setFuncionario_setores_idsetores(idSetor);
+        ponto.setFuncionario_turnos_idturnos(idTurno);
+
+        // Cadastrar
         PontoController controller = new PontoController();
 
-        boolean sucesso = controller.cadastrar(
-            data,
-            horario,
-            justificativa,
-            arquivo,
-            idFuncionario,
-            idCargo,
-            idSetor,
-            idTurno
-        );
+        controller.cadastrar(ponto);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Registro de ponto cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposPonto();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível registrar o ponto!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposPonto();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao registrar ponto: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao registrar ponto: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposPonto() {
 
@@ -986,6 +982,7 @@ private void limparCamposPonto() {
 
 }
 
+
 private void cadastrarAfastamento() {
 
     try {
@@ -996,78 +993,121 @@ private void cadastrarAfastamento() {
         String fim = ftfPeriodoFimBD.getText().trim();
         String situacao = cbSituaçaoFerias.getSelectedItem().toString();
 
-        // Data do registro como String
+        // Data do registro
         String dataRegistro = java.time.LocalDate.now().toString();
 
         // Validar campos obrigatórios
-        if (tipo.isEmpty() || inicio.isEmpty() || fim.isEmpty()
-                || situacao.isEmpty()) {
+        if (cbBDferias.getSelectedItem() == null
+                || cbFuncionarioInfracao.getSelectedItem() == null
+                || cbSituaçaoFerias.getSelectedItem() == null
+                || inicio.isEmpty() || fim.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Identificadores do funcionário
-        // Substituir pelos IDs reais do funcionário selecionado
-        int idFuncionario = 0;
-        int idCargo = 0;
-        int idSetor = 0;
-        int idTurno = 0;
+        // Converter e validar datas
+        java.time.LocalDate dataInicio =
+                java.time.LocalDate.parse(inicio);
 
-        // Quantidade de dias
-        String dias = "0";
+        java.time.LocalDate dataFim =
+                java.time.LocalDate.parse(fim);
 
-        // Chamar o Controller
-        AfastamentosController controller = new AfastamentosController();
+        if (dataFim.isBefore(dataInicio)) {
 
-        boolean sucesso = controller.cadastrar(
-            tipo,
-            inicio,
-            fim,
-            dias,
-            situacao,
-            dataRegistro,
-            idFuncionario,
-            idCargo,
-            idSetor,
-            idTurno
-        );
+            JOptionPane.showMessageDialog(this,
+                    "A data final não pode ser anterior à data inicial!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        if (sucesso) {
+        // Buscar funcionário selecionado
+        String nomeFuncionario =
+                cbFuncionarioInfracao.getSelectedItem().toString();
 
-            JOptionPane.showMessageDialog(
-                this,
+        int idFuncionario = buscarIdFuncionario(nomeFuncionario);
+
+        if (idFuncionario <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Buscar dados do funcionário
+        FuncionarioController funcionarioController =
+                new FuncionarioController();
+
+        Funcionario funcionario =
+                funcionarioController.buscarPorId(idFuncionario);
+
+        if (funcionario == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível localizar os dados do funcionário!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int idCargo = funcionario.getCargos_idcargos();
+        int idSetor = funcionario.getSetores_idsetores();
+        int idTurno = funcionario.getTurnos_idturnos();
+
+        // Calcular quantidade de dias
+        long quantidadeDias =
+                java.time.temporal.ChronoUnit.DAYS.between(
+                        dataInicio, dataFim) + 1;
+
+        String dias = String.valueOf(quantidadeDias);
+
+        // Criar Model
+        Afastamentos afastamento = new Afastamentos();
+
+        afastamento.setTipo(tipo);
+        afastamento.setInicio(inicio);
+        afastamento.setFinalAfastamento(fim);
+        afastamento.setDias(dias);
+        afastamento.setSituacao(situacao);
+        afastamento.setDataRegistro(dataRegistro);
+        afastamento.setFuncionario_idFuncionario(idFuncionario);
+        afastamento.setFuncionario_cargos_idcargos(idCargo);
+        afastamento.setFuncionario_setores_idsetores(idSetor);
+        afastamento.setFuncionario_turnos_idturnos(idTurno);
+
+        // Cadastrar
+        AfastamentosController controller =
+                new AfastamentosController();
+
+        controller.cadastrar(afastamento);
+
+        JOptionPane.showMessageDialog(this,
                 "Afastamento cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-        } else {
+    } catch (java.time.format.DateTimeParseException e) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o afastamento!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        JOptionPane.showMessageDialog(this,
+                "Informe as datas no formato correto!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar afastamento: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar afastamento: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposAfastamento() {
     ftfInicioPeriodo.setText("");
@@ -1078,6 +1118,7 @@ private void limparCamposAfastamento() {
     cbFuncionarioInfracao.setSelectedIndex(0);
 }
 
+
 private void cadastrarFerias() {
 
     try {
@@ -1085,6 +1126,7 @@ private void cadastrarFerias() {
         // Capturar os dados dos campos
         String inicio = ftfPeriodoInicioBD.getText().trim();
         String fim = ftfPeriodoFimBD.getText().trim();
+
         String situacao = cbSituaçaoFerias.getSelectedItem() != null
                 ? cbSituaçaoFerias.getSelectedItem().toString()
                 : "";
@@ -1093,56 +1135,75 @@ private void cadastrarFerias() {
         if (inicio.isEmpty() || fim.isEmpty() || situacao.isEmpty()) {
 
             JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
             );
-
             return;
         }
 
-        // Chamar o controller
-        FeriasController controller = new FeriasController();
+        // Validar período
+        java.time.LocalDate dataInicio =
+                java.time.LocalDate.parse(inicio);
 
-        boolean sucesso = controller.cadastrar(
-            inicio,
-            fim,
-            situacao
-        );
+        java.time.LocalDate dataFim =
+                java.time.LocalDate.parse(fim);
 
-        if (sucesso) {
+        if (dataFim.isBefore(dataInicio)) {
 
             JOptionPane.showMessageDialog(
+                    this,
+                    "A data final não pode ser anterior à data inicial!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // Criar Model
+        Ferias ferias = new Ferias();
+
+        ferias.setInicio(inicio);
+        ferias.setFinalFerias(fim);
+        ferias.setSituacao(situacao);
+
+        // Cadastrar
+        FeriasController controller = new FeriasController();
+
+        controller.cadastrar(ferias);
+
+        JOptionPane.showMessageDialog(
                 this,
                 "Férias cadastradas com sucesso!",
                 "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE
-            );
+        );
 
-            limparCamposFerias();
+        limparCamposFerias();
 
-        } else {
+    } catch (java.time.format.DateTimeParseException e) {
 
-            JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 this,
-                "Não foi possível cadastrar as férias!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+                "Informe as datas no formato correto!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
 
     } catch (Exception e) {
 
         JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar férias: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
+                this,
+                "Erro ao cadastrar férias: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
         );
 
+        e.printStackTrace();
     }
 }
+
 
 private void limparCamposFerias() {
    ftfInicioPeriodo.setText("");
@@ -1153,6 +1214,7 @@ private void limparCamposFerias() {
     cbSituaçaoFerias.setSelectedIndex(0);
 }
 
+
 private void registrarMeta() {
 
     try {
@@ -1162,7 +1224,7 @@ private void registrarMeta() {
         String fimTxt = ftfPeriodoFimMetas.getText().trim();
         String metaTxt = txMetasPrevistas.getText().trim().replace(",", ".");
 
-        // Recuperar os IDs conforme a opção selecionada
+        // Recuperar os IDs selecionados
         Integer idFuncionario = getIdSelecionado(cbFuncionarioMetas);
         Integer idCargo = getIdSelecionado(cbCargoRelatorio);
         Integer idSetor = getIdSelecionado(cbSetorMetas);
@@ -1178,13 +1240,10 @@ private void registrarMeta() {
                 || idSetor == null
                 || idTurno == null) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -1197,125 +1256,96 @@ private void registrarMeta() {
         LocalDate fim;
 
         try {
-
             inicio = LocalDate.parse(inicioTxt, fmt);
             fim = LocalDate.parse(fimTxt, fmt);
 
         } catch (DateTimeParseException ex) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe datas válidas no formato dd/MM/aaaa!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe datas válidas no formato dd/MM/aaaa!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar período
         if (fim.isBefore(inicio)) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "O período final não pode ser anterior ao inicial!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "O período final não pode ser anterior ao inicial!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Converter a meta prevista do JTextField para double
+        // Converter meta prevista
         double metaPrevista;
 
         try {
-
             metaPrevista = Double.parseDouble(metaTxt);
 
         } catch (NumberFormatException ex) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe uma meta numérica válida!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe uma meta numérica válida!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Validar valor da meta
+        // Validar meta
         if (!Double.isFinite(metaPrevista) || metaPrevista <= 0) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "A meta deve ser maior que zero!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "A meta deve ser maior que zero!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Valores padrão
+        // Valores iniciais
         String tipo = cbTipoMeta.getSelectedItem().toString();
-
         double resultadoAtual = 0.0;
         double porcentagemAtingido = 0.0;
-
         String situacao = "Em andamento";
 
-        // Chamar o Controller
+        // Criar Model
+        Metas meta = new Metas();
+
+        meta.setTipo(tipo);
+        meta.setPeriodoInicial(inicio.toString());
+        meta.setPeriodoFinal(fim.toString());
+        meta.setMetaPrevista(metaPrevista);
+        meta.setResultadoAtual(resultadoAtual);
+        meta.setPorcentagemAtingida(porcentagemAtingido);
+        meta.setSituacao(situacao);
+        meta.setFuncionario_idFuncionario(idFuncionario);
+        
+       
+
+        // Cadastrar
         MetasController controller = new MetasController();
 
-        boolean sucesso = controller.cadastrar(
-            tipo,
-            inicio.format(fmt),
-            fim.format(fmt),
-            metaPrevista,
-            resultadoAtual,
-            porcentagemAtingido,
-            situacao,
-            idFuncionario,
-            idCargo,
-            idSetor,
-            idTurno
-        );
+        controller.cadastrar(meta);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Meta registrada com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposMeta();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível registrar a meta!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposMeta();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao registrar meta: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao registrar meta: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
         e.printStackTrace();
     }
 }
+
 
 private void limparCamposMeta() {
     ftfPeriodoInicioHistorico1.setText(""); 
@@ -1400,13 +1430,20 @@ private void erroCarregar(String lista, Exception e) {
 
 private void carregarCargos() {
     try {
-        List<Map<String, Object>> lista = new CargosController().listar();
+
+        CargosController controller = new CargosController();
+        List<Cargos> lista = controller.listar();
 
         for (JComboBox<String> cb : List.of(cbCargo, cbCargoRelatorio)) {
-            preencherCombo(cb, lista,
-                    m -> ((Number) m.get("idcargos")).intValue(),
-                    m -> String.valueOf(m.get("nome")));
+
+            cb.removeAllItems();
+            cb.addItem("Selecione");
+
+            for (Cargos cargo : lista) {
+                cb.addItem(cargo.getNome());
+            }
         }
+
     } catch (SQLException e) {
         erroCarregar("cargos", e);
     }
@@ -1414,17 +1451,29 @@ private void carregarCargos() {
  
 private void carregarSetores() {
     try {
-        List<Map<String, Object>> lista = new SetoresController().listar();
 
-        for (JComboBox<String> cb : List.of(cbSetorCargos, cbSetorCargos1,
-                cbSetorEscala, cbSetorEscala1, cbSetorInfracoa,
+        SetoresController controller = new SetoresController();
+        List<Setores> lista = controller.listar();
+
+        for (JComboBox<String> cb : List.of(
+                cbSetorCargos,
+                cbSetorCargos1,
+                cbSetorEscala,
+                cbSetorEscala1,
+                cbSetorInfracoa,
                 cbSetorFuncionarios,
-                cbSetorHistorico, cbSetorMetas,
+                cbSetorHistorico,
+                cbSetorMetas,
                 cbSetorRelatorio)) {
-            preencherCombo(cb, lista,
-                    m -> ((Number) m.get("idsetores")).intValue(),
-                    m -> String.valueOf(m.get("nome")));
+
+            cb.removeAllItems();
+            cb.addItem("Selecione");
+
+            for (Setores setor : lista) {
+                cb.addItem(setor.getNome());
+            }
         }
+
     } catch (SQLException e) {
         erroCarregar("setores", e);
     }
@@ -1432,26 +1481,64 @@ private void carregarSetores() {
  
 private void carregarTiposMeta() {
 
-    List<String> lista = new MetasController().listarTiposMeta();
+    try {
 
-    cbTipoMeta.removeAllItems();
+        MetasController controller = new MetasController();
+        List<Metas> lista = controller.listar();
 
-    for (String tipo : lista) {
-        cbTipoMeta.addItem(tipo);
+        cbTipoMeta.removeAllItems();
+        cbTipoMeta.addItem("Selecione");
+
+        for (Metas meta : lista) {
+
+            String tipo = meta.getTipo();
+
+            boolean existe = false;
+
+            for (int i = 0; i < cbTipoMeta.getItemCount(); i++) {
+                if (cbTipoMeta.getItemAt(i).equalsIgnoreCase(tipo)) {
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe && tipo != null && !tipo.trim().isEmpty()) {
+                cbTipoMeta.addItem(tipo);
+            }
+        }
+
+    } catch (SQLException e) {
+        erroCarregar("tipos de metas", e);
     }
 }
 
 
 private void carregarFuncionarios() {
-    List<String[]> lista = new FuncionarioController().listar();
 
-    for (JComboBox<String> cb : List.of(cbFuncionarioBDFerias,
-            cbFuncionarioEscala, cbFuncionarioEscala1, cbFuncionarioInfracao,
-            cbFuncionarioHistorico, cbFuncionarioMetas,
-            cbFuncionarioRelatorio)) {
-        preencherCombo(cb, lista,
-                f -> Integer.parseInt(f[0]),
-                f -> f[1]);
+    try {
+
+        FuncionarioController controller = new FuncionarioController();
+        List<Funcionario> lista = controller.listar();
+
+        for (JComboBox<String> cb : List.of(
+                cbFuncionarioBDFerias,
+                cbFuncionarioEscala,
+                cbFuncionarioEscala1,
+                cbFuncionarioInfracao,
+                cbFuncionarioHistorico,
+                cbFuncionarioMetas,
+                cbFuncionarioRelatorio)) {
+
+            cb.removeAllItems();
+            cb.addItem("Selecione");
+
+            for (Funcionario funcionario : lista) {
+                cb.addItem(funcionario.getNome());
+            }
+        }
+
+    } catch (SQLException e) {
+        erroCarregar("funcionários", e);
     }
 }
 

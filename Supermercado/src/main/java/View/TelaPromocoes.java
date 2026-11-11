@@ -6,6 +6,7 @@ import Control.PromocaoController;
 import Model.Cupom;
 import Model.Promocao;
 import Model.Usuario;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,105 +27,102 @@ public class TelaPromocoes extends javax.swing.JFrame {
     private Usuario usuario;
     private int idCupomSelecionado = -1;
     
-    public TelaProdutos(Usuario usuario) {
-        initComponents();
-          
-        this.usuario= usuario;
-        this.menu=MenuPadrao.instalar(
+    public TelaPromocoes(Usuario usuario) {
+    initComponents();
+    listarCupons();
+    listarPromocoes();
+    
+
+    this.usuario = usuario;
+
+    this.menu = MenuPadrao.instalar(
         this,
         usuario,
         "produtos",
         this::navegar,
         this::dispose
     );
-        
-        this.setExtendedState(TelaProdutos.MAXIMIZED_BOTH);
-     
-    }
 
-     // MÉTODO DE ACESSAR AS TELAS
+    this.setExtendedState(TelaPromocoes.MAXIMIZED_BOTH);
+}
+
+
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -139,10 +137,761 @@ public void navegar(String idtela) {
     }
 }
 
+// ------------------------ LISTAR --------------------------------------------------------------
+
+
+// MÉTODO DE LISTAR CUPONS
+private void listarCupons() {
+    try {
+        CupomController controller = new CupomController();
+
+        List<Cupom> lista = controller.listar();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCD.getModel();
+
+        // Garantir que a tabela tenha as 12 colunas necessárias
+        modelo.setColumnIdentifiers(new Object[]{
+            "ID",
+            "Código",
+            "Tipo de desconto",
+            "Valor do desconto",
+            "Valor mínimo",
+            "Quantidade máxima",
+            "Limite por cliente",
+            "Tipo de uso",
+            "Data inicial",
+            "Data final",
+            "Observação",
+            "ID da promoção"
+        });
+
+        modelo.setRowCount(0);
+
+        for (Cupom cupom : lista) {
+            modelo.addRow(new Object[]{
+                cupom.getIdcupom(),
+                cupom.getCodigoCupom(),
+                cupom.getTipoDesconto(),
+                cupom.getValorDesconto(),
+                cupom.getValorMinimoCompra(),
+                cupom.getQttMaximaUso(),
+                cupom.getLimitePorCliente(),
+                cupom.getTipoUso(),
+                cupom.getDataInicio(),
+                cupom.getDataFinal(),
+                cupom.getObservacao(),
+                cupom.getPromocao_idpromocao()
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar cupons: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+// MÉTODO DE LISTAR PROMOÇÕES
+private void listarPromocoes() {
+    try {
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> lista = controller.listar();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbTabelaCP.getModel();
+
+        modelo.setRowCount(0);
+
+        // Limpar ComboBox
+        cbxPromocoesVinculada.removeAllItems();
+
+        // Opção inicial
+        cbxPromocoesVinculada.addItem("Selecione uma promoção");
+
+        for (Promocao promocao : lista) {
+
+            // Preencher tabela
+            modelo.addRow(new Object[]{
+                promocao.getIdpromocao(),
+                promocao.getNome(),
+                promocao.getTipo(),
+                promocao.getStatus(),
+                promocao.getDataInicio(),
+                promocao.getDataFinal(),
+                promocao.getRegras(),
+                promocao.getDesconto(),
+                promocao.getQttMinima()
+            });
+
+            // Preencher ComboBox
+            if (promocao.getStatus() == 1) {
+                cbxPromocoesVinculada.addItem(promocao.getNome());
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar promoções: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+// ---------------- LIMPAR -----------------------------------------------------------------
+
+private void limparCamposCupom() {
+
+    tfCodigoCupomCD.setText("");
+    tfDataInicioCD.setText("");
+    tfDataFimCD.setText("");
+
+    cbxTipoDescontoCD.setSelectedIndex(-1);
+    cbxTipoUsoCD.setSelectedIndex(-1);
+
+    spnValorDescontoCD.setValue(0);
+    spnValorMinimoCD.setValue(0);
+    spnQtdMaxUsosCD.setValue(0);
+    spnLimiteClienteCD.setValue(0);
+}
+private void limparCamposPromocao() {
+
+    txDNdaPromocaoCP.setText("");
+
+    cbxProdutoCategoriaCP.setSelectedIndex(-1);
+    cbxTipoPromocaoCP.setSelectedIndex(-1);
+
+    ftfDataInicioCP.setValue(null);
+    ftfDataFimCP.setValue(null);
+
+    spnDescontoCP.setValue(0);
+    spnQtdeMinimaCP.setValue(0);
+
+    rbtnStatusAtivoCP.setSelected(false);
+    rbtnStatusInativoCP.setSelected(false);
+}
+
+// ------------------------------ CADASTRAR ------------------------------------------------
+private int buscarIdPromocao(String nomePromocao) throws SQLException {
+
+    PromocaoController controller = new PromocaoController();
+
+    List<Promocao> lista = controller.listar();
+
+    for (Promocao promocao : lista) {
+
+        if (promocao.getNome().equalsIgnoreCase(nomePromocao)) {
+            return promocao.getIdpromocao();
+        }
+    }
+
+    return -1;
+}
+
+private void cadastrarCupom() {
+
+    try {
+
+        // Capturar os dados
+        String codigoCupom = tfCodigoCupomCD.getText().trim();
+
+        String tipoDesconto = cbxTipoDescontoCD.getSelectedItem() != null
+                ? cbxTipoDescontoCD.getSelectedItem().toString()
+                : "";
+
+        String promocaoVinculada = cbxPromocoesVinculada.getSelectedItem() != null
+                ? cbxPromocoesVinculada.getSelectedItem().toString()
+                : "";
+
+        double valorDesconto = Double.parseDouble(
+                spnValorDescontoCD.getValue().toString());
+
+        double valorMinimoCompra = Double.parseDouble(
+                spnValorMinimoCD.getValue().toString());
+
+        int qtdMaximaUso = Integer.parseInt(
+                spnQtdMaxUsosCD.getValue().toString());
+
+        int limitePorCliente = Integer.parseInt(
+                spnLimiteClienteCD.getValue().toString());
+
+        String tipoUso = cbxTipoUsoCD.getSelectedItem() != null
+                ? cbxTipoUsoCD.getSelectedItem().toString()
+                : "";
+
+        String dataInicio = tfDataInicioCD.getText().trim();
+        String dataFinal = tfDataFimCD.getText().trim();
+
+        // Validar campos
+        if (codigoCupom.isEmpty()
+                || tipoDesconto.isEmpty()
+                || tipoUso.isEmpty()
+                || promocaoVinculada.isEmpty()
+                || dataInicio.isEmpty()
+                || dataFinal.isEmpty()
+                || valorDesconto <= 0
+                || valorMinimoCompra < 0
+                || qtdMaximaUso <= 0
+                || limitePorCliente <= 0) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios corretamente!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
+        // Buscar ID da promoção selecionada
+        int idPromocao = buscarIdPromocao(promocaoVinculada);
+
+        if (idPromocao == -1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Promoção não encontrada!");
+
+            return;
+        }
+
+        // Criar objeto Cupom
+        Cupom cupom = new Cupom();
+
+        cupom.setCodigoCupom(codigoCupom);
+        cupom.setTipoDesconto(tipoDesconto);
+        cupom.setValorDesconto(valorDesconto);
+        cupom.setValorMinimoCompra(valorMinimoCompra);
+        cupom.setQttMaximaUso(qtdMaximaUso);
+        cupom.setLimitePorCliente(limitePorCliente);
+        cupom.setTipoUso(tipoUso);
+        cupom.setPromocao_idpromocao(idPromocao);
+        cupom.setDataInicio(dataInicio);
+        cupom.setDataFinal(dataFinal);
+
+        // Cadastrar
+        CupomController controller = new CupomController();
+
+        boolean sucesso = controller.cadastrar(cupom);
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Cupom cadastrado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            listarCupons();
+            limparCamposCupom();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível cadastrar o cupom!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Informe valores numéricos válidos!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar cupom: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        e.printStackTrace();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar cupom: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        e.printStackTrace();
+    }
+}
+
   
+
+
+private void cadastrarPromocao() {
+
+    try {
+
+        // Capturar os dados
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem() != null
+                ? cbxTipoPromocaoCP.getSelectedItem().toString()
+                : "";
+
+        int status = rbtnStatusAtivoCP.isSelected() ? 1 : 0;
+
+        String categoria = cbxProdutoCategoriaCP.getSelectedItem() != null
+                ? cbxProdutoCategoriaCP.getSelectedItem().toString()
+                : "";
+
+        int qtdMinima = Integer.parseInt(
+                spnQtdeMinimaCP.getValue().toString());
+
+        int desconto = Integer.parseInt(
+                spnDescontoCP.getValue().toString());
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = "";
+
+        // Validar campos
+        if (nome.isEmpty()
+                || tipo.isEmpty()
+                || categoria.isEmpty()
+                || dataInicio.isEmpty()
+                || dataFinal.isEmpty()
+                || desconto <= 0
+                || qtdMinima <= 0
+                || (!rbtnStatusAtivoCP.isSelected()
+                && !rbtnStatusInativoCP.isSelected())) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios corretamente!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
+        // Criar objeto Promocao
+        Promocao promocao = new Promocao();
+
+        promocao.setNome(nome);
+        promocao.setTipo(tipo);
+        promocao.setStatus(status);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFinal(dataFinal);
+        promocao.setRegras(regras);
+        promocao.setDesconto(desconto);
+        promocao.setQttMinima(qtdMinima);
+
+        // Cadastrar
+        PromocaoController controller = new PromocaoController();
+
+        controller.cadastrar(promocao);
+
+        JOptionPane.showMessageDialog(this,
+                "Promoção cadastrada com sucesso!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+
+        listarPromocoes();
+        limparCamposPromocao();
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Informe valores numéricos válidos!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE);
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar promoção: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        e.printStackTrace();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar promoção: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        e.printStackTrace();
+    }
+}
+
+
+ 
+//======================PREENCHER CAMPOS====================================//
+
+private void preencherCamposPromocao() {
+
+    int linha = tbTabelaCP.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    // Identificar a linha selecionada
+    int linhaModelo = tbTabelaCP.convertRowIndexToModel(linha);
+
+    // Preencher nome
+    txDNdaPromocaoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Preencher tipo
+    cbxTipoPromocaoCP.setSelectedItem(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Preencher status
+    Object valorStatus = tbTabelaCP.getModel().getValueAt(linhaModelo, 3);
+
+    boolean ativo = Boolean.parseBoolean(valorStatus.toString());
+
+    rbtnStatusAtivoCP.setSelected(ativo);
+    rbtnStatusInativoCP.setSelected(!ativo);
+
+    // Preencher datas
+    ftfDataInicioCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 4).toString()
+    );
+
+    ftfDataFimCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 5).toString()
+    );
+
+    // Preencher regras e observações
+    txtaRegrasUsoCP.setText(
+            tbTabelaCP.getModel().getValueAt(linhaModelo, 6).toString()
+    );
+}
+
+private void preencherCamposCupom() {
+
+    int linha = tbTabelaCD.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    int linhaModelo = tbTabelaCD.convertRowIndexToModel(linha);
     
-    
-    
+    idCupomSelecionado = Integer.parseInt(
+    tbTabelaCD.getModel().getValueAt(linhaModelo, 0).toString()
+);
+
+    // Código do cupom
+    tfCodigoCupomCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 1).toString()
+    );
+
+    // Tipo de desconto
+    cbxTipoDescontoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 2).toString()
+    );
+
+    // Valor do desconto
+    spnValorDescontoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 3).toString()
+            )
+    );
+
+    // Valor mínimo da compra
+    spnValorMinimoCD.setValue(
+            Double.parseDouble(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 4).toString()
+            )
+    );
+
+    // Quantidade máxima de usos
+    spnQtdMaxUsosCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 5).toString()
+            )
+    );
+
+    // Limite por cliente
+    spnLimiteClienteCD.setValue(
+            Integer.parseInt(
+                    tbTabelaCD.getModel().getValueAt(linhaModelo, 6).toString()
+            )
+    );
+
+    // Tipo de uso
+    cbxTipoUsoCD.setSelectedItem(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 7).toString()
+    );
+
+    // Data de início
+    tfDataInicioCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 8).toString()
+    );
+
+    // Data final
+    tfDataFimCD.setText(
+            tbTabelaCD.getModel().getValueAt(linhaModelo, 9).toString()
+    );
+
+    // Promoção vinculada pelo ID
+    try {
+
+        String idPromocao = tbTabelaCD.getModel()
+                .getValueAt(linhaModelo, 11).toString();
+
+        PromocaoController controller = new PromocaoController();
+
+        List<Promocao> promocoes = controller.listar();
+
+        for (Promocao promocao : promocoes) {
+
+            if (String.valueOf(promocao.getIdpromocao()).equals(idPromocao)) {
+
+                cbxPromocoesVinculada.setSelectedItem(promocao.getNome());
+                break;
+            }
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar promoção vinculada: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+
+private void editarCupom() {
+
+    if (idCupomSelecionado == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Selecione um cupom na tabela para editar.");
+        return;
+    }
+
+    try {
+        CupomController controller = new CupomController();
+
+        // Buscar o cupom original
+        Cupom cupomOriginal = controller.buscarPorId(
+                idCupomSelecionado);
+
+        if (cupomOriginal == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Cupom não encontrado.");
+            return;
+        }
+
+        // Criar objeto Cupom
+        Cupom cupom = new Cupom();
+
+        cupom.setIdcupom(idCupomSelecionado);
+
+        cupom.setCodigoCupom(
+                tfCodigoCupomCD.getText().trim());
+
+        cupom.setTipoDesconto(
+                cbxTipoDescontoCD.getSelectedItem().toString());
+
+        cupom.setValorDesconto(
+                Double.parseDouble(
+                        spnValorDescontoCD.getValue().toString()));
+
+        cupom.setValorMinimoCompra(
+                Double.parseDouble(
+                        spnValorMinimoCD.getValue().toString()));
+
+        cupom.setQttMaximaUso(
+                Integer.parseInt(
+                        spnQtdMaxUsosCD.getValue().toString()));
+
+        cupom.setLimitePorCliente(
+                Integer.parseInt(
+                        spnLimiteClienteCD.getValue().toString()));
+
+        cupom.setTipoUso(
+                cbxTipoUsoCD.getSelectedItem().toString());
+
+        cupom.setDataInicio(
+                tfDataInicioCD.getText().trim());
+
+        cupom.setDataFinal(
+                tfDataFimCD.getText().trim());
+
+        // Preservar a observação original
+        cupom.setObservacao(
+                cupomOriginal.getObservacao());
+
+        // Recuperar a promoção selecionada
+        if (cbxPromocoesVinculada.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma promoção.");
+            return;
+        }
+
+        String nomePromocao = cbxPromocoesVinculada
+                .getSelectedItem().toString();
+
+        int idPromocao = -1;
+
+        PromocaoController promocaoController =
+                new PromocaoController();
+
+        for (Promocao promocao : promocaoController.listar()) {
+
+            if (promocao.getNome().equals(nomePromocao)) {
+                idPromocao = promocao.getIdpromocao();
+                break;
+            }
+        }
+
+        if (idPromocao == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma promoção válida.");
+            return;
+        }
+
+        cupom.setPromocao_idpromocao(idPromocao);
+
+        // Atualizar cupom
+        if (controller.atualizar(cupom)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Cupom atualizado com sucesso!");
+
+            idCupomSelecionado = -1;
+
+            listarCupons();
+            limparCamposCupom();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível atualizar o cupom.");
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Informe valores numéricos válidos.");
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar cupom: " + e.getMessage());
+
+        e.printStackTrace();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar cupom: " + e.getMessage());
+
+        e.printStackTrace();
+    }
+}
+
+
+private void editarPromocao() {
+
+    int linhaSelecionada = tbTabelaCP.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Selecione uma promoção para editar.");
+        return;
+    }
+
+    try {
+
+        // Capturar o ID da promoção selecionada
+        int linhaModelo = tbTabelaCP.convertRowIndexToModel(linhaSelecionada);
+
+        int idPromocao = Integer.parseInt(
+                tbTabelaCP.getModel().getValueAt(linhaModelo, 0).toString()
+        );
+
+        // Capturar os dados dos campos
+        String nome = txDNdaPromocaoCP.getText().trim();
+
+        String tipo = cbxTipoPromocaoCP.getSelectedItem() != null
+                ? cbxTipoPromocaoCP.getSelectedItem().toString()
+                : "";
+
+        int status = rbtnStatusAtivoCP.isSelected() ? 1 : 0;
+
+        String dataInicio = ftfDataInicioCP.getText().trim();
+
+        String dataFinal = ftfDataFimCP.getText().trim();
+
+        String regras = txtaRegrasUsoCP.getText().trim();
+
+        // Validar campos
+        if (nome.isEmpty() || tipo.isEmpty()
+                || dataInicio.isEmpty() || dataFinal.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        // Buscar os dados atuais
+        PromocaoController controller = new PromocaoController();
+
+        Promocao promocao = controller.buscarPorId(idPromocao);
+
+        if (promocao == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Promoção não encontrada.");
+            return;
+        }
+
+        // Atualizar os dados alterados
+        promocao.setIdpromocao(idPromocao);
+        promocao.setNome(nome);
+        promocao.setTipo(tipo);
+        promocao.setStatus(status);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFinal(dataFinal);
+        promocao.setRegras(regras);
+
+        // Salvar no banco
+        controller.atualizar(promocao);
+
+        JOptionPane.showMessageDialog(this,
+                "Promoção atualizada com sucesso!");
+
+        listarPromocoes();
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar promoção: " + e.getMessage());
+
+        e.printStackTrace();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao editar promoção: " + e.getMessage());
+
+        e.printStackTrace();
+    }
+}
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1333,88 +2082,7 @@ public void navegar(String idtela) {
 
     private void btnEditarCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCPActionPerformed
         // TODO add your handling code here:
-        int linhaSelecionada = tbTabelaCP.getSelectedRow();
-
-    if (linhaSelecionada == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Selecione uma promoção para editar.");
-        return;
-    }
-
-    try {
-
-        // Capturar o ID da promoção selecionada
-        int linhaModelo = tbTabelaCP.convertRowIndexToModel(linhaSelecionada);
-
-        int idPromocao = Integer.parseInt(
-                tbTabelaCP.getModel().getValueAt(linhaModelo, 0).toString()
-        );
-
-        // Capturar os dados dos campos
-        String nome = txDNdaPromocaoCP.getText().trim();
-
-        String tipo = cbxTipoPromocaoCP.getSelectedItem().toString();
-
-        boolean status = rbtnStatusAtivoCP.isSelected();
-
-        String dataInicio = ftfDataInicioCP.getText().trim();
-
-        String dataFinal = ftfDataFimCP.getText().trim();
-
-        String regras = txtaRegrasUsoCP.getText().trim();
-
-        // Validar campos
-        if (nome.isEmpty() || tipo.isEmpty()
-                || dataInicio.isEmpty() || dataFinal.isEmpty()) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos obrigatórios.");
-            return;
-        }
-
-        // Buscar os dados atuais para preservar desconto e quantidade mínima
-        PromocaoController controller = new PromocaoController();
-
-        Promocao promocao = controller.buscarPorId(idPromocao);
-
-        if (promocao == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Promoção não encontrada.");
-            return;
-        }
-
-        // Atualizar os dados alterados
-        promocao.setNome(nome);
-        promocao.setTipo(tipo);
-        promocao.setStatus(status);
-        promocao.setDataInicio(dataInicio);
-        promocao.setDataFinal(dataFinal);
-        promocao.setRegras(regras);
-
-        // Salvar no banco
-        boolean atualizado = controller.atualizar(idPromocao, promocao);
-
-        if (atualizado) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Promoção atualizada com sucesso!");
-
-            listarPromocoes();
-
-        } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "Não foi possível atualizar a promoção.");
-
-        }
-
-    } catch (Exception e) {
-
-        JOptionPane.showMessageDialog(this,
-                "Erro ao editar promoção: " + e.getMessage());
-
-        e.printStackTrace();
-    }
+       editarPromocao();
     }//GEN-LAST:event_btnEditarCPActionPerformed
 
     private void btnExcluirCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCPActionPerformed

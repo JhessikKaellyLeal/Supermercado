@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package control;
+
+package Control;
 
 import Conection.Conexao;
 import Model.Fornecedores;
@@ -14,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FornecedoresController {
-    // CADASTRAR FORNECEDOR
-    public boolean cadastrar(Fornecedores fornecedor) {
+
+    public void cadastrar(Fornecedores fornecedor) throws SQLException {
         String sql = "INSERT INTO fornecedores "
-                + "(nome, telefone, email, ramal, cnpj, "
-                + "razaoSocial, endereco, tipo, cep) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(nomeResponsavel, telefone, email, ramal, cnpj, "
+                + "razaoSocial, endereco, tipo, cep, inscricaoestadual) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,60 +30,50 @@ public class FornecedoresController {
             stmt.setString(7, fornecedor.getEndereco());
             stmt.setString(8, fornecedor.getTipo());
             stmt.setString(9, fornecedor.getCep());
+            stmt.setString(10, fornecedor.getInscricaoestadual());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar fornecedor: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // LISTAR TODOS OS FORNECEDORES
-    public List<Fornecedores> listarTodos() {
-        List<Fornecedores> fornecedores = new ArrayList<>();
+    public List<Fornecedores> listar() throws SQLException {
+        List<Fornecedores> lista = new ArrayList<>();
 
-        String sql = "SELECT idfornecedores, nome, telefone, email, "
-                + "ramal, cnpj, razaoSocial, endereco, tipo, cep "
-                + "FROM fornecedores";
+        String sql = "SELECT * FROM fornecedores";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Fornecedores fornecedor = new Fornecedores();
-
-                fornecedor.setIdfornecedores(
-                        rs.getInt("idfornecedores"));
-                fornecedor.setNomeResponsavel(rs.getString("nome"));
-                fornecedor.setTelefone(rs.getString("telefone"));
-                fornecedor.setEmail(rs.getString("email"));
-                fornecedor.setRamal(rs.getString("ramal"));
-                fornecedor.setCnpj(rs.getString("cnpj"));
-                fornecedor.setRazaoSocial(
-                        rs.getString("razaoSocial"));
-                fornecedor.setEndereco(rs.getString("endereco"));
-                fornecedor.setTipo(rs.getString("tipo"));
-                fornecedor.setCep(rs.getString("cep"));
-
-                fornecedores.add(fornecedor);
+                lista.add(mapearFornecedor(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar fornecedores: "
-                    + e.getMessage());
         }
 
-        return fornecedores;
+        return lista;
     }
 
-    // BUSCAR FORNECEDOR PELO CNPJ
-    public Fornecedores buscarPorCnpj(String cnpj) {
-        String sql = "SELECT idfornecedores, nome, telefone, email, "
-                + "ramal, cnpj, razaoSocial, endereco, tipo, cep "
-                + "FROM fornecedores WHERE cnpj = ?";
+    public Fornecedores buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM fornecedores "
+                + "WHERE idfornecedores = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearFornecedor(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Fornecedores buscarPorCnpj(String cnpj) throws SQLException {
+        String sql = "SELECT * FROM fornecedores WHERE cnpj = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -95,43 +82,44 @@ public class FornecedoresController {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Fornecedores fornecedor = new Fornecedores();
-
-                    fornecedor.setIdfornecedores(
-                            rs.getInt("idfornecedores"));
-                    fornecedor.setNomeResponsavel(rs.getString("nome"));
-                    fornecedor.setTelefone(
-                            rs.getString("telefone"));
-                    fornecedor.setEmail(rs.getString("email"));
-                    fornecedor.setRamal(rs.getString("ramal"));
-                    fornecedor.setCnpj(rs.getString("cnpj"));
-                    fornecedor.setRazaoSocial(
-                            rs.getString("razaoSocial"));
-                    fornecedor.setEndereco(
-                            rs.getString("endereco"));
-                    fornecedor.setTipo(rs.getString("tipo"));
-                    fornecedor.setCep(rs.getString("cep"));
-
-                    return fornecedor;
+                    return mapearFornecedor(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar fornecedor: "
-                    + e.getMessage());
         }
 
         return null;
     }
 
-    // ATUALIZAR FORNECEDOR PELO CNPJ
-    public boolean atualizar(String cnpjOriginal,
-            Fornecedores fornecedor) {
+    public List<Fornecedores> buscarPorNome(String nome)
+            throws SQLException {
 
-        String sql = "UPDATE fornecedores SET nome = ?, "
-                + "telefone = ?, email = ?, ramal = ?, cnpj = ?, "
-                + "razaoSocial = ?, endereco = ?, tipo = ?, cep = ? "
-                + "WHERE cnpj = ?";
+        List<Fornecedores> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM fornecedores "
+                + "WHERE nomeResponsavel LIKE ? OR razaoSocial LIKE ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+            stmt.setString(2, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearFornecedor(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(Fornecedores fornecedor) throws SQLException {
+        String sql = "UPDATE fornecedores SET "
+                + "nomeResponsavel = ?, telefone = ?, email = ?, "
+                + "ramal = ?, cnpj = ?, razaoSocial = ?, endereco = ?, "
+                + "tipo = ?, cep = ?, inscricaoestadual = ? "
+                + "WHERE idfornecedores = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -145,32 +133,42 @@ public class FornecedoresController {
             stmt.setString(7, fornecedor.getEndereco());
             stmt.setString(8, fornecedor.getTipo());
             stmt.setString(9, fornecedor.getCep());
-            stmt.setString(10, cnpjOriginal);
+            stmt.setString(10, fornecedor.getInscricaoestadual());
+            stmt.setInt(11, fornecedor.getIdfornecedores());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar fornecedor: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR FORNECEDOR PELO CNPJ
-    public boolean excluir(String cnpj) {
-        String sql = "DELETE FROM fornecedores WHERE cnpj = ?";
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM fornecedores "
+                + "WHERE idfornecedores = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, cnpj);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir fornecedor: "
-                    + e.getMessage());
-            return false;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
+    }
+
+    private Fornecedores mapearFornecedor(ResultSet rs)
+            throws SQLException {
+
+        Fornecedores fornecedor = new Fornecedores();
+
+        fornecedor.setIdfornecedores(rs.getInt("idfornecedores"));
+        fornecedor.setNomeResponsavel(rs.getString("nomeResponsavel"));
+        fornecedor.setTelefone(rs.getString("telefone"));
+        fornecedor.setEmail(rs.getString("email"));
+        fornecedor.setRamal(rs.getString("ramal"));
+        fornecedor.setCnpj(rs.getString("cnpj"));
+        fornecedor.setRazaoSocial(rs.getString("razaoSocial"));
+        fornecedor.setEndereco(rs.getString("endereco"));
+        fornecedor.setTipo(rs.getString("tipo"));
+        fornecedor.setCep(rs.getString("cep"));
+        fornecedor.setInscricaoestadual(rs.getString("inscricaoestadual"));
+
+        return fornecedor;
     }
 }

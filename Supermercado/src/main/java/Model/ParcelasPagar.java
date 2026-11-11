@@ -1,19 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ParcelasPagar {
-   private int   idparcelasPagar, numeroParcela, contasPagar_idcontasPagar;
-   private String dataVencimento , dataPagamento, statusParcela, observacao;
-   private double valorParcela, valorPago;
+
+    private int idparcelasPagar;
+    private int numeroParcelas;
+    private double valorParcelas;
+    private String dataVencimento;
+    private String dataPagamento;
+    private double valorPago;
+    private String statusParcela;
+    private String observacao;
+    private int contasPagar_idcontasPagar;
 
     public ParcelasPagar() {
+    }
+
+    public ParcelasPagar(int idparcelasPagar, int numeroParcelas,
+            double valorParcelas, String dataVencimento,
+            String dataPagamento, double valorPago,
+            String statusParcela, String observacao,
+            int contasPagar_idcontasPagar) {
+
+        this.idparcelasPagar = idparcelasPagar;
+        this.numeroParcelas = numeroParcelas;
+        this.valorParcelas = valorParcelas;
+        this.dataVencimento = dataVencimento;
+        this.dataPagamento = dataPagamento;
+        this.valorPago = valorPago;
+        this.statusParcela = statusParcela;
+        this.observacao = observacao;
+        this.contasPagar_idcontasPagar = contasPagar_idcontasPagar;
     }
 
     public int getIdparcelasPagar() {
@@ -24,20 +41,20 @@ public class ParcelasPagar {
         this.idparcelasPagar = idparcelasPagar;
     }
 
-    public int getNumeroParcela() {
-        return numeroParcela;
+    public int getNumeroParcelas() {
+        return numeroParcelas;
     }
 
-    public void setNumeroParcela(int numeroParcela) {
-        this.numeroParcela = numeroParcela;
+    public void setNumeroParcelas(int numeroParcelas) {
+        this.numeroParcelas = numeroParcelas;
     }
 
-    public int getContasPagar_idcontasPagar() {
-        return contasPagar_idcontasPagar;
+    public double getValorParcelas() {
+        return valorParcelas;
     }
 
-    public void setContasPagar_idcontasPagar(int contasPagar_idcontasPagar) {
-        this.contasPagar_idcontasPagar = contasPagar_idcontasPagar;
+    public void setValorParcelas(double valorParcelas) {
+        this.valorParcelas = valorParcelas;
     }
 
     public String getDataVencimento() {
@@ -56,6 +73,14 @@ public class ParcelasPagar {
         this.dataPagamento = dataPagamento;
     }
 
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(double valorPago) {
+        this.valorPago = valorPago;
+    }
+
     public String getStatusParcela() {
         return statusParcela;
     }
@@ -72,20 +97,11 @@ public class ParcelasPagar {
         this.observacao = observacao;
     }
 
-    public double getValorParcela() {
-        return valorParcela;
+    public int getContasPagar_idcontasPagar() {
+        return contasPagar_idcontasPagar;
     }
 
-    public void setValorParcela(double valorParcela) {
-        this.valorParcela = valorParcela;
+    public void setContasPagar_idcontasPagar(int contasPagar_idcontasPagar) {
+        this.contasPagar_idcontasPagar = contasPagar_idcontasPagar;
     }
-
-    public double getValorPago() {
-        return valorPago;
-    }
-
-    public void setValorPago(double valorPago) {
-        this.valorPago = valorPago;
-    }
-   
 }

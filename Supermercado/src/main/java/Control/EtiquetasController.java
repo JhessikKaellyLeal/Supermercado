@@ -1,89 +1,118 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
+import Model.Etiquetas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- *
- * @author CleicianeGomes
- */
 public class EtiquetasController {
-       public boolean cadastrar(String tipo, byte[] imagem)
-            throws SQLException {
 
+    public void cadastrar(Etiquetas etiqueta) throws SQLException {
         String sql = "INSERT INTO etiquetas (tipo, imagem) VALUES (?, ?)";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, tipo);
-            ps.setBytes(2, imagem);
+            stmt.setString(1, etiqueta.getTipo());
+            stmt.setBytes(2, etiqueta.getImagem());
 
-            return ps.executeUpdate() > 0;
+            stmt.executeUpdate();
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
+    public List<Etiquetas> listar() throws SQLException {
+        List<Etiquetas> lista = new ArrayList<>();
 
-        String sql = "SELECT idetiquetas, tipo, imagem "
-                   + "FROM etiquetas ORDER BY idetiquetas";
+        String sql = "SELECT * FROM etiquetas";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-
-                m.put("idetiquetas", rs.getInt("idetiquetas"));
-                m.put("tipo", rs.getString("tipo"));
-                m.put("imagem", rs.getBytes("imagem"));
-
-                lista.add(m);
+                lista.add(mapearEtiqueta(rs));
             }
         }
 
         return lista;
     }
 
-    public boolean editar(int id, String tipo, byte[] imagem)
-            throws SQLException {
+    public Etiquetas buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM etiquetas WHERE idetiquetas = ?";
 
-        String sql = "UPDATE etiquetas SET tipo=?, imagem=? "
-                   + "WHERE idetiquetas=?";
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+            stmt.setInt(1, id);
 
-            ps.setString(1, tipo);
-            ps.setBytes(2, imagem);
-            ps.setInt(3, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearEtiqueta(rs);
+                }
+            }
+        }
 
-            return ps.executeUpdate() > 0;
+        return null;
+    }
+
+    public void atualizar(Etiquetas etiqueta) throws SQLException {
+        String sql = "UPDATE etiquetas SET tipo = ?, imagem = ? "
+                + "WHERE idetiquetas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, etiqueta.getTipo());
+            stmt.setBytes(2, etiqueta.getImagem());
+            stmt.setInt(3, etiqueta.getIdetiquetas());
+
+            stmt.executeUpdate();
         }
     }
 
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM etiquetas WHERE idetiquetas=?";
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM etiquetas WHERE idetiquetas = ?";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
+    }
+
+    public List<Etiquetas> buscarPorTipo(String tipo) throws SQLException {
+        List<Etiquetas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM etiquetas WHERE tipo LIKE ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + tipo + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearEtiqueta(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    private Etiquetas mapearEtiqueta(ResultSet rs) throws SQLException {
+        Etiquetas etiqueta = new Etiquetas();
+
+        etiqueta.setIdetiquetas(rs.getInt("idetiquetas"));
+        etiqueta.setTipo(rs.getString("tipo"));
+        etiqueta.setImagem(rs.getBytes("imagem"));
+
+        return etiqueta;
     }
 }

@@ -1,18 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class LotesProdutos {
-  private int  idlotesProdutos, quantidadeLote,  produtos_idprodutos, produtos_categorias_idcategorias, produtos_marcas_idmarcas, produtos_unidadeMedidas_idunidadeMedidas;
-  private String  numeroLote, datafabricacao,  dataVencimento;
+
+    private int idlotesProdutos;
+    private String numeroLote;
+    private String datafabricacao;
+    private String dataVencimento;
+    private int quantidadeLote;
+    private int produtos_idprodutos;
+    private int produtos_categorias_idcategorias;
+    private int produtos_marcas_idmarcas;
+    private int produtos_unidadeMedidas_idunidadeMedidas;
 
     public LotesProdutos() {
+    }
+
+    public LotesProdutos(int idlotesProdutos, String numeroLote,
+            String datafabricacao, String dataVencimento,
+            int quantidadeLote, int produtos_idprodutos,
+            int produtos_categorias_idcategorias,
+            int produtos_marcas_idmarcas,
+            int produtos_unidadeMedidas_idunidadeMedidas) {
+
+        this.idlotesProdutos = idlotesProdutos;
+        this.numeroLote = numeroLote;
+        this.datafabricacao = datafabricacao;
+        this.dataVencimento = dataVencimento;
+        this.quantidadeLote = quantidadeLote;
+        this.produtos_idprodutos = produtos_idprodutos;
+        this.produtos_categorias_idcategorias = produtos_categorias_idcategorias;
+        this.produtos_marcas_idmarcas = produtos_marcas_idmarcas;
+        this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIdlotesProdutos() {
@@ -21,6 +40,30 @@ public class LotesProdutos {
 
     public void setIdlotesProdutos(int idlotesProdutos) {
         this.idlotesProdutos = idlotesProdutos;
+    }
+
+    public String getNumeroLote() {
+        return numeroLote;
+    }
+
+    public void setNumeroLote(String numeroLote) {
+        this.numeroLote = numeroLote;
+    }
+
+    public String getDatafabricacao() {
+        return datafabricacao;
+    }
+
+    public void setDatafabricacao(String datafabricacao) {
+        this.datafabricacao = datafabricacao;
+    }
+
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(String dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 
     public int getQuantidadeLote() {
@@ -62,29 +105,4 @@ public class LotesProdutos {
     public void setProdutos_unidadeMedidas_idunidadeMedidas(int produtos_unidadeMedidas_idunidadeMedidas) {
         this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
-
-    public String getNumeroLote() {
-        return numeroLote;
-    }
-
-    public void setNumeroLote(String numeroLote) {
-        this.numeroLote = numeroLote;
-    }
-
-    public String getDatafabricacao() {
-        return datafabricacao;
-    }
-
-    public void setDatafabricacao(String datafabricacao) {
-        this.datafabricacao = datafabricacao;
-    }
-
-    public String getDataVencimento() {
-        return dataVencimento;
-    }
-
-    public void setDataVencimento(String dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
-  
 }

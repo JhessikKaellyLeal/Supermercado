@@ -1,89 +1,162 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
+import Model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Model.Usuario;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioController {
 
-// Cadastrar usuário
-public boolean cadastrar(
-        String nome,
-        String cpf,
-        String email,
-        String senha,
-        int bloqueio,
-        int idFuncionario) {
+    // LOGIN: retorna o objeto Usuario quando as credenciais são válidas
+   public Usuario login(String email, String senha) throws SQLException {
 
-    String sql = "INSERT INTO usuario "
-            + "(nome, cpf, email, senha, bloqueio, Funcionario_idFuncionario) "
-            + "VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
 
-    try (Connection conexao = Conexao.conectar();
-         PreparedStatement stmt = conexao.prepareStatement(sql)) {
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        stmt.setString(1, nome);
-        stmt.setString(2, cpf);
-        stmt.setString(3, email);
-        stmt.setString(4, senha);
-        stmt.setInt(5, bloqueio);
-        stmt.setInt(6, idFuncionario);
+        stmt.setString(1, email);
+        stmt.setString(2, senha);
 
-        return stmt.executeUpdate() > 0;
+        try (ResultSet rs = stmt.executeQuery()) {
 
-    } catch (SQLException erro) {
+            if (rs.next()) {
 
-        System.out.println("Erro ao cadastrar usuário: "
-                + erro.getMessage());
+                Usuario usuario = new Usuario();
 
-        return false;
+                usuario.setIdusuario(rs.getInt("idusuario"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+
+                return usuario;
+            }
+        }
     }
+
+    return null;
 }
-public Usuario login(String email, String senha) {
+
+    // CADASTRAR
+    public void cadastrar(Usuario usuario) throws SQLException {
+
+        String sql = "INSERT INTO usuario "
+                + "(nome, cpf, email, senha, bloqueio, "
+                + "Funcionario_idFuncionario) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getCpf());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getSenha());
+
+            if (usuario.getBloqueio() == null) {
+                stmt.setNull(5, Types.TINYINT);
+            } else {
+                stmt.setInt(5, usuario.getBloqueio());
+            }
+
+            stmt.setInt(6, usuario.getFuncionario_idFuncionario());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    // LISTAR
+    public List<Usuario> listar() throws SQLException {
 
         List<Usuario> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM usuario";
+        String sql = "SELECT * FROM usuario ORDER BY nome ASC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-
-                Usuario usuario = new Usuario();
-
-                usuario.setIdusuario(rs.getInt("idusuario"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setCpf(rs.getString("cpf"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setBloqueio(rs.getInt("bloqueio"));
-                usuario.setFuncionario_idFuncionario(
-                        rs.getInt("Funcionario_idFuncionario"));
-
-                lista.add(usuario);
+                lista.add(mapearUsuario(rs));
             }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao listar usuários: " + e.getMessage());
         }
 
         return lista;
     }
 
-    // MÉTODO PARA ATUALIZAR USUÁRIO
-    public void atualizar(Usuario usuario) {
+    // BUSCAR POR ID
+    public Usuario buscarPorId(int id) throws SQLException {
+
+        String sql = "SELECT * FROM usuario WHERE idusuario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return mapearUsuario(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // BUSCAR POR EMAIL
+    public Usuario buscarPorEmail(String email)
+            throws SQLException {
+
+        String sql = "SELECT * FROM usuario WHERE email = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return mapearUsuario(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // BUSCAR POR FUNCIONÁRIO
+    public Usuario buscarPorFuncionario(int idFuncionario)
+            throws SQLException {
+
+        String sql = "SELECT * FROM usuario "
+                + "WHERE Funcionario_idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return mapearUsuario(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ATUALIZAR
+    public void atualizar(Usuario usuario) throws SQLException {
 
         String sql = "UPDATE usuario SET "
                 + "nome = ?, cpf = ?, email = ?, senha = ?, "
@@ -97,23 +170,44 @@ public Usuario login(String email, String senha) {
             stmt.setString(2, usuario.getCpf());
             stmt.setString(3, usuario.getEmail());
             stmt.setString(4, usuario.getSenha());
-            stmt.setInt(5, usuario.getBloqueio());
+
+            if (usuario.getBloqueio() == null) {
+                stmt.setNull(5, Types.TINYINT);
+            } else {
+                stmt.setInt(5, usuario.getBloqueio());
+            }
+
             stmt.setInt(6, usuario.getFuncionario_idFuncionario());
             stmt.setInt(7, usuario.getIdusuario());
 
             stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null,
-                    "Usuário atualizado com sucesso!");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao atualizar usuário: " + e.getMessage());
         }
     }
 
-    // MÉTODO PARA EXCLUIR USUÁRIO
-    public void excluir(int id) {
+    // ALTERAR BLOQUEIO
+    public void alterarBloqueio(int idUsuario, Integer bloqueio)
+            throws SQLException {
+
+        String sql = "UPDATE usuario SET bloqueio = ? "
+                + "WHERE idusuario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            if (bloqueio == null) {
+                stmt.setNull(1, Types.TINYINT);
+            } else {
+                stmt.setInt(1, bloqueio);
+            }
+
+            stmt.setInt(2, idUsuario);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    // EXCLUIR
+    public void excluir(int id) throws SQLException {
 
         String sql = "DELETE FROM usuario WHERE idusuario = ?";
 
@@ -121,199 +215,31 @@ public Usuario login(String email, String senha) {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-
             stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null,
-                    "Usuário excluído com sucesso!");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao excluir usuário: " + e.getMessage());
         }
     }
-    
-    public Usuario login(String cpf, String senha) {
 
-    String sql = "SELECT * FROM usuario WHERE cpf = ? AND senha = ?";
+    // MAPEAR RESULTADO DO BANCO PARA OBJETO
+    private Usuario mapearUsuario(ResultSet rs)
+            throws SQLException {
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Usuario usuario = new Usuario();
 
-        stmt.setString(1, cpf);
-        stmt.setString(2, senha);
+        usuario.setIdusuario(rs.getInt("idusuario"));
+        usuario.setNome(rs.getString("nome"));
+        usuario.setCpf(rs.getString("cpf"));
+        usuario.setEmail(rs.getString("email"));
+        usuario.setSenha(rs.getString("senha"));
 
-        try (ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-
-                Usuario usuario = new Usuario();
-
-                usuario.setIdusuario(rs.getInt("idusuario"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setCpf(rs.getString("cpf"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setBloqueio(rs.getInt("bloqueio"));
-                usuario.setFuncionario_idFuncionario(rs.getInt("Funcionario_idFuncionario"));
-                
-
-                return usuario;
-            }
-        }
-
-    } catch (SQLException e) {
-
-        JOptionPane.showMessageDialog(
-            null,
-            "Erro ao realizar login: " + e.getMessage()
+        int bloqueio = rs.getInt("bloqueio");
+        usuario.setBloqueio(
+                rs.wasNull() ? null : bloqueio
         );
-    }
 
-    return null;
-}
-
-    // Consultar usuário pelo CPF
-    public ResultSet consultarPorCPF(String cpf) {
-
-        String sql = "SELECT * FROM usuario WHERE cpf = ?";
-
-        try {
-            Connection conexao = Conexao.conectar();
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-
-            stmt.setString(1, cpf);
-
-            return stmt.executeQuery();
-
-        } catch (SQLException erro) {
-            System.out.println("Erro ao consultar usuário: "
-                    + erro.getMessage());
-            return null;
-        }
-    }
-
-    // Atualizar usuário
-    public boolean atualizar(
-            int idUsuario,
-            String nome,
-            String cpf,
-            String email,
-            String senha,
-            int bloqueio,
-            int idFuncionario) {
-
-        String sql = "UPDATE usuario SET nome = ?, cpf = ?, "
-                + "email = ?, senha = ?, bloqueio = ?, "
-                + "Funcionario_idFuncionario = ? "
-                + "WHERE idusuario = ?";
-
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            stmt.setString(1, nome);
-            stmt.setString(2, cpf);
-            stmt.setString(3, email);
-            stmt.setString(4, senha);
-            stmt.setInt(5, bloqueio);
-            stmt.setInt(6, idFuncionario);
-            stmt.setInt(7, idUsuario);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException erro) {
-            System.out.println("Erro ao atualizar usuário: "
-                    + erro.getMessage());
-            return false;
-        }
-    }
-
-    // Excluir usuário
-    public boolean excluir(int idUsuario) {
-
-        String sql = "DELETE FROM usuario WHERE idusuario = ?";
-
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            stmt.setInt(1, idUsuario);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException erro) {
-            System.out.println("Erro ao excluir usuário: "
-                    + erro.getMessage());
-            return false;
-        }
-    }
-    public List<Object[]> listarFuncionariosCombo() {
-
-    List<Object[]> lista = new ArrayList<>();
-
-    String sql = "SELECT idusuario, nome "
-            + "FROM usuario "
-            + "WHERE Funcionario_idFuncionario IS NOT NULL "
-            + "ORDER BY nome";
-
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-
-            Object[] dados = {
-                rs.getInt("idusuario"),
-                rs.getString("nome")
-            };
-
-            lista.add(dados);
-        }
-
-    } catch (SQLException e) {
-
-        throw new RuntimeException(
-            "Erro ao consultar funcionários: " + e.getMessage()
+        usuario.setFuncionario_idFuncionario(
+                rs.getInt("Funcionario_idFuncionario")
         );
+
+        return usuario;
     }
-
-    return lista;
 }
-
-  
-
-   public List<Usuario> listar()  {
-
-    List<Usuario> lista = new ArrayList<>();
-
-    String sql = "SELECT idusuario, nome, cpf, email, bloqueio "
-               + "FROM usuario "
-               + "ORDER BY idusuario DESC";
-
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-
-            Usuario usuario = new Usuario();
-
-            usuario.setIdusuario(rs.getInt("idusuario"));
-            usuario.setNome(rs.getString("nome"));
-            usuario.setCpf(rs.getString("cpf"));
-            usuario.setEmail(rs.getString("email"));
-            usuario.setBloqueio(rs.getInt("bloqueio"));
-
-            lista.add(usuario);
-        }
-    }   catch (SQLException ex) {
-            System.getLogger(UsuarioController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
-
-    return lista;
-}
-
-   
-
-   
-}
-
-

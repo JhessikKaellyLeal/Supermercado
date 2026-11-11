@@ -1,89 +1,170 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author AntônioVieira
- */
 import Conection.Conexao;
-import java.sql.*;
-import java.util.*;
+import Model.Cargos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CargosController {
- public boolean cadastrar(String nome, String descricao,
-            double salarioBase, int cargaHoraria,
-            double periculosidade, double insalubridade,
-            int status, double adicionalNoturno) throws SQLException {
+
+    // CADASTRAR
+    public boolean cadastrar(Cargos cargo) throws SQLException {
 
         String sql = "INSERT INTO cargos "
-            + "(nome, descricao, salarioBase, cargaHoraria, "
-            + "adicionalPericulosidade, adicionalInsalubridade, "
-            + "statusCargo, adicionalNoturno) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(nome, descricao, salarioBase, cargaHoraria, "
+                + "adicionalPericulosidade, adicionalInsalubridade, "
+                + "statusCargo, adicionalNoturno) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, descricao);
-            ps.setDouble(3, salarioBase);
-            ps.setInt(4, cargaHoraria);
-            ps.setDouble(5, periculosidade);
-            ps.setDouble(6, insalubridade);
-            ps.setInt(7, status);
-            ps.setDouble(8, adicionalNoturno);
-            return ps.executeUpdate() > 0;
-        }
-    }
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM cargos");
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Map<String, Object> m = new LinkedHashMap<>();
-                ResultSetMetaData md = rs.getMetaData();
-                for (int i = 1; i <= md.getColumnCount(); i++)
-                    m.put(md.getColumnLabel(i), rs.getObject(i));
-                lista.add(m);
+            stmt.setString(1, cargo.getNome());
+            stmt.setString(2, cargo.getDescricao());
+            stmt.setDouble(3, cargo.getSalarioBase());
+            stmt.setInt(4, cargo.getCargaHoraria());
+            stmt.setDouble(5, cargo.getAdicionalPericulosidade());
+            stmt.setDouble(6, cargo.getAdicionalInsalubridade());
+            stmt.setInt(7, cargo.getStatusCargo());
+            stmt.setDouble(8, cargo.getAdicionalNoturno());
+
+            int linhas = stmt.executeUpdate();
+
+            if (linhas > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        cargo.setIdcargos(rs.getInt(1));
+                    }
+                }
+                return true;
             }
         }
+
+        return false;
+    }
+
+    // LISTAR TODOS
+    public List<Cargos> listar() throws SQLException {
+
+        List<Cargos> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM cargos ORDER BY idcargos DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Cargos cargo = new Cargos();
+
+                cargo.setIdcargos(rs.getInt("idcargos"));
+                cargo.setNome(rs.getString("nome"));
+                cargo.setDescricao(rs.getString("descricao"));
+                cargo.setSalarioBase(rs.getDouble("salarioBase"));
+                cargo.setCargaHoraria(rs.getInt("cargaHoraria"));
+                cargo.setAdicionalPericulosidade(
+                        rs.getDouble("adicionalPericulosidade"));
+                cargo.setAdicionalInsalubridade(
+                        rs.getDouble("adicionalInsalubridade"));
+                cargo.setStatusCargo(rs.getInt("statusCargo"));
+                cargo.setAdicionalNoturno(
+                        rs.getDouble("adicionalNoturno"));
+
+                lista.add(cargo);
+            }
+        }
+
         return lista;
     }
 
-    public boolean atualizar(int id, String nome, String descricao,
-            double salarioBase, int cargaHoraria,
-            double periculosidade, double insalubridade,
-            int status, double adicionalNoturno) throws SQLException {
+    // BUSCAR POR ID
+    public Cargos buscarPorId(int id) throws SQLException {
 
-        String sql = "UPDATE cargos SET nome=?, descricao=?, salarioBase=?, "
-            + "cargaHoraria=?, adicionalPericulosidade=?, "
-            + "adicionalInsalubridade=?, statusCargo=?, adicionalNoturno=? "
-            + "WHERE idcargos=?";
+        String sql = "SELECT * FROM cargos WHERE idcargos = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, descricao);
-            ps.setDouble(3, salarioBase);
-            ps.setInt(4, cargaHoraria);
-            ps.setDouble(5, periculosidade);
-            ps.setDouble(6, insalubridade);
-            ps.setInt(7, status);
-            ps.setDouble(8, adicionalNoturno);
-            ps.setInt(9, id);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Cargos cargo = new Cargos();
+
+                    cargo.setIdcargos(rs.getInt("idcargos"));
+                    cargo.setNome(rs.getString("nome"));
+                    cargo.setDescricao(rs.getString("descricao"));
+                    cargo.setSalarioBase(rs.getDouble("salarioBase"));
+                    cargo.setCargaHoraria(rs.getInt("cargaHoraria"));
+                    cargo.setAdicionalPericulosidade(
+                            rs.getDouble("adicionalPericulosidade"));
+                    cargo.setAdicionalInsalubridade(
+                            rs.getDouble("adicionalInsalubridade"));
+                    cargo.setStatusCargo(rs.getInt("statusCargo"));
+                    cargo.setAdicionalNoturno(
+                            rs.getDouble("adicionalNoturno"));
+
+                    return cargo;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ATUALIZAR
+    public boolean atualizar(Cargos cargo) throws SQLException {
+
+        String sql = "UPDATE cargos SET "
+                + "nome = ?, "
+                + "descricao = ?, "
+                + "salarioBase = ?, "
+                + "cargaHoraria = ?, "
+                + "adicionalPericulosidade = ?, "
+                + "adicionalInsalubridade = ?, "
+                + "statusCargo = ?, "
+                + "adicionalNoturno = ? "
+                + "WHERE idcargos = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cargo.getNome());
+            stmt.setString(2, cargo.getDescricao());
+            stmt.setDouble(3, cargo.getSalarioBase());
+            stmt.setInt(4, cargo.getCargaHoraria());
+            stmt.setDouble(5, cargo.getAdicionalPericulosidade());
+            stmt.setDouble(6, cargo.getAdicionalInsalubridade());
+            stmt.setInt(7, cargo.getStatusCargo());
+            stmt.setDouble(8, cargo.getAdicionalNoturno());
+            stmt.setInt(9, cargo.getIdcargos());
+
+            return stmt.executeUpdate() > 0;
         }
     }
 
+    // EXCLUIR
     public boolean excluir(int id) throws SQLException {
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(
-                 "DELETE FROM cargos WHERE idcargos=?")) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+
+        String sql = "DELETE FROM cargos WHERE idcargos = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            return stmt.executeUpdate() > 0;
         }
     }
- 
 }

@@ -1,18 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Pedidos {
-  private int idpedidos, cliente_idcliente, usuario_idusuario,entregas_identregas;
-private String numeroPedidos, dataPedidos, statusPedido,observacao;
+
+    private int idpedidos;
+    private String numeroPedido;
+    private String datapedido;
+    private String statusPedido;
+    private String observacao;
+    private int cliente_idcliente;
+    private int usuario_idusuario;
+    private int entregas_identregas;
 
     public Pedidos() {
+    }
+
+    public Pedidos(int idpedidos, String numeroPedido, String datapedido,
+            String statusPedido, String observacao,
+            int cliente_idcliente, int usuario_idusuario,
+            int entregas_identregas) {
+
+        this.idpedidos = idpedidos;
+        this.numeroPedido = numeroPedido;
+        this.datapedido = datapedido;
+        this.statusPedido = statusPedido;
+        this.observacao = observacao;
+        this.cliente_idcliente = cliente_idcliente;
+        this.usuario_idusuario = usuario_idusuario;
+        this.entregas_identregas = entregas_identregas;
     }
 
     public int getIdpedidos() {
@@ -21,6 +36,38 @@ private String numeroPedidos, dataPedidos, statusPedido,observacao;
 
     public void setIdpedidos(int idpedidos) {
         this.idpedidos = idpedidos;
+    }
+
+    public String getNumeroPedido() {
+        return numeroPedido;
+    }
+
+    public void setNumeroPedido(String numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
+    public String getDatapedido() {
+        return datapedido;
+    }
+
+    public void setDatapedido(String datapedido) {
+        this.datapedido = datapedido;
+    }
+
+    public String getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(String statusPedido) {
+        this.statusPedido = statusPedido;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
     public int getCliente_idcliente() {
@@ -46,37 +93,4 @@ private String numeroPedidos, dataPedidos, statusPedido,observacao;
     public void setEntregas_identregas(int entregas_identregas) {
         this.entregas_identregas = entregas_identregas;
     }
-
-    public String getNumeroPedidos() {
-        return numeroPedidos;
-    }
-
-    public void setNumeroPedidos(String numeroPedidos) {
-        this.numeroPedidos = numeroPedidos;
-    }
-
-    public String getDataPedidos() {
-        return dataPedidos;
-    }
-
-    public void setDataPedidos(String dataPedidos) {
-        this.dataPedidos = dataPedidos;
-    }
-
-    public String getStatusPedido() {
-        return statusPedido;
-    }
-
-    public void setStatusPedido(String statusPedido) {
-        this.statusPedido = statusPedido;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-        
 }

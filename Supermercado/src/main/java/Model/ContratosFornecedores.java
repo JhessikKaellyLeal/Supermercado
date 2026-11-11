@@ -1,22 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-import java.io.File;
-
-/**
- *
- * @author AntônioVieira
- */
 public class ContratosFornecedores {
- private int  idcontratosFornecedores, numero, prazo, fornecedores_idfornecedores;
-private String  dataInicio, dataFinal, tipo, descricao,  clausulaRecisao,  observacao;
-private double  valorMensal, valorTotal,  multa;
-private File arquivo;
+
+    private int idcontratosFornecedores;
+    private int numero;
+    private String dataInicio;
+    private String dataFinal;
+    private double valorMensal;
+    private String tipo;
+    private String descricao;
+    private int prazo;
+    private int renovacaoAutomatica;
+    private double valorTotal;
+    private double multa;
+    private String clausulaRecisao;
+    private String observacao;
+    private byte[] arquivo;
+    private int fornecedores_idfornecedores;
 
     public ContratosFornecedores() {
+    }
+
+    public ContratosFornecedores(int idcontratosFornecedores, int numero,
+            String dataInicio, String dataFinal, double valorMensal,
+            String tipo, String descricao, int prazo, int renovacaoAutomatica,
+            double valorTotal, double multa, String clausulaRecisao,
+            String observacao, byte[] arquivo, int fornecedores_idfornecedores) {
+
+        this.idcontratosFornecedores = idcontratosFornecedores;
+        this.numero = numero;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.valorMensal = valorMensal;
+        this.tipo = tipo;
+        this.descricao = descricao;
+        this.prazo = prazo;
+        this.renovacaoAutomatica = renovacaoAutomatica;
+        this.valorTotal = valorTotal;
+        this.multa = multa;
+        this.clausulaRecisao = clausulaRecisao;
+        this.observacao = observacao;
+        this.arquivo = arquivo;
+        this.fornecedores_idfornecedores = fornecedores_idfornecedores;
     }
 
     public int getIdcontratosFornecedores() {
@@ -35,22 +61,6 @@ private File arquivo;
         this.numero = numero;
     }
 
-    public int getPrazo() {
-        return prazo;
-    }
-
-    public void setPrazo(int prazo) {
-        this.prazo = prazo;
-    }
-
-    public int getFornecedores_idfornecedores() {
-        return fornecedores_idfornecedores;
-    }
-
-    public void setFornecedores_idfornecedores(int fornecedores_idfornecedores) {
-        this.fornecedores_idfornecedores = fornecedores_idfornecedores;
-    }
-
     public String getDataInicio() {
         return dataInicio;
     }
@@ -65,6 +75,14 @@ private File arquivo;
 
     public void setDataFinal(String dataFinal) {
         this.dataFinal = dataFinal;
+    }
+
+    public double getValorMensal() {
+        return valorMensal;
+    }
+
+    public void setValorMensal(double valorMensal) {
+        this.valorMensal = valorMensal;
     }
 
     public String getTipo() {
@@ -83,28 +101,20 @@ private File arquivo;
         this.descricao = descricao;
     }
 
-    public String getClausulaRecisao() {
-        return clausulaRecisao;
+    public int getPrazo() {
+        return prazo;
     }
 
-    public void setClausulaRecisao(String clausulaRecisao) {
-        this.clausulaRecisao = clausulaRecisao;
+    public void setPrazo(int prazo) {
+        this.prazo = prazo;
     }
 
-    public String getObservacao() {
-        return observacao;
+    public int getRenovacaoAutomatica() {
+        return renovacaoAutomatica;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    public double getValorMensal() {
-        return valorMensal;
-    }
-
-    public void setValorMensal(double valorMensal) {
-        this.valorMensal = valorMensal;
+    public void setRenovacaoAutomatica(int renovacaoAutomatica) {
+        this.renovacaoAutomatica = renovacaoAutomatica;
     }
 
     public double getValorTotal() {
@@ -123,12 +133,35 @@ private File arquivo;
         this.multa = multa;
     }
 
-    public File getArquivo() {
+    public String getClausulaRecisao() {
+        return clausulaRecisao;
+    }
+
+    public void setClausulaRecisao(String clausulaRecisao) {
+        this.clausulaRecisao = clausulaRecisao;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public byte[] getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(File arquivo) {
+    public void setArquivo(byte[] arquivo) {
         this.arquivo = arquivo;
     }
-        
+
+    public int getFornecedores_idfornecedores() {
+        return fornecedores_idfornecedores;
+    }
+
+    public void setFornecedores_idfornecedores(int fornecedores_idfornecedores) {
+        this.fornecedores_idfornecedores = fornecedores_idfornecedores;
+    }
 }

@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
+import Model.Funcionario_has_Ferias;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,96 +10,138 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ArthurGiuvannucci
- */
 public class Funcionario_has_feriasController {
 
-    public boolean cadastrar(
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno,
-            int idFerias) throws SQLException {
+    public void cadastrar(Funcionario_has_Ferias vinculo)
+            throws SQLException {
 
         String sql = "INSERT INTO Funcionario_has_ferias "
                 + "(Funcionario_idFuncionario, "
                 + "Funcionario_cargos_idcargos, "
                 + "Funcionario_setores_idsetores, "
                 + "Funcionario_turnos_idturnos, "
-                + "ferias_idferias) VALUES (?, ?, ?, ?, ?)";
+                + "ferias_idferias) "
+                + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, idFuncionario);
-            ps.setInt(2, idCargo);
-            ps.setInt(3, idSetor);
-            ps.setInt(4, idTurno);
-            ps.setInt(5, idFerias);
+            stmt.setInt(1, vinculo.getFuncionario_idFuncionario());
+            stmt.setInt(2, vinculo.getFuncionario_cargos_idcargos());
+            stmt.setInt(3, vinculo.getFuncionario_setores_idsetores());
+            stmt.setInt(4, vinculo.getFuncionario_turnos_idturnos());
+            stmt.setInt(5, vinculo.getFerias_idferias());
 
-            return ps.executeUpdate() > 0;
+            stmt.executeUpdate();
         }
     }
 
-    public List<String[]> listar() throws SQLException {
-        List<String[]> lista = new ArrayList<>();
+    public List<Funcionario_has_Ferias> listar() throws SQLException {
+        List<Funcionario_has_Ferias> lista = new ArrayList<>();
 
-        String sql = "SELECT Funcionario_idFuncionario, "
-                + "Funcionario_cargos_idcargos, "
-                + "Funcionario_setores_idsetores, "
-                + "Funcionario_turnos_idturnos, "
-                + "ferias_idferias "
-                + "FROM Funcionario_has_ferias "
-                + "ORDER BY Funcionario_idFuncionario";
+        String sql = "SELECT * FROM Funcionario_has_ferias";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                lista.add(new String[]{
-                    String.valueOf(
-                        rs.getInt("Funcionario_idFuncionario")),
-                    String.valueOf(
-                        rs.getInt("Funcionario_cargos_idcargos")),
-                    String.valueOf(
-                        rs.getInt("Funcionario_setores_idsetores")),
-                    String.valueOf(
-                        rs.getInt("Funcionario_turnos_idturnos")),
-                    String.valueOf(rs.getInt("ferias_idferias"))
-                });
+                lista.add(mapearVinculo(rs));
             }
         }
 
         return lista;
     }
 
-    public boolean excluir(
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno,
+    public List<Funcionario_has_Ferias> buscarPorFuncionario(
+            int idFuncionario) throws SQLException {
+
+        List<Funcionario_has_Ferias> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM Funcionario_has_ferias "
+                + "WHERE Funcionario_idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearVinculo(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Funcionario_has_Ferias> buscarPorFerias(
             int idFerias) throws SQLException {
 
-        String sql = "DELETE FROM Funcionario_has_ferias "
-                + "WHERE Funcionario_idFuncionario=? "
-                + "AND Funcionario_cargos_idcargos=? "
-                + "AND Funcionario_setores_idsetores=? "
-                + "AND Funcionario_turnos_idturnos=? "
-                + "AND ferias_idferias=?";
+        List<Funcionario_has_Ferias> lista = new ArrayList<>();
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        String sql = "SELECT * FROM Funcionario_has_ferias "
+                + "WHERE ferias_idferias = ?";
 
-            ps.setInt(1, idFuncionario);
-            ps.setInt(2, idCargo);
-            ps.setInt(3, idSetor);
-            ps.setInt(4, idTurno);
-            ps.setInt(5, idFerias);
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            return ps.executeUpdate() > 0;
+            stmt.setInt(1, idFerias);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearVinculo(rs));
+                }
+            }
         }
+
+        return lista;
+    }
+
+    public void excluir(int idFuncionario, int idCargo, int idSetor,
+            int idTurno, int idFerias) throws SQLException {
+
+        String sql = "DELETE FROM Funcionario_has_ferias "
+                + "WHERE Funcionario_idFuncionario = ? "
+                + "AND Funcionario_cargos_idcargos = ? "
+                + "AND Funcionario_setores_idsetores = ? "
+                + "AND Funcionario_turnos_idturnos = ? "
+                + "AND ferias_idferias = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+            stmt.setInt(2, idCargo);
+            stmt.setInt(3, idSetor);
+            stmt.setInt(4, idTurno);
+            stmt.setInt(5, idFerias);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    private Funcionario_has_Ferias mapearVinculo(ResultSet rs)
+            throws SQLException {
+
+        Funcionario_has_Ferias vinculo = new Funcionario_has_Ferias();
+
+        vinculo.setFuncionario_idFuncionario(
+                rs.getInt("Funcionario_idFuncionario"));
+
+        vinculo.setFuncionario_cargos_idcargos(
+                rs.getInt("Funcionario_cargos_idcargos"));
+
+        vinculo.setFuncionario_setores_idsetores(
+                rs.getInt("Funcionario_setores_idsetores"));
+
+        vinculo.setFuncionario_turnos_idturnos(
+                rs.getInt("Funcionario_turnos_idturnos"));
+
+        vinculo.setFerias_idferias(
+                rs.getInt("ferias_idferias"));
+
+        return vinculo;
     }
 }

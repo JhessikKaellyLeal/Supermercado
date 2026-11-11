@@ -1,26 +1,56 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Escala {
- private int iddiasTrabalhados, Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos;
- private String periodoInicial, periodoFinal;
+
+    private int idescala;
+    private String periodoInicial;
+    private String periodoFinal;
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
 
     public Escala() {
     }
 
-    public int getIddiasTrabalhados() {
-        return iddiasTrabalhados;
+    public Escala(int idescala, String periodoInicial, String periodoFinal,
+            int Funcionario_idFuncionario,
+            int Funcionario_cargos_idcargos,
+            int Funcionario_setores_idsetores,
+            int Funcionario_turnos_idturnos) {
+
+        this.idescala = idescala;
+        this.periodoInicial = periodoInicial;
+        this.periodoFinal = periodoFinal;
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+        this.Funcionario_cargos_idcargos = Funcionario_cargos_idcargos;
+        this.Funcionario_setores_idsetores = Funcionario_setores_idsetores;
+        this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
 
-    public void setIddiasTrabalhados(int iddiasTrabalhados) {
-        this.iddiasTrabalhados = iddiasTrabalhados;
+    public int getIdescala() {
+        return idescala;
+    }
+
+    public void setIdescala(int idescala) {
+        this.idescala = idescala;
+    }
+
+    public String getPeriodoInicial() {
+        return periodoInicial;
+    }
+
+    public void setPeriodoInicial(String periodoInicial) {
+        this.periodoInicial = periodoInicial;
+    }
+
+    public String getPeriodoFinal() {
+        return periodoFinal;
+    }
+
+    public void setPeriodoFinal(String periodoFinal) {
+        this.periodoFinal = periodoFinal;
     }
 
     public int getFuncionario_idFuncionario() {
@@ -54,21 +84,4 @@ public class Escala {
     public void setFuncionario_turnos_idturnos(int Funcionario_turnos_idturnos) {
         this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
-
-    public String getPeriodoInicial() {
-        return periodoInicial;
-    }
-
-    public void setPeriodoInicial(String periodoInicial) {
-        this.periodoInicial = periodoInicial;
-    }
-
-    public String getPeriodoFinal() {
-        return periodoFinal;
-    }
-
-    public void setPeriodoFinal(String periodoFinal) {
-        this.periodoFinal = periodoFinal;
-    }
- 
 }

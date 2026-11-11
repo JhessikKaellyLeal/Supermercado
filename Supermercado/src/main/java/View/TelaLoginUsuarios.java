@@ -6,6 +6,10 @@ package View;
 
 import Control.UsuarioController;
 import Model.Usuario;
+import java.awt.Image;
+import java.util.prefs.Preferences;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,13 +19,87 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaLoginUsuarios.class.getName());
 
-    /**
-     * Creates new form TelaLoginUsuarios
-     */
+ 
     public TelaLoginUsuarios() {
         initComponents();
+         this.setExtendedState(TelaLoginUsuarios.MAXIMIZED_BOTH);
+         ajustarImagemFundo();
+         carregarLoginSalvo(); 
     }
+    
+    
+   private void ajustarImagemFundo() {
 
+    ImageIcon imagem = new ImageIcon(
+            getClass().getResource("/assets/fundo.png")
+    );
+
+    Image img = imagem.getImage();
+
+    Image imagemRedimensionada = img.getScaledInstance(
+            1920,
+            1080,
+            Image.SCALE_SMOOTH
+    );
+
+    lbFundo.setSize(1920, 1080);
+    lbFundo.setIcon(new ImageIcon(imagemRedimensionada));
+}
+
+   private void mostrarSenha() {
+
+    if (pfSenha.getEchoChar() != (char) 0) {
+
+        // Mostrar a senha
+        pfSenha.setEchoChar((char) 0);
+
+        btnMostrarSenha.setText("Ocultar");
+
+    } else {
+
+        // Ocultar a senha
+        pfSenha.setEchoChar('•');
+
+        btnMostrarSenha.setText("Mostrar");
+    }
+}
+   
+   private void manterConectado() {
+
+    Preferences preferencias = Preferences.userNodeForPackage(TelaLoginUsuarios.class);
+
+    if (cbLogin.isSelected()) {
+
+        preferencias.put("email", tfUsuario.getText());
+        preferencias.putBoolean("manterConectado", true);
+
+    } else {
+
+        preferencias.remove("email");
+        preferencias.putBoolean("manterConectado", false);
+    }
+}
+   
+ private void carregarLoginSalvo() {
+
+    Preferences preferencias = Preferences.userNodeForPackage(TelaLoginUsuarios.class);
+
+    boolean manter = preferencias.getBoolean("manterConectado", false);
+
+    if (manter) {
+
+        tfUsuario.setText(preferencias.get("email", ""));
+
+        cbLogin.setSelected(true);
+
+    } else {
+
+        tfUsuario.setText("");
+
+        cbLogin.setSelected(false);
+    }
+}  
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,10 +110,8 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lbNomeSupermercado = new javax.swing.JLabel();
-        lbUsuario = new javax.swing.JLabel();
-        lbLogotipo = new javax.swing.JLabel();
-        lbSenha = new javax.swing.JLabel();
+        lbBemvindo = new javax.swing.JLabel();
+        lbMensagem = new javax.swing.JLabel();
         pfSenha = new javax.swing.JPasswordField();
         tfUsuario = new javax.swing.JTextField();
         cbLogin = new javax.swing.JCheckBox();
@@ -43,73 +119,123 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
         btnEsqueciSenha = new javax.swing.JButton();
         btnAjuda = new javax.swing.JButton();
         btnMostrarSenha = new javax.swing.JButton();
-        spLogin = new javax.swing.JSeparator();
+        lbFundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setMaximumSize(new java.awt.Dimension(1920, 1080));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbNomeSupermercado.setText("jLabel1");
-        jPanel1.add(lbNomeSupermercado, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 120, 35));
+        lbBemvindo.setFont(new java.awt.Font("Arial", 0, 30)); // NOI18N
+        lbBemvindo.setText("Bem-vindo");
+        jPanel1.add(lbBemvindo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 250, 50));
 
-        lbUsuario.setText("Usuário ou e-mail");
-        jPanel1.add(lbUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 190, -1));
+        lbMensagem.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lbMensagem.setText("Faça seu login para acessar sua página:");
+        jPanel1.add(lbMensagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 340, -1));
 
-        lbLogotipo.setText("jLabel3");
-        jPanel1.add(lbLogotipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 130, 28));
+        pfSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jPanel1.add(pfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 500, 40));
+        jPanel1.add(tfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 610, 40));
 
-        lbSenha.setText("Senha");
-        jPanel1.add(lbSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, 66, -1));
-
-        pfSenha.setText("jPasswordField1");
-        jPanel1.add(pfSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 300, -1));
-        jPanel1.add(tfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, 363, -1));
-
+        cbLogin.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbLogin.setText("Manter-me conectado neste terminal");
-        jPanel1.add(cbLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, -1, -1));
+        jPanel1.add(cbLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, -1, 30));
 
+        btnEntrada.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnEntrada.setText("Entrar no sistema");
         btnEntrada.addActionListener(this::btnEntradaActionPerformed);
-        jPanel1.add(btnEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, 280, 30));
+        jPanel1.add(btnEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, 330, 40));
 
+        btnEsqueciSenha.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnEsqueciSenha.setText("Esqueceu a senha");
-        jPanel1.add(btnEsqueciSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 470, -1, -1));
+        jPanel1.add(btnEsqueciSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 500, 220, 40));
 
+        btnAjuda.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnAjuda.setText("Preciso de ajuda");
-        jPanel1.add(btnAjuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, -1, -1));
+        jPanel1.add(btnAjuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 200, 40));
 
+        btnMostrarSenha.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnMostrarSenha.setText("Mostrar");
-        jPanel1.add(btnMostrarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 310, -1, -1));
-        jPanel1.add(spLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 360, 10));
+        btnMostrarSenha.addActionListener(this::btnMostrarSenhaActionPerformed);
+        jPanel1.add(btnMostrarSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 310, -1, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 877, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-        );
+        lbFundo.setIcon(new javax.swing.ImageIcon("C:\\Users\\JhéssikLeal\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\fundo.png")); // NOI18N
+        lbFundo.setMaximumSize(new java.awt.Dimension(1920, 1080));
+        jPanel1.add(lbFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1950, 1020));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 0, 1920, 1050));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
-        // TODO add your handling code here:
-        UsuarioController controller = new UsuarioController();
-        String email = tfUsuario.getText().trim();
-        String senha = new String(pfSenha.getPassword()).trim();
-        
-        Usuario usuariomodel = controller.login(email,senha);
-       
-        TelaHome home = new TelaHome(usuariomodel);
-        home.setVisible(true);
-        //fecha a tela login
-        dispose();
-        
+    try {
+
+    UsuarioController controller = new UsuarioController();
+
+    String email = tfUsuario.getText().trim();
+    String senha = new String(pfSenha.getPassword()).trim();
+
+    // Validar campos
+    if (email.isEmpty() || senha.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe o e-mail e a senha!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    // Realizar login
+    Usuario usuariomodel = controller.login(email, senha);
+
+    if (usuariomodel != null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Login realizado com sucesso!"
+        );
+
+        // Manter conectado
+        manterConectado();
+
+        // Abrir tela principal
+        TelaHome tela = new TelaHome(usuariomodel);
+        tela.setVisible(true);
+
+        // Fechar tela de login
+        this.dispose();
+
+    } else {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "E-mail ou senha incorretos!",
+                "Erro de login",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+} catch (Exception e) {
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Erro ao realizar login: " + e.getMessage(),
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+    );
+
+    e.printStackTrace();
+}
     }//GEN-LAST:event_btnEntradaActionPerformed
+
+    private void btnMostrarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarSenhaActionPerformed
+        // TODO add your handling code here:
+        mostrarSenha();
+    }//GEN-LAST:event_btnMostrarSenhaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,12 +269,12 @@ public class TelaLoginUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnMostrarSenha;
     private javax.swing.JCheckBox cbLogin;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lbLogotipo;
-    private javax.swing.JLabel lbNomeSupermercado;
-    private javax.swing.JLabel lbSenha;
-    private javax.swing.JLabel lbUsuario;
+    private javax.swing.JLabel lbBemvindo;
+    private javax.swing.JLabel lbFundo;
+    private javax.swing.JLabel lbMensagem;
     private javax.swing.JPasswordField pfSenha;
-    private javax.swing.JSeparator spLogin;
     private javax.swing.JTextField tfUsuario;
     // End of variables declaration//GEN-END:variables
+
+    
 }

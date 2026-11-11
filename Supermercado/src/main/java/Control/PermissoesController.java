@@ -3,92 +3,242 @@ package Control;
 
 import Conection.Conexao;
 import Model.Permissoes;
-import Model.Usuario;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+import java.sql.Statement;
 
 public class PermissoesController {
+    
+    public void salvarPermissoesFuncionario(Permissoes permissoes, int idFuncionario)
+        throws SQLException {
 
-    // ==========================================
-    // CADASTRAR PERMISSÕES
-    // ==========================================
-   public void cadastrarPermissoes(Permissoes permissoes) throws SQLException {
+    String sqlUsuario = 
+            "SELECT usuario_idusuario FROM funcionario WHERE idFuncionario = ?";
 
-    String sql = "INSERT INTO permissoes ("
-            + "tipo, "
-            + "telaProdutos, "
-            + "telaEstoque, "
-            + "telaCompras, "
-            + "telaClientes, "
-            + "telaPromocoes, "
-            + "telaCaixa, "
-            + "telaVendas, "
-            + "telaPDV, "
-            + "telaPedidos, "
-            + "telaEntregas, "
-            + "telaRh, "
-            + "telaFinaceiro, "
-            + "telaRelatorios"
+    String sqlPermissao =
+            "INSERT INTO permissoes (tipo, telaProdutos, telaEstoque, "
+            + "telaCompras, telaClientes, telaPromocoes, telaCaixa, "
+            + "telaVendas, telaPDV, telaPedidos, telaEntregas, telaRh, "
+            + "telaFinaceiro, telaRelatorios) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    String sqlRelacionamento =
+            "INSERT INTO usuario_has_permissoes "
+            + "(usuario_idusuario, permissoes_idpermissoes) "
+            + "VALUES (?, ?)";
+
+    try (Connection conn = Conexao.conectar()) {
+
+        conn.setAutoCommit(false);
+
+        try {
+
+            int idUsuario;
+
+            // Localiza o usuário vinculado ao funcionário
+            try (PreparedStatement stmt = conn.prepareStatement(sqlUsuario)) {
+
+                stmt.setInt(1, idFuncionario);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+
+                    if (!rs.next()) {
+                        throw new SQLException(
+                                "Não foi encontrado um usuário vinculado ao funcionário.");
+                    }
+
+                    idUsuario = rs.getInt("usuario_idusuario");
+                }
+            }
+
+            // Cadastra as permissões
+            int idPermissao;
+
+            try (PreparedStatement stmt = conn.prepareStatement(
+                    sqlPermissao, Statement.RETURN_GENERATED_KEYS)) {
+
+                stmt.setString(1, permissoes.getTipo());
+                stmt.setInt(2, permissoes.getTelaProdutos());
+                stmt.setInt(3, permissoes.getTelaEstoque());
+                stmt.setInt(4, permissoes.getTelaCompras());
+                stmt.setInt(5, permissoes.getTelaClientes());
+                stmt.setInt(6, permissoes.getTelaPromocoes());
+                stmt.setInt(7, permissoes.getTelaCaixa());
+                stmt.setInt(8, permissoes.getTelaVendas());
+                stmt.setInt(9, permissoes.getTelaPDV());
+                stmt.setInt(10, permissoes.getTelaPedidos());
+                stmt.setInt(11, permissoes.getTelaEntregas());
+                stmt.setInt(12, permissoes.getTelaRh());
+                stmt.setInt(13, permissoes.getTelaFinaceiro());
+                stmt.setInt(14, permissoes.getTelaRelatorios());
+
+                stmt.executeUpdate();
+
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+
+                    if (!rs.next()) {
+                        throw new SQLException(
+                                "Não foi possível obter o ID das permissões.");
+                    }
+
+                    idPermissao = rs.getInt(1);
+                }
+            }
+
+            // Relaciona as permissões ao usuário
+            try (PreparedStatement stmt =
+                    conn.prepareStatement(sqlRelacionamento)) {
+
+                stmt.setInt(1, idUsuario);
+                stmt.setInt(2, idPermissao);
+
+                stmt.executeUpdate();
+            }
+
+            conn.commit();
+
+        } catch (SQLException e) {
+
+            conn.rollback();
+            throw e;
+
+        } finally {
+            conn.setAutoCommit(true);
+        }
+    }
+}
+    
+    public void salvarPermissoesUsuario(Permissoes permissoes, int idUsuario)
+        throws SQLException {
+
+    String sqlPermissoes = "INSERT INTO permissoes ("
+            + "tipo, telaProdutos, telaEstoque, telaCompras, "
+            + "telaClientes, telaPromocoes, telaCaixa, telaVendas, "
+            + "telaPDV, telaPedidos, telaEntregas, telaRh, "
+            + "telaFinaceiro, telaRelatorios"
             + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
+    String sqlRelacionamento = "INSERT INTO usuario_has_permissoes "
+            + "(usuario_idusuario, permissoes_idpermissoes) "
+            + "VALUES (?, ?)";
 
-        stmt.setString(1, permissoes.getTipo());
-        stmt.setInt(2, permissoes.getTelaProdutos());
-        stmt.setInt(3, permissoes.getTelaEstoque());
-        stmt.setInt(4, permissoes.getTelaCompras());
-        stmt.setInt(5, permissoes.getTelaClientes());
-        stmt.setInt(6, permissoes.getTelaPromocoes());
-        stmt.setInt(7, permissoes.getTelaCaixa());
-        stmt.setInt(8, permissoes.getTelaVendas());
-        stmt.setInt(9, permissoes.getTelaPDV());
-        stmt.setInt(10, permissoes.getTelaPedidos());
-        stmt.setInt(11, permissoes.getTelaEntregas());
-        stmt.setInt(12, permissoes.getTelaRh());
-        stmt.setInt(13, permissoes.getTelaFinaceiro());
-        stmt.setInt(14, permissoes.getTelaRelatorios());
+    try (Connection conn = Conexao.conectar()) {
 
-        stmt.executeUpdate();
+        conn.setAutoCommit(false);
+
+        try {
+
+            int idPermissao;
+
+            // Cadastrar as permissões
+            try (PreparedStatement stmt = conn.prepareStatement(
+                    sqlPermissoes, Statement.RETURN_GENERATED_KEYS)) {
+
+                stmt.setString(1, permissoes.getTipo());
+                stmt.setInt(2, permissoes.getTelaProdutos());
+                stmt.setInt(3, permissoes.getTelaEstoque());
+                stmt.setInt(4, permissoes.getTelaCompras());
+                stmt.setInt(5, permissoes.getTelaClientes());
+                stmt.setInt(6, permissoes.getTelaPromocoes());
+                stmt.setInt(7, permissoes.getTelaCaixa());
+                stmt.setInt(8, permissoes.getTelaVendas());
+                stmt.setInt(9, permissoes.getTelaPDV());
+                stmt.setInt(10, permissoes.getTelaPedidos());
+                stmt.setInt(11, permissoes.getTelaEntregas());
+                stmt.setInt(12, permissoes.getTelaRh());
+                stmt.setInt(13, permissoes.getTelaFinaceiro());
+                stmt.setInt(14, permissoes.getTelaRelatorios());
+
+                stmt.executeUpdate();
+
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+
+                    if (rs.next()) {
+                        idPermissao = rs.getInt(1);
+                    } else {
+                        throw new SQLException(
+                                "Não foi possível recuperar o ID da permissão."
+                        );
+                    }
+                }
+            }
+
+            // Relacionar a permissão ao usuário
+            try (PreparedStatement stmt = conn.prepareStatement(
+                    sqlRelacionamento)) {
+
+                stmt.setInt(1, idUsuario);
+                stmt.setInt(2, idPermissao);
+
+                stmt.executeUpdate();
+            }
+
+            conn.commit();
+
+        } catch (SQLException e) {
+
+            conn.rollback();
+            throw e;
+
+        } finally {
+
+            conn.setAutoCommit(true);
+        }
     }
 }
 
-    // ==========================================
-    // LISTAR TODAS AS PERMISSÕES
-    // ==========================================
-    public List<Permissoes> listar() {
+    public void cadastrar(Permissoes permissao) throws SQLException {
+        String sql = "INSERT INTO permissoes "
+                + "(tipo, telaProdutos, telaEstoque, telaCompras, "
+                + "telaClientes, telaPromocoes, telaCaixa, telaVendas, "
+                + "telaPDV, telaPedidos, telaEntregas, telaRh, "
+                + "telaFinaceiro, telaRelatorios) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, permissao.getTipo());
+            stmt.setInt(2, permissao.getTelaProdutos());
+            stmt.setInt(3, permissao.getTelaEstoque());
+            stmt.setInt(4, permissao.getTelaCompras());
+            stmt.setInt(5, permissao.getTelaClientes());
+            stmt.setInt(6, permissao.getTelaPromocoes());
+            stmt.setInt(7, permissao.getTelaCaixa());
+            stmt.setInt(8, permissao.getTelaVendas());
+            stmt.setInt(9, permissao.getTelaPDV());
+            stmt.setInt(10, permissao.getTelaPedidos());
+            stmt.setInt(11, permissao.getTelaEntregas());
+            stmt.setInt(12, permissao.getTelaRh());
+            stmt.setInt(13, permissao.getTelaFinaceiro());
+            stmt.setInt(14, permissao.getTelaRelatorios());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Permissoes> listar() throws SQLException {
         List<Permissoes> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM permissoes ORDER BY tipo";
+        String sql = "SELECT * FROM permissoes ORDER BY idpermissoes";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                lista.add(mapearPermissoes(rs));
+                lista.add(mapearPermissao(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar permissões: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return lista;
     }
 
-    // ==========================================
-    // BUSCAR PERMISSÃO PELO ID
-    // ==========================================
-    public Permissoes buscarPorId(int id) {
-
+    public Permissoes buscarPorId(int id) throws SQLException {
         String sql = "SELECT * FROM permissoes WHERE idpermissoes = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -98,170 +248,128 @@ public class PermissoesController {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return mapearPermissoes(rs);
+                    return mapearPermissao(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar permissão: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return null;
     }
 
-    // ==========================================
-    // BUSCAR PERMISSÃO PELO TIPO
-    // ==========================================
-    public Permissoes buscarPorTipo(String tipo) {
+    public List<Permissoes> buscarPorTipo(String tipo)
+            throws SQLException {
 
-        String sql = "SELECT * FROM permissoes WHERE tipo = ?";
+        List<Permissoes> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM permissoes "
+                + "WHERE tipo LIKE ? ORDER BY tipo";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, tipo);
+            stmt.setString(1, "%" + tipo + "%");
 
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapearPermissoes(rs);
+                while (rs.next()) {
+                    lista.add(mapearPermissao(rs));
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar tipo de permissão: " + e.getMessage());
-            e.printStackTrace();
         }
 
-        return null;
+        return lista;
     }
 
-    // ==========================================
-    // ATUALIZAR PERMISSÕES
-    // ==========================================
-    public boolean atualizar(Permissoes p) {
-
+    public void atualizar(Permissoes permissao) throws SQLException {
         String sql = "UPDATE permissoes SET "
-                + "tipo = ?, "
-                + "telaProdutos = ?, "
-                + "telaEstoque = ?, "
-                + "telaCompras = ?, "
-                + "telaClientes = ?, "
-                + "telaPromocoes = ?, "
-                + "telaCaixa = ?, "
-                + "telaVendas = ?, "
-                + "telaPDV = ?, "
-                + "telaPedidos = ?, "
-                + "telaEntregas = ?, "
-                + "telaRh = ?, "
-                + "telaFinaceiro = ?, "
-                + "telaRelatorios = ? "
+                + "tipo = ?, telaProdutos = ?, telaEstoque = ?, "
+                + "telaCompras = ?, telaClientes = ?, "
+                + "telaPromocoes = ?, telaCaixa = ?, telaVendas = ?, "
+                + "telaPDV = ?, telaPedidos = ?, telaEntregas = ?, "
+                + "telaRh = ?, telaFinaceiro = ?, telaRelatorios = ? "
                 + "WHERE idpermissoes = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, p.getTipo());
-            stmt.setInt(2, p.getTelaProdutos());
-            stmt.setInt(3, p.getTelaEstoque());
-            stmt.setInt(4, p.getTelaCompras());
-            stmt.setInt(5, p.getTelaClientes());
-            stmt.setInt(6, p.getTelaPromocoes());
-            stmt.setInt(7, p.getTelaCaixa());
-            stmt.setInt(8, p.getTelaVendas());
-            stmt.setInt(9, p.getTelaPDV());
-            stmt.setInt(10, p.getTelaPedidos());
-            stmt.setInt(11, p.getTelaEntregas());
-            stmt.setInt(12, p.getTelaRh());
-            stmt.setInt(13, p.getTelaFinaceiro());
-            stmt.setInt(14, p.getTelaRelatorios());
-            stmt.setInt(15, p.getIdPermissoes());
+            stmt.setString(1, permissao.getTipo());
+            stmt.setInt(2, permissao.getTelaProdutos());
+            stmt.setInt(3, permissao.getTelaEstoque());
+            stmt.setInt(4, permissao.getTelaCompras());
+            stmt.setInt(5, permissao.getTelaClientes());
+            stmt.setInt(6, permissao.getTelaPromocoes());
+            stmt.setInt(7, permissao.getTelaCaixa());
+            stmt.setInt(8, permissao.getTelaVendas());
+            stmt.setInt(9, permissao.getTelaPDV());
+            stmt.setInt(10, permissao.getTelaPedidos());
+            stmt.setInt(11, permissao.getTelaEntregas());
+            stmt.setInt(12, permissao.getTelaRh());
+            stmt.setInt(13, permissao.getTelaFinaceiro());
+            stmt.setInt(14, permissao.getTelaRelatorios());
+            stmt.setInt(15, permissao.getIdpermissoes());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar permissões: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // ==========================================
-    // EXCLUIR PERMISSÕES
-    // ==========================================
-    public boolean excluir(int id) {
-
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM permissoes WHERE idpermissoes = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir permissões: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // ==========================================
-    // MAPEAR RESULTADO PARA MODEL
-    // ==========================================
-    private Permissoes mapearPermissoes(ResultSet rs) throws SQLException {
+    private Permissoes mapearPermissao(ResultSet rs)
+            throws SQLException {
 
-        Permissoes p = new Permissoes();
+        Permissoes permissao = new Permissoes();
 
-        p.setIdPermissoes(rs.getInt("idpermissoes"));
-        p.setTipo(rs.getString("tipo"));
+        permissao.setIdpermissoes(rs.getInt("idpermissoes"));
+        permissao.setTipo(rs.getString("tipo"));
+        permissao.setTelaProdutos(rs.getInt("telaProdutos"));
+        permissao.setTelaEstoque(rs.getInt("telaEstoque"));
+        permissao.setTelaCompras(rs.getInt("telaCompras"));
+        permissao.setTelaClientes(rs.getInt("telaClientes"));
+        permissao.setTelaPromocoes(rs.getInt("telaPromocoes"));
+        permissao.setTelaCaixa(rs.getInt("telaCaixa"));
+        permissao.setTelaVendas(rs.getInt("telaVendas"));
+        permissao.setTelaPDV(rs.getInt("telaPDV"));
+        permissao.setTelaPedidos(rs.getInt("telaPedidos"));
+        permissao.setTelaEntregas(rs.getInt("telaEntregas"));
+        permissao.setTelaRh(rs.getInt("telaRh"));
+        permissao.setTelaFinaceiro(rs.getInt("telaFinaceiro"));
+        permissao.setTelaRelatorios(rs.getInt("telaRelatorios"));
 
-        p.setTelaProdutos(rs.getInt("telaProdutos"));
-        p.setTelaEstoque(rs.getInt("telaEstoque"));
-        p.setTelaCompras(rs.getInt("telaCompras"));
-        p.setTelaClientes(rs.getInt("telaClientes"));
-        p.setTelaPromocoes(rs.getInt("telaPromocoes"));
-        p.setTelaCaixa(rs.getInt("telaCaixa"));
-        p.setTelaVendas(rs.getInt("telaVendas"));
-        p.setTelaPDV(rs.getInt("telaPDV"));
-        p.setTelaPedidos(rs.getInt("telaPedidos"));
-        p.setTelaEntregas(rs.getInt("telaEntregas"));
-        p.setTelaRh(rs.getInt("telaRh"));
-        p.setTelaFinaceiro(rs.getInt("telaFinaceiro"));
-        p.setTelaRelatorios(rs.getInt("telaRelatorios"));
-
-        return p;
+        return permissao;
     }
-
-    // ==========================================
-    // LISTAR PERMISSÕES COM NOME DOS USUÁRIOS
-    // PARA A JTable tbPermissoes
-    // ==========================================
-    public List<Object[]> listarPermissoesComUsuarios() {
+    
+    public List<Object[]> listarPermissoesComUsuarios() throws SQLException {
 
     List<Object[]> lista = new ArrayList<>();
 
     String sql = "SELECT "
-            + "u.nome AS nomeUsuario, "
-            + "COALESCE(p.telaProdutos, 0) AS telaProdutos, "
-            + "COALESCE(p.telaEstoque, 0) AS telaEstoque, "
-            + "COALESCE(p.telaCompras, 0) AS telaCompras, "
-            + "COALESCE(p.telaClientes, 0) AS telaClientes, "
-            + "COALESCE(p.telaPromocoes, 0) AS telaPromocoes, "
-            + "COALESCE(p.telaCaixa, 0) AS telaCaixa, "
-            + "COALESCE(p.telaVendas, 0) AS telaVendas, "
-            + "COALESCE(p.telaPDV, 0) AS telaPDV, "
-            + "COALESCE(p.telaPedidos, 0) AS telaPedidos, "
-            + "COALESCE(p.telaEntregas, 0) AS telaEntregas, "
-            + "COALESCE(p.telaRh, 0) AS telaRh, "
-            + "COALESCE(p.telaFinaceiro, 0) AS telaFinaceiro, "
-            + "COALESCE(p.telaRelatorios, 0) AS telaRelatorios "
-            + "FROM usuario u "
-            + "LEFT JOIN usuario_has_permissoes up "
-            + "ON u.idusuario = up.usuario_idusuario "
-            + "LEFT JOIN permissoes p "
-            + "ON up.permissoes_idpermissoes = p.idpermissoes "
+            + "u.nome, "
+            + "p.telaProdutos, "
+            + "p.telaEstoque, "
+            + "p.telaCompras, "
+            + "p.telaClientes, "
+            + "p.telaPromocoes, "
+            + "p.telaCaixa, "
+            + "p.telaVendas, "
+            + "p.telaPDV, "
+            + "p.telaPedidos, "
+            + "p.telaEntregas, "
+            + "p.telaRh, "
+            + "p.telaFinaceiro, "
+            + "p.telaRelatorios "
+            + "FROM permissoes p "
+            + "INNER JOIN usuario_has_permissoes up "
+            + "ON p.idpermissoes = up.permissoes_idpermissoes "
+            + "INNER JOIN usuario u "
+            + "ON up.usuario_idusuario = u.idusuario "
             + "ORDER BY u.nome";
 
     try (Connection conn = Conexao.conectar();
@@ -270,8 +378,8 @@ public class PermissoesController {
 
         while (rs.next()) {
 
-            Object[] dados = {
-                rs.getString("nomeUsuario"),
+            Object[] dados = new Object[]{
+                rs.getString("nome"),
                 rs.getInt("telaProdutos"),
                 rs.getInt("telaEstoque"),
                 rs.getInt("telaCompras"),
@@ -289,217 +397,15 @@ public class PermissoesController {
 
             lista.add(dados);
         }
-
-        System.out.println("Usuários encontrados: " + lista.size());
-
-    } catch (SQLException e) {
-
-        System.err.println("Erro ao listar permissões: " + e.getMessage());
-        e.printStackTrace();
     }
 
     return lista;
 }
-
-    // ==========================================
-    // LISTAR PERMISSÕES COM OBJETO USUARIO
-    // ==========================================
-    public List<Permissoes> listarPermissoes() {
-
-        List<Permissoes> lista = new ArrayList<>();
-
-        String sql = "SELECT p.*, "
-                + "u.nome AS nomeUsuario "
-                + "FROM permissoes p "
-                + "INNER JOIN usuario_has_permissoes up "
-                + "ON p.idpermissoes = up.permissoes_idpermissoes "
-                + "INNER JOIN usuario u "
-                + "ON up.usuario_idusuario = u.idusuario "
-                + "ORDER BY u.nome";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-
-                Permissoes permissao = mapearPermissoes(rs);
-
-                Usuario usuario = new Usuario();
-                usuario.setNome(rs.getString("nomeUsuario"));
-
-                permissao.setUsuario(usuario);
-
-                lista.add(permissao);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar permissões: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return lista;
-    }
     
-    public void salvarPermissoesFuncionario(
-        Permissoes p, int idFuncionario) throws SQLException {
-
-    String sqlUsuario = "SELECT idusuario FROM usuario "
-            + "WHERE Funcionario_idFuncionario = ?";
-
-    String sqlBuscar = "SELECT p.idpermissoes "
-            + "FROM permissoes p "
-            + "INNER JOIN usuario_has_permissoes up "
-            + "ON p.idpermissoes = up.permissoes_idpermissoes "
-            + "WHERE up.usuario_idusuario = ?";
-
-    String sqlInsert = "INSERT INTO permissoes ("
-            + "tipo, telaProdutos, telaEstoque, telaCompras, "
-            + "telaClientes, telaPromocoes, telaCaixa, telaVendas, "
-            + "telaPDV, telaPedidos, telaEntregas, telaRh, "
-            + "telaFinaceiro, telaRelatorios"
-            + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    String sqlUpdate = "UPDATE permissoes SET "
-            + "telaProdutos=?, telaEstoque=?, telaCompras=?, "
-            + "telaClientes=?, telaPromocoes=?, telaCaixa=?, "
-            + "telaVendas=?, telaPDV=?, telaPedidos=?, "
-            + "telaEntregas=?, telaRh=?, telaFinaceiro=?, "
-            + "telaRelatorios=? "
-            + "WHERE idpermissoes=?";
-
-    String sqlVincular = "INSERT INTO usuario_has_permissoes "
-            + "(usuario_idusuario, permissoes_idpermissoes) "
-            + "VALUES (?, ?)";
-
-    try (Connection conn = Conexao.conectar()) {
-
-        conn.setAutoCommit(false);
-
-        try {
-
-            int idUsuario;
-
-            // 1. Localizar o usuário pelo funcionário
-            try (PreparedStatement stmt = conn.prepareStatement(sqlUsuario)) {
-
-                stmt.setInt(1, idFuncionario);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-
-                    if (!rs.next()) {
-                        throw new SQLException(
-                                "Não existe usuário cadastrado para este funcionário.");
-                    }
-
-                    idUsuario = rs.getInt("idusuario");
-                }
-            }
-
-            int idPermissao = -1;
-
-            // 2. Verificar se o usuário já possui permissões
-            try (PreparedStatement stmt = conn.prepareStatement(sqlBuscar)) {
-
-                stmt.setInt(1, idUsuario);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-
-                    if (rs.next()) {
-                        idPermissao = rs.getInt("idpermissoes");
-                    }
-                }
-            }
-
-            if (idPermissao == -1) {
-
-                // 3. Cadastrar novas permissões
-                try (PreparedStatement stmt = conn.prepareStatement(
-                        sqlInsert, java.sql.Statement.RETURN_GENERATED_KEYS)) {
-
-                    preencherPermissoes(stmt, p);
-
-                    stmt.executeUpdate();
-
-                    try (ResultSet rs = stmt.getGeneratedKeys()) {
-
-                        if (!rs.next()) {
-                            throw new SQLException(
-                                    "Não foi possível recuperar o ID da permissão.");
-                        }
-
-                        idPermissao = rs.getInt(1);
-                    }
-                }
-
-                // 4. Vincular usuário e permissão
-                try (PreparedStatement stmt = conn.prepareStatement(sqlVincular)) {
-
-                    stmt.setInt(1, idUsuario);
-                    stmt.setInt(2, idPermissao);
-
-                    stmt.executeUpdate();
-                }
-
-            } else {
-
-                // 5. Atualizar permissões existentes
-                try (PreparedStatement stmt = conn.prepareStatement(sqlUpdate)) {
-
-                    stmt.setInt(1, p.getTelaProdutos());
-                    stmt.setInt(2, p.getTelaEstoque());
-                    stmt.setInt(3, p.getTelaCompras());
-                    stmt.setInt(4, p.getTelaClientes());
-                    stmt.setInt(5, p.getTelaPromocoes());
-                    stmt.setInt(6, p.getTelaCaixa());
-                    stmt.setInt(7, p.getTelaVendas());
-                    stmt.setInt(8, p.getTelaPDV());
-                    stmt.setInt(9, p.getTelaPedidos());
-                    stmt.setInt(10, p.getTelaEntregas());
-                    stmt.setInt(11, p.getTelaRh());
-                    stmt.setInt(12, p.getTelaFinaceiro());
-                    stmt.setInt(13, p.getTelaRelatorios());
-                    stmt.setInt(14, idPermissao);
-
-                    stmt.executeUpdate();
-                }
-            }
-
-            conn.commit();
-
-        } catch (SQLException e) {
-
-            conn.rollback();
-            throw e;
-
-        } finally {
-
-            conn.setAutoCommit(true);
-        }
-    }
-}
-
-// Preencher os campos no INSERT
-private void preencherPermissoes(
-        PreparedStatement stmt, Permissoes p) throws SQLException {
-
-    stmt.setString(1, "Individual");
-    stmt.setInt(2, p.getTelaProdutos());
-    stmt.setInt(3, p.getTelaEstoque());
-    stmt.setInt(4, p.getTelaCompras());
-    stmt.setInt(5, p.getTelaClientes());
-    stmt.setInt(6, p.getTelaPromocoes());
-    stmt.setInt(7, p.getTelaCaixa());
-    stmt.setInt(8, p.getTelaVendas());
-    stmt.setInt(9, p.getTelaPDV());
-    stmt.setInt(10, p.getTelaPedidos());
-    stmt.setInt(11, p.getTelaEntregas());
-    stmt.setInt(12, p.getTelaRh());
-    stmt.setInt(13, p.getTelaFinaceiro());
-    stmt.setInt(14, p.getTelaRelatorios());
-}
-
-public Permissoes buscarPorFuncionario(int idFuncionario) {
+    
+    // BUSCAR PERMISSÕES POR FUNCIONÁRIO
+public Permissoes buscarPorFuncionario(int idFuncionario)
+        throws SQLException {
 
     String sql = "SELECT p.* "
             + "FROM permissoes p "
@@ -507,7 +413,8 @@ public Permissoes buscarPorFuncionario(int idFuncionario) {
             + "ON p.idpermissoes = up.permissoes_idpermissoes "
             + "INNER JOIN usuario u "
             + "ON up.usuario_idusuario = u.idusuario "
-            + "WHERE u.Funcionario_idFuncionario = ?";
+            + "WHERE u.Funcionario_idFuncionario = ? "
+            + "LIMIT 1";
 
     try (Connection conn = Conexao.conectar();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -517,134 +424,12 @@ public Permissoes buscarPorFuncionario(int idFuncionario) {
         try (ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
-                return mapearPermissoes(rs);
+                return mapearPermissao(rs);
             }
         }
-
-    } catch (SQLException e) {
-
-        e.printStackTrace();
     }
 
     return null;
 }
-
- public void salvarPermissoesUsuario(
-        Permissoes p, int idUsuario) throws SQLException {
-
-    String sqlBuscar = "SELECT permissoes_idpermissoes "
-            + "FROM usuario_has_permissoes "
-            + "WHERE usuario_idusuario = ?";
-
-    String sqlInsert = "INSERT INTO permissoes ("
-            + "tipo, telaProdutos, telaEstoque, telaCompras, "
-            + "telaClientes, telaPromocoes, telaCaixa, telaVendas, "
-            + "telaPDV, telaPedidos, telaEntregas, telaRh, "
-            + "telaFinaceiro, telaRelatorios"
-            + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    String sqlUpdate = "UPDATE permissoes SET "
-            + "telaProdutos=?, telaEstoque=?, telaCompras=?, "
-            + "telaClientes=?, telaPromocoes=?, telaCaixa=?, "
-            + "telaVendas=?, telaPDV=?, telaPedidos=?, "
-            + "telaEntregas=?, telaRh=?, telaFinaceiro=?, "
-            + "telaRelatorios=? "
-            + "WHERE idpermissoes=?";
-
-    String sqlVincular = "INSERT INTO usuario_has_permissoes "
-            + "(usuario_idusuario, permissoes_idpermissoes) "
-            + "VALUES (?, ?)";
-
-    try (Connection conn = Conexao.conectar()) {
-
-        conn.setAutoCommit(false);
-
-        try {
-
-            int idPermissao = -1;
-
-            // Verifica se o usuário já possui permissões
-            try (PreparedStatement stmt = conn.prepareStatement(sqlBuscar)) {
-
-                stmt.setInt(1, idUsuario);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-
-                    if (rs.next()) {
-                        idPermissao = rs.getInt("permissoes_idpermissoes");
-                    }
-                }
-            }
-
-            if (idPermissao == -1) {
-
-                // Cadastra novas permissões
-                try (PreparedStatement stmt = conn.prepareStatement(
-                        sqlInsert,
-                        java.sql.Statement.RETURN_GENERATED_KEYS)) {
-
-                    preencherPermissoes(stmt, p);
-
-                    stmt.executeUpdate();
-
-                    try (ResultSet rs = stmt.getGeneratedKeys()) {
-
-                        if (rs.next()) {
-                            idPermissao = rs.getInt(1);
-                        } else {
-                            throw new SQLException(
-                                    "Não foi possível obter o ID da permissão.");
-                        }
-                    }
-                }
-
-                // Associa a permissão ao usuário
-                try (PreparedStatement stmt = conn.prepareStatement(sqlVincular)) {
-
-                    stmt.setInt(1, idUsuario);
-                    stmt.setInt(2, idPermissao);
-
-                    stmt.executeUpdate();
-                }
-
-            } else {
-
-                // Atualiza as permissões existentes
-                try (PreparedStatement stmt = conn.prepareStatement(sqlUpdate)) {
-
-                    stmt.setInt(1, p.getTelaProdutos());
-                    stmt.setInt(2, p.getTelaEstoque());
-                    stmt.setInt(3, p.getTelaCompras());
-                    stmt.setInt(4, p.getTelaClientes());
-                    stmt.setInt(5, p.getTelaPromocoes());
-                    stmt.setInt(6, p.getTelaCaixa());
-                    stmt.setInt(7, p.getTelaVendas());
-                    stmt.setInt(8, p.getTelaPDV());
-                    stmt.setInt(9, p.getTelaPedidos());
-                    stmt.setInt(10, p.getTelaEntregas());
-                    stmt.setInt(11, p.getTelaRh());
-                    stmt.setInt(12, p.getTelaFinaceiro());
-                    stmt.setInt(13, p.getTelaRelatorios());
-                    stmt.setInt(14, idPermissao);
-
-                    stmt.executeUpdate();
-                }
-            }
-
-            conn.commit();
-
-        } catch (SQLException e) {
-
-            conn.rollback();
-            throw e;
-
-        } finally {
-
-            conn.setAutoCommit(true);
-        }
-    }
-} 
-   
-
-  
+    
 }

@@ -1,20 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Turnos {
 
-    private int idturnos, duracaoTurno;
-    private String nome, descricao, horaInicio, horaSaida, intervaloInicio, intervaloFinal;
-    private boolean turnoNoturno, status;
+    private int idturnos;
+    private String nome;
+    private String descricao;
+    private String horaInicio;
+    private String horaSaida;
+    private String intervaloInicio;
+    private String intervaloFinal;
+    private int duracaoTurno;
+    private Integer turnoNoturno;
+    private int status;
 
     public Turnos() {
+    }
+
+    public Turnos(int idturnos, String nome, String descricao,
+            String horaInicio, String horaSaida,
+            String intervaloInicio, String intervaloFinal,
+            int duracaoTurno, Integer turnoNoturno, int status) {
+
+        this.idturnos = idturnos;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.horaInicio = horaInicio;
+        this.horaSaida = horaSaida;
+        this.intervaloInicio = intervaloInicio;
+        this.intervaloFinal = intervaloFinal;
+        this.duracaoTurno = duracaoTurno;
+        this.turnoNoturno = turnoNoturno;
+        this.status = status;
     }
 
     public int getIdturnos() {
@@ -23,14 +40,6 @@ public class Turnos {
 
     public void setIdturnos(int idturnos) {
         this.idturnos = idturnos;
-    }
-
-    public int getDuracaoTurno() {
-        return duracaoTurno;
-    }
-
-    public void setDuracaoTurno(int duracaoTurno) {
-        this.duracaoTurno = duracaoTurno;
     }
 
     public String getNome() {
@@ -81,20 +90,27 @@ public class Turnos {
         this.intervaloFinal = intervaloFinal;
     }
 
-    public boolean isTurnoNoturno() {
+    public int getDuracaoTurno() {
+        return duracaoTurno;
+    }
+
+    public void setDuracaoTurno(int duracaoTurno) {
+        this.duracaoTurno = duracaoTurno;
+    }
+
+    public Integer getTurnoNoturno() {
         return turnoNoturno;
     }
 
-    public void setTurnoNoturno(boolean turnoNoturno) {
+    public void setTurnoNoturno(Integer turnoNoturno) {
         this.turnoNoturno = turnoNoturno;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
-
 }

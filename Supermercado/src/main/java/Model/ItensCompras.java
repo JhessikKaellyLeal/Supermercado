@@ -1,18 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ItensCompras {
-  private int iditensCompra, quantidade, compras_idcompras, produtos_idprodutos, produtos_categorias_idcategorias, produtos_marcas_idmarcas,  produtos_unidadeMedidas_idunidadeMedidas;
-private double precoUnitario, desconto;
+
+    private int iditensCompra;
+    private int quantidade;
+    private double precoUnitario;
+    private double desconto;
+    private int compras_idcompras;
+    private int produtos_idprodutos;
+    private int produtos_categorias_idcategorias;
+    private int produtos_marcas_idmarcas;
+    private int produtos_unidadeMedidas_idunidadeMedidas;
 
     public ItensCompras() {
+    }
+
+    public ItensCompras(int iditensCompra, int quantidade,
+            double precoUnitario, double desconto,
+            int compras_idcompras, int produtos_idprodutos,
+            int produtos_categorias_idcategorias,
+            int produtos_marcas_idmarcas,
+            int produtos_unidadeMedidas_idunidadeMedidas) {
+
+        this.iditensCompra = iditensCompra;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+        this.desconto = desconto;
+        this.compras_idcompras = compras_idcompras;
+        this.produtos_idprodutos = produtos_idprodutos;
+        this.produtos_categorias_idcategorias = produtos_categorias_idcategorias;
+        this.produtos_marcas_idmarcas = produtos_marcas_idmarcas;
+        this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIditensCompra() {
@@ -29,6 +48,22 @@ private double precoUnitario, desconto;
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
+    }
+
+    public double getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(double desconto) {
+        this.desconto = desconto;
     }
 
     public int getCompras_idcompras() {
@@ -70,21 +105,4 @@ private double precoUnitario, desconto;
     public void setProdutos_unidadeMedidas_idunidadeMedidas(int produtos_unidadeMedidas_idunidadeMedidas) {
         this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
-
-    public double getPrecoUnitario() {
-        return precoUnitario;
-    }
-
-    public void setPrecoUnitario(double precoUnitario) {
-        this.precoUnitario = precoUnitario;
-    }
-
-    public double getDesconto() {
-        return desconto;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
-    }
-
 }

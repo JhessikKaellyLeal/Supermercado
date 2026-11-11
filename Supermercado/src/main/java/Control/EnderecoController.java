@@ -9,9 +9,29 @@ package Control;
  * @author AntônioVieira
  */
 import Conection.Conexao;
+import Model.Endereco;
 import java.sql.*;
 import java.util.*;
 public class EnderecoController {
+    // BUSCAR ID DO CLIENTE PELO CPF
+public int buscarIdClientePorCpf(String cpf) throws SQLException {
+
+    String sql = "SELECT idcliente FROM cliente WHERE cpf = ?";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, cpf);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("idcliente");
+            }
+        }
+    }
+
+    return -1;
+}
  public boolean cadastrar(String bairro, String cep,
             String cidade, String estado, String rua,
             String numero, int idCliente) throws SQLException {
@@ -77,5 +97,37 @@ public class EnderecoController {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         }
-    }   
+    }  
+    
+    public Endereco buscarPorCliente(int idCliente) throws SQLException {
+
+    String sql = "SELECT * FROM endereco WHERE cliente_idcliente = ?";
+
+    try (Connection con = Conexao.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, idCliente);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+
+                Endereco endereco = new Endereco();
+
+                endereco.setIdEndereco(rs.getInt("idEndereco"));
+                endereco.setBairro(rs.getString("bairro"));
+                endereco.setCep(rs.getString("cep"));
+                endereco.setCidade(rs.getString("cidade"));
+                endereco.setEstado(rs.getString("estado"));
+                endereco.setRua(rs.getString("rua"));
+                endereco.setNumero(rs.getString("numero"));
+                endereco.setCliente_idcliente(rs.getInt("cliente_idcliente"));
+
+                return endereco;
+            }
+        }
+    }
+
+    return null;
+}
 }

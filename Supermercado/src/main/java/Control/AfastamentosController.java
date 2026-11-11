@@ -1,35 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
+import Model.Afastamentos;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * @author ArthurGiuvannucci
- */
 public class AfastamentosController {
 
-    public boolean cadastrar(
-            String tipo,
-            String inicio,
-            String fim,
-            String dias,
-            String situacao,
-            String dataRegistro,
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno) throws SQLException {
+    // CADASTRAR
+    public boolean cadastrar(Afastamentos afastamento) throws SQLException {
 
         String sql = "INSERT INTO afastamentos "
                 + "(tipo, inicio, final, dias, situacao, dataRegistro, "
@@ -39,109 +25,175 @@ public class AfastamentosController {
                 + "Funcionario_turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1, tipo);
-            ps.setString(2, inicio);
-            ps.setString(3, fim);
-            ps.setString(4, dias);
-            ps.setString(5, situacao);
-            ps.setString(6, dataRegistro);
-            ps.setInt(7, idFuncionario);
-            ps.setInt(8, idCargo);
-            ps.setInt(9, idSetor);
-            ps.setInt(10, idTurno);
+            stmt.setString(1, afastamento.getTipo());
+            stmt.setString(2, afastamento.getInicio());
+            stmt.setString(3, afastamento.getFinalAfastamento());
+            stmt.setString(4, afastamento.getDias());
+            stmt.setString(5, afastamento.getSituacao());
+            stmt.setString(6, afastamento.getDataRegistro());
+            stmt.setInt(7, afastamento.getFuncionario_idFuncionario());
+            stmt.setInt(8, afastamento.getFuncionario_cargos_idcargos());
+            stmt.setInt(9, afastamento.getFuncionario_setores_idsetores());
+            stmt.setInt(10, afastamento.getFuncionario_turnos_idturnos());
 
-            return ps.executeUpdate() > 0;
+            int linhas = stmt.executeUpdate();
+
+            if (linhas > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        afastamento.setIdafastamentos(rs.getInt(1));
+                    }
+                }
+                return true;
+            }
         }
+
+        return false;
     }
 
-    public List<String[]> listar() throws SQLException {
+    // LISTAR TODOS
+    public List<Afastamentos> listar() throws SQLException {
 
-        List<String[]> lista = new ArrayList<>();
+        List<Afastamentos> lista = new ArrayList<>();
 
-        String sql = "SELECT idafastamentos, tipo, inicio, final, "
-                + "dias, situacao, dataRegistro, "
-                + "Funcionario_idFuncionario "
-                + "FROM afastamentos "
-                + "ORDER BY idafastamentos";
+        String sql = "SELECT * FROM afastamentos "
+                + "ORDER BY idafastamentos DESC";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
 
-                lista.add(new String[]{
-                    String.valueOf(rs.getInt("idafastamentos")),
-                    rs.getString("tipo"),
-                    rs.getString("inicio"),
-                    rs.getString("final"),
-                    rs.getString("dias"),
-                    rs.getString("situacao"),
-                    rs.getString("dataRegistro"),
-                    String.valueOf(
-                        rs.getInt("Funcionario_idFuncionario"))
-                });
+                Afastamentos afastamento = new Afastamentos();
+
+                afastamento.setIdafastamentos(
+                        rs.getInt("idafastamentos"));
+
+                afastamento.setTipo(rs.getString("tipo"));
+                afastamento.setInicio(rs.getString("inicio"));
+                afastamento.setFinalAfastamento(rs.getString("final"));
+                afastamento.setDias(rs.getString("dias"));
+                afastamento.setSituacao(rs.getString("situacao"));
+                afastamento.setDataRegistro(rs.getString("dataRegistro"));
+
+                afastamento.setFuncionario_idFuncionario(
+                        rs.getInt("Funcionario_idFuncionario"));
+
+                afastamento.setFuncionario_cargos_idcargos(
+                        rs.getInt("Funcionario_cargos_idcargos"));
+
+                afastamento.setFuncionario_setores_idsetores(
+                        rs.getInt("Funcionario_setores_idsetores"));
+
+                afastamento.setFuncionario_turnos_idturnos(
+                        rs.getInt("Funcionario_turnos_idturnos"));
+
+                lista.add(afastamento);
             }
         }
 
         return lista;
     }
 
-    public boolean atualizar(
-            int idAfastamento,
-            String tipo,
-            String inicio,
-            String fim,
-            String dias,
-            String situacao,
-            String dataRegistro,
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno) throws SQLException {
+    // BUSCAR POR ID
+    public Afastamentos buscarPorId(int id) throws SQLException {
+
+        String sql = "SELECT * FROM afastamentos "
+                + "WHERE idafastamentos = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Afastamentos afastamento = new Afastamentos();
+
+                    afastamento.setIdafastamentos(
+                            rs.getInt("idafastamentos"));
+
+                    afastamento.setTipo(rs.getString("tipo"));
+                    afastamento.setInicio(rs.getString("inicio"));
+                    afastamento.setFinalAfastamento(rs.getString("final"));
+                    afastamento.setDias(rs.getString("dias"));
+                    afastamento.setSituacao(rs.getString("situacao"));
+                    afastamento.setDataRegistro(rs.getString("dataRegistro"));
+
+                    afastamento.setFuncionario_idFuncionario(
+                            rs.getInt("Funcionario_idFuncionario"));
+
+                    afastamento.setFuncionario_cargos_idcargos(
+                            rs.getInt("Funcionario_cargos_idcargos"));
+
+                    afastamento.setFuncionario_setores_idsetores(
+                            rs.getInt("Funcionario_setores_idsetores"));
+
+                    afastamento.setFuncionario_turnos_idturnos(
+                            rs.getInt("Funcionario_turnos_idturnos"));
+
+                    return afastamento;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ATUALIZAR
+    public boolean atualizar(Afastamentos afastamento) throws SQLException {
 
         String sql = "UPDATE afastamentos SET "
-                + "tipo=?, inicio=?, final=?, dias=?, situacao=?, "
-                + "dataRegistro=?, "
-                + "Funcionario_idFuncionario=?, "
-                + "Funcionario_cargos_idcargos=?, "
-                + "Funcionario_setores_idsetores=?, "
-                + "Funcionario_turnos_idturnos=? "
-                + "WHERE idafastamentos=?";
+                + "tipo = ?, "
+                + "inicio = ?, "
+                + "final = ?, "
+                + "dias = ?, "
+                + "situacao = ?, "
+                + "dataRegistro = ?, "
+                + "Funcionario_idFuncionario = ?, "
+                + "Funcionario_cargos_idcargos = ?, "
+                + "Funcionario_setores_idsetores = ?, "
+                + "Funcionario_turnos_idturnos = ? "
+                + "WHERE idafastamentos = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, tipo);
-            ps.setString(2, inicio);
-            ps.setString(3, fim);
-            ps.setString(4, dias);
-            ps.setString(5, situacao);
-            ps.setString(6, dataRegistro);
-            ps.setInt(7, idFuncionario);
-            ps.setInt(8, idCargo);
-            ps.setInt(9, idSetor);
-            ps.setInt(10, idTurno);
-            ps.setInt(11, idAfastamento);
+            stmt.setString(1, afastamento.getTipo());
+            stmt.setString(2, afastamento.getInicio());
+            stmt.setString(3, afastamento.getFinalAfastamento());
+            stmt.setString(4, afastamento.getDias());
+            stmt.setString(5, afastamento.getSituacao());
+            stmt.setString(6, afastamento.getDataRegistro());
+            stmt.setInt(7, afastamento.getFuncionario_idFuncionario());
+            stmt.setInt(8, afastamento.getFuncionario_cargos_idcargos());
+            stmt.setInt(9, afastamento.getFuncionario_setores_idsetores());
+            stmt.setInt(10, afastamento.getFuncionario_turnos_idturnos());
+            stmt.setInt(11, afastamento.getIdafastamentos());
 
-            return ps.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0;
         }
     }
 
-    public boolean excluir(int idAfastamento) throws SQLException {
+    // EXCLUIR
+    public boolean excluir(int id) throws SQLException {
 
         String sql = "DELETE FROM afastamentos "
                 + "WHERE idafastamentos = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, idAfastamento);
+            stmt.setInt(1, id);
 
-            return ps.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0;
         }
     }
 }

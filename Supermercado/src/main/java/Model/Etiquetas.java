@@ -1,21 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-import java.io.File;
-
-/**
- *
- * @author AntônioVieira
- */
 public class Etiquetas {
- private int  idetiquetas;
- private String tipo;
- private File imagem;
+
+    private int idetiquetas;
+    private String tipo;
+    private byte[] imagem;
 
     public Etiquetas() {
+    }
+
+    public Etiquetas(int idetiquetas, String tipo, byte[] imagem) {
+        this.idetiquetas = idetiquetas;
+        this.tipo = tipo;
+        this.imagem = imagem;
     }
 
     public int getIdetiquetas() {
@@ -34,12 +32,11 @@ public class Etiquetas {
         this.tipo = tipo;
     }
 
-    public File getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(File imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
- 
 }

@@ -4,7 +4,8 @@ package View;
 import java.awt.*;
 import javax.swing.Icon;
 
-// Ícones vetoriais: não precisam de imagens externas ou bibliotecas adicionais.
+// Ícones vetoriais para o menu do sistema Supermercado.
+// Não necessita de imagens externas ou bibliotecas adicionais.
 public class IconeMenu implements Icon {
 
     private final String tipo;
@@ -27,6 +28,7 @@ public class IconeMenu implements Icon {
 
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
+
         Graphics2D d = (Graphics2D) g.create();
 
         d.translate(x, y);
@@ -38,6 +40,7 @@ public class IconeMenu implements Icon {
         );
 
         d.setColor(Color.WHITE);
+
         d.setStroke(new BasicStroke(
             1.7f,
             BasicStroke.CAP_ROUND,
@@ -46,72 +49,78 @@ public class IconeMenu implements Icon {
 
         switch (tipo) {
 
+            // INÍCIO
             case "inicio":
-                // Casa
+
                 d.drawPolyline(
                     new int[]{2, 12, 22},
                     new int[]{11, 2, 11},
                     3
                 );
+
                 d.drawRect(5, 10, 14, 11);
                 d.drawRect(10, 15, 4, 6);
                 break;
 
-            case "produtos":
-                // Caixa de produto
-                d.drawRect(4, 5, 16, 16);
-                d.drawRect(10, 5, 4, 6);
-                d.drawLine(4, 5, 8, 2);
-                d.drawLine(8, 2, 17, 2);
-                d.drawLine(17, 2, 20, 5);
-                break;
-
+            // PRODUTOS
             case "gerenciamentoProdutos":
-                // Prancheta com produtos
+            case "produtos":
+
                 d.drawRect(4, 3, 16, 19);
                 d.drawRect(8, 2, 8, 4);
-                d.drawLine(7, 9, 10, 12);
-                d.drawLine(10, 12, 17, 7);
-                d.drawLine(7, 16, 17, 16);
+
+                d.drawLine(7, 10, 10, 13);
+                d.drawLine(10, 13, 17, 8);
+
+                d.drawLine(7, 17, 17, 17);
                 break;
 
+            // PROMOÇÕES
+            case "promocoes":
+
+                d.drawPolygon(
+                    new int[]{3, 14, 22, 22, 14},
+                    new int[]{5, 5, 10, 18, 22},
+                    5
+                );
+
+                d.drawOval(7, 8, 3, 3);
+                d.drawLine(13, 17, 18, 12);
+                break;
+
+            // ESTOQUE
             case "estoque":
-                // Caixas do estoque
+
                 d.drawRect(2, 13, 9, 8);
                 d.drawRect(13, 13, 9, 8);
                 d.drawRect(7, 3, 10, 8);
+
+                d.drawLine(7, 7, 17, 7);
                 break;
 
-            case "fornecedores":
-                // Loja / fornecedor
-                d.drawRect(3, 10, 18, 11);
-                d.drawPolyline(
-                    new int[]{3, 9, 9, 15, 15, 21},
-                    new int[]{10, 5, 10, 5, 10, 10},
-                    6
-                );
-                d.drawLine(7, 15, 7, 17);
-                d.drawLine(12, 15, 12, 17);
-                d.drawLine(17, 15, 17, 17);
-                break;
-
+            // FORNECEDORES
             case "fornecedoresTerceirizados":
-                // Duas pessoas
+            case "fornecedores":
+
                 d.drawOval(3, 3, 7, 7);
                 d.drawOval(14, 3, 7, 7);
-                d.drawArc(0, 12, 13, 13, 0, 180);
-                d.drawArc(11, 12, 13, 13, 0, 180);
+
+                d.drawArc(1, 12, 12, 11, 0, 180);
+                d.drawArc(12, 12, 12, 11, 0, 180);
                 break;
 
+            // CLIENTES
             case "clientes":
-                // Cliente
+
                 d.drawOval(8, 2, 8, 8);
-                d.drawArc(3, 12, 18, 18, 0, 180);
+                d.drawArc(3, 11, 18, 12, 0, 180);
+
                 d.drawLine(3, 21, 21, 21);
                 break;
 
+            // PEDIDOS
             case "pedidos":
-                // Documento de pedido
+
                 d.drawRect(5, 4, 14, 18);
                 d.drawRect(9, 2, 6, 4);
 
@@ -120,104 +129,113 @@ public class IconeMenu implements Icon {
                 }
                 break;
 
+            // ENTREGAS
             case "entregas":
-                // Caminhão de entrega
+
                 d.drawRect(2, 5, 12, 12);
                 d.drawRect(14, 10, 8, 7);
-                d.drawOval(5, 17, 5, 5);
-                d.drawOval(16, 17, 5, 5);
+
+                d.drawLine(17, 10, 17, 14);
+
+                d.drawOval(5, 16, 5, 5);
+                d.drawOval(16, 16, 5, 5);
                 break;
 
-            case "vendas":
-                // Gráfico de vendas
-                d.drawPolyline(
-                    new int[]{2, 5, 8, 19, 22},
-                    new int[]{3, 3, 16, 16, 6},
-                    5
-                );
-                d.drawLine(6, 6, 22, 6);
-                d.drawOval(8, 19, 3, 3);
-                d.drawOval(17, 19, 3, 3);
-                break;
-
+            // PDV
+            case "pdvRealizacao":
             case "pdv":
-                // Carrinho de compras / PDV
+
                 d.drawLine(2, 4, 6, 4);
                 d.drawLine(6, 4, 9, 16);
                 d.drawLine(9, 16, 20, 16);
+
                 d.drawLine(8, 9, 21, 9);
                 d.drawLine(21, 9, 18, 16);
+
                 d.drawOval(9, 18, 3, 3);
                 d.drawOval(17, 18, 3, 3);
                 break;
 
-            case "vendaPagamentos":
-                // Cartão de pagamento
-                d.drawRoundRect(2, 5, 20, 14, 2, 2);
-                d.drawLine(3, 10, 21, 10);
-                d.drawLine(6, 15, 11, 15);
-                break;
+            // VENDAS
+            case "vendas":
 
+                d.drawLine(3, 21, 3, 4);
+                d.drawLine(3, 21, 22, 21);
+
+                d.drawPolyline(
+                    new int[]{5, 9, 13, 18, 22},
+                    new int[]{16, 12, 15, 6, 9},
+                    5
+                );
+
+                break;
+                case "solicitacao":
+
+    d.drawRect(5, 2, 14, 20);
+    d.drawLine(8, 8, 16, 8);
+    d.drawLine(8, 12, 16, 12);
+    d.drawLine(8, 16, 14, 16);
+    break;
+
+            // CAIXA
             case "caixa":
             case "caixas":
-                // Caixa registradora
+
                 d.drawRect(3, 13, 18, 8);
                 d.drawRect(7, 3, 11, 7);
+
                 d.drawLine(12, 10, 12, 13);
                 d.drawLine(7, 17, 17, 17);
                 break;
 
-            case "funcionariosRH":
-            case "rh":
-                // Equipe de funcionários
-                d.drawOval(8, 2, 8, 8);
-                d.drawArc(3, 11, 18, 17, 0, 180);
-                d.drawLine(3, 20, 21, 20);
-                break;
-
-            case "perfilUsuarios":
-                // Perfil do usuário
-                d.drawOval(8, 2, 8, 8);
-                d.drawArc(3, 12, 18, 15, 0, 180);
-                break;
-
-            case "solicitacao":
-                // Documento de solicitação
-                d.drawRect(5, 2, 14, 20);
-                d.drawLine(8, 8, 16, 8);
-                d.drawLine(8, 12, 16, 12);
-                d.drawLine(8, 16, 14, 16);
-                break;
-
-            case "alterarSenha":
-                // Cadeado
-                d.drawRoundRect(4, 10, 16, 12, 2, 2);
-                d.drawArc(7, 3, 10, 14, 0, 180);
-                d.drawOval(10, 14, 4, 4);
-                break;
-
-            case "recuperacaoSenha":
-                // Seta de recuperação
-                d.drawArc(4, 4, 16, 16, 30, 300);
-                d.drawPolyline(
-                    new int[]{15, 21, 20},
-                    new int[]{3, 5, 11},
-                    3
-                );
-                break;
-
+            // FINANCEIRO
             case "financeiro":
-                // Símbolo financeiro
+
                 d.drawOval(2, 2, 20, 20);
-                d.setFont(new Font("SansSerif", Font.BOLD, 17));
+
+                d.setFont(new Font(
+                    "SansSerif",
+                    Font.BOLD,
+                    17
+                ));
+
                 d.drawString("$", 7, 18);
                 break;
 
-            case "logout":
+            // FUNCIONÁRIOS / RH
+            case "funcionariosRH":
+            case "rh":
+
+                d.drawOval(8, 2, 8, 8);
+                d.drawArc(3, 11, 18, 12, 0, 180);
+
+                d.drawLine(3, 21, 21, 21);
+                break;
+
+            // PERFIL DE USUÁRIOS
+            case "perfilUsuarios":
+
+                d.drawOval(8, 2, 8, 8);
+                d.drawArc(3, 11, 18, 12, 0, 180);
+                break;
+
+            // ALTERAR SENHA
+            case "alterarSenha":
+
+                d.drawRoundRect(4, 10, 16, 12, 2, 2);
+                d.drawArc(7, 2, 10, 15, 0, 180);
+
+                d.drawOval(10, 14, 4, 4);
+                break;
+
+            // SAIR
             case "sair":
-                // Sair da conta
+            case "logout":
+
                 d.drawRect(3, 3, 10, 18);
+
                 d.drawLine(9, 12, 22, 12);
+
                 d.drawPolyline(
                     new int[]{18, 22, 18},
                     new int[]{8, 12, 16},
@@ -225,17 +243,20 @@ public class IconeMenu implements Icon {
                 );
                 break;
 
+            // RELATÓRIOS
             case "relatorios":
-                // Gráfico de relatórios
+
                 d.drawLine(3, 2, 3, 22);
                 d.drawLine(3, 22, 22, 22);
+
                 d.drawRect(6, 13, 3, 6);
                 d.drawRect(12, 8, 3, 11);
                 d.drawRect(18, 3, 3, 16);
                 break;
 
+            // CONFIGURAÇÕES
             case "configuracoes":
-                // Engrenagem
+
                 d.drawOval(6, 6, 12, 12);
                 d.drawOval(10, 10, 4, 4);
 
@@ -245,9 +266,12 @@ public class IconeMenu implements Icon {
                 }
                 break;
 
+            // ÍCONE PADRÃO
             default:
-                // Ícone genérico para opções ainda não cadastradas
+
                 d.drawOval(4, 4, 16, 16);
+                d.drawLine(12, 8, 12, 13);
+                d.fillOval(11, 16, 2, 2);
                 break;
         }
 

@@ -1,19 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Cupom {
-  private int  idcupom, qttMaximaUso, limitePorCliente, promocao_idpromocao;
-  private String codigoCupom, tipoDesconto, tipoUso, dataInicio, dataFinal, observacao;
-  private double valorDesconto, valorMinimoCompra;
+
+    private int idcupom;
+    private String codigoCupom;
+    private double valorDesconto;
+    private double valorMinimoCompra;
+    private int qttMaximaUso;
+    private int limitePorCliente;
+    private String tipoUso;
+    private String tipoDesconto;
+    private String dataInicio;
+    private String dataFinal;
+    private String observacao;
+    private int promocao_idpromocao;
 
     public Cupom() {
+    }
+
+    public Cupom(int idcupom, String codigoCupom, double valorDesconto,
+            double valorMinimoCompra, int qttMaximaUso, int limitePorCliente,
+            String tipoUso, String tipoDesconto, String dataInicio,
+            String dataFinal, String observacao, int promocao_idpromocao) {
+
+        this.idcupom = idcupom;
+        this.codigoCupom = codigoCupom;
+        this.valorDesconto = valorDesconto;
+        this.valorMinimoCompra = valorMinimoCompra;
+        this.qttMaximaUso = qttMaximaUso;
+        this.limitePorCliente = limitePorCliente;
+        this.tipoUso = tipoUso;
+        this.tipoDesconto = tipoDesconto;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.observacao = observacao;
+        this.promocao_idpromocao = promocao_idpromocao;
     }
 
     public int getIdcupom() {
@@ -22,6 +44,30 @@ public class Cupom {
 
     public void setIdcupom(int idcupom) {
         this.idcupom = idcupom;
+    }
+
+    public String getCodigoCupom() {
+        return codigoCupom;
+    }
+
+    public void setCodigoCupom(String codigoCupom) {
+        this.codigoCupom = codigoCupom;
+    }
+
+    public double getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(double valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
+
+    public double getValorMinimoCompra() {
+        return valorMinimoCompra;
+    }
+
+    public void setValorMinimoCompra(double valorMinimoCompra) {
+        this.valorMinimoCompra = valorMinimoCompra;
     }
 
     public int getQttMaximaUso() {
@@ -40,20 +86,12 @@ public class Cupom {
         this.limitePorCliente = limitePorCliente;
     }
 
-    public int getPromocao_idpromocao() {
-        return promocao_idpromocao;
+    public String getTipoUso() {
+        return tipoUso;
     }
 
-    public void setPromocao_idpromocao(int promocao_idpromocao) {
-        this.promocao_idpromocao = promocao_idpromocao;
-    }
-
-    public String getCodigoCupom() {
-        return codigoCupom;
-    }
-
-    public void setCodigoCupom(String codigoCupom) {
-        this.codigoCupom = codigoCupom;
+    public void setTipoUso(String tipoUso) {
+        this.tipoUso = tipoUso;
     }
 
     public String getTipoDesconto() {
@@ -62,14 +100,6 @@ public class Cupom {
 
     public void setTipoDesconto(String tipoDesconto) {
         this.tipoDesconto = tipoDesconto;
-    }
-
-    public String getTipoUso() {
-        return tipoUso;
-    }
-
-    public void setTipoUso(String tipoUso) {
-        this.tipoUso = tipoUso;
     }
 
     public String getDataInicio() {
@@ -96,24 +126,11 @@ public class Cupom {
         this.observacao = observacao;
     }
 
-    public double getValorDesconto() {
-        return valorDesconto;
+    public int getPromocao_idpromocao() {
+        return promocao_idpromocao;
     }
 
-    public void setValorDesconto(double valorDesconto) {
-        this.valorDesconto = valorDesconto;
+    public void setPromocao_idpromocao(int promocao_idpromocao) {
+        this.promocao_idpromocao = promocao_idpromocao;
     }
-
-    public double getValorMinimoCompra() {
-        return valorMinimoCompra;
-    }
-
-    public void setValorMinimoCompra(double valorMinimoCompra) {
-        this.valorMinimoCompra = valorMinimoCompra;
-    }
-
-    public void setPromocaoVinculada(String promocaoVinculada) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-  
 }

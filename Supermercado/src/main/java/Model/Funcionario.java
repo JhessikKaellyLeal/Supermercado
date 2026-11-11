@@ -14,14 +14,11 @@ public class Funcionario {
     private int setores_idsetores;
     private int turnos_idturnos;
 
-    // CONSTRUTOR VAZIO
     public Funcionario() {
     }
 
-    // CONSTRUTOR COMPLETO
-    public Funcionario(int idFuncionario, String nome,
-            String dataNascimento, String cpf,
-            String telefone, String dataAdmissao,
+    public Funcionario(int idFuncionario, String nome, String dataNascimento,
+            String cpf, String telefone, String dataAdmissao,
             int statusFuncionario, int cargos_idcargos,
             int setores_idsetores, int turnos_idturnos) {
 
@@ -36,8 +33,6 @@ public class Funcionario {
         this.setores_idsetores = setores_idsetores;
         this.turnos_idturnos = turnos_idturnos;
     }
-
-    // GETTERS E SETTERS
 
     public int getIdFuncionario() {
         return idFuncionario;
@@ -118,10 +113,4 @@ public class Funcionario {
     public void setTurnos_idturnos(int turnos_idturnos) {
         this.turnos_idturnos = turnos_idturnos;
     }
-
-    // EXIBIR NOME NA COMBOBOX
-   @Override
-public String toString() {
-    return nome;
-}
 }

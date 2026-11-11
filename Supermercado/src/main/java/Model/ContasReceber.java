@@ -1,19 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ContasReceber {
-   private int idcontasReceber, cliente_idcliente;
-   private String descricao, dataVencimento, dataRecebimento, situacao;
-   private double valorReceber;
+
+    private int idcontasReceber;
+    private double valorReceber;
+    private String descricao;
+    private String dataVencimento;
+    private String dataRecebimento;
+    private String situacao;
+    private int cliente_idcliente;
 
     public ContasReceber() {
+    }
+
+    public ContasReceber(int idcontasReceber, double valorReceber,
+            String descricao, String dataVencimento, String dataRecebimento,
+            String situacao, int cliente_idcliente) {
+        this.idcontasReceber = idcontasReceber;
+        this.valorReceber = valorReceber;
+        this.descricao = descricao;
+        this.dataVencimento = dataVencimento;
+        this.dataRecebimento = dataRecebimento;
+        this.situacao = situacao;
+        this.cliente_idcliente = cliente_idcliente;
     }
 
     public int getIdcontasReceber() {
@@ -24,12 +34,12 @@ public class ContasReceber {
         this.idcontasReceber = idcontasReceber;
     }
 
-    public int getCliente_idcliente() {
-        return cliente_idcliente;
+    public double getValorReceber() {
+        return valorReceber;
     }
 
-    public void setCliente_idcliente(int cliente_idcliente) {
-        this.cliente_idcliente = cliente_idcliente;
+    public void setValorReceber(double valorReceber) {
+        this.valorReceber = valorReceber;
     }
 
     public String getDescricao() {
@@ -64,12 +74,11 @@ public class ContasReceber {
         this.situacao = situacao;
     }
 
-    public double getValorReceber() {
-        return valorReceber;
+    public int getCliente_idcliente() {
+        return cliente_idcliente;
     }
 
-    public void setValorReceber(double valorReceber) {
-        this.valorReceber = valorReceber;
+    public void setCliente_idcliente(int cliente_idcliente) {
+        this.cliente_idcliente = cliente_idcliente;
     }
-   
 }

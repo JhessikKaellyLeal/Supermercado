@@ -200,7 +200,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
-                      <EmptySpace pref="526" max="32767" attributes="0"/>
+                      <EmptySpace pref="538" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -436,9 +436,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
                 <Property name="iconTextGap" type="int" value="6"/>
               </Properties>
@@ -453,9 +450,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -474,9 +468,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
             </Component>
@@ -491,11 +482,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirEntregadoresActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -510,14 +501,11 @@
                       <Font name="Arial Narrow" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="7">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
+                      <Table columnCount="4" rowCount="4">
                         <Column editable="true" title="Nome" type="java.lang.Object"/>
                         <Column editable="true" title="CPF" type="java.lang.Object"/>
                         <Column editable="true" title="Telefone" type="java.lang.Object"/>
-                        <Column editable="true" title="Ve&#xed;culo" type="java.lang.Object"/>
                         <Column editable="true" title="Status" type="java.lang.Object"/>
-                        <Column editable="true" title="Data de Contrata&#xe7;&#xe3;o" type="java.lang.Object"/>
                       </Table>
                     </Property>
                   </Properties>
@@ -611,26 +599,56 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="txtCapacidadeCarga" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                      <Component id="txtPlacaVeiculo" min="-2" pref="180" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lblPlaca" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ftfCnh" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="txtCapacidadeCarga" alignment="1" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Component id="txtPlacaVeiculo" min="-2" pref="180" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblPlaca" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="1824" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="tituloVeiculo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblModelo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtModeloVeiculo" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="lblCarga" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblTipoVeiculo" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtTipoVeiculo" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                                      <Component id="lblStatusVeiculos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbStatusVeiculo" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="lblAno" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ftfAnoVeiculo" min="-2" pref="199" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblMarca" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtMarcaVeiculo" pref="180" max="32767" attributes="0"/>
+                                  <Component id="lblCor" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtCorVeiculo" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblObservacoesVeiculos" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane21" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="btnNovoVeiculos" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnSalvarVeiculos" min="-2" max="-2" attributes="0"/>
@@ -639,60 +657,9 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnExcluirVeiculos" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane2" alignment="0" min="-2" pref="1059" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="1492" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" min="-2" pref="944" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tituloVeiculo" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblModelo" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtModeloVeiculo" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="lblCarga" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblDocumentacao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblCnh" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblVencimentoCnh" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ftfVencimentoCnh" min="-2" pref="219" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblTipoVeiculo" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="txtTipoVeiculo" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Component id="lblAno" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="ftfAnoVeiculo" min="-2" pref="199" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Component id="lblMotorista" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cdMotorista" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lblStatusVeiculos" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblMarca" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtMarcaVeiculo" pref="180" max="32767" attributes="0"/>
-                                          <Component id="lblCor" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtCorVeiculo" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="cbStatusVeiculo" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblObservacoesVeiculos" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane21" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="1017" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -731,40 +698,26 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lblCarga" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblMotorista" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStatusVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtCapacidadeCarga" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cdMotorista" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cbStatusVeiculo" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jScrollPane21" alignment="0" min="-2" pref="178" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="lblDocumentacao" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblCnh" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblVencimentoCnh" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ftfCnh" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ftfVencimentoCnh" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnAlterarVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnNovoVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnExcluirVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSalvarVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAlterarVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExcluirVeiculos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="336" max="-2" attributes="0"/>
-                      <EmptySpace pref="519" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="370" max="-2" attributes="0"/>
+                      <EmptySpace pref="586" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -927,83 +880,6 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblMotorista">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Motorista"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cdMotorista">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblDocumentacao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="24" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Documenta&#xe7;&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblCnh">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="CNH"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="ftfCnh">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblVencimentoCnh">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Vencimento da CNH"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="ftfVencimentoCnh">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnNovoVeiculos">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1014,9 +890,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
@@ -1032,11 +905,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarVeiculosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlterarVeiculos">
               <Properties>
@@ -1049,11 +922,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarVeiculosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnExcluirVeiculos">
               <Properties>
@@ -1066,11 +939,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirVeiculosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStatusVeiculos">
               <Properties>
@@ -1109,8 +982,7 @@
                       <Font name="Arial Narrow" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="10" rowCount="10">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
+                      <Table columnCount="8" rowCount="10">
                         <Column editable="true" title="Placa" type="java.lang.Object"/>
                         <Column editable="true" title="Tipo" type="java.lang.Object"/>
                         <Column editable="true" title="Marca" type="java.lang.Object"/>
@@ -1118,7 +990,6 @@
                         <Column editable="true" title="Ano" type="java.lang.Object"/>
                         <Column editable="true" title="Cor" type="java.lang.Object"/>
                         <Column editable="true" title="Capacidade" type="java.lang.Object"/>
-                        <Column editable="true" title="Motorista" type="java.lang.Object"/>
                         <Column editable="true" title="Status" type="java.lang.Object"/>
                       </Table>
                     </Property>
@@ -1157,406 +1028,6 @@
                 </Component>
               </SubComponents>
             </Container>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="regiao">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ec" green="ec" red="ec" type="rgb"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Regi&#xf5;es">
-                <Property name="tabTitle" type="java.lang.String" value="Regi&#xf5;es"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane4" min="-2" pref="921" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tituloRegiao" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jComboBox2" alignment="0" pref="216" max="32767" attributes="0"/>
-                                          <Component id="lblNomeRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtNomeRegiao" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lblCodigoRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lblValorTaxaRegiao" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblTipoRegiao" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jComboBox1" pref="187" max="32767" attributes="0"/>
-                                          <Component id="txtValorTaxaRegiao" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="lblBairroRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblObservacoesRegioes" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnNovoRegioes" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnSalvarRegioes" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnAlterarRegioes" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnExcluirRegioes" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="1083" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="tituloRegiao" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNomeRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblTipoRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblObservacoesRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtNomeRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblCodigoRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblValorTaxaRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtValorTaxaRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="lblBairroRegiao" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" min="-2" pref="119" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane5" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnNovoRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSalvarRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAlterarRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnExcluirRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="402" max="-2" attributes="0"/>
-                      <EmptySpace pref="496" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="tituloRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial" size="24" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Cadastro de Regi&#xf5;es"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblNomeRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Nome da Regi&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtNomeRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblTipoRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Tipo de Regi&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Selecione o tipo"/>
-                    <StringItem index="1" value="Rural"/>
-                    <StringItem index="2" value="Urbano"/>
-                    <StringItem index="3" value=" "/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblCodigoRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="C&#xf3;digo da Regi&#xe3;o"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblValorTaxaRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Valor da Taxa de Entrega"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="28">
-                    <StringItem index="0" value="Selecione o Estado"/>
-                    <StringItem index="1" value="AC - Acre"/>
-                    <StringItem index="2" value="AL - Alagoas"/>
-                    <StringItem index="3" value="AM - Amazonas"/>
-                    <StringItem index="4" value="AP - Amap&#xe1;"/>
-                    <StringItem index="5" value="BA - Bahia"/>
-                    <StringItem index="6" value="CE - Cear&#xe1;"/>
-                    <StringItem index="7" value="DF - Distrito Federal"/>
-                    <StringItem index="8" value="ES - Esp&#xed;rito Santo"/>
-                    <StringItem index="9" value="GO - Goi&#xe1;s"/>
-                    <StringItem index="10" value="MA - Maranh&#xe3;o"/>
-                    <StringItem index="11" value="MG - Minas Gerais"/>
-                    <StringItem index="12" value="MS - Mato Grosso do Sul"/>
-                    <StringItem index="13" value="MT - Mato Grosso"/>
-                    <StringItem index="14" value="PA - Par&#xe1;"/>
-                    <StringItem index="15" value="PB - Para&#xed;ba"/>
-                    <StringItem index="16" value="PE - Pernambuco"/>
-                    <StringItem index="17" value="PI - Piau&#xed;"/>
-                    <StringItem index="18" value="PR - Paran&#xe1;"/>
-                    <StringItem index="19" value="RJ - Rio de Janeiro"/>
-                    <StringItem index="20" value="RN - Rio Grande do Norte"/>
-                    <StringItem index="21" value="RO - Rond&#xf4;nia"/>
-                    <StringItem index="22" value="RR - Roraima"/>
-                    <StringItem index="23" value="RS - Rio Grande do Sul"/>
-                    <StringItem index="24" value="SC - Santa Catarina"/>
-                    <StringItem index="25" value="SE - Sergipe"/>
-                    <StringItem index="26" value="SP - S&#xe3;o Paulo"/>
-                    <StringItem index="27" value="TO - Tocantins"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtValorTaxaRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBairroRegiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Bairro(s) Atendido(s)"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtaBairroRegiao">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial Narrow" size="18" style="0"/>
-                    </Property>
-                    <Property name="rows" type="int" value="5"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
-                      </Border>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane4">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTable" name="tblRegioes">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial Narrow" size="18" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="6">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
-                        <Column editable="true" title="Nome da Regi&#xe3;o" type="java.lang.Object"/>
-                        <Column editable="true" title="Bairro(s) Atendido(s)" type="java.lang.Object"/>
-                        <Column editable="true" title="Tipo" type="java.lang.Object"/>
-                        <Column editable="true" title="Valor da Taxa" type="java.lang.Object"/>
-                        <Column editable="true" title="Observa&#xe7;&#xf5;es" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JLabel" name="lblObservacoesRegioes">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Observa&#xe7;&#xf5;es"/>
-              </Properties>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane5">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtaObservacoesRegiao">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial Narrow" size="18" style="0"/>
-                    </Property>
-                    <Property name="rows" type="int" value="5"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
-                      </Border>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JButton" name="btnNovoRegioes">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Novo"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnSalvarRegioes">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Salvar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnAlterarRegioes">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Alterar"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnExcluirRegioes">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="8a" green="4" red="a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Excluir"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="taxas">
@@ -1643,7 +1114,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane7" min="-2" pref="365" max="-2" attributes="0"/>
-                      <EmptySpace pref="528" max="32767" attributes="0"/>
+                      <EmptySpace pref="540" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1778,9 +1249,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -1795,11 +1263,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarTaxasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlterarTaxas">
               <Properties>
@@ -1812,11 +1280,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarTaxasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnExcluirTaxas">
               <Properties>
@@ -1829,11 +1297,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirTaxasActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane7">
               <AuxValues>
@@ -1848,14 +1316,11 @@
                       <Font name="Arial Narrow" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="7">
-                        <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
+                      <Table columnCount="4" rowCount="4">
                         <Column editable="true" title="Regi&#xe3;o" type="java.lang.Object"/>
-                        <Column editable="true" title="Faixa do Pedido" type="java.lang.Object"/>
                         <Column editable="true" title="Tipo" type="java.lang.Object"/>
-                        <Column editable="true" title="Valor da Taxa " type="java.lang.Object"/>
-                        <Column editable="true" title=" Valor M&#xed;nimo " type="java.lang.Object"/>
-                        <Column editable="true" title="Observa&#xe7;&#xf5;es" type="java.lang.Object"/>
+                        <Column editable="true" title="Valor da Taxa" type="java.lang.Object"/>
+                        <Column editable="true" title=" Observa&#xe7;&#xf5;es" type="java.lang.Object"/>
                       </Table>
                     </Property>
                   </Properties>
@@ -1888,27 +1353,34 @@
                               <Component id="lblTituloEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane8" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtCidadeEnderecos" min="-2" pref="205" max="-2" attributes="0"/>
-                                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtClienteEnderecos" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
-                                              <Component id="lblClienteEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lblBairroEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblRuaEnderecos" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="lblRuaEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="txtRuaEnderecos" min="-2" pref="205" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="txtCidadeEnderecos" min="-2" pref="205" max="-2" attributes="0"/>
+                                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="lblCpfClienteEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="lblBairroEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="ftfCpfClienteEnderecos" min="-2" pref="183" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="txtRuaEnderecos" min="-2" pref="205" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="txtBairroEnderecos" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="txtBairroEnderecos" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lblNumeroEnderecos" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
@@ -1940,7 +1412,7 @@
                               <Component id="btnSalvarEnderecos" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="945" max="32767" attributes="0"/>
+                      <EmptySpace pref="1006" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1953,18 +1425,20 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblEstadoEnderecos" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblClienteEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCpfClienteEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblCepEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtCidadeEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtClienteEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCepEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbEstadoEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnPesquisarEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txtCidadeEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCepEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbEstadoEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnPesquisarEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="ftfCpfClienteEnderecos" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1987,7 +1461,7 @@
                           <Component id="btnExcluirEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSalvarEnderecos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="604" max="32767" attributes="0"/>
+                      <EmptySpace pref="616" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2004,27 +1478,15 @@
                 <Property name="text" type="java.lang.String" value="Endere&#xe7;os de Entrega"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblClienteEnderecos">
+            <Component class="javax.swing.JLabel" name="lblCpfClienteEnderecos">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Narrow" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cliente"/>
+                <Property name="text" type="java.lang.String" value="CPF do Cliente"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCidadeEnderecos">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtClienteEnderecos">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Narrow" size="18" style="0"/>
@@ -2120,9 +1582,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -2139,15 +1598,14 @@
                       <Font name="Arial Narrow" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="8" rowCount="8">
-                        <Column editable="true" title="Pedido" type="java.lang.Object"/>
+                      <Table columnCount="7" rowCount="7">
+                        <Column editable="true" title="Cidade" type="java.lang.Object"/>
                         <Column editable="true" title="Cliente" type="java.lang.Object"/>
-                        <Column editable="true" title="Endereco" type="java.lang.Object"/>
-                        <Column editable="true" title="N&#xfa;mero" type="java.lang.Object"/>
-                        <Column editable="true" title="Bairro" type="java.lang.Object"/>
-                        <Column editable="true" title="Regi&#xe3;o" type="java.lang.Object"/>
                         <Column editable="true" title="CEP" type="java.lang.Object"/>
-                        <Column editable="true" title="Status" type="java.lang.Object"/>
+                        <Column editable="true" title="Estado" type="java.lang.Object"/>
+                        <Column editable="true" title="Rua" type="java.lang.Object"/>
+                        <Column editable="true" title="Bairro" type="java.lang.Object"/>
+                        <Column editable="true" title="Numero" type="java.lang.Object"/>
                       </Table>
                     </Property>
                   </Properties>
@@ -2165,9 +1623,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -2182,11 +1637,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarEndercosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnExcluirEnderecos">
               <Properties>
@@ -2199,11 +1654,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirEnderecosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -2282,10 +1737,25 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarEnderecosActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="ftfCpfClienteEnderecos">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="###.###.###-##" subtype="-1" type="5"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -2311,30 +1781,31 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="ftfDataEntrega" min="-2" pref="151" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Component id="txtClienteEntregas" min="-2" pref="256" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblDataEntregas" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                                      <Component id="lblClienteEntregas" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblEntregadorEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbEntregadorEntregas" alignment="0" min="-2" pref="196" max="-2" attributes="0"/>
+                                          <Component id="lblEntregadorEntregas" min="-2" max="-2" attributes="0"/>
+                                          <Component id="tfEntregadorEntregas" min="-2" pref="195" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="cbVeiculoEntregas" min="-2" pref="172" max="-2" attributes="0"/>
                                           <Component id="lblVeiculoEntregas" min="-2" max="-2" attributes="0"/>
+                                          <Component id="tfVeiculoEntregas" min="-2" pref="195" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="lblTaxaEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtTaxaEntrega" alignment="0" min="-2" pref="423" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblDataEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ftfDataEntrega" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblClienteEntregas" min="-2" max="-2" attributes="0"/>
+                                          <Component id="ftfCpfClienteEntregas" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -2346,7 +1817,7 @@
                           </Group>
                           <Component id="lbltituloEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnNovoEntregas" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnSalvarEntregas" min="-2" max="-2" attributes="0"/>
@@ -2359,7 +1830,7 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btnVoltarEntregas" min="-2" pref="152" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane11" min="-2" pref="951" max="-2" attributes="0"/>
+                              <Component id="jScrollPane11" alignment="0" min="-2" pref="951" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="1053" max="32767" attributes="0"/>
@@ -2378,10 +1849,12 @@
                           <Component id="lblStatusEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ftfDataEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtClienteEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbStatusEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="ftfDataEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbStatusEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="ftfCpfClienteEntregas" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -2391,15 +1864,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cbEntregadorEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbVeiculoEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ftfHorarioEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfVeiculoEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfEntregadorEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lblTaxaEntregas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtTaxaEntrega" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="237" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNovoEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSalvarEntregas" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2410,7 +1883,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane11" min="-2" pref="411" max="-2" attributes="0"/>
-                      <EmptySpace pref="363" max="32767" attributes="0"/>
+                      <EmptySpace pref="575" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2475,19 +1948,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial Narrow" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cliente"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtClienteEntregas">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                    <BevelBorder/>
-                  </Border>
-                </Property>
+                <Property name="text" type="java.lang.String" value="CPF do Cliente"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblEntregadorEntregas">
@@ -2497,19 +1958,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Entregador"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbEntregadorEntregas">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStatusEntregas">
               <Properties>
@@ -2547,22 +1995,6 @@
                 <Property name="text" type="java.lang.String" value="Ve&#xed;culo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbVeiculoEntregas">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Arial Narrow" size="18" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Selecione o ve&#xed;culo"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
             <Component class="javax.swing.JLabel" name="lblHoraEntregas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2597,9 +2029,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -2614,11 +2043,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarEntregasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlterarEntregas">
               <Properties>
@@ -2631,11 +2060,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarEntregasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnExcluirEntregas">
               <Properties>
@@ -2648,11 +2077,11 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirEntregasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnPesquisarEntregas">
               <Properties>
@@ -2664,9 +2093,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2681,9 +2107,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2715,6 +2138,407 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JTextField" name="tfVeiculoEntregas">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="ftfCpfClienteEntregas">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="###.###.###-##" subtype="-1" type="5"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="tfEntregadorEntregas">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="regiao">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ec" green="ec" red="ec" type="rgb"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Regi&#xf5;es">
+                <Property name="tabTitle" type="java.lang.String" value="Regi&#xf5;es"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane4" min="-2" pref="921" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="tituloRegiao" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="cbEstadoRegiao" alignment="0" pref="216" max="32767" attributes="0"/>
+                                          <Component id="lblNomeRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtNomeRegiao" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lblEstadoRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblTipoRegiao" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbTipoRegiao" min="-2" pref="187" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="lblBairroRegiao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblObservacoesRegioes" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnNovoRegioes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnSalvarRegioes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnAlterarRegioes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnExcluirRegioes" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="1083" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="tituloRegiao" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblNomeRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTipoRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblObservacoesRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtNomeRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbTipoRegiao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lblEstadoRegiao" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cbEstadoRegiao" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="lblBairroRegiao" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane3" min="-2" pref="119" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane5" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnNovoRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSalvarRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAlterarRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExcluirRegioes" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" min="-2" pref="402" max="-2" attributes="0"/>
+                      <EmptySpace pref="508" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="tituloRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="24" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cadastro de Regi&#xf5;es"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblNomeRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Nome da Regi&#xe3;o"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtNomeRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblTipoRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Tipo de Regi&#xe3;o"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbTipoRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Selecione o tipo"/>
+                    <StringItem index="1" value="Rural"/>
+                    <StringItem index="2" value="Urbano"/>
+                    <StringItem index="3" value=" "/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbTipoRegiaoActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblEstadoRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Estado"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbEstadoRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="28">
+                    <StringItem index="0" value="Selecione o Estado"/>
+                    <StringItem index="1" value="AC - Acre"/>
+                    <StringItem index="2" value="AL - Alagoas"/>
+                    <StringItem index="3" value="AM - Amazonas"/>
+                    <StringItem index="4" value="AP - Amap&#xe1;"/>
+                    <StringItem index="5" value="BA - Bahia"/>
+                    <StringItem index="6" value="CE - Cear&#xe1;"/>
+                    <StringItem index="7" value="DF - Distrito Federal"/>
+                    <StringItem index="8" value="ES - Esp&#xed;rito Santo"/>
+                    <StringItem index="9" value="GO - Goi&#xe1;s"/>
+                    <StringItem index="10" value="MA - Maranh&#xe3;o"/>
+                    <StringItem index="11" value="MG - Minas Gerais"/>
+                    <StringItem index="12" value="MS - Mato Grosso do Sul"/>
+                    <StringItem index="13" value="MT - Mato Grosso"/>
+                    <StringItem index="14" value="PA - Par&#xe1;"/>
+                    <StringItem index="15" value="PB - Para&#xed;ba"/>
+                    <StringItem index="16" value="PE - Pernambuco"/>
+                    <StringItem index="17" value="PI - Piau&#xed;"/>
+                    <StringItem index="18" value="PR - Paran&#xe1;"/>
+                    <StringItem index="19" value="RJ - Rio de Janeiro"/>
+                    <StringItem index="20" value="RN - Rio Grande do Norte"/>
+                    <StringItem index="21" value="RO - Rond&#xf4;nia"/>
+                    <StringItem index="22" value="RR - Roraima"/>
+                    <StringItem index="23" value="RS - Rio Grande do Sul"/>
+                    <StringItem index="24" value="SC - Santa Catarina"/>
+                    <StringItem index="25" value="SE - Sergipe"/>
+                    <StringItem index="26" value="SP - S&#xe3;o Paulo"/>
+                    <StringItem index="27" value="TO - Tocantins"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbEstadoRegiaoActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblBairroRegiao">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Bairro(s) Atendido(s)"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="txtaBairroRegiao">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial Narrow" size="18" style="0"/>
+                    </Property>
+                    <Property name="rows" type="int" value="5"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                        <BevelBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tblRegioes">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial Narrow" size="18" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="5" rowCount="5">
+                        <Column editable="true" title="Nome da Regi&#xe3;o" type="java.lang.Object"/>
+                        <Column editable="true" title="Bairro(s) Atendido(s)" type="java.lang.Object"/>
+                        <Column editable="true" title="Tipo " type="java.lang.Object"/>
+                        <Column editable="true" title="Estado" type="java.lang.Object"/>
+                        <Column editable="true" title="Observa&#xe7;&#xf5;es" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="lblObservacoesRegioes">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Narrow" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Observa&#xe7;&#xf5;es"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="txtaObservacoesRegiao">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial Narrow" size="18" style="0"/>
+                    </Property>
+                    <Property name="rows" type="int" value="5"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                        <BevelBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="btnNovoRegioes">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Novo"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnSalvarRegioes">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Salvar"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAlterarRegioes">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Alterar"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnExcluirRegioes">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="8a" green="4" red="a" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial Rounded MT Bold" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Excluir"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="dataHorario">
@@ -3096,9 +2920,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -3141,9 +2962,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pendente (2).png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTotalEntregasDH1">
@@ -3170,9 +2988,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\fast-delivery.png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblAndamento">
@@ -3191,9 +3006,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\entrega.png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lnlNumeroAndamento">
@@ -3208,9 +3020,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\concluido.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -3270,9 +3079,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
                 <Property name="iconTextGap" type="int" value="6"/>
               </Properties>
@@ -3288,9 +3094,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
             </Component>
@@ -3305,9 +3108,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -3321,9 +3121,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -3381,7 +3178,7 @@
                                                       <Component id="lblNumeroPendentesAgenda" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
-                                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="lblIconrPendentesAgenda" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -3554,7 +3351,7 @@
                           <Component id="btnExcluirAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarAgenda" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="553" max="32767" attributes="0"/>
+                      <EmptySpace pref="565" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3681,9 +3478,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -3699,9 +3493,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\fast-delivery.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -3741,9 +3532,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pendente (2).png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPendentesAgenda">
@@ -3766,9 +3554,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\concluido.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -3861,9 +3646,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -3877,9 +3659,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -3895,9 +3674,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -3912,9 +3688,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
             </Component>
@@ -3922,9 +3695,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\entrega.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -3964,36 +3734,36 @@
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lblPedidoDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                      <Component id="txtPedidoDistribuicao" alignment="0" max="32767" attributes="0"/>
-                                                      <Component id="txtClienteDistribuicao" alignment="0" max="32767" attributes="0"/>
-                                                      <Component id="jScrollPane14" alignment="0" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="lblClienteDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="lblRegiaoDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbRegiaoDistribuicao" max="32767" attributes="0"/>
-                                                  <Component id="lblEntregadorDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbEntregadorDistribuicao" alignment="0" pref="199" max="32767" attributes="0"/>
-                                                  <Component id="lblVeiculoDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbVeiculoDistribuicao" alignment="0" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="lblDataDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="ftfDataDistribuicao" max="32767" attributes="0"/>
-                                                  <Component id="lblHorarioEntregaDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="ftfHorarioDistribuicao" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="lblStatusDistribuicao" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbStatusDistribuicao" alignment="0" pref="168" max="32767" attributes="0"/>
-                                              </Group>
+                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                              <Component id="lblPedidoDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtPedidoDistribuicao" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="lblClienteDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtClienteDistribuicao" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
                                           <Component id="lblEnderecoDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jScrollPane14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="34" pref="34" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="lblRegiaoDistribuicao" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbRegiaoDistribuicao" max="32767" attributes="0"/>
+                                              <Component id="cbEntregadorDistribuicao" alignment="0" pref="199" max="32767" attributes="0"/>
+                                              <Component id="lblVeiculoDistribuicao" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbVeiculoDistribuicao" alignment="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="lblEntregadorDistribuicao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblHorarioEntregaDistribuicao" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="lblDataDistribuicao" min="-2" max="-2" attributes="0"/>
+                                              <Component id="ftfDataDistribuicao" max="32767" attributes="0"/>
+                                              <Component id="ftfHorarioDistribuicao" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="lblStatusDistribuicao" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbStatusDistribuicao" alignment="0" pref="168" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -4027,48 +3797,38 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane15" alignment="0" min="-2" pref="191" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="ftfDataDistribuicao" alignment="1" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="txtPedidoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbRegiaoDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="lblClienteDistribuicao" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtClienteDistribuicao" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="lblEnderecoDistribuicao" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane14" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblEntregadorDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblHorarioEntregaDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="cbEntregadorDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="ftfHorarioDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblVeiculoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblStatusDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="cbVeiculoDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="cbStatusDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtPedidoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbRegiaoDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="ftfDataDistribuicao" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblClienteDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblEntregadorDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHorarioEntregaDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtClienteDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbEntregadorDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="ftfHorarioDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblEnderecoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblVeiculoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStatusDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jScrollPane14" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="cbVeiculoDistribuicao" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="cbStatusDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnNovoDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnSalvarDistribuicao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -4356,9 +4116,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -4372,9 +4129,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\Salvar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -4390,9 +4144,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
             </Component>
@@ -4407,9 +4158,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -4423,9 +4171,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -4675,7 +4420,7 @@
                           <Component id="btnExcluirStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="372" max="32767" attributes="0"/>
+                      <EmptySpace pref="524" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4792,9 +4537,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\pagamento-com-cartao-de-credito.png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -4820,9 +4562,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\separacao-em-lote (1).png"/>
                 </Property>
               </Properties>
             </Component>
@@ -4850,9 +4589,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\armazem.png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblProntosStatus">
@@ -4878,9 +4614,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\aviao-de-papel.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -4908,9 +4641,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\correto (2).png"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblConcluidosStatus">
@@ -4936,9 +4666,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\cancelar.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -4999,9 +4726,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -5015,9 +4739,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -5033,9 +4754,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -5049,9 +4767,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -5096,7 +4811,7 @@
                                               </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                                               <Component id="lblIconeEntreguesTentativas" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -5118,9 +4833,9 @@
                                               </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
                                               <Component id="lblIconeAguardandoTentativas" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="316" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="314" max="-2" attributes="0"/>
                                               <Component id="lblIconeCanceladasTentativas" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -5196,12 +4911,19 @@
                           <Component id="lblAguardandoTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblCanceladasTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblIconeTotalTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblIconeEntreguesTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblIconeAguardandoTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblIconeCanceladasTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblIconeEntreguesTentativas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIconeAguardandoTentativas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIconeTotalTentativas" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblIconeCanceladasTentativas" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -5219,7 +4941,7 @@
                           <Component id="btnExcluirTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarTentativas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="579" max="32767" attributes="0"/>
+                      <EmptySpace pref="552" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5340,9 +5062,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -5378,7 +5097,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblEntreguesTentativas">
@@ -5405,7 +5123,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
+                <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblAguardandoTentativas">
@@ -5432,7 +5150,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Icone"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCanceladasTentativas">
@@ -5491,9 +5208,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -5507,9 +5221,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -5525,9 +5236,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -5541,9 +5249,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -5718,7 +5423,7 @@
                           <Component id="btnExcluirConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnVoltarConfirmacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="567" max="32767" attributes="0"/>
+                      <EmptySpace pref="579" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -5837,9 +5542,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -5988,9 +5690,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\botao-mais.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -6004,9 +5703,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\editar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
@@ -6022,9 +5718,6 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\excluir.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -6038,9 +5731,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\seta-esquerda (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -6240,7 +5930,7 @@
                               <Component id="btnExportarRelatorio" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="627" max="32767" attributes="0"/>
+                      <EmptySpace pref="639" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -6362,9 +6052,6 @@
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\SamaraTavares\Documents\Supermercado\Supermercado\src\main\resources\assets\icones\lupa.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>

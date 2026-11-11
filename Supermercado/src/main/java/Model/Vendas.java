@@ -1,3 +1,4 @@
+
 package Model;
 
 public class Vendas {
@@ -10,12 +11,10 @@ public class Vendas {
     private double troco;
     private int quantidadeItens;
     private String statusVenda;
-
     private int cliente_idcliente;
     private int usuario_idusuario;
     private int caixas_idcaixas;
     private int cupom_idcupom;
-    
     private String nomeCliente;
 private String nomeUsuario;
 private String nomeCaixa;
@@ -25,11 +24,10 @@ private String codigoCupom;
     }
 
     public Vendas(int idvendas, String dataVenda, String horarioVenda,
-            double valorTotal, double valorPago, double troco,
-            int quantidadeItens, String statusVenda,
-            int cliente_idcliente, int usuario_idusuario,
-            int caixas_idcaixas, int cupom_idcupom) {
-
+                  double valorTotal, double valorPago, double troco,
+                  int quantidadeItens, String statusVenda,
+                  int cliente_idcliente, int usuario_idusuario,
+                  int caixas_idcaixas, int cupom_idcupom) {
         this.idvendas = idvendas;
         this.dataVenda = dataVenda;
         this.horarioVenda = horarioVenda;
@@ -43,7 +41,6 @@ private String codigoCupom;
         this.caixas_idcaixas = caixas_idcaixas;
         this.cupom_idcupom = cupom_idcupom;
     }
-    
     public String getNomeCliente() {
     return nomeCliente;
 }
@@ -171,23 +168,4 @@ public void setCodigoCupom(String codigoCupom) {
     public void setCupom_idcupom(int cupom_idcupom) {
         this.cupom_idcupom = cupom_idcupom;
     }
-
-    @Override
-    public String toString() {
-        return "VendaModel{" +
-                "idvendas=" + idvendas +
-                ", dataVenda='" + dataVenda + '\'' +
-                ", horarioVenda='" + horarioVenda + '\'' +
-                ", valorTotal=" + valorTotal +
-                ", valorPago=" + valorPago +
-                ", troco=" + troco +
-                ", quantidadeItens=" + quantidadeItens +
-                ", statusVenda='" + statusVenda + '\'' +
-                ", cliente_idcliente=" + cliente_idcliente +
-                ", usuario_idusuario=" + usuario_idusuario +
-                ", caixas_idcaixas=" + caixas_idcaixas +
-                ", cupom_idcupom=" + cupom_idcupom +
-                '}';
-    }
 }
-

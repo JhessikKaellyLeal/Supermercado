@@ -1,13 +1,6 @@
 
 package Model;
 
-import Control.MarcasController;
-import java.io.File;
-
-/**
- *
- * @author AntônioVieira
- */
 public class Produtos {
 
     private int idprodutos;
@@ -45,8 +38,7 @@ public class Produtos {
         this.imagem = imagem;
         this.categorias_idcategorias = categorias_idcategorias;
         this.marcas_idmarcas = marcas_idmarcas;
-        this.unidadeMedidas_idunidadeMedidas =
-                unidadeMedidas_idunidadeMedidas;
+        this.unidadeMedidas_idunidadeMedidas = unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIdprodutos() {
@@ -129,8 +121,27 @@ public class Produtos {
         this.imagem = imagem;
     }
 
-@Override
-public String toString() {
-    return nome;
-}
+    public int getCategorias_idcategorias() {
+        return categorias_idcategorias;
+    }
+
+    public void setCategorias_idcategorias(int categorias_idcategorias) {
+        this.categorias_idcategorias = categorias_idcategorias;
+    }
+
+    public int getMarcas_idmarcas() {
+        return marcas_idmarcas;
+    }
+
+    public void setMarcas_idmarcas(int marcas_idmarcas) {
+        this.marcas_idmarcas = marcas_idmarcas;
+    }
+
+    public int getUnidadeMedidas_idunidadeMedidas() {
+        return unidadeMedidas_idunidadeMedidas;
+    }
+
+    public void setUnidadeMedidas_idunidadeMedidas(int unidadeMedidas_idunidadeMedidas) {
+        this.unidadeMedidas_idunidadeMedidas = unidadeMedidas_idunidadeMedidas;
+    }
 }

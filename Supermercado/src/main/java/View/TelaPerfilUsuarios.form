@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup2">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -40,7 +34,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="areaPerfil" pref="928" max="32767" attributes="0"/>
+              <Component id="areaPerfil" pref="930" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -92,7 +86,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="118" max="32767" attributes="0"/>
+                      <EmptySpace pref="120" max="32767" attributes="0"/>
                       <Component id="cbHistoricoAcesso" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="630" max="-2" attributes="0"/>
@@ -233,6 +227,8 @@
                               <Component id="lbFuncionarioAreaPermissoes" min="-2" pref="139" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="cbTipoFuncionarioAreaPermissoes" min="-2" pref="296" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
+                              <Component id="cbTipoPermissao" min="-2" pref="303" max="-2" attributes="0"/>
                           </Group>
                           <Component id="lbFuncionarioAreaPermissoes1" alignment="0" min="-2" pref="514" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" alignment="0" min="-2" pref="1334" max="-2" attributes="0"/>
@@ -248,6 +244,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbTipoFuncionarioAreaPermissoes" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbFuncionarioAreaPermissoes" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="cbTipoPermissao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="lbFuncionarioAreaPermissoes1" min="-2" pref="22" max="-2" attributes="0"/>
@@ -290,7 +287,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="256" max="-2" attributes="0"/>
-                      <EmptySpace pref="136" max="32767" attributes="0"/>
+                      <EmptySpace pref="138" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -440,9 +437,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="24" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Ant&#xf4;nioVieira\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Altualizar"/>
               </Properties>
               <Events>
@@ -453,9 +447,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="24" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Ant&#xf4;nioVieira\Documents\Supermercado\Supermercado\src\main\resources\assets\salve-.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -527,6 +518,21 @@
                 <Property name="text" type="java.lang.String" value="Habilite as telas Permitidas para este usu&#xe1;rio"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JComboBox" name="cbTipoPermissao">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="areaPerfilUsuario">
@@ -576,10 +582,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                       <Component id="btnSalvarUsuario" min="-2" pref="175" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                                      <Component id="btnAtualizarUsuario" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lbTipoFuncionario" alignment="0" min="-2" pref="236" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="1621" max="32767" attributes="0"/>
+                              <EmptySpace pref="1379" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -612,7 +620,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="pfSenhaUsuario" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="btnSalvarUsuario" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnSalvarUsuario" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="btnAtualizarUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -678,6 +689,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbUsuariosMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -758,9 +772,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="24" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Ant&#xf4;nioVieira\Documents\Supermercado\Supermercado\src\main\resources\assets\salve-.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
               <Events>
@@ -789,6 +800,17 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="jPasswordField1"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAtualizarUsuario">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Arial" size="24" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Atualizar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAtualizarUsuarioActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

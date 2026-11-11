@@ -254,17 +254,11 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="btnNovo">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Novo"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnSalvar">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Salvar"/>
                       </Properties>
                       <Events>
@@ -273,41 +267,26 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="btnEditar">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Editar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnExcluir">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Excluir"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnLimpar">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Limpar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnPesquisar">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Pesquisar"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnVoltar">
                       <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="Voltar"/>
                       </Properties>
                     </Component>
@@ -961,9 +940,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -971,9 +947,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -986,9 +959,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
@@ -997,9 +967,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -1007,9 +974,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -1022,9 +986,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -1032,9 +993,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -1548,9 +1506,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -1558,9 +1513,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -1573,9 +1525,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
@@ -1584,9 +1533,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -1594,9 +1540,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -1609,9 +1552,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -1619,9 +1559,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\seta-esquerda.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2157,9 +2094,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
             </Component>
@@ -2167,9 +2101,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
@@ -2182,9 +2113,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
@@ -2193,9 +2121,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
               </Properties>
             </Component>
@@ -2203,9 +2128,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -2218,9 +2140,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -2228,9 +2147,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\VOLTAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voltar"/>
               </Properties>
@@ -2671,9 +2587,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar escala"/>
               </Properties>
             </Component>
@@ -2682,9 +2595,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Excluir escala"/>
               </Properties>
             </Component>
@@ -2692,9 +2602,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\NOVO.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Adicionar escala"/>
               </Properties>
@@ -2744,9 +2651,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
               <Events>
@@ -2757,9 +2661,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -2882,9 +2783,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSalvarEscala">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
               <Events>
@@ -3215,9 +3113,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Pesquisar"/>
                   </Properties>
                   <Events>
@@ -3228,9 +3123,6 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
-                    </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Limpar"/>
                   </Properties>
@@ -3313,9 +3205,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\+.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Registrar"/>
                   </Properties>
                   <Events>
@@ -3343,9 +3232,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Editar"/>
                   </Properties>
                 </Component>
@@ -3353,9 +3239,6 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="14" style="0"/>
-                    </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Excluir"/>
                   </Properties>
@@ -3746,9 +3629,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
               <Events>
@@ -3759,9 +3639,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -3867,9 +3744,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EXCLUIR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir marca&#xe7;&#xe3;o"/>
               </Properties>
@@ -3981,9 +3855,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\document.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Arquivo"/>
               </Properties>
@@ -4315,9 +4186,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
               <Events>
@@ -4328,9 +4196,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -4421,9 +4286,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\SALVAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Registrar"/>
               </Properties>
               <Events>
@@ -4442,9 +4304,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\history 24.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Historico de f&#xe9;rias"/>
               </Properties>
@@ -4470,9 +4329,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\EDITAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
             </Component>
@@ -4491,9 +4347,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\history 24.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Historico de ajustes"/>
               </Properties>
@@ -4970,9 +4823,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
               <Events>
@@ -4983,9 +4833,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\history 24.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -5467,9 +5314,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
             </Component>
@@ -5477,9 +5321,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -5800,9 +5641,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\PESQUISAR.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
               <Constraints>
@@ -5815,9 +5653,6 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\ArthurGiuvannucci\Documents\Supermercado\Supermercado\src\main\resources\assets\LIMPAR.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>

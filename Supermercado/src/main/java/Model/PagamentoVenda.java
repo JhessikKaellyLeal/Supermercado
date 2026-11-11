@@ -1,19 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class PagamentoVenda {
-   private int idpagamentoVendas, vendas_idvendas, vendas_cupom_idcupom, formasPagamento_idformasPagamento, condicoesPagamento_idcondicoesPagamento, contasFinanceiras_idcontasFinanceiras;
-   private String situacao, referenciaTransacao;
-   private double valor,  valorRecebido, troco;
+
+    private int idpagamentoVendas;
+    private double valor;
+    private double valorRecebido;
+    private double troco;
+    private String situacao;
+    private String referenciaTransacao;
+    private int vendas_idvendas;
+    private int vendas_cupom_idcupom;
+    private int formasPagamento_idformasPagamento;
+    private int condicoesPagamento_idcondicoesPagamento;
+    private int contasFinanceiras_idcontasFinanceiras;
 
     public PagamentoVenda() {
+    }
+
+    public PagamentoVenda(int idpagamentoVendas, double valor,
+            double valorRecebido, double troco, String situacao,
+            String referenciaTransacao, int vendas_idvendas,
+            int vendas_cupom_idcupom,
+            int formasPagamento_idformasPagamento,
+            int condicoesPagamento_idcondicoesPagamento,
+            int contasFinanceiras_idcontasFinanceiras) {
+
+        this.idpagamentoVendas = idpagamentoVendas;
+        this.valor = valor;
+        this.valorRecebido = valorRecebido;
+        this.troco = troco;
+        this.situacao = situacao;
+        this.referenciaTransacao = referenciaTransacao;
+        this.vendas_idvendas = vendas_idvendas;
+        this.vendas_cupom_idcupom = vendas_cupom_idcupom;
+        this.formasPagamento_idformasPagamento = formasPagamento_idformasPagamento;
+        this.condicoesPagamento_idcondicoesPagamento = condicoesPagamento_idcondicoesPagamento;
+        this.contasFinanceiras_idcontasFinanceiras = contasFinanceiras_idcontasFinanceiras;
     }
 
     public int getIdpagamentoVendas() {
@@ -22,6 +45,46 @@ public class PagamentoVenda {
 
     public void setIdpagamentoVendas(int idpagamentoVendas) {
         this.idpagamentoVendas = idpagamentoVendas;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public double getValorRecebido() {
+        return valorRecebido;
+    }
+
+    public void setValorRecebido(double valorRecebido) {
+        this.valorRecebido = valorRecebido;
+    }
+
+    public double getTroco() {
+        return troco;
+    }
+
+    public void setTroco(double troco) {
+        this.troco = troco;
+    }
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    public String getReferenciaTransacao() {
+        return referenciaTransacao;
+    }
+
+    public void setReferenciaTransacao(String referenciaTransacao) {
+        this.referenciaTransacao = referenciaTransacao;
     }
 
     public int getVendas_idvendas() {
@@ -63,45 +126,4 @@ public class PagamentoVenda {
     public void setContasFinanceiras_idcontasFinanceiras(int contasFinanceiras_idcontasFinanceiras) {
         this.contasFinanceiras_idcontasFinanceiras = contasFinanceiras_idcontasFinanceiras;
     }
-
-    public String getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }
-
-    public String getReferenciaTransacao() {
-        return referenciaTransacao;
-    }
-
-    public void setReferenciaTransacao(String referenciaTransacao) {
-        this.referenciaTransacao = referenciaTransacao;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public double getValorRecebido() {
-        return valorRecebido;
-    }
-
-    public void setValorRecebido(double valorRecebido) {
-        this.valorRecebido = valorRecebido;
-    }
-
-    public double getTroco() {
-        return troco;
-    }
-
-    public void setTroco(double troco) {
-        this.troco = troco;
-    }
-   
 }

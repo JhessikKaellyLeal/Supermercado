@@ -2,7 +2,6 @@
 package Control;
 
 import Conection.Conexao;
-import static Conection.Conexao.conectar;
 import Model.Marcas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,82 +11,166 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MarcasController {
+    
+    public int buscarIdPorNome(String nome) throws SQLException {
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setBoolean(2, status);
-            ps.setString(3, descricao);
-            return ps.executeUpdate() > 0;
-        }
-    }
- public List<String[]> listarMarcas() throws SQLException {
-    List<String[]> lista = new ArrayList<>();
+    String sql = "SELECT idmarcas FROM marcas WHERE nomeMarca = ?";
 
-    String sql = "SELECT idmarcas, nome, status, descricao "
-               + "FROM marcas ORDER BY idmarcas";
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    try (Connection con = Conexao.conectar();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        stmt.setString(1, nome);
 
-        while (rs.next()) {
-            lista.add(new String[]{
-                String.valueOf(rs.getInt("idmarcas")),
-                rs.getString("nome"),
-                String.valueOf(rs.getInt("status")),
-                rs.getString("descricao")
-            });
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("idmarcas");
+            }
         }
     }
 
-    return lista;
+    return 0;
 }
-    public List<Map<String, Object>> listar() throws SQLException {
-        List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT * FROM marcas ORDER BY nome";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    public void cadastrar(Marcas marca) throws SQLException {
+        String sql = "INSERT INTO marcas (nome, status, descricao) "
+                + "VALUES (?, ?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, marca.getNome());
+            stmt.setInt(2, marca.getStatus());
+            stmt.setString(3, marca.getDescricao());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Marcas> listar() throws SQLException {
+        List<Marcas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM marcas ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-
-                Marcas m = new Marcas();
-
-                m.setIdmarcas(rs.getInt("idmarcas"));
-                m.setNome(rs.getString("nome"));
-                m.setStatus(rs.getInt("status"));
-                m.setDescricao(rs.getString("descricao"));
-
-                lista.add(m);
+                lista.add(mapearMarca(rs));
             }
         }
 
         return lista;
     }
 
-    // BUSCAR MARCA PELO ID
     public Marcas buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM marcas WHERE idmarcas = ?";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setBoolean(2, status);
-            ps.setString(3, descricao);
-            ps.setInt(4, id);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearMarca(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<Marcas> buscarPorNome(String nome) throws SQLException {
+        List<Marcas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM marcas WHERE nome LIKE ? "
+                + "ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMarca(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Marcas> listarAtivas() throws SQLException {
+        List<Marcas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM marcas WHERE status = 1 "
+                + "ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearMarca(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(Marcas marca) throws SQLException {
+        String sql = "UPDATE marcas SET "
+                + "nome = ?, status = ?, descricao = ? "
+                + "WHERE idmarcas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, marca.getNome());
+            stmt.setInt(2, marca.getStatus());
+            stmt.setString(3, marca.getDescricao());
+            stmt.setInt(4, marca.getIdmarcas());
+
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR MARCA
-    public boolean excluir(int id) throws SQLException {
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM marcas WHERE idmarcas = ?";
 
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
 
-  
+    public void alterarStatus(int id, int status) throws SQLException {
+        String sql = "UPDATE marcas SET status = ? "
+                + "WHERE idmarcas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    private Marcas mapearMarca(ResultSet rs) throws SQLException {
+        Marcas marca = new Marcas();
+
+        marca.setIdmarcas(rs.getInt("idmarcas"));
+        marca.setNome(rs.getString("nome"));
+        marca.setStatus(rs.getInt("status"));
+        marca.setDescricao(rs.getString("descricao"));
+
+        return marca;
+    }
 }

@@ -10,14 +10,15 @@ import Model.Categorias;
 import Model.ContasFinanceiras;
 import Model.Permissoes;
 import Model.Vendas;
-import control.ContasFinanceirasController;
+import Control.ContasFinanceirasController;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import Control.ItensVendasController;
-import model.ItensVendas;
+import Model.ItensVendas;
+import java.sql.SQLException;
 
 import java.util.List;
 
@@ -36,9 +37,18 @@ public class TelaVendas extends javax.swing.JFrame {
     //==========================CONSTRUTOR=================================
     public TelaVendas(Usuario usuario) {
         initComponents();
-         this.usuario= usuario;
+        
+      chamarListarCombobox();
+      carregarTodasAsTabelasVendas();
+      carregarTodasAsTabelasItensVenda();
+      carregarVendasPorFormaPagamento();  
+      carregarContasBancarias();  
+      configurarPesquisas();
+
+        
+       this.usuario= usuario;
        this.menu= MenuPadrao.instalar(
-        this,
+       this,
         usuario,
         "vendas",
         this::navegar,
@@ -47,89 +57,84 @@ public class TelaVendas extends javax.swing.JFrame {
        this.setExtendedState(TelaVendas.MAXIMIZED_BOTH);
     }
     
-     // MÉTODO DE ACESSAR AS TELAS
+    //==========================CONSTRUTOR=================================
+
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -144,20 +149,427 @@ public void navegar(String idtela) {
     }
 }
 
- 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+// ------------------------------------------------COMBO BOX---------------------------------------------------------------------
+
+private void preencherCombo(JComboBox<String> combo, List<String> dados) {
+    combo.removeAllItems();
+
+    for (String dado : dados) {
+        combo.addItem(dado);
+    }
+}
+
+private void listarCategorias() {
+    try {
+        CategoriasController controller = new CategoriasController();
+        List<Categorias> lista = controller.listar();
+
+        List<String> dados = new ArrayList<>();
+
+        for (Categorias categoria : lista) {
+            dados.add(categoria.getNome());
+        }
+
+        preencherCombo(cbCategoriaPagamento, dados);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar categorias: " + e.getMessage());
+    }
+}
+
+private void listarOperadores() {
+    try {
+        UsuarioController controller = new UsuarioController();
+        List<Usuario> lista = controller.listar();
+
+        List<String> dados = new ArrayList<>();
+
+        for (Usuario usuario : lista) {
+            dados.add(usuario.getNome());
+        }
+
+        preencherCombo(cbOperador, dados);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar operadores: " + e.getMessage());
+    }
+}
+
+private void listarNiveisAcesso() {
+    try {
+        PermissoesController controller = new PermissoesController();
+        List<Permissoes> lista = controller.listar();
+
+        List<String> dados = new ArrayList<>();
+
+        for (Permissoes permissao : lista) {
+            dados.add(permissao.getTipo());
+        }
+
+        preencherCombo(cbNivelAcessoOperador, dados);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar níveis de acesso: " + e.getMessage());
+    }
+}
+
+private void listarBancos() {
+    try {
+        ContasFinanceirasController controller = new ContasFinanceirasController();
+        List<ContasFinanceiras> lista = controller.listar();
+
+        Set<String> dados = new LinkedHashSet<>();
+
+        for (ContasFinanceiras conta : lista) {
+            dados.add(conta.getBanco());
+        }
+
+        List<String> bancos = new ArrayList<>(dados);
+
+        preencherCombo(cbBancoContas, bancos);
+        preencherCombo(cbBancoFiltrosContas, bancos);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar bancos: " + e.getMessage());
+    }
+}
+
+private void listarTiposContas() {
+    try {
+        ContasFinanceirasController controller = new ContasFinanceirasController();
+        List<ContasFinanceiras> lista = controller.listar();
+
+        Set<String> dados = new LinkedHashSet<>();
+
+        for (ContasFinanceiras conta : lista) {
+            dados.add(conta.getTipo());
+        }
+
+        List<String> tipos = new ArrayList<>(dados);
+
+        preencherCombo(cbTipoCadastroContas, tipos);
+        preencherCombo(cbTipoFiltroContas, tipos);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar tipos de contas: " + e.getMessage());
+    }
+}
+
+private void listarAndamentoVendas() {
+    try {
+        VendasController controller = new VendasController();
+        List<Vendas> lista = controller.listar();
+
+        Set<String> dados = new LinkedHashSet<>();
+
+        for (Vendas venda : lista) {
+            if (venda.getStatusVenda() != null) {
+                dados.add(venda.getStatusVenda());
+            }
+        }
+
+        List<String> status = new ArrayList<>(dados);
+
+        preencherCombo(cbAndamentoFiltro, status);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar andamento das vendas: " + e.getMessage());
+    }
+}
+
+private void listarBandeiras() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("Visa");
+    dados.add("Mastercard");
+    dados.add("Elo");
+    dados.add("American Express");
+    dados.add("Hipercard");
+    dados.add("Diners Club");
+
+    preencherCombo(bBandeiraFiltrosTaxas, dados);
+    preencherCombo(cbBandeiraCadastroParcelamentos, dados);
+    preencherCombo(cbBandeiraCadastroTaxas, dados);
+    preencherCombo(cbBandeiraParcelamentos, dados);
+}
+
+private void listarTiposBandeiras() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("Crédito");
+    dados.add("Débito");
+
+    preencherCombo(cbTipoBandeiras, dados);
+    preencherCombo(cbTipoCadastroBandeiras, dados);
+}
+
+private void listarMotivosEstorno() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("Desistência da compra");
+    dados.add("Pagamento duplicado");
+    dados.add("Erro no valor cobrado");
+    dados.add("Produto indisponível");
+    dados.add("Erro na forma de pagamento");
+    dados.add("Cancelamento solicitado pelo cliente");
+
+    preencherCombo(cbMotivoEstorno, dados);
+}
+
+private void listarTaxasJuros() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("0%");
+    dados.add("1%");
+    dados.add("2%");
+    dados.add("3%");
+    dados.add("4%");
+    dados.add("5%");
+
+    preencherCombo(cbTaxaJurosParcelamentos, dados);
+}
+
+private void listarTiposTaxas() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("Percentual");
+    dados.add("Valor fixo");
+
+    preencherCombo(cbTipoTaxas, dados);
+}
+
+private void listarTiposRelatorios() {
+    List<String> dados = new ArrayList<>();
+
+    dados.add("Todas as movimentações");
+    dados.add("Entradas");
+    dados.add("Saídas");
+    dados.add("Saldo");
+
+    preencherCombo(cbTipoRelatorioContas, dados);
+}
+
+
+private void chamarListarCombobox(){
+   
+    listarCategorias();
+    listarOperadores();
+    listarNiveisAcesso();
+    listarBancos();
+    listarTiposContas();
+   carregarVendas(tbVendasCadastradasConsulta);
+    listarAndamentoVendas();
+
+    listarBandeiras();
+    listarTiposBandeiras();
+    listarMotivosEstorno();
+    listarTaxasJuros();
+    listarTiposTaxas();
+    listarTiposRelatorios();
+}
+
+// ------------------------------------------ LISTAR TABELAS --------------------------------------------------------------------------------
+
+
+private void carregarVendas(JTable tabela) {
+
+    try {
+
+        DefaultTableModel modelo = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        modelo.addColumn("ID");
+        modelo.addColumn("Data");
+        modelo.addColumn("Horário");
+        modelo.addColumn("Valor Total");
+        modelo.addColumn("Valor Pago");
+        modelo.addColumn("Troco");
+        modelo.addColumn("Itens");
+        modelo.addColumn("Status");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Usuário");
+        modelo.addColumn("Caixa");
+        modelo.addColumn("Cupom");
+
+        VendasController controller = new VendasController();
+
+        List<Vendas> lista = controller.listar();
+
+        for (Vendas venda : lista) {
+
+            modelo.addRow(new Object[]{
+                venda.getIdvendas(),
+                venda.getDataVenda(),
+                venda.getHorarioVenda(),
+                venda.getValorTotal(),
+                venda.getValorPago(),
+                venda.getTroco(),
+                venda.getQuantidadeItens(),
+                venda.getStatusVenda(),
+                venda.getNomeCliente(),
+                venda.getNomeUsuario(),
+                venda.getNomeCaixa(),
+                venda.getCodigoCupom()
+            });
+        }
+
+        tabela.setModel(modelo);
+
+        if (lista.isEmpty()) {
+            System.out.println("Nenhuma venda cadastrada.");
+        }
+
+    } catch (SQLException ex) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao carregar vendas: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        ex.printStackTrace();
+    }
+}
+
+
+private void carregarTodasAsTabelasVendas() {
+
+    JTable[] tabelas = {
+        tbVendasCadastradasConsulta,
+        tbVendasFiltro,
+        tbVendasOperador,
+        tbVendasCadastradasProduto,
+        tbVendasPagamento
+    };
+
+    for (JTable tabela : tabelas) {
+        carregarVendas(tabela);
+    }
+}
+
+private void carregarItensVenda(JTable tabela) {
+
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.addColumn("ID Item");
+            modelo.addColumn("Quantidade");
+            modelo.addColumn("Preço Unitário");
+            modelo.addColumn("Desconto");
+            modelo.addColumn("Valor Total");
+            modelo.addColumn("ID Venda");
+            modelo.addColumn("Cliente");
+            modelo.addColumn("Usuário");
+            modelo.addColumn("Caixa");
+            modelo.addColumn("Cupom");
+            
+            ItensVendasController controller =
+                    new ItensVendasController();
+            
+            List<ItensVendas> lista =
+                    controller.listar();
+            
+            for (ItensVendas item : lista) {
+                
+                modelo.addRow(new Object[]{
+                    item.getIditensVendas(),
+                    item.getQuantidade(),
+                    item.getPrecoUnitario(),
+                    item.getDesconto(),
+                    item.getValorTotal(),
+                    item.getVendas_idvendas(),
+                    item.getNomeCliente(),
+                    item.getNomeUsuario(),
+                    item.getNomeCaixa(),
+                    item.getCodigoCupom()
+                });
+            }
+            
+            tabela.setModel(modelo);
+        } catch (SQLException ex) {
+            System.getLogger(TelaVendas.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+}
+
+private void carregarTodasAsTabelasItensVenda() {
+
+    JTable[] tabelas = {
+
+        tbItensVendaConsulta,
+        tbItensVendaCancelamento,
+        tbItensVendaEstorno,
+        tbItensVendaComprovante
+
+    };
+
+    for (JTable tabela : tabelas) {
+
+        carregarItensVenda(tabela);
+
+    }
+}
+
+//=========================BOTÕES============================
+private void configurarPesquisas() {
+
+    btPesquisarConsulta.addActionListener(e -> pesquisar());
+
+    btPesquisarFiltro.addActionListener(e -> pesquisar());
+
+    btPesquisarOperador.addActionListener(e -> pesquisar());
+
+    btPesquisarProduto.addActionListener(e -> pesquisar());
+
+    btPesquisarPagamento.addActionListener(e -> pesquisar());
+
+    btPesquisarCancelamento.addActionListener(e -> pesquisar());
+
+    btPesquisarEstorno.addActionListener(e -> pesquisar());
+
+    btPesquisarComprovante.addActionListener(e -> pesquisar());
+
+    btPesquisarBandeiras.addActionListener(e -> pesquisar());
+
+    btPesquisarParcelamentos.addActionListener(e -> pesquisar());
+
+    btPesquisarTaxas.addActionListener(e -> pesquisar());
+
+    btPesquisarContas.addActionListener(e -> pesquisar());
+
+}
+private void pesquisar() {
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Pesquisa executada."
+    );
+
+}
+
+
+
+
+//===============================================================================================
+//===============================================================================================
+//===============================================================================================
+ @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tpInicio = new javax.swing.JTabbedPane();
         jpConsulta = new javax.swing.JPanel();
         jpCabecalhoConsulta = new javax.swing.JPanel();
-        btPesquisa = new javax.swing.JButton();
+        btPesquisarConsulta = new javax.swing.JButton();
         tfPesquisa = new javax.swing.JTextField();
         lbConsultaVenda = new javax.swing.JLabel();
         jpDetalhesVenda = new javax.swing.JPanel();
@@ -198,7 +610,6 @@ public void navegar(String idtela) {
         lbFormasPgFiltro = new javax.swing.JLabel();
         lbAndamentoFiltro = new javax.swing.JLabel();
         btPesquisarFiltro = new javax.swing.JButton();
-        btLimparFiltro = new javax.swing.JButton();
         jpTabVendas = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tbVendasFiltro = new javax.swing.JTable();
@@ -219,10 +630,11 @@ public void navegar(String idtela) {
         lbValorTotalOperador = new javax.swing.JLabel();
         tfValorTotalOperador = new javax.swing.JTextField();
         lbOperador = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        tbVendasOperador = new javax.swing.JTable();
+        btPesquisarOperador = new javax.swing.JButton();
         jpVendasOperador = new javax.swing.JPanel();
         lbVendasOperador = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tbVendasOperador = new javax.swing.JTable();
         jpProduto = new javax.swing.JPanel();
         jpCabecalhoProduto = new javax.swing.JPanel();
         lbProduto = new javax.swing.JLabel();
@@ -259,6 +671,7 @@ public void navegar(String idtela) {
         lbFormaPagamento = new javax.swing.JLabel();
         lbDataInicialPagamento = new javax.swing.JLabel();
         lbDataFinalPagamento = new javax.swing.JLabel();
+        btPesquisarPagamento = new javax.swing.JButton();
         jpVendasPagamento = new javax.swing.JPanel();
         lbVendasPagamento = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -296,6 +709,7 @@ public void navegar(String idtela) {
         jpTotalVendaEstorno = new javax.swing.JPanel();
         lbTotalVendaEstorno = new javax.swing.JLabel();
         tfTotalVendaEstorno = new javax.swing.JTextField();
+        btPesquisarEstorno = new javax.swing.JButton();
         jpItensVendaEstorno = new javax.swing.JPanel();
         lbItensVendaEstorno = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -308,21 +722,19 @@ public void navegar(String idtela) {
         tfObservacaoEstorno = new javax.swing.JTextField();
         lvValorEstorno = new javax.swing.JLabel();
         tfValorEstorno = new javax.swing.JTextField();
-        btVoltarEstorno = new javax.swing.JButton();
         btConfirmarEstorno = new javax.swing.JButton();
         jpComprovante = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         lbDadosVendaComprovante = new javax.swing.JLabel();
         lbNVendaComprovante = new javax.swing.JLabel();
         tfNVendaComprovante = new javax.swing.JTextField();
-        btNVendaComprovante = new javax.swing.JButton();
+        btPesquisarComprovante = new javax.swing.JButton();
         lbFormaPagamentoComprovante = new javax.swing.JLabel();
         lbOperadorComprovante = new javax.swing.JLabel();
         lbDataHoraComprovante = new javax.swing.JLabel();
         tfDataHoraComprovante = new javax.swing.JTextField();
         tfOperadorComprovante = new javax.swing.JTextField();
         tfFormaPagamentoComprovante = new javax.swing.JTextField();
-        btImprimirComprovante = new javax.swing.JButton();
         jpTotalVendasComprovante = new javax.swing.JPanel();
         lbTotalVendaComprovante = new javax.swing.JLabel();
         tfTotalVendaComprovante = new javax.swing.JTextField();
@@ -461,23 +873,19 @@ public void navegar(String idtela) {
         tpInicio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
         jpConsulta.setBackground(new java.awt.Color(255, 255, 255));
-        jpConsulta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoConsulta.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoConsulta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
-        btPesquisa.setBackground(new java.awt.Color(10, 4, 138));
-        btPesquisa.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btPesquisa.setForeground(new java.awt.Color(255, 255, 255));
-        btPesquisa.setText("Pesquisar");
+        btPesquisarConsulta.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarConsulta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarConsulta.setText("Pesquisar");
 
-        tfPesquisa.setBackground(new java.awt.Color(255, 255, 255));
-        tfPesquisa.setForeground(new java.awt.Color(0, 0, 0));
         tfPesquisa.addActionListener(this::tfPesquisaActionPerformed);
 
         lbConsultaVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbConsultaVenda.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lbConsultaVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbConsultaVenda.setText("N° da venda");
 
         javax.swing.GroupLayout jpCabecalhoConsultaLayout = new javax.swing.GroupLayout(jpCabecalhoConsulta);
@@ -491,7 +899,7 @@ public void navegar(String idtela) {
                     .addGroup(jpCabecalhoConsultaLayout.createSequentialGroup()
                         .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btPesquisa)))
+                        .addComponent(btPesquisarConsulta)))
                 .addContainerGap(221, Short.MAX_VALUE))
         );
         jpCabecalhoConsultaLayout.setVerticalGroup(
@@ -501,85 +909,50 @@ public void navegar(String idtela) {
                 .addComponent(lbConsultaVenda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpCabecalhoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPesquisa)
+                    .addComponent(btPesquisarConsulta)
                     .addComponent(tfPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
-
-        jpConsulta.add(jpCabecalhoConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 820, -1));
 
         jpDetalhesVenda.setBackground(new java.awt.Color(255, 255, 255));
         jpDetalhesVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
         lbDetalheVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbDetalheVenda.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lbDetalheVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbDetalheVenda.setText("Detalhes da venda");
         lbDetalheVenda.setToolTipText("");
 
         lbNumeroVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbNumeroVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNumeroVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbNumeroVenda.setText("N° da venda");
-
-        tfNumeroVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfNumeroVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbDataVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbDataVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbDataVenda.setText("Data/Hora");
 
         lbClienteVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbClienteVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbClienteVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbClienteVenda.setText("Cliente");
-
-        tfClienteVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfClienteVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbOperadorVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbOperadorVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbOperadorVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbOperadorVenda.setText("Operador");
-
-        tfOperadorVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfOperadorVenda.setForeground(new java.awt.Color(0, 0, 0));
-
-        tfPagamentoVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfPagamentoVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbPagamentoVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbPagamentoVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbPagamentoVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbPagamentoVenda.setText("Forma de pagamento");
-
-        tfParcelasVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfParcelasVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbParcelasVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbParcelasVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbParcelasVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbParcelasVenda.setText("Parcelas");
-
-        tfValorVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfValorVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbValorVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbValorVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbValorVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbValorVenda.setText("Valor total");
-
-        tfAndamentoVenda.setBackground(new java.awt.Color(255, 255, 255));
-        tfAndamentoVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         lbAndamentoVenda.setBackground(new java.awt.Color(255, 255, 255));
         lbAndamentoVenda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbAndamentoVenda.setForeground(new java.awt.Color(0, 0, 0));
         lbAndamentoVenda.setText("Andamento");
-
-        ftxDataVenda.setBackground(new java.awt.Color(255, 255, 255));
-        ftxDataVenda.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jpDetalhesVendaLayout = new javax.swing.GroupLayout(jpDetalhesVenda);
         jpDetalhesVenda.setLayout(jpDetalhesVendaLayout);
@@ -666,8 +1039,6 @@ public void navegar(String idtela) {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jpConsulta.add(jpDetalhesVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 126, -1, -1));
-
         jpItensVenda.setBackground(new java.awt.Color(10, 4, 138));
         jpItensVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
@@ -675,9 +1046,7 @@ public void navegar(String idtela) {
         lbItensVenda.setForeground(new java.awt.Color(255, 255, 255));
         lbItensVenda.setText("Itens da venda");
 
-        tbItensVendaConsulta.setBackground(new java.awt.Color(255, 255, 255));
         tbItensVendaConsulta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        tbItensVendaConsulta.setForeground(new java.awt.Color(0, 0, 0));
         tbItensVendaConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -716,15 +1085,11 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addComponent(lbItensVenda)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(JScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jpConsulta.add(jpItensVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 126, 430, 250));
-
-        tbVendasCadastradasConsulta.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasCadastradasConsulta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        tbVendasCadastradasConsulta.setForeground(new java.awt.Color(0, 0, 0));
         tbVendasCadastradasConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -746,8 +1111,6 @@ public void navegar(String idtela) {
         });
         jScrollPane7.setViewportView(tbVendasCadastradasConsulta);
 
-        jpConsulta.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 422, 1380, 190));
-
         jpVendasCadastradas.setBackground(new java.awt.Color(10, 4, 138));
 
         lbVendasCadastradas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -761,7 +1124,7 @@ public void navegar(String idtela) {
             .addGroup(jpVendasCadastradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasCadastradas)
-                .addContainerGap(1238, Short.MAX_VALUE))
+                .addContainerGap(638, Short.MAX_VALUE))
         );
         jpVendasCadastradasLayout.setVerticalGroup(
             jpVendasCadastradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -771,62 +1134,73 @@ public void navegar(String idtela) {
                 .addContainerGap(222, Short.MAX_VALUE))
         );
 
-        jpConsulta.add(jpVendasCadastradas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 1420, 250));
+        javax.swing.GroupLayout jpConsultaLayout = new javax.swing.GroupLayout(jpConsulta);
+        jpConsulta.setLayout(jpConsultaLayout);
+        jpConsultaLayout.setHorizontalGroup(
+            jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConsultaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpCabecalhoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jpConsultaLayout.setVerticalGroup(
+            jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConsultaLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jpCabecalhoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpConsultaLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         tpInicio.addTab("Consulta e Detalhes de Pagamento", jpConsulta);
 
         jpFiltros.setBackground(new java.awt.Color(255, 255, 255));
-        jpFiltros.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoPeriodoVendas.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoPeriodoVendas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
         lbPeriodoVendas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbPeriodoVendas.setForeground(new java.awt.Color(0, 0, 0));
         lbPeriodoVendas.setText("Período de vendas");
 
         lbDataFinalFiltros.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataFinalFiltros.setForeground(new java.awt.Color(0, 0, 0));
         lbDataFinalFiltros.setText("Data final");
 
         lbDataInicialFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataInicialFiltro.setForeground(new java.awt.Color(0, 0, 0));
         lbDataInicialFiltro.setText("Data inicial");
 
-        ftfDataInicialFiltro.setBackground(new java.awt.Color(255, 255, 255));
-        ftfDataInicialFiltro.setForeground(new java.awt.Color(0, 0, 0));
-
-        ftfDataFinalFiltro.setBackground(new java.awt.Color(255, 255, 255));
-        ftfDataFinalFiltro.setForeground(new java.awt.Color(0, 0, 0));
-
-        cbFormaPgFiltro.setBackground(new java.awt.Color(255, 255, 255));
         cbFormaPgFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbFormaPgFiltro.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPgFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Cartão de Crédito", "Cartão de Débito", "Cartão do Supermercado", "Carteiras Digitais", "Dinheiro", "PIX", "Vale Alimentação", " ", " " }));
 
-        cbAndamentoFiltro.setBackground(new java.awt.Color(255, 255, 255));
         cbAndamentoFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbAndamentoFiltro.setForeground(new java.awt.Color(0, 0, 0));
         cbAndamentoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Cancelados", "Concluídos" }));
         cbAndamentoFiltro.addActionListener(this::cbAndamentoFiltroActionPerformed);
 
         lbFormasPgFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormasPgFiltro.setForeground(new java.awt.Color(0, 0, 0));
         lbFormasPgFiltro.setText("Forma de pagamento");
 
         lbAndamentoFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbAndamentoFiltro.setForeground(new java.awt.Color(0, 0, 0));
         lbAndamentoFiltro.setText("Andamento");
 
         btPesquisarFiltro.setBackground(new java.awt.Color(10, 4, 138));
         btPesquisarFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btPesquisarFiltro.setForeground(new java.awt.Color(255, 255, 255));
         btPesquisarFiltro.setText("Pesquisar");
-
-        btLimparFiltro.setBackground(new java.awt.Color(10, 4, 138));
-        btLimparFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btLimparFiltro.setForeground(new java.awt.Color(255, 255, 255));
-        btLimparFiltro.setText("Limpar");
 
         javax.swing.GroupLayout jpCabecalhoPeriodoVendasLayout = new javax.swing.GroupLayout(jpCabecalhoPeriodoVendas);
         jpCabecalhoPeriodoVendas.setLayout(jpCabecalhoPeriodoVendasLayout);
@@ -839,26 +1213,21 @@ public void navegar(String idtela) {
                     .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ftfDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 95, Short.MAX_VALUE)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbDataFinalFiltros)
-                                    .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(72, 72, 72)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbFormasPgFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(61, 61, 61)
-                                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbAndamentoFiltro)
-                                    .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jpCabecalhoPeriodoVendasLayout.createSequentialGroup()
-                                .addComponent(btPesquisarFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btLimparFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(ftfDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDataInicialFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(85, 85, 85)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbDataFinalFiltros)
+                            .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbFormasPgFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)
+                        .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbAndamentoFiltro)
+                            .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPesquisarFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(23, 23, 23))
         );
         jpCabecalhoPeriodoVendasLayout.setVerticalGroup(
@@ -878,20 +1247,14 @@ public void navegar(String idtela) {
                     .addComponent(ftfDataFinalFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFormaPgFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbAndamentoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpCabecalhoPeriodoVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btPesquisarFiltro)
-                    .addComponent(btLimparFiltro))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(btPesquisarFiltro)
+                .addGap(34, 34, 34))
         );
-
-        jpFiltros.add(jpCabecalhoPeriodoVendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jpTabVendas.setBackground(new java.awt.Color(10, 4, 138));
 
-        tbVendasFiltro.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasFiltro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbVendasFiltro.setForeground(new java.awt.Color(0, 0, 0));
         tbVendasFiltro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -929,7 +1292,7 @@ public void navegar(String idtela) {
                     .addGroup(jpTabVendasLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbVendasFiltros)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jpTabVendasLayout.setVerticalGroup(
             jpTabVendasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -941,83 +1304,85 @@ public void navegar(String idtela) {
                 .addGap(14, 14, 14))
         );
 
-        jpFiltros.add(jpTabVendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 740, 320));
+        javax.swing.GroupLayout jpFiltrosLayout = new javax.swing.GroupLayout(jpFiltros);
+        jpFiltros.setLayout(jpFiltrosLayout);
+        jpFiltrosLayout.setHorizontalGroup(
+            jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFiltrosLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jpCabecalhoPeriodoVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpTabVendas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
+        );
+        jpFiltrosLayout.setVerticalGroup(
+            jpFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFiltrosLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jpCabecalhoPeriodoVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jpTabVendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Filtros por Período", jpFiltros);
 
         jpOperador.setBackground(new java.awt.Color(255, 255, 255));
-        jpOperador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoOperador.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoOperador.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
-        cbOperador.setBackground(new java.awt.Color(255, 255, 255));
         cbOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbOperador.setForeground(new java.awt.Color(0, 0, 0));
         cbOperador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos os operadores cadastrados" }));
         cbOperador.addActionListener(this::cbOperadorActionPerformed);
 
         lbDadosOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDadosOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosOperador.setText("Dados do operador");
 
         lbNomeOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbNomeOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNomeOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbNomeOperador.setText("Nome");
 
-        tfNomeOperador.setBackground(new java.awt.Color(255, 255, 255));
         tfNomeOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfNomeOperador.setForeground(new java.awt.Color(0, 0, 0));
 
-        tfLoginOperador.setBackground(new java.awt.Color(255, 255, 255));
         tfLoginOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfLoginOperador.setForeground(new java.awt.Color(0, 0, 0));
 
         lbLoginOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbLoginOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbLoginOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbLoginOperador.setText("Login");
 
         lbNivelAcessoOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbNivelAcessoOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNivelAcessoOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbNivelAcessoOperador.setText("Nível de acesso");
 
-        tfQuantVendasOperador.setBackground(new java.awt.Color(255, 255, 255));
         tfQuantVendasOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfQuantVendasOperador.setForeground(new java.awt.Color(0, 0, 0));
 
         lbQuantVendasOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbQuantVendasOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbQuantVendasOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbQuantVendasOperador.setText("Quantidade de Vendas");
 
-        cbNivelAcessoOperador.setBackground(new java.awt.Color(255, 255, 255));
         cbNivelAcessoOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbNivelAcessoOperador.setForeground(new java.awt.Color(0, 0, 0));
         cbNivelAcessoOperador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Supervisor", "Operador", "Caixa" }));
         cbNivelAcessoOperador.addActionListener(this::cbNivelAcessoOperadorActionPerformed);
 
         lbVendasRealizadasOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbVendasRealizadasOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbVendasRealizadasOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbVendasRealizadasOperador.setText("Vendas realizadas pelo operador");
 
         lbValorTotalOperador.setBackground(new java.awt.Color(255, 255, 255));
         lbValorTotalOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbValorTotalOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbValorTotalOperador.setText("Valor total");
 
-        tfValorTotalOperador.setBackground(new java.awt.Color(255, 255, 255));
         tfValorTotalOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfValorTotalOperador.setForeground(new java.awt.Color(0, 0, 0));
 
         lbOperador.setBackground(new java.awt.Color(0, 0, 0));
         lbOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbOperador.setForeground(new java.awt.Color(0, 0, 0));
         lbOperador.setText("Operador");
+
+        btPesquisarOperador.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarOperador.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarOperador.setText("Pesquisar");
 
         javax.swing.GroupLayout jpCabecalhoOperadorLayout = new javax.swing.GroupLayout(jpCabecalhoOperador);
         jpCabecalhoOperador.setLayout(jpCabecalhoOperadorLayout);
@@ -1032,32 +1397,30 @@ public void navegar(String idtela) {
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                         .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
+                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(tfNomeOperador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(tfLoginOperador))
+                                .addGap(254, 254, 254))
+                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                                 .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbDadosOperador)
                                     .addComponent(lbNomeOperador)
-                                    .addComponent(lbLoginOperador))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE))
-                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfLoginOperador, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfNomeOperador))
-                                .addGap(244, 244, 244))
-                            .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                                .addComponent(cbNivelAcessoOperador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(lbLoginOperador)
+                                    .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbNivelAcessoOperador, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbOperador, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbValorTotalOperador)
-                            .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfValorTotalOperador)
-                                .addComponent(lbQuantVendasOperador, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(tfQuantVendasOperador)
-                                .addComponent(lbVendasRealizadasOperador, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(98, 98, 98))
-                    .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
-                        .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNivelAcessoOperador)
-                            .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btPesquisarOperador)
+                                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(tfValorTotalOperador)
+                                    .addComponent(lbQuantVendasOperador, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfQuantVendasOperador)
+                                    .addComponent(lbVendasRealizadasOperador, javax.swing.GroupLayout.Alignment.LEADING))))
+                        .addGap(74, 74, 74))))
         );
         jpCabecalhoOperadorLayout.setVerticalGroup(
             jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1065,19 +1428,17 @@ public void navegar(String idtela) {
                 .addGap(12, 12, 12)
                 .addComponent(lbOperador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
+                        .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbDadosOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbNomeOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNomeOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbLoginOperador)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfLoginOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbLoginOperador))
                     .addGroup(jpCabecalhoOperadorLayout.createSequentialGroup()
                         .addComponent(lbVendasRealizadasOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1088,18 +1449,25 @@ public void navegar(String idtela) {
                         .addComponent(lbValorTotalOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfValorTotalOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfLoginOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(lbNivelAcessoOperador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpCabecalhoOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbNivelAcessoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btPesquisarOperador))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jpOperador.add(jpCabecalhoOperador, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 37, -1, -1));
+        jpVendasOperador.setBackground(new java.awt.Color(10, 4, 138));
 
-        tbVendasOperador.setBackground(new java.awt.Color(255, 255, 255));
+        lbVendasOperador.setBackground(new java.awt.Color(0, 0, 0));
+        lbVendasOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbVendasOperador.setForeground(new java.awt.Color(255, 255, 255));
+        lbVendasOperador.setText("Vendas cadastradas");
+
         tbVendasOperador.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbVendasOperador.setForeground(new java.awt.Color(0, 0, 0));
         tbVendasOperador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1121,103 +1489,84 @@ public void navegar(String idtela) {
         });
         jScrollPane9.setViewportView(tbVendasOperador);
 
-        jpOperador.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 350, 720, 240));
-
-        jpVendasOperador.setBackground(new java.awt.Color(10, 4, 138));
-
-        lbVendasOperador.setBackground(new java.awt.Color(0, 0, 0));
-        lbVendasOperador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbVendasOperador.setForeground(new java.awt.Color(255, 255, 255));
-        lbVendasOperador.setText("Vendas cadastradas");
-
         javax.swing.GroupLayout jpVendasOperadorLayout = new javax.swing.GroupLayout(jpVendasOperador);
         jpVendasOperador.setLayout(jpVendasOperadorLayout);
         jpVendasOperadorLayout.setHorizontalGroup(
             jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasOperadorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbVendasOperador)
-                .addContainerGap(623, Short.MAX_VALUE))
+                .addGroup(jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpVendasOperadorLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbVendasOperador))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jpVendasOperadorLayout.setVerticalGroup(
             jpVendasOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasOperadorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasOperador)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jpOperador.add(jpVendasOperador, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 770, 280));
+        javax.swing.GroupLayout jpOperadorLayout = new javax.swing.GroupLayout(jpOperador);
+        jpOperador.setLayout(jpOperadorLayout);
+        jpOperadorLayout.setHorizontalGroup(
+            jpOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jpCabecalhoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jpVendasOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jpOperadorLayout.setVerticalGroup(
+            jpOperadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpOperadorLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jpCabecalhoOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jpVendasOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Operador", jpOperador);
 
         jpProduto.setBackground(new java.awt.Color(255, 255, 255));
-        jpProduto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoProduto.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoProduto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 204), 1, true));
 
         lbProduto.setBackground(new java.awt.Color(255, 255, 255));
         lbProduto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbProduto.setText("Produto");
 
-        tfProduto.setBackground(new java.awt.Color(255, 255, 255));
         tfProduto.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfProduto.setForeground(new java.awt.Color(0, 0, 0));
         tfProduto.setText("Digite o nome ou código do produto");
 
         lbDadosProduto.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosProduto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDadosProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosProduto.setText("Dados no produto");
 
-        lbCodigoProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoProduto.setText("Código");
 
-        tfCodigoProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfCodigoProduto.setForeground(new java.awt.Color(0, 0, 0));
-
-        lbNomeProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbNomeProduto.setText("Nome");
 
-        tfNomeProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfNomeProduto.setForeground(new java.awt.Color(0, 0, 0));
-
-        lbCategoriaProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbCategoriaProduto.setText("Categoria");
 
-        lbValorUnitarioProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbValorUnitarioProduto.setText("Valor unitário");
 
-        tfValorUnitarioProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfValorUnitarioProduto.setForeground(new java.awt.Color(0, 0, 0));
-
-        tfCategoriaProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfCategoriaProduto.setForeground(new java.awt.Color(0, 0, 0));
-
-        lbEstoqueAtualProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbEstoqueAtualProduto.setText("Estoque atual");
-
-        tfEstoqueAtualProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfEstoqueAtualProduto.setForeground(new java.awt.Color(0, 0, 0));
 
         lbVendasProduto.setBackground(new java.awt.Color(255, 255, 255));
         lbVendasProduto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbVendasProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbVendasProduto.setText("Vendas do produto");
 
-        lbQuantVendidaProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbQuantVendidaProduto.setText("Quantidade vendida");
 
-        lbValorTotalProduto.setForeground(new java.awt.Color(0, 0, 0));
         lbValorTotalProduto.setText("Valor total");
-
-        tfQuantVendidaProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfQuantVendidaProduto.setForeground(new java.awt.Color(0, 0, 0));
-
-        tfValorTotalProduto.setBackground(new java.awt.Color(255, 255, 255));
-        tfValorTotalProduto.setForeground(new java.awt.Color(0, 0, 0));
 
         btPesquisarProduto.setBackground(new java.awt.Color(10, 4, 138));
         btPesquisarProduto.setForeground(new java.awt.Color(255, 255, 255));
@@ -1242,7 +1591,7 @@ public void navegar(String idtela) {
                         .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbValorUnitarioProduto)
                             .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
+                        .addGap(18, 18, 18)
                         .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbEstoqueAtualProduto)))
@@ -1287,36 +1636,37 @@ public void navegar(String idtela) {
                     .addComponent(tfProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btPesquisarProduto))
                 .addGap(18, 18, 18)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDadosProduto)
-                    .addComponent(lbVendasProduto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCodigoProduto)
-                    .addComponent(lbNomeProduto)
-                    .addComponent(lbQuantVendidaProduto)
-                    .addComponent(lbValorTotalProduto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfQuantVendidaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfValorTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbValorUnitarioProduto, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbCategoriaProduto)
-                        .addComponent(lbEstoqueAtualProduto)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpCabecalhoProdutoLayout.createSequentialGroup()
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDadosProduto)
+                            .addComponent(lbVendasProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbCodigoProduto)
+                            .addComponent(lbNomeProduto)
+                            .addComponent(lbQuantVendidaProduto)
+                            .addComponent(lbValorTotalProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfQuantVendidaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfValorTotalProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbValorUnitarioProduto, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbCategoriaProduto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpCabecalhoProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfValorUnitarioProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jpCabecalhoProdutoLayout.createSequentialGroup()
+                        .addComponent(lbEstoqueAtualProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfEstoqueAtualProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
-
-        jpProduto.add(jpCabecalhoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 34, -1, -1));
 
         jpVendasCadastradasProduto.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -1325,9 +1675,7 @@ public void navegar(String idtela) {
         lbVendasCadastradasProduto.setForeground(new java.awt.Color(255, 255, 255));
         lbVendasCadastradasProduto.setText("Vendas cadastradas");
 
-        tbVendasCadastradasProduto.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasCadastradasProduto.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbVendasCadastradasProduto.setForeground(new java.awt.Color(0, 0, 0));
         tbVendasCadastradasProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1372,7 +1720,26 @@ public void navegar(String idtela) {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jpProduto.add(jpVendasCadastradasProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 810, 270));
+        javax.swing.GroupLayout jpProdutoLayout = new javax.swing.GroupLayout(jpProduto);
+        jpProduto.setLayout(jpProdutoLayout);
+        jpProdutoLayout.setHorizontalGroup(
+            jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpProdutoLayout.createSequentialGroup()
+                .addContainerGap(667, Short.MAX_VALUE)
+                .addGroup(jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jpCabecalhoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpVendasCadastradasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+        jpProdutoLayout.setVerticalGroup(
+            jpProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpProdutoLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jpCabecalhoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jpVendasCadastradasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         tpInicio.addTab("Produto", jpProduto);
 
@@ -1383,42 +1750,32 @@ public void navegar(String idtela) {
 
         lbFiltrosPagamento.setBackground(new java.awt.Color(255, 255, 255));
         lbFiltrosPagamento.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbFiltrosPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbFiltrosPagamento.setText("Filtros");
 
-        cbCategoriaPagamento.setBackground(new java.awt.Color(255, 255, 255));
-        cbCategoriaPagamento.setForeground(new java.awt.Color(0, 0, 0));
         cbCategoriaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mercenaria", "Bebidas", "Hortifruti", "Açougue", "Padaria", "Laticínios", "Higiene Pessoal", "Limpeza", "Congelados" }));
 
-        ftfDataInicialPagamento.setBackground(new java.awt.Color(255, 255, 255));
-        ftfDataInicialPagamento.setForeground(new java.awt.Color(0, 0, 0));
-
-        cbFormaPagamento.setBackground(new java.awt.Color(255, 255, 255));
-        cbFormaPagamento.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dinheiro", "PIX", "Cartão de Crédito", "Cartão de Débito", "Vale-Alimentação", "Vale-Refeição", "Boleto", "Crediário" }));
-
-        ftfDataFinalPagamento.setBackground(new java.awt.Color(255, 255, 255));
-        ftfDataFinalPagamento.setForeground(new java.awt.Color(0, 0, 0));
 
         lbCategoriaPagamento.setBackground(new java.awt.Color(255, 255, 255));
         lbCategoriaPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbCategoriaPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbCategoriaPagamento.setText("Categoria");
 
         lbFormaPagamento.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamento.setText("Forma de pagamento");
 
         lbDataInicialPagamento.setBackground(new java.awt.Color(255, 255, 255));
         lbDataInicialPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataInicialPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbDataInicialPagamento.setText("Data inicial");
 
         lbDataFinalPagamento.setBackground(new java.awt.Color(255, 255, 255));
         lbDataFinalPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataFinalPagamento.setForeground(new java.awt.Color(0, 0, 0));
         lbDataFinalPagamento.setText("Data final");
+
+        btPesquisarPagamento.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarPagamento.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarPagamento.setText("Pesquisar");
 
         javax.swing.GroupLayout jpFiltrosPagamentoLayout = new javax.swing.GroupLayout(jpFiltrosPagamento);
         jpFiltrosPagamento.setLayout(jpFiltrosPagamentoLayout);
@@ -1428,48 +1785,61 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbFormaPagamento)
-                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbFiltrosPagamento)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addComponent(ftfDataInicialPagamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDataInicialPagamento))
+                                .addGap(269, 269, 269))
+                            .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                                .addComponent(cbCategoriaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(134, 134, 134)))
                         .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbDataFinalPagamento)
-                            .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbFormaPagamento))
+                        .addGap(290, 290, 290))
                     .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
-                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbFiltrosPagamento)
-                            .addComponent(lbDataInicialPagamento))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(134, 134, 134)
+                        .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFiltrosPagamentoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btPesquisarPagamento)
+                .addGap(53, 53, 53))
         );
         jpFiltrosPagamentoLayout.setVerticalGroup(
             jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbFiltrosPagamento)
-                .addGap(38, 38, 38)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCategoriaPagamento)
-                    .addComponent(lbFormaPagamento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDataInicialPagamento)
-                    .addComponent(lbDataFinalPagamento))
-                .addGap(5, 5, 5)
-                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                        .addComponent(lbFiltrosPagamento)
+                        .addGap(38, 38, 38)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbCategoriaPagamento)
+                            .addComponent(lbFormaPagamento))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbCategoriaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 112, Short.MAX_VALUE))
+                    .addGroup(jpFiltrosPagamentoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDataInicialPagamento)
+                            .addComponent(lbDataFinalPagamento))
+                        .addGap(5, 5, 5)
+                        .addGroup(jpFiltrosPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ftfDataInicialPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftfDataFinalPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(17, 17, 17)
+                .addComponent(btPesquisarPagamento)
+                .addGap(35, 35, 35))
         );
 
         jpVendasPagamento.setBackground(new java.awt.Color(10, 4, 138));
@@ -1480,9 +1850,7 @@ public void navegar(String idtela) {
         lbVendasPagamento.setForeground(new java.awt.Color(255, 255, 255));
         lbVendasPagamento.setText("Vendas por forma de pagamento");
 
-        tbVendasPagamento.setBackground(new java.awt.Color(255, 255, 255));
         tbVendasPagamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbVendasPagamento.setForeground(new java.awt.Color(0, 0, 0));
         tbVendasPagamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1510,21 +1878,23 @@ public void navegar(String idtela) {
             jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbVendasPagamento)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpVendasPagamentoLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGroup(jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane10))
+                    .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
+                        .addComponent(lbVendasPagamento)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jpVendasPagamentoLayout.setVerticalGroup(
             jpVendasPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpVendasPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasPagamento)
-                .addGap(7, 7, 7)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpCategoriaLayout = new javax.swing.GroupLayout(jpCategoria);
@@ -1536,22 +1906,21 @@ public void navegar(String idtela) {
                 .addGroup(jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpVendasPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(45, 45, 45))
+                .addGap(0, 668, Short.MAX_VALUE))
         );
         jpCategoriaLayout.setVerticalGroup(
             jpCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCategoriaLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(28, 28, 28)
                 .addComponent(jpFiltrosPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(jpVendasPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGap(38, 38, 38))
         );
 
         tpInicio.addTab("Categoria e Pagamento", jpCategoria);
 
         jpCancelamento.setBackground(new java.awt.Color(255, 255, 255));
-        jpCancelamento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpCabecalhoDadosVenda.setBackground(new java.awt.Color(255, 255, 255));
         jpCabecalhoDadosVenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 1, true));
@@ -1559,19 +1928,15 @@ public void navegar(String idtela) {
 
         lbDadosVendaCancelamento.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosVendaCancelamento.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lbDadosVendaCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosVendaCancelamento.setText("Dados da Venda");
 
         lbDataHoraCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataHoraCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         lbDataHoraCancelamento.setText("Data/Hora:");
 
         lbOperadorCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbOperadorCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         lbOperadorCancelamento.setText("Operador:");
 
         lbFormaPagamentoCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentoCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentoCancelamento.setText("Forma de Pagamento:");
 
         btPesquisarCancelamento.setBackground(new java.awt.Color(10, 4, 138));
@@ -1579,25 +1944,16 @@ public void navegar(String idtela) {
         btPesquisarCancelamento.setForeground(new java.awt.Color(255, 255, 255));
         btPesquisarCancelamento.setText("Pesquisar");
 
-        tfFormaPagamentoCancelamento.setBackground(new java.awt.Color(255, 255, 255));
         tfFormaPagamentoCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfFormaPagamentoCancelamento.setForeground(new java.awt.Color(0, 0, 0));
 
-        tfOperadorCancelamento.setBackground(new java.awt.Color(255, 255, 255));
         tfOperadorCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfOperadorCancelamento.setForeground(new java.awt.Color(0, 0, 0));
 
-        tfVendaCancelamento.setBackground(new java.awt.Color(255, 255, 255));
         tfVendaCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfVendaCancelamento.setForeground(new java.awt.Color(0, 0, 0));
 
         lbNVendaCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNVendaCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         lbNVendaCancelamento.setText("N° da Venda:");
 
-        tfDataHoraCancelamento.setBackground(new java.awt.Color(255, 255, 255));
         tfDataHoraCancelamento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDataHoraCancelamento.setForeground(new java.awt.Color(0, 0, 0));
 
         jpTotalVendaCancelamento.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -1651,16 +2007,15 @@ public void navegar(String idtela) {
                                 .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tfOperadorCancelamento, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                                     .addComponent(tfFormaPagamentoCancelamento))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jpTotalVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                        .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tfDataHoraCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                                .addComponent(lbNVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(tfVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbNVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tfDataHoraCancelamento, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(tfVendaCancelamento))
                         .addGap(29, 29, 29)
                         .addComponent(btPesquisarCancelamento)
                         .addGap(262, 262, 262))))
@@ -1671,7 +2026,7 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
-                        .addGap(0, 108, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jpTotalVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpCabecalhoDadosVendaLayout.createSequentialGroup()
                         .addComponent(lbDadosVendaCancelamento)
@@ -1692,18 +2047,14 @@ public void navegar(String idtela) {
                         .addGroup(jpCabecalhoDadosVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbFormaPagamentoCancelamento)
                             .addComponent(tfFormaPagamentoCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 37, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        jpCancelamento.add(jpCabecalhoDadosVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 770, 220));
 
         jpItensVendaCancelamento.setBackground(new java.awt.Color(10, 4, 138));
         jpItensVendaCancelamento.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 1, true));
         jpItensVendaCancelamento.setForeground(new java.awt.Color(255, 255, 255));
 
-        tbItensVendaCancelamento.setBackground(new java.awt.Color(255, 255, 255));
-        tbItensVendaCancelamento.setForeground(new java.awt.Color(0, 0, 0));
         tbItensVendaCancelamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -1752,7 +2103,24 @@ public void navegar(String idtela) {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jpCancelamento.add(jpItensVendaCancelamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 770, -1));
+        javax.swing.GroupLayout jpCancelamentoLayout = new javax.swing.GroupLayout(jpCancelamento);
+        jpCancelamento.setLayout(jpCancelamentoLayout);
+        jpCancelamentoLayout.setHorizontalGroup(
+            jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCancelamentoLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpCabecalhoDadosVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jpCancelamentoLayout.setVerticalGroup(
+            jpCancelamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCancelamentoLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jpCabecalhoDadosVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jpItensVendaCancelamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tpInicio.addTab("Cancelamento", jpCancelamento);
 
@@ -1763,36 +2131,23 @@ public void navegar(String idtela) {
 
         lbDadosVendaEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosVendaEstorno.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDadosVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosVendaEstorno.setText("Dados da Venda");
 
         lbDataHoraEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbDataHoraEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataHoraEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbDataHoraEstorno.setText("Data/Hora:");
-
-        tfNVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         lbOperadorEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbOperadorEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbOperadorEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbOperadorEstorno.setText("Operador:");
 
         lbFormaPagamentoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentoEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentoEstorno.setText("Forma de Pagamento:");
 
         lbNVendaEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbNVendaEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbNVendaEstorno.setText("N° da Venda:");
-
-        tfFormaPagamentoEstorno.setForeground(new java.awt.Color(0, 0, 0));
-
-        tfOperadorEstorno.setForeground(new java.awt.Color(0, 0, 0));
-
-        tfDataHoraEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         jpTotalVendaEstorno.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -1829,6 +2184,11 @@ public void navegar(String idtela) {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        btPesquisarEstorno.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarEstorno.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarEstorno.setText("Pesquisar");
+
         javax.swing.GroupLayout jpDadosVendaEstornoLayout = new javax.swing.GroupLayout(jpDadosVendaEstorno);
         jpDadosVendaEstorno.setLayout(jpDadosVendaEstornoLayout);
         jpDadosVendaEstornoLayout.setHorizontalGroup(
@@ -1849,13 +2209,16 @@ public void navegar(String idtela) {
                             .addComponent(lbDataHoraEstorno)
                             .addComponent(lbNVendaEstorno))
                         .addGap(32, 32, 32)
-                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfOperadorEstorno)
-                            .addComponent(tfFormaPagamentoEstorno)
-                            .addComponent(tfNVendaEstorno)
+                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfOperadorEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(tfFormaPagamentoEstorno)
+                                .addComponent(tfNVendaEstorno))
                             .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPesquisarEstorno))
                         .addGap(21, 21, 21))))
         );
         jpDadosVendaEstornoLayout.setVerticalGroup(
@@ -1874,18 +2237,18 @@ public void navegar(String idtela) {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbFormaPagamentoEstorno))
                     .addGroup(jpDadosVendaEstornoLayout.createSequentialGroup()
-                        .addGroup(jpDadosVendaEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jpDadosVendaEstornoLayout.createSequentialGroup()
-                                .addComponent(tfNVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32))
-                            .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfNVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfDataHoraEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(tfOperadorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfFormaPagamentoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosVendaEstornoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btPesquisarEstorno)
+                .addGap(18, 18, 18)
                 .addComponent(jpTotalVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1900,8 +2263,6 @@ public void navegar(String idtela) {
 
         tbItensVendaEstorno.setAutoCreateColumnsFromModel(false);
         tbItensVendaEstorno.setAutoCreateRowSorter(true);
-        tbItensVendaEstorno.setBackground(new java.awt.Color(255, 255, 255));
-        tbItensVendaEstorno.setForeground(new java.awt.Color(0, 0, 0));
         tbItensVendaEstorno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -1951,34 +2312,21 @@ public void navegar(String idtela) {
 
         lbDadosEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosEstorno.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDadosEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosEstorno.setText("Dados do Estorno");
 
         lbMotivoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbMotivoEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbMotivoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbMotivoEstorno.setText("Motivo:");
 
         lbObservacaoEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lbObservacaoEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbObservacaoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lbObservacaoEstorno.setText("Observação:");
 
-        cbMotivoEstorno.setForeground(new java.awt.Color(0, 0, 0));
         cbMotivoEstorno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desistência da compra", "Cobrança duplicada", "Valor cobrado incorretamente", "Produto cancelado", "Erro na forma de pagamento", "Problema da transação", "Outros" }));
-
-        tfObservacaoEstorno.setForeground(new java.awt.Color(0, 0, 0));
 
         lvValorEstorno.setBackground(new java.awt.Color(255, 255, 255));
         lvValorEstorno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lvValorEstorno.setForeground(new java.awt.Color(0, 0, 0));
         lvValorEstorno.setText("Valor a Estornar:");
-
-        tfValorEstorno.setForeground(new java.awt.Color(0, 0, 0));
-
-        btVoltarEstorno.setBackground(new java.awt.Color(10, 4, 138));
-        btVoltarEstorno.setForeground(new java.awt.Color(255, 255, 255));
-        btVoltarEstorno.setText("Voltar");
 
         btConfirmarEstorno.setBackground(new java.awt.Color(10, 4, 138));
         btConfirmarEstorno.setForeground(new java.awt.Color(255, 255, 255));
@@ -1991,7 +2339,9 @@ public void navegar(String idtela) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                        .addComponent(lbDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72))
                     .addGroup(jpDadosEstornoLayout.createSequentialGroup()
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbMotivoEstorno)
@@ -1999,67 +2349,66 @@ public void navegar(String idtela) {
                         .addGap(72, 72, 72)
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tfObservacaoEstorno)
-                            .addComponent(cbMotivoEstorno, 0, 362, Short.MAX_VALUE))))
-                .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                            .addComponent(cbMotivoEstorno, 0, 362, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(lvValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72))
-                    .addGroup(jpDadosEstornoLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btConfirmarEstorno)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btVoltarEstorno)
-                        .addGap(14, 14, 14))))
+                        .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(lvValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(btConfirmarEstorno)
+                                .addGap(17, 17, 17))))))
         );
         jpDadosEstornoLayout.setVerticalGroup(
             jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbDadosEstorno)
-                .addGap(18, 18, 18)
-                .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbMotivoEstorno)
-                    .addComponent(cbMotivoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lvValorEstorno)
-                    .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpDadosEstornoLayout.createSequentialGroup()
-                        .addComponent(lbObservacaoEstorno)
-                        .addGap(44, 44, 44)
+                        .addGap(18, 18, 18)
                         .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btConfirmarEstorno)
-                            .addComponent(btVoltarEstorno))
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addComponent(tfObservacaoEstorno))
-                .addContainerGap())
+                            .addComponent(lbMotivoEstorno)
+                            .addComponent(cbMotivoEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lvValorEstorno)
+                            .addComponent(tfValorEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpDadosEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDadosEstornoLayout.createSequentialGroup()
+                                .addComponent(lbObservacaoEstorno)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(tfObservacaoEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDadosEstornoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btConfirmarEstorno)
+                        .addGap(23, 23, 23))))
         );
 
         javax.swing.GroupLayout jpEstornoLayout = new javax.swing.GroupLayout(jpEstorno);
         jpEstorno.setLayout(jpEstornoLayout);
         jpEstornoLayout.setHorizontalGroup(
             jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEstornoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 839, Short.MAX_VALUE)
-                    .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpDadosEstorno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(43, 43, 43))
+            .addGroup(jpEstornoLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, 839, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(659, Short.MAX_VALUE))
         );
         jpEstornoLayout.setVerticalGroup(
             jpEstornoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEstornoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(jpDadosVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpItensVendaEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpDadosEstorno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Estorno", jpEstorno);
@@ -2071,54 +2420,36 @@ public void navegar(String idtela) {
 
         lbDadosVendaComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbDadosVendaComprovante.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDadosVendaComprovante.setForeground(new java.awt.Color(0, 0, 0));
         lbDadosVendaComprovante.setText("Dados da Venda");
 
         lbNVendaComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbNVendaComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNVendaComprovante.setForeground(new java.awt.Color(0, 0, 0));
         lbNVendaComprovante.setText("N° da Venda:");
 
-        tfNVendaComprovante.setBackground(new java.awt.Color(255, 255, 255));
         tfNVendaComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfNVendaComprovante.setForeground(new java.awt.Color(0, 0, 0));
 
-        btNVendaComprovante.setBackground(new java.awt.Color(10, 4, 138));
-        btNVendaComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btNVendaComprovante.setForeground(new java.awt.Color(255, 255, 255));
-        btNVendaComprovante.setText("Pesquisar");
+        btPesquisarComprovante.setBackground(new java.awt.Color(10, 4, 138));
+        btPesquisarComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btPesquisarComprovante.setForeground(new java.awt.Color(255, 255, 255));
+        btPesquisarComprovante.setText("Pesquisar");
 
         lbFormaPagamentoComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentoComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentoComprovante.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentoComprovante.setText("Forma de Pagamento:");
 
         lbOperadorComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbOperadorComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbOperadorComprovante.setForeground(new java.awt.Color(0, 0, 0));
         lbOperadorComprovante.setText("Operador:");
 
         lbDataHoraComprovante.setBackground(new java.awt.Color(255, 255, 255));
         lbDataHoraComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDataHoraComprovante.setForeground(new java.awt.Color(0, 0, 0));
         lbDataHoraComprovante.setText("Data/Hora:");
 
-        tfDataHoraComprovante.setBackground(new java.awt.Color(255, 255, 255));
         tfDataHoraComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDataHoraComprovante.setForeground(new java.awt.Color(0, 0, 0));
 
-        tfOperadorComprovante.setBackground(new java.awt.Color(255, 255, 255));
         tfOperadorComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfOperadorComprovante.setForeground(new java.awt.Color(0, 0, 0));
 
-        tfFormaPagamentoComprovante.setBackground(new java.awt.Color(255, 255, 255));
         tfFormaPagamentoComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfFormaPagamentoComprovante.setForeground(new java.awt.Color(0, 0, 0));
-
-        btImprimirComprovante.setBackground(new java.awt.Color(10, 4, 138));
-        btImprimirComprovante.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btImprimirComprovante.setForeground(new java.awt.Color(255, 255, 255));
-        btImprimirComprovante.setText("Imprimir");
 
         jpTotalVendasComprovante.setBackground(new java.awt.Color(10, 4, 138));
 
@@ -2183,9 +2514,8 @@ public void navegar(String idtela) {
                                 .addGap(18, 18, 18)
                                 .addComponent(tfNVendaComprovante, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                                 .addGap(27, 27, 27)
-                                .addComponent(btNVendaComprovante)
-                                .addGap(103, 103, 103)
-                                .addComponent(btImprimirComprovante)))))
+                                .addComponent(btPesquisarComprovante)
+                                .addGap(179, 179, 179)))))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -2197,8 +2527,7 @@ public void navegar(String idtela) {
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNVendaComprovante)
                     .addComponent(tfNVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btNVendaComprovante)
-                    .addComponent(btImprimirComprovante))
+                    .addComponent(btPesquisarComprovante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDataHoraComprovante)
@@ -2226,8 +2555,6 @@ public void navegar(String idtela) {
         lbItensVendaComprovante.setForeground(new java.awt.Color(255, 255, 255));
         lbItensVendaComprovante.setText("Itens da Venda");
 
-        tbItensVendaComprovante.setBackground(new java.awt.Color(255, 255, 255));
-        tbItensVendaComprovante.setForeground(new java.awt.Color(0, 0, 0));
         tbItensVendaComprovante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -2281,7 +2608,7 @@ public void navegar(String idtela) {
                 .addGroup(jpComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpItensVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(742, Short.MAX_VALUE))
+                .addContainerGap(691, Short.MAX_VALUE))
         );
         jpComprovanteLayout.setVerticalGroup(
             jpComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2290,7 +2617,7 @@ public void navegar(String idtela) {
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpItensVendaComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         tpInicio.addTab("Comprovante", jpComprovante);
@@ -2302,26 +2629,19 @@ public void navegar(String idtela) {
 
         lbFiltrosBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbFiltrosBandeiras.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbFiltrosBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbFiltrosBandeiras.setText("Filtros");
 
         lbDescricaoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbDescricaoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDescricaoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbDescricaoBandeiras.setText("Descrição:");
 
-        tfDescricaoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         tfDescricaoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDescricaoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
 
         lbTipoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbTipoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbTipoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoBandeiras.setText("Tipo:");
 
-        cbTipoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         cbTipoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbTipoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoBandeiras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Crédito", "Débito", "Alimentação", "Refeição", "Frota", "Presente" }));
 
         javax.swing.GroupLayout jpFiltrosBandeirasLayout = new javax.swing.GroupLayout(jpFiltrosBandeiras);
@@ -2362,46 +2682,34 @@ public void navegar(String idtela) {
 
         lbCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbCadastroBandeiras.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroBandeiras.setText("Cadastro de Bandeiras");
 
         lbCodigoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbCodigoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbCodigoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoBandeiras.setText("Código:");
 
-        tfCodigoBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         tfCodigoBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfCodigoBandeiras.setForeground(new java.awt.Color(0, 0, 0));
 
         lbTipoCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbTipoCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbTipoCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoCadastroBandeiras.setText("Tipo:");
 
-        cbTipoCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         cbTipoCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbTipoCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoCadastroBandeiras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Crédito", "Débito", "Alimentação", "Refeição", "Frota", "Presente" }));
 
         lbDescricaoCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         lbDescricaoCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbDescricaoCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         lbDescricaoCadastroBandeiras.setText("Descrição:");
 
         jcbAtivaCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         jcbAtivaCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jcbAtivaCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         jcbAtivaCadastroBandeiras.setText("Ativa");
 
         jcbDesativaCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         jcbDesativaCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jcbDesativaCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
         jcbDesativaCadastroBandeiras.setText("Desativa");
 
-        tfDescricaoCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
         tfDescricaoCadastroBandeiras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDescricaoCadastroBandeiras.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jpCadastroBandeirasLayout = new javax.swing.GroupLayout(jpCadastroBandeiras);
         jpCadastroBandeiras.setLayout(jpCadastroBandeirasLayout);
@@ -2453,7 +2761,7 @@ public void navegar(String idtela) {
                 .addGroup(jpCadastroBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbAtivaCadastroBandeiras)
                     .addComponent(jcbDesativaCadastroBandeiras))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpbtCadastroBandeiras.setBackground(new java.awt.Color(255, 255, 255));
@@ -2496,7 +2804,7 @@ public void navegar(String idtela) {
         jpbtCadastroBandeirasLayout.setVerticalGroup(
             jpbtCadastroBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpbtCadastroBandeirasLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(35, Short.MAX_VALUE)
                 .addComponent(btSalvarBandeiras)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btNovoBandeiras)
@@ -2555,20 +2863,20 @@ public void navegar(String idtela) {
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(760, Short.MAX_VALUE))
+                .addContainerGap(709, Short.MAX_VALUE))
         );
         jpBandeirasLayout.setVerticalGroup(
             jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpBandeirasLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap(217, Short.MAX_VALUE)
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jpbtFiltrosBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81)
                 .addGroup(jpBandeirasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(336, Short.MAX_VALUE))
+                    .addComponent(jpbtCadastroBandeiras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(113, 113, 113))
         );
 
         tpInicio.addTab("Bandeiras", jpBandeiras);
@@ -2580,25 +2888,20 @@ public void navegar(String idtela) {
 
         lbFiltrosParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbFiltrosParcelamentos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbFiltrosParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbFiltrosParcelamentos.setText("Filtros");
 
         lbFormasPagamentoParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbFormasPagamentoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormasPagamentoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbFormasPagamentoParcelamentos.setText("Forma de Pagamento:");
 
         cbFormaPagamentoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbFormaPagamentoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "Crediário" }));
 
         lbBandeiraParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbBandeiraParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbBandeiraParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraParcelamentos.setText("Bandeira:");
 
         cbBandeiraParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbBandeiraParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbBandeiraParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
 
         javax.swing.GroupLayout jpFiltrosParcelamentosLayout = new javax.swing.GroupLayout(jpFiltrosParcelamentos);
@@ -2641,56 +2944,44 @@ public void navegar(String idtela) {
 
         lbCadastroParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbCadastroParcelamentos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroParcelamentos.setText("Cadastro de Parcelamento");
 
         lbCodigoParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbCodigoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbCodigoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoParcelamentos.setText("Código:");
 
         tfCodigoParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfCodigoParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
 
         lbBandeiraCadastroParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbBandeiraCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbBandeiraCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraCadastroParcelamentos.setText("Bandeira:");
 
         cbBandeiraCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbBandeiraCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbBandeiraCadastroParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
 
         lbNParcelasParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbNParcelasParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbNParcelasParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbNParcelasParcelamentos.setText("N° de Parcelas:");
 
         cbNParcelasParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbNParcelasParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbNParcelasParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1x", "2x", "3x", "4x", "5x", "6x" }));
 
         lbTaxaJurosParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbTaxaJurosParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbTaxaJurosParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbTaxaJurosParcelamentos.setText("Taxa de Juros (%):");
 
         cbTaxaJurosParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbTaxaJurosParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbTaxaJurosParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0%", "0,5%", "1%", "1,5%", "2%", "2,5", "3%", "3,5%", "4%" }));
 
         jbcAtivoCadastroParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
         jbcAtivoCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jbcAtivoCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         jbcAtivoCadastroParcelamentos.setText("Ativo");
 
         lbFormaPagamentos.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentos.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentos.setText("Forma de Pagamento:");
 
         cbFormaPagamentoCadastroParcelamentos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbFormaPagamentoCadastroParcelamentos.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoCadastroParcelamentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "Crediário" }));
 
         javax.swing.GroupLayout jpCadastroParcelamentosLayout = new javax.swing.GroupLayout(jpCadastroParcelamentos);
@@ -2754,7 +3045,7 @@ public void navegar(String idtela) {
                     .addComponent(cbBandeiraCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbNParcelasParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbTaxaJurosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpbtFiltrosParcelamentos.setBackground(new java.awt.Color(255, 255, 255));
@@ -2838,7 +3129,7 @@ public void navegar(String idtela) {
                 .addComponent(btEditarParcelamentos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btExcluirParcelamentos)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jpParcelamentosLayout = new javax.swing.GroupLayout(jpParcelamentos);
@@ -2854,20 +3145,20 @@ public void navegar(String idtela) {
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(725, Short.MAX_VALUE))
+                .addContainerGap(674, Short.MAX_VALUE))
         );
         jpParcelamentosLayout.setVerticalGroup(
             jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpParcelamentosLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap(187, Short.MAX_VALUE)
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jpbtFiltrosParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(100, 100, 100)
                 .addGroup(jpParcelamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(346, Short.MAX_VALUE))
+                    .addComponent(jpbtCadastroParcelamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(111, 111, 111))
         );
 
         tpInicio.addTab("Parcelamentos", jpParcelamentos);
@@ -2879,60 +3170,42 @@ public void navegar(String idtela) {
 
         lbCadastroTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbCadastroTaxas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCadastroTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroTaxas.setText("Cadastro de Taxa");
 
         lbCodigoTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbCodigoTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbCodigoTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoTaxas.setText("Código:");
 
-        tfCodigoTaxas.setBackground(new java.awt.Color(255, 255, 255));
         tfCodigoTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfCodigoTaxas.setForeground(new java.awt.Color(0, 0, 0));
 
         lbTipoTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbTipoTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbTipoTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoTaxas.setText("Tipo de Taxa:");
 
-        cbTipoTaxas.setBackground(new java.awt.Color(255, 255, 255));
         cbTipoTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbTipoTaxas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoTaxas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taxa percentual (%)", "Taxa fixa (R$)", "Taxa por transação", "Taxa de antecipação" }));
 
         lbFormaPagamentoCadastroTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentoCadastroTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentoCadastroTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentoCadastroTaxas.setText("Forma de Pagamento:");
 
-        cbFormaPagamentoCadastroTaxas.setBackground(new java.awt.Color(255, 255, 255));
         cbFormaPagamentoCadastroTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbFormaPagamentoCadastroTaxas.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoCadastroTaxas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "PIX", "Vale Alimentação", "Vale Refeição" }));
 
         lbValorTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbValorTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbValorTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbValorTaxas.setText("Valor da Taxa:");
 
         jcbAtivoTaxas.setBackground(new java.awt.Color(255, 255, 255));
         jcbAtivoTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jcbAtivoTaxas.setForeground(new java.awt.Color(0, 0, 0));
         jcbAtivoTaxas.setText("Ativo");
 
         lbBandeiraCadastroTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbBandeiraCadastroTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbBandeiraCadastroTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraCadastroTaxas.setText("Bandeira:");
 
-        cbBandeiraCadastroTaxas.setBackground(new java.awt.Color(255, 255, 255));
         cbBandeiraCadastroTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbBandeiraCadastroTaxas.setForeground(new java.awt.Color(0, 0, 0));
         cbBandeiraCadastroTaxas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
-
-        tfValorTaxas.setBackground(new java.awt.Color(255, 255, 255));
-        tfValorTaxas.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jpCadastroTaxasLayout = new javax.swing.GroupLayout(jpCadastroTaxas);
         jpCadastroTaxas.setLayout(jpCadastroTaxasLayout);
@@ -3004,27 +3277,20 @@ public void navegar(String idtela) {
 
         lbFiltrosTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbFiltrosTaxas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbFiltrosTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbFiltrosTaxas.setText("Filtros");
 
         lbFormaPagamentoFiltrosTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbFormaPagamentoFiltrosTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbFormaPagamentoFiltrosTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbFormaPagamentoFiltrosTaxas.setText("Forma de Pagamento:");
 
-        cbFormaPagamentoFiltrosTaxas.setBackground(new java.awt.Color(255, 255, 255));
         cbFormaPagamentoFiltrosTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbFormaPagamentoFiltrosTaxas.setForeground(new java.awt.Color(0, 0, 0));
         cbFormaPagamentoFiltrosTaxas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cartão de Crédito", "Cartão de Débito", "PIX", "Vale Alimentação", "Vale Refeição" }));
 
         lbBandeiraFiltrosTaxas.setBackground(new java.awt.Color(255, 255, 255));
         lbBandeiraFiltrosTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbBandeiraFiltrosTaxas.setForeground(new java.awt.Color(0, 0, 0));
         lbBandeiraFiltrosTaxas.setText("Bandeira:");
 
-        bBandeiraFiltrosTaxas.setBackground(new java.awt.Color(255, 255, 255));
         bBandeiraFiltrosTaxas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        bBandeiraFiltrosTaxas.setForeground(new java.awt.Color(0, 0, 0));
         bBandeiraFiltrosTaxas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mastercard", "Visa", "Elo", "American Express (Amex)", "Hipercard", "Hiper", "Cabal" }));
 
         javax.swing.GroupLayout jpFiltrosTaxasLayout = new javax.swing.GroupLayout(jpFiltrosTaxas);
@@ -3163,20 +3429,20 @@ public void navegar(String idtela) {
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(773, Short.MAX_VALUE))
+                .addContainerGap(722, Short.MAX_VALUE))
         );
         jpTaxasLayout.setVerticalGroup(
             jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpTaxasLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(156, Short.MAX_VALUE)
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpFiltrosTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtFiltrosTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(82, 82, 82)
                 .addGroup(jpTaxasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpCadastroTaxas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpbtCadastroTaxas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addGap(113, 113, 113))
         );
 
         tpInicio.addTab("Taxas", jpTaxas);
@@ -3195,28 +3461,16 @@ public void navegar(String idtela) {
         lbTipoRelatorioContas.setForeground(new java.awt.Color(255, 255, 255));
         lbTipoRelatorioContas.setText("Tipo de Relatório:");
 
-        cbTipoRelatorioContas.setBackground(new java.awt.Color(255, 255, 255));
-        cbTipoRelatorioContas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoRelatorioContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lbPeriodoContas.setBackground(new java.awt.Color(255, 255, 255));
         lbPeriodoContas.setForeground(new java.awt.Color(255, 255, 255));
         lbPeriodoContas.setText("Período:");
 
-        ftfPeriodoInicialContas.setBackground(new java.awt.Color(255, 255, 255));
-        ftfPeriodoInicialContas.setForeground(new java.awt.Color(0, 0, 0));
-
-        ftfPeriodoFinalContas.setBackground(new java.awt.Color(255, 255, 255));
-        ftfPeriodoFinalContas.setForeground(new java.awt.Color(0, 0, 0));
-
-        btGerarRelatorioContas.setBackground(new java.awt.Color(255, 255, 255));
         btGerarRelatorioContas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btGerarRelatorioContas.setForeground(new java.awt.Color(0, 0, 0));
         btGerarRelatorioContas.setText("Gerar Relatório");
 
-        btLimparContas.setBackground(new java.awt.Color(255, 255, 255));
         btLimparContas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btLimparContas.setForeground(new java.awt.Color(0, 0, 0));
         btLimparContas.setText("Limpar");
 
         javax.swing.GroupLayout jpRelatoriosContasLayout = new javax.swing.GroupLayout(jpRelatoriosContas);
@@ -3271,44 +3525,29 @@ public void navegar(String idtela) {
 
         lbCadastroContas.setBackground(new java.awt.Color(255, 255, 255));
         lbCadastroContas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCadastroContas.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroContas.setText("Cadastro de Conta Bancária");
 
         lbCodigoContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbCodigoContas.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigoContas.setText("Código:");
 
-        tfCodigoContas.setForeground(new java.awt.Color(0, 0, 0));
-
         lbTipoCadastroContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbTipoCadastroContas.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoCadastroContas.setText("Tipo de Conta:");
 
-        cbTipoCadastroContas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoCadastroContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Conta Corrente", "Conta Poupança", "Conta Pagamento", "Conta Salário" }));
 
         lbBancoContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbBancoContas.setForeground(new java.awt.Color(0, 0, 0));
         lbBancoContas.setText("Banco:");
 
-        cbBancoContas.setForeground(new java.awt.Color(0, 0, 0));
         cbBancoContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bando do Brasil", "Banco Inter", "C6 Bank", "Caixa Econômica Federal", "Bradesco", "Itaú", "Santander", "Nubank", "Sicredi", "Sicoob" }));
 
-        jcbAtivaContas.setForeground(new java.awt.Color(0, 0, 0));
         jcbAtivaContas.setText("Ativa");
         jcbAtivaContas.setToolTipText("");
 
         lbAgenciaContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbAgenciaContas.setForeground(new java.awt.Color(0, 0, 0));
         lbAgenciaContas.setText("Agência:");
 
-        tfAgenciaContas.setForeground(new java.awt.Color(0, 0, 0));
-
         lbCadastroContaContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbCadastroContaContas.setForeground(new java.awt.Color(0, 0, 0));
         lbCadastroContaContas.setText("Conta:");
-
-        tfCadastroContaContas.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jpCadastroContasLayout = new javax.swing.GroupLayout(jpCadastroContas);
         jpCadastroContas.setLayout(jpCadastroContasLayout);
@@ -3378,21 +3617,16 @@ public void navegar(String idtela) {
 
         lbFiltrosContas.setBackground(new java.awt.Color(255, 255, 255));
         lbFiltrosContas.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbFiltrosContas.setForeground(new java.awt.Color(0, 0, 0));
         lbFiltrosContas.setText("Filtros");
 
         lbBancoFiltrosContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbBancoFiltrosContas.setForeground(new java.awt.Color(0, 0, 0));
         lbBancoFiltrosContas.setText("Banco:");
 
-        cbBancoFiltrosContas.setForeground(new java.awt.Color(0, 0, 0));
         cbBancoFiltrosContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bando do Brasil", "Banco Inter", "C6 Bank", "Caixa Econômica Federal", "Bradesco", "Itaú", "Santander", "Nubank", "Sicredi", "Sicoob" }));
 
         lbTipoFiltroContas.setBackground(new java.awt.Color(255, 255, 255));
-        lbTipoFiltroContas.setForeground(new java.awt.Color(0, 0, 0));
         lbTipoFiltroContas.setText("Tipo de Conta:");
 
-        cbTipoFiltroContas.setForeground(new java.awt.Color(0, 0, 0));
         cbTipoFiltroContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Conta Corrente", "Conta Poupança", "Conta Pagamento", "Conta Salário" }));
 
         javax.swing.GroupLayout jpFiltrosContasLayout = new javax.swing.GroupLayout(jpFiltrosContas);
@@ -3517,8 +3751,6 @@ public void navegar(String idtela) {
 
         jpContasBancarias.setBackground(new java.awt.Color(10, 4, 138));
 
-        tbContasBancarias.setBackground(new java.awt.Color(255, 255, 255));
-        tbContasBancarias.setForeground(new java.awt.Color(0, 0, 0));
         tbContasBancarias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -3553,9 +3785,11 @@ public void navegar(String idtela) {
                 .addGroup(jpContasBancariasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpContasBancariasLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbContasBancarias))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4))
+                    .addGroup(jpContasBancariasLayout.createSequentialGroup()
+                        .addComponent(lbContasBancarias)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jpContasBancariasLayout.setVerticalGroup(
             jpContasBancariasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3563,8 +3797,8 @@ public void navegar(String idtela) {
                 .addContainerGap()
                 .addComponent(lbContasBancarias)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpContasLayout = new javax.swing.GroupLayout(jpContas);
@@ -3574,9 +3808,9 @@ public void navegar(String idtela) {
             .addGroup(jpContasLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jpContasLayout.createSequentialGroup()
-                        .addComponent(jpContasBancarias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpContasLayout.createSequentialGroup()
+                        .addComponent(jpContasBancarias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jpRelatoriosContas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpContasLayout.createSequentialGroup()
                         .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -3586,7 +3820,7 @@ public void navegar(String idtela) {
                         .addGroup(jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jpbtFiltrosContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jpbtCadastroContas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(716, Short.MAX_VALUE))
         );
         jpContasLayout.setVerticalGroup(
             jpContasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3613,12 +3847,15 @@ public void navegar(String idtela) {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(tpInicio)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 65, Short.MAX_VALUE))
         );
 
         pack();
@@ -3650,29 +3887,47 @@ public void navegar(String idtela) {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbOperadorActionPerformed
 
-    private void carregarVendasPorFormaPagamento() {
+   private void carregarVendasPorFormaPagamento() {
 
-    DefaultTableModel modelo =
-            new DefaultTableModel();
+    DefaultTableModel modelo = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
     modelo.addColumn("Forma de Pagamento");
     modelo.addColumn("Quantidade de Vendas");
     modelo.addColumn("Valor Médio");
     modelo.addColumn("Valor Total");
 
-    VendasController controller =
-            new VendasController();
+    try {
 
-    List<Object[]> lista =
-            controller.listarVendasPorFormaPagamento();
+        VendasController controller = new VendasController();
 
-    for (Object[] linha : lista) {
+        List<Object[]> lista = controller.listarVendasPorFormaPagamento();
 
-        modelo.addRow(linha);
+        for (Object[] linha : lista) {
+            modelo.addRow(linha);
+        }
 
+        tbVendasPagamento.setModel(modelo);
+
+        if (lista.isEmpty()) {
+            System.out.println("Nenhuma venda por forma de pagamento encontrada.");
+        }
+
+    } catch (SQLException ex) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao carregar vendas por forma de pagamento: "
+                + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        ex.printStackTrace();
     }
-
-    tbVendasPagamento.setModel(modelo);
 }
     
     public static void main(String args[]) {
@@ -3698,10 +3953,15 @@ public void navegar(String idtela) {
         java.awt.EventQueue.invokeLater(() -> new TelaVendas(usuario).setVisible(true));
     }
     
-    private void carregarContasBancarias() {
+  private void carregarContasBancarias() {
 
-    DefaultTableModel modelo =
-            new DefaultTableModel();
+    DefaultTableModel modelo = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
     modelo.addColumn("Código");
     modelo.addColumn("Banco");
@@ -3710,34 +3970,107 @@ public void navegar(String idtela) {
     modelo.addColumn("Tipo");
     modelo.addColumn("Ativa");
 
-    ContasFinanceirasController controller =
-            new ContasFinanceirasController();
+    try {
 
-    List<ContasFinanceiras> lista =
-            controller.listar();
+        ContasFinanceirasController controller =
+                new ContasFinanceirasController();
 
-    for (ContasFinanceiras conta : lista) {
+        List<ContasFinanceiras> lista = controller.listar();
 
-        modelo.addRow(new Object[]{
+        for (ContasFinanceiras conta : lista) {
 
-            conta.getIdcontasFinanceiras(),
-            conta.getBanco(),
-            conta.getAgencia(),
-            conta.getNumeroConta(),
-            conta.getTipo(),
+            modelo.addRow(new Object[]{
+                conta.getIdcontasFinanceiras(),
+                conta.getBanco(),
+                conta.getAgencia(),
+                conta.getNumeroConta(),
+                conta.getTipo(),
+                conta.getAtivo() == 1 ? "Sim" : "Não"
+            });
+        }
 
-            conta.getAtivo() == 1
-                    ? "Sim"
-                    : "Não"
+        tbContasBancarias.setModel(modelo);
 
-        });
+        if (lista.isEmpty()) {
+            System.out.println("Nenhuma conta bancária cadastrada.");
+        }
 
+    } catch (SQLException ex) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao carregar contas bancárias: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        ex.printStackTrace();
     }
-
-    tbContasBancarias.setModel(modelo);
 }
     
-    
+//=======================================BOTÕES=======================================
+   private void pesquisarVendas(String texto, JTable tabela) {
+
+    DefaultTableModel modelo = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    modelo.addColumn("ID");
+    modelo.addColumn("Data");
+    modelo.addColumn("Horário");
+    modelo.addColumn("Valor Total");
+    modelo.addColumn("Valor Pago");
+    modelo.addColumn("Troco");
+    modelo.addColumn("Itens");
+    modelo.addColumn("Status");
+    modelo.addColumn("Cliente");
+    modelo.addColumn("Usuário");
+    modelo.addColumn("Caixa");
+    modelo.addColumn("Cupom");
+
+    try {
+
+        VendasController controller = new VendasController();
+
+        List<Vendas> lista = controller.pesquisar(texto);
+
+        for (Vendas venda : lista) {
+
+            modelo.addRow(new Object[]{
+                venda.getIdvendas(),
+                venda.getDataVenda(),
+                venda.getHorarioVenda(),
+                venda.getValorTotal(),
+                venda.getValorPago(),
+                venda.getTroco(),
+                venda.getQuantidadeItens(),
+                venda.getStatusVenda(),
+                venda.getNomeCliente(),
+                venda.getNomeUsuario(),
+                venda.getNomeCaixa(),
+                venda.getCodigoCupom()
+            });
+        }
+
+        tabela.setModel(modelo);
+
+        if (lista.isEmpty()) {
+            System.out.println("Nenhuma venda encontrada para: " + texto);
+        }
+
+    } catch (SQLException ex) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao pesquisar vendas: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        ex.printStackTrace();
+    }
+}
+//=======================================BOTÕES=======================================
     
     
     //====================================VARIÁVEIS==========================================
@@ -3754,23 +4087,24 @@ public void navegar(String idtela) {
     private javax.swing.JButton btExcluirParcelamentos;
     private javax.swing.JButton btExcluirTaxas;
     private javax.swing.JButton btGerarRelatorioContas;
-    private javax.swing.JButton btImprimirComprovante;
     private javax.swing.JButton btLimparContas;
-    private javax.swing.JButton btLimparFiltro;
     private javax.swing.JButton btLimparFiltrosBandeiras;
     private javax.swing.JButton btLimparFiltrosContas;
     private javax.swing.JButton btLimparFiltrosParcelamentos;
     private javax.swing.JButton btLimparFiltrosTaxas;
-    private javax.swing.JButton btNVendaComprovante;
     private javax.swing.JButton btNovoBandeiras;
     private javax.swing.JButton btNovoContas;
     private javax.swing.JButton btNovoParcelamentos;
     private javax.swing.JButton btNovoTaxas;
-    private javax.swing.JButton btPesquisa;
     private javax.swing.JButton btPesquisarBandeiras;
     private javax.swing.JButton btPesquisarCancelamento;
+    private javax.swing.JButton btPesquisarComprovante;
+    private javax.swing.JButton btPesquisarConsulta;
     private javax.swing.JButton btPesquisarContas;
+    private javax.swing.JButton btPesquisarEstorno;
     private javax.swing.JButton btPesquisarFiltro;
+    private javax.swing.JButton btPesquisarOperador;
+    private javax.swing.JButton btPesquisarPagamento;
     private javax.swing.JButton btPesquisarParcelamentos;
     private javax.swing.JButton btPesquisarProduto;
     private javax.swing.JButton btPesquisarTaxas;
@@ -3778,7 +4112,6 @@ public void navegar(String idtela) {
     private javax.swing.JButton btSalvarContas;
     private javax.swing.JButton btSalvarParcelamentos;
     private javax.swing.JButton btSalvarTaxas;
-    private javax.swing.JButton btVoltarEstorno;
     private javax.swing.JComboBox<String> cbAndamentoFiltro;
     private javax.swing.JComboBox<String> cbBancoContas;
     private javax.swing.JComboBox<String> cbBancoFiltrosContas;

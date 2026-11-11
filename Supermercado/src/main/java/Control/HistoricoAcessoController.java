@@ -1,67 +1,65 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
+import Model.HistoricosAcessos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- *
- * @author AntônioVieira
- */
 public class HistoricoAcessoController {
-   // Cadastrar histórico de acesso
-    public boolean cadastrar(
-            String dataAcesso,
-            String horarioAcesso,
-            String terminal_ip,
-            String dispositivo,
-            int usuario_idusuario) {
+    
+    public List<HistoricosAcessos> listarPorNomeUsuario(String nomeUsuario)
+        throws SQLException {
 
+    List<HistoricosAcessos> lista = new ArrayList<>();
+
+    String sql = "SELECT h.* FROM historicoAcessos h "
+            + "INNER JOIN usuario u ON h.usuario_idusuario = u.idusuario "
+            + "WHERE u.nome LIKE ? "
+            + "ORDER BY h.idhistoricoAcesso DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, "%" + nomeUsuario + "%");
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearHistorico(rs));
+            }
+        }
+    }
+
+    return lista;
+}
+
+    public void cadastrar(HistoricosAcessos historico) throws SQLException {
         String sql = "INSERT INTO historicoAcessos "
-                + "(dataAcesso, horarioAcesso, terminal_ip, "
-                + "dispositivo, usuario_idusuario) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "(dataAcesso, horarioAcesso, terminal_ip, dispositivo, "
+                + "usuario_idusuario) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, dataAcesso);
-            stmt.setString(2, horarioAcesso);
-            stmt.setString(3, terminal_ip);
-            stmt.setString(4, dispositivo);
-            stmt.setInt(5, usuario_idusuario);
+            stmt.setString(1, historico.getDataAcesso());
+            stmt.setString(2, historico.getHorarioAcesso());
+            stmt.setString(3, historico.getTerminal_ip());
+            stmt.setString(4, historico.getDispositivo());
+            stmt.setInt(5, historico.getUsuario_idusuario());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-
-            System.out.println(
-                "Erro ao cadastrar histórico: " + e.getMessage()
-            );
-
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // Listar todos os históricos de acesso
-    public List<Object[]> listarTodos() {
+    public List<HistoricosAcessos> listar() throws SQLException {
+        List<HistoricosAcessos> lista = new ArrayList<>();
 
-        List<Object[]> lista = new ArrayList<>();
-
-        String sql = "SELECT idhistoricoAcessos, dataAcesso, "
-                + "horarioAcesso, terminal_ip, dispositivo, "
-                + "usuario_idusuario "
-                + "FROM historicoAcessos "
+        String sql = "SELECT * FROM historicoAcessos "
                 + "ORDER BY idhistoricoAcessos DESC";
 
         try (Connection conn = Conexao.conectar();
@@ -69,141 +67,128 @@ public class HistoricoAcessoController {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-
-                Object[] dados = {
-                    rs.getInt("idhistoricoAcessos"),
-                    rs.getString("dataAcesso"),
-                    rs.getString("horarioAcesso"),
-                    rs.getString("terminal_ip"),
-                    rs.getString("dispositivo"),
-                    rs.getInt("usuario_idusuario")
-                };
-
-                lista.add(dados);
+                lista.add(mapearHistorico(rs));
             }
-
-        } catch (SQLException e) {
-
-            System.out.println(
-                "Erro ao listar histórico: " + e.getMessage()
-            );
         }
 
         return lista;
     }
 
-    public List<Object[]> listarPorFuncionario(int idFuncionario) {
+    public HistoricosAcessos buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM historicoAcessos "
+                + "WHERE idhistoricoAcessos = ?";
 
-    List<Object[]> historicos = new ArrayList<>();
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    String sql = "SELECT h.idhistoricoAcessos, "
-            + "h.dataAcesso, "
-            + "h.horarioAcesso, "
-            + "h.terminal_ip, "
-            + "h.dispositivo, "
-            + "h.usuario_idusuario "
-            + "FROM historicoAcessos h "
-            + "INNER JOIN usuario u "
-            + "ON h.usuario_idusuario = u.idusuario "
-            + "WHERE u.Funcionario_idFuncionario = ? "
-            + "ORDER BY h.idhistoricoAcessos DESC";
+            stmt.setInt(1, id);
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-        stmt.setInt(1, idFuncionario);
-
-        try (ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-
-                Object[] dados = {
-                    rs.getInt("idhistoricoAcessos"),
-                    rs.getString("dataAcesso"),
-                    rs.getString("horarioAcesso"),
-                    rs.getString("terminal_ip"),
-                    rs.getString("dispositivo"),
-                    rs.getInt("usuario_idusuario")
-                };
-
-                historicos.add(dados);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearHistorico(rs);
+                }
             }
         }
 
-    } catch (Exception e) {
-        System.out.println("Erro ao listar histórico: " + e.getMessage());
+        return null;
     }
 
-    return historicos;
-}
-    
-    // Excluir histórico de acesso
-    public boolean excluir(int idhistoricoAcessos) {
+    public List<HistoricosAcessos> buscarPorUsuario(int idUsuario)
+            throws SQLException {
 
+        List<HistoricosAcessos> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM historicoAcessos "
+                + "WHERE usuario_idusuario = ? "
+                + "ORDER BY idhistoricoAcessos DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idUsuario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearHistorico(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<HistoricosAcessos> buscarPorData(String data)
+            throws SQLException {
+
+        List<HistoricosAcessos> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM historicoAcessos "
+                + "WHERE dataAcesso = ? "
+                + "ORDER BY horarioAcesso DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, data);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearHistorico(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(HistoricosAcessos historico) throws SQLException {
+        String sql = "UPDATE historicoAcessos SET "
+                + "dataAcesso = ?, horarioAcesso = ?, terminal_ip = ?, "
+                + "dispositivo = ?, usuario_idusuario = ? "
+                + "WHERE idhistoricoAcessos = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, historico.getDataAcesso());
+            stmt.setString(2, historico.getHorarioAcesso());
+            stmt.setString(3, historico.getTerminal_ip());
+            stmt.setString(4, historico.getDispositivo());
+            stmt.setInt(5, historico.getUsuario_idusuario());
+            stmt.setInt(6, historico.getIdhistoricoAcessos());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM historicoAcessos "
                 + "WHERE idhistoricoAcessos = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idhistoricoAcessos);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-
-            System.out.println(
-                "Erro ao excluir histórico: " + e.getMessage()
-            );
-
-            return false;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
 
-public List<Map<String, Object>> listarHistoricoAcessos() throws SQLException {
+    private HistoricosAcessos mapearHistorico(ResultSet rs)
+            throws SQLException {
 
-    List<Map<String, Object>> lista = new ArrayList<>();
+        HistoricosAcessos historico = new HistoricosAcessos();
 
-    String sql = "SELECT "
-            + "h.idhistoricoAcessos, "
-            + "h.dataAcesso, "
-            + "h.horarioAcesso, "
-            + "h.terminal_ip, "
-            + "h.dispositivo, "
-            + "u.nome AS nomeUsuario "
-            + "FROM historicoAcessos h "
-            + "INNER JOIN usuario u "
-            + "ON h.usuario_idusuario = u.idusuario "
-            + "ORDER BY h.idhistoricoAcessos DESC";
+        historico.setIdhistoricoAcessos(
+                rs.getInt("idhistoricoAcessos"));
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+        historico.setDataAcesso(rs.getString("dataAcesso"));
+        historico.setHorarioAcesso(rs.getString("horarioAcesso"));
+        historico.setTerminal_ip(rs.getString("terminal_ip"));
+        historico.setDispositivo(rs.getString("dispositivo"));
 
-        while (rs.next()) {
+        historico.setUsuario_idusuario(
+                rs.getInt("usuario_idusuario"));
 
-            Map<String, Object> acesso = new HashMap<>();
-
-            acesso.put("id", rs.getInt("idhistoricoAcessos"));
-            acesso.put("data", rs.getString("dataAcesso"));
-            acesso.put("horario", rs.getString("horarioAcesso"));
-            acesso.put("ip", rs.getString("terminal_ip"));
-            acesso.put("dispositivo", rs.getString("dispositivo"));
-            acesso.put("usuario", rs.getString("nomeUsuario"));
-
-            lista.add(acesso);
-        }
+        return historico;
     }
-
-    return lista;
 }
-
-
-
-
-
-
-
-
-
-}  

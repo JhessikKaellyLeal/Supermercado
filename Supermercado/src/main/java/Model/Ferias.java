@@ -1,18 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Ferias {
-  private int idferias;
-  private String  inicio, finalFerias, situacao;
+
+    private int idferias;
+    private String inicio;
+    private String finalFerias;
+    private String situacao;
 
     public Ferias() {
+    }
+
+    public Ferias(int idferias, String inicio, String finalFerias,
+            String situacao) {
+        this.idferias = idferias;
+        this.inicio = inicio;
+        this.finalFerias = finalFerias;
+        this.situacao = situacao;
     }
 
     public int getIdferias() {
@@ -46,5 +50,4 @@ public class Ferias {
     public void setSituacao(String situacao) {
         this.situacao = situacao;
     }
-  
 }

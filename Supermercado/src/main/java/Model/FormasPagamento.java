@@ -9,6 +9,11 @@ public class FormasPagamento {
     public FormasPagamento() {
     }
 
+    public FormasPagamento(int idformasPagamento, String nome) {
+        this.idformasPagamento = idformasPagamento;
+        this.nome = nome;
+    }
+
     public int getIdformasPagamento() {
         return idformasPagamento;
     }

@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package control;
+
+package Control;
 
 import Conection.Conexao;
 import Model.PerdasEstoque;
@@ -13,17 +10,44 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author IsraelSantos
- */
 public class PerdasEstoqueController {
-    // CADASTRAR PERDA DE ESTOQUE
-    public boolean cadastrar(PerdasEstoque perda) {
+
+// LISTAR PERDAS POR NOME DO PRODUTO
+public List<PerdasEstoque> listarPorNomeProduto(String nomeProduto)
+        throws SQLException {
+
+    List<PerdasEstoque> lista = new ArrayList<>();
+
+    String sql = "SELECT pe.* "
+            + "FROM perdasEstoque pe "
+            + "INNER JOIN produtos p "
+            + "ON pe.produtos_idprodutos = p.idprodutos "
+            + "WHERE p.nome LIKE ? "
+            + "ORDER BY pe.idperdasEstoque DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, "%" + nomeProduto + "%");
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapearPerda(rs));
+            }
+        }
+    }
+
+    return lista;
+}
+    
+    public void cadastrar(PerdasEstoque perda) throws SQLException {
         String sql = "INSERT INTO perdasEstoque "
                 + "(quantidade, dataRegistro, motivo, "
-                + "lotesProduto_idlotesProduto, produtos_idprodutos) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "produtos_idprodutos, produtos_categorias_idcategorias, "
+                + "produtos_marcas_idmarcas, "
+                + "produtos_unidadeMedidas_idunidadeMedidas, "
+                + "lotesProdutos_idlotesProdutos) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -31,64 +55,36 @@ public class PerdasEstoqueController {
             stmt.setInt(1, perda.getQuantidade());
             stmt.setString(2, perda.getDataRegistro());
             stmt.setString(3, perda.getMotivo());
-            stmt.setInt(4, perda.getLotesProdutos_idlotesProdutos());
-            stmt.setInt(5, perda.getProdutos_idprodutos());
+            stmt.setInt(4, perda.getProdutos_idprodutos());
+            stmt.setInt(5, perda.getProdutos_categorias_idcategorias());
+            stmt.setInt(6, perda.getProdutos_marcas_idmarcas());
+            stmt.setInt(7, perda.getProdutos_unidadeMedidas_idunidadeMedidas());
+            stmt.setInt(8, perda.getLotesProdutos_idlotesProdutos());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar perda de estoque: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // LISTAR TODAS AS PERDAS DE ESTOQUE
-    public List<PerdasEstoque> listarTodos() {
-        List<PerdasEstoque> perdas = new ArrayList<>();
+    public List<PerdasEstoque> listar() throws SQLException {
+        List<PerdasEstoque> lista = new ArrayList<>();
 
-        String sql = "SELECT idperdasEstoque, quantidade, dataRegistro, "
-                + "motivo, lotesProduto_idlotesProduto, produtos_idprodutos "
-                + "FROM perdasEstoque";
+        String sql = "SELECT * FROM perdasEstoque "
+                + "ORDER BY idperdasEstoque DESC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                PerdasEstoque perda = new PerdasEstoque();
-
-                perda.setIdperdasEstoque(
-                        rs.getInt("idperdasEstoque"));
-                perda.setQuantidade(
-                        rs.getInt("quantidade"));
-                perda.setDataRegistro(
-                        rs.getString("dataRegistro"));
-                perda.setMotivo(
-                        rs.getString("motivo"));
-
-                perda.setLotesProdutos_idlotesProdutos(
-                        rs.getInt("lotesProduto_idlotesProduto"));
-
-                perda.setProdutos_idprodutos(
-                        rs.getInt("produtos_idprodutos"));
-
-                perdas.add(perda);
+                lista.add(mapearPerda(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar perdas de estoque: "
-                    + e.getMessage());
         }
 
-        return perdas;
+        return lista;
     }
 
-    // BUSCAR PERDA DE ESTOQUE PELO ID
-    public PerdasEstoque buscarPorId(int id) {
-        String sql = "SELECT idperdasEstoque, quantidade, dataRegistro, "
-                + "motivo, lotesProduto_idlotesProduto, produtos_idprodutos "
-                + "FROM perdasEstoque "
+    public PerdasEstoque buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM perdasEstoque "
                 + "WHERE idperdasEstoque = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -98,40 +94,118 @@ public class PerdasEstoqueController {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    PerdasEstoque perda = new PerdasEstoque();
-
-                    perda.setIdperdasEstoque(
-                            rs.getInt("idperdasEstoque"));
-                    perda.setQuantidade(
-                            rs.getInt("quantidade"));
-                    perda.setDataRegistro(
-                            rs.getString("dataRegistro"));
-                    perda.setMotivo(
-                            rs.getString("motivo"));
-
-                    perda.setLotesProdutos_idlotesProdutos(
-                            rs.getInt("lotesProduto_idlotesProduto"));
-
-                    perda.setProdutos_idprodutos(
-                            rs.getInt("produtos_idprodutos"));
-
-                    return perda;
+                    return mapearPerda(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar perda de estoque: "
-                    + e.getMessage());
         }
 
         return null;
     }
 
-    // ATUALIZAR PERDA DE ESTOQUE
-    public boolean atualizar(int idOriginal, PerdasEstoque perda) {
+    public List<PerdasEstoque> buscarPorProduto(int idProduto)
+            throws SQLException {
+
+        List<PerdasEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM perdasEstoque "
+                + "WHERE produtos_idprodutos = ? "
+                + "ORDER BY idperdasEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProduto);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPerda(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<PerdasEstoque> buscarPorLote(int idLote)
+            throws SQLException {
+
+        List<PerdasEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM perdasEstoque "
+                + "WHERE lotesProdutos_idlotesProdutos = ? "
+                + "ORDER BY idperdasEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idLote);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPerda(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<PerdasEstoque> buscarPorMotivo(String motivo)
+            throws SQLException {
+
+        List<PerdasEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM perdasEstoque "
+                + "WHERE motivo LIKE ? "
+                + "ORDER BY idperdasEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + motivo + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPerda(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<PerdasEstoque> buscarPorData(String data)
+            throws SQLException {
+
+        List<PerdasEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM perdasEstoque "
+                + "WHERE dataRegistro = ? "
+                + "ORDER BY idperdasEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, data);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPerda(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(PerdasEstoque perda) throws SQLException {
         String sql = "UPDATE perdasEstoque SET "
                 + "quantidade = ?, dataRegistro = ?, motivo = ?, "
-                + "lotesProduto_idlotesProduto = ?, produtos_idprodutos = ? "
+                + "produtos_idprodutos = ?, "
+                + "produtos_categorias_idcategorias = ?, "
+                + "produtos_marcas_idmarcas = ?, "
+                + "produtos_unidadeMedidas_idunidadeMedidas = ?, "
+                + "lotesProdutos_idlotesProdutos = ? "
                 + "WHERE idperdasEstoque = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -140,21 +214,18 @@ public class PerdasEstoqueController {
             stmt.setInt(1, perda.getQuantidade());
             stmt.setString(2, perda.getDataRegistro());
             stmt.setString(3, perda.getMotivo());
-            stmt.setInt(4, perda.getLotesProdutos_idlotesProdutos());
-            stmt.setInt(5, perda.getProdutos_idprodutos());
-            stmt.setInt(6, idOriginal);
+            stmt.setInt(4, perda.getProdutos_idprodutos());
+            stmt.setInt(5, perda.getProdutos_categorias_idcategorias());
+            stmt.setInt(6, perda.getProdutos_marcas_idmarcas());
+            stmt.setInt(7, perda.getProdutos_unidadeMedidas_idunidadeMedidas());
+            stmt.setInt(8, perda.getLotesProdutos_idlotesProdutos());
+            stmt.setInt(9, perda.getIdperdasEstoque());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar perda de estoque: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR PERDA DE ESTOQUE
-    public boolean excluir(int id) {
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM perdasEstoque "
                 + "WHERE idperdasEstoque = ?";
 
@@ -162,54 +233,29 @@ public class PerdasEstoqueController {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir perda de estoque: "
-                    + e.getMessage());
-            return false;
-        }
-    }
-    
-    public List<PerdasEstoque> listarPorNomeProduto(String nomeProduto) throws SQLException {
-
-    List<PerdasEstoque> lista = new ArrayList<>();
-
-    String sql = "SELECT pe.* FROM perdasEstoque pe "
-            + "INNER JOIN produtos p "
-            + "ON pe.produtos_idprodutos = p.idprodutos "
-            + "WHERE p.nome LIKE ?";
-
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setString(1, "%" + nomeProduto + "%");
-
-        try (ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-
-                PerdasEstoque perda = new PerdasEstoque();
-
-                perda.setIdperdasEstoque(rs.getInt("idperdasEstoque"));
-                perda.setQuantidade(rs.getInt("quantidade"));
-                perda.setDataRegistro(rs.getString("dataRegistro"));
-                perda.setMotivo(rs.getString("motivo"));
-                perda.setProdutos_idprodutos(rs.getInt("produtos_idprodutos"));
-                perda.setProdutos_categorias_idcategorias(rs.getInt("produtos_categorias_idcategorias"));
-                perda.setProdutos_marcas_idmarcas(rs.getInt("produtos_marcas_idmarcas"));
-                perda.setProdutos_unidadeMedidas_idunidadeMedidas(rs.getInt("produtos_unidadeMedidas_idunidadeMedidas"));
-                perda.setLotesProdutos_idlotesProdutos(rs.getInt("lotesProdutos_idlotesProdutos"));
-
-                lista.add(perda);
-            }
+            stmt.executeUpdate();
         }
     }
 
-    return lista;
-}
-    
-    
-    
+    private PerdasEstoque mapearPerda(ResultSet rs)
+            throws SQLException {
+
+        PerdasEstoque perda = new PerdasEstoque();
+
+        perda.setIdperdasEstoque(rs.getInt("idperdasEstoque"));
+        perda.setQuantidade(rs.getInt("quantidade"));
+        perda.setDataRegistro(rs.getString("dataRegistro"));
+        perda.setMotivo(rs.getString("motivo"));
+        perda.setProdutos_idprodutos(rs.getInt("produtos_idprodutos"));
+        perda.setProdutos_categorias_idcategorias(
+                rs.getInt("produtos_categorias_idcategorias"));
+        perda.setProdutos_marcas_idmarcas(
+                rs.getInt("produtos_marcas_idmarcas"));
+        perda.setProdutos_unidadeMedidas_idunidadeMedidas(
+                rs.getInt("produtos_unidadeMedidas_idunidadeMedidas"));
+        perda.setLotesProdutos_idlotesProdutos(
+                rs.getInt("lotesProdutos_idlotesProdutos"));
+
+        return perda;
+    }
 }

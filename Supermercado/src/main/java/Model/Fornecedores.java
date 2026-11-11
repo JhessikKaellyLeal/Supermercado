@@ -1,18 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Fornecedores {
-  private int idfornecedores;
-  private String nomeResponsavel, telefone, email, ramal, cnpj, razaoSocial, endereco, tipo, cep,  inscricaoestadual;
+
+    private int idfornecedores;
+    private String nomeResponsavel;
+    private String telefone;
+    private String email;
+    private String ramal;
+    private String cnpj;
+    private String razaoSocial;
+    private String endereco;
+    private String tipo;
+    private String cep;
+    private String inscricaoestadual;
 
     public Fornecedores() {
+    }
+
+    public Fornecedores(int idfornecedores, String nomeResponsavel,
+            String telefone, String email, String ramal, String cnpj,
+            String razaoSocial, String endereco, String tipo, String cep,
+            String inscricaoestadual) {
+
+        this.idfornecedores = idfornecedores;
+        this.nomeResponsavel = nomeResponsavel;
+        this.telefone = telefone;
+        this.email = email;
+        this.ramal = ramal;
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+        this.endereco = endereco;
+        this.tipo = tipo;
+        this.cep = cep;
+        this.inscricaoestadual = inscricaoestadual;
     }
 
     public int getIdfornecedores() {
@@ -102,6 +123,4 @@ public class Fornecedores {
     public void setInscricaoestadual(String inscricaoestadual) {
         this.inscricaoestadual = inscricaoestadual;
     }
-  
-          
 }

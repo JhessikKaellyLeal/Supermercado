@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
@@ -13,14 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author GeovannaOliviera
- */
 public class PromocaoController {
-    
-    // CADASTRAR PROMOÇÃO
-    public boolean cadastrar(Promocao promocao) {
+
+    public void cadastrar(Promocao promocao) throws SQLException {
         String sql = "INSERT INTO promocao "
                 + "(nome, tipo, status, dataInicio, dataFinal, "
                 + "regras, desconto, qttMinima) "
@@ -31,100 +23,177 @@ public class PromocaoController {
 
             stmt.setString(1, promocao.getNome());
             stmt.setString(2, promocao.getTipo());
-            stmt.setInt(3, promocao.isStatus() ? 1 : 0);
+            stmt.setInt(3, promocao.getStatus());
             stmt.setString(4, promocao.getDataInicio());
             stmt.setString(5, promocao.getDataFinal());
-            stmt.setString(6, promocao.getRegras());
+
+            if (promocao.getRegras() == null) {
+                stmt.setNull(6, java.sql.Types.VARCHAR);
+            } else {
+                stmt.setString(6, promocao.getRegras());
+            }
+
             stmt.setInt(7, promocao.getDesconto());
             stmt.setInt(8, promocao.getQttMinima());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar promoção: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // LISTAR TODAS AS PROMOÇÕES
-    public List<Promocao> listarTodos() {
-        List<Promocao> promocoes = new ArrayList<>();
+    public List<Promocao> listar() throws SQLException {
+        List<Promocao> lista = new ArrayList<>();
 
-        String sql = "SELECT idpromocao, nome, tipo, status, "
-                + "dataInicio, dataFinal, regras, desconto, qttMinima "
-                + "FROM promocao";
+        String sql = "SELECT * FROM promocao ORDER BY idpromocao DESC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Promocao promocao = new Promocao();
-
-                promocao.setIdpromocao(rs.getInt("idpromocao"));
-                promocao.setNome(rs.getString("nome"));
-                promocao.setTipo(rs.getString("tipo"));
-                promocao.setStatus(rs.getInt("status") == 1);
-                promocao.setDataInicio(rs.getString("dataInicio"));
-                promocao.setDataFinal(rs.getString("dataFinal"));
-                promocao.setRegras(rs.getString("regras"));
-                promocao.setDesconto(rs.getInt("desconto"));
-                promocao.setQttMinima(rs.getInt("qttMinima"));
-
-                promocoes.add(promocao);
+                lista.add(mapearPromocao(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar promoções: "
-                    + e.getMessage());
         }
 
-        return promocoes;
+        return lista;
     }
 
-    // BUSCAR PROMOÇÃO PELO ID
-    public Promocao buscarPorId(int idpromocao) {
-        String sql = "SELECT idpromocao, nome, tipo, status, "
-                + "dataInicio, dataFinal, regras, desconto, qttMinima "
-                + "FROM promocao WHERE idpromocao = ?";
+    public Promocao buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM promocao WHERE idpromocao = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idpromocao);
+            stmt.setInt(1, id);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Promocao promocao = new Promocao();
-
-                    promocao.setIdpromocao(rs.getInt("idpromocao"));
-                    promocao.setNome(rs.getString("nome"));
-                    promocao.setTipo(rs.getString("tipo"));
-                    promocao.setStatus(rs.getInt("status") == 1);
-                    promocao.setDataInicio(rs.getString("dataInicio"));
-                    promocao.setDataFinal(rs.getString("dataFinal"));
-                    promocao.setRegras(rs.getString("regras"));
-                    promocao.setDesconto(rs.getInt("desconto"));
-                    promocao.setQttMinima(rs.getInt("qttMinima"));
-
-                    return promocao;
+                    return mapearPromocao(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar promoção: "
-                    + e.getMessage());
         }
 
         return null;
     }
 
-    // ATUALIZAR PROMOÇÃO PELO ID
-    public boolean atualizar(int idpromocao, Promocao promocao) {
-        String sql = "UPDATE promocao SET nome = ?, tipo = ?, "
-                + "status = ?, dataInicio = ?, dataFinal = ?, "
-                + "regras = ?, desconto = ?, qttMinima = ? "
+    public List<Promocao> buscarPorNome(String nome)
+            throws SQLException {
+
+        List<Promocao> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM promocao WHERE nome LIKE ? "
+                + "ORDER BY nome ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPromocao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Promocao> buscarPorTipo(String tipo)
+            throws SQLException {
+
+        List<Promocao> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM promocao WHERE tipo = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPromocao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Promocao> buscarPorStatus(int status)
+            throws SQLException {
+
+        List<Promocao> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM promocao WHERE status = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPromocao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Promocao> buscarPorPeriodo(
+            String dataInicio, String dataFinal) throws SQLException {
+
+        List<Promocao> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM promocao "
+                + "WHERE dataInicio <= ? AND dataFinal >= ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, dataFinal);
+            stmt.setString(2, dataInicio);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPromocao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Promocao> listarPromocoesAtivas()
+            throws SQLException {
+
+        List<Promocao> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM promocao "
+                + "WHERE status = 1 "
+                + "AND dataInicio <= CURDATE() "
+                + "AND dataFinal >= CURDATE() "
+                + "ORDER BY dataFinal ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearPromocao(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(Promocao promocao) throws SQLException {
+        String sql = "UPDATE promocao SET "
+                + "nome = ?, tipo = ?, status = ?, "
+                + "dataInicio = ?, dataFinal = ?, regras = ?, "
+                + "desconto = ?, qttMinima = ? "
                 + "WHERE idpromocao = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -132,39 +201,66 @@ public class PromocaoController {
 
             stmt.setString(1, promocao.getNome());
             stmt.setString(2, promocao.getTipo());
-            stmt.setInt(3, promocao.isStatus() ? 1 : 0);
+            stmt.setInt(3, promocao.getStatus());
             stmt.setString(4, promocao.getDataInicio());
             stmt.setString(5, promocao.getDataFinal());
-            stmt.setString(6, promocao.getRegras());
+
+            if (promocao.getRegras() == null) {
+                stmt.setNull(6, java.sql.Types.VARCHAR);
+            } else {
+                stmt.setString(6, promocao.getRegras());
+            }
+
             stmt.setInt(7, promocao.getDesconto());
             stmt.setInt(8, promocao.getQttMinima());
-            stmt.setInt(9, idpromocao);
+            stmt.setInt(9, promocao.getIdpromocao());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar promoção: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR PROMOÇÃO PELO ID
-    public boolean excluir(int idpromocao) {
+    public void alterarStatus(int id, int status)
+            throws SQLException {
+
+        String sql = "UPDATE promocao SET status = ? "
+                + "WHERE idpromocao = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, status);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM promocao WHERE idpromocao = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idpromocao);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir promoção: "
-                    + e.getMessage());
-            return false;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
 
+    private Promocao mapearPromocao(ResultSet rs)
+            throws SQLException {
+
+        Promocao promocao = new Promocao();
+
+        promocao.setIdpromocao(rs.getInt("idpromocao"));
+        promocao.setNome(rs.getString("nome"));
+        promocao.setTipo(rs.getString("tipo"));
+        promocao.setStatus(rs.getInt("status"));
+        promocao.setDataInicio(rs.getString("dataInicio"));
+        promocao.setDataFinal(rs.getString("dataFinal"));
+        promocao.setRegras(rs.getString("regras"));
+        promocao.setDesconto(rs.getInt("desconto"));
+        promocao.setQttMinima(rs.getInt("qttMinima"));
+
+        return promocao;
+    }
 }

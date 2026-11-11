@@ -1,95 +1,178 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author AntônioVieira
- */
 import Conection.Conexao;
-import java.sql.*;
-import java.util.*;
+import Model.TaxasEntregas;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TaxasEntregaController {
-  public boolean cadastrar(String regiao, String tipoTaxa,
-            double valorTaxa, String observacao) throws SQLException {
+
+    public void cadastrar(TaxasEntregas taxa) throws SQLException {
 
         String sql = "INSERT INTO taxasEntrega "
                 + "(regiao, tipoTaxa, valorTaxa, observacao) "
                 + "VALUES (?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, regiao);
-            ps.setString(2, tipoTaxa);
-            ps.setDouble(3, valorTaxa);
-            ps.setString(4, observacao);
+            stmt.setString(1, taxa.getRegiao());
+            stmt.setString(2, taxa.getTipoTaxa());
+            stmt.setDouble(3, taxa.getValorTaxa());
 
-            return ps.executeUpdate() > 0;
+            if (taxa.getObservacao() == null) {
+                stmt.setNull(4, Types.VARCHAR);
+            } else {
+                stmt.setString(4, taxa.getObservacao());
+            }
+
+            stmt.executeUpdate();
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
+    public List<TaxasEntregas> listar() throws SQLException {
 
-        List<Map<String, Object>> lista = new ArrayList<>();
+        List<TaxasEntregas> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM taxasEntrega";
+        String sql = "SELECT * FROM taxasEntrega "
+                + "ORDER BY regiao ASC";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Map<String, Object> item = new LinkedHashMap<>();
-
-                item.put("idtaxasEntrega",
-                        rs.getInt("idtaxasEntrega"));
-                item.put("regiao", rs.getString("regiao"));
-                item.put("tipoTaxa", rs.getString("tipoTaxa"));
-                item.put("valorTaxa", rs.getDouble("valorTaxa"));
-                item.put("observacao", rs.getString("observacao"));
-
-                lista.add(item);
+                lista.add(mapearTaxa(rs));
             }
         }
 
         return lista;
     }
 
-    public boolean atualizar(int id, String regiao,
-            String tipoTaxa, double valorTaxa,
-            String observacao) throws SQLException {
+    public TaxasEntregas buscarPorId(int id) throws SQLException {
+
+        String sql = "SELECT * FROM taxasEntrega "
+                + "WHERE idtaxasEntrega = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearTaxa(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<TaxasEntregas> buscarPorRegiao(String regiao)
+            throws SQLException {
+
+        List<TaxasEntregas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM taxasEntrega "
+                + "WHERE regiao LIKE ? ORDER BY regiao ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + regiao + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearTaxa(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<TaxasEntregas> buscarPorTipo(String tipoTaxa)
+            throws SQLException {
+
+        List<TaxasEntregas> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM taxasEntrega "
+                + "WHERE tipoTaxa = ? ORDER BY regiao ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipoTaxa);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearTaxa(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(TaxasEntregas taxa) throws SQLException {
 
         String sql = "UPDATE taxasEntrega SET "
-                + "regiao=?, tipoTaxa=?, valorTaxa=?, observacao=? "
-                + "WHERE idtaxasEntrega=?";
+                + "regiao = ?, "
+                + "tipoTaxa = ?, "
+                + "valorTaxa = ?, "
+                + "observacao = ? "
+                + "WHERE idtaxasEntrega = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, regiao);
-            ps.setString(2, tipoTaxa);
-            ps.setDouble(3, valorTaxa);
-            ps.setString(4, observacao);
-            ps.setInt(5, id);
+            stmt.setString(1, taxa.getRegiao());
+            stmt.setString(2, taxa.getTipoTaxa());
+            stmt.setDouble(3, taxa.getValorTaxa());
 
-            return ps.executeUpdate() > 0;
+            if (taxa.getObservacao() == null) {
+                stmt.setNull(4, Types.VARCHAR);
+            } else {
+                stmt.setString(4, taxa.getObservacao());
+            }
+
+            stmt.setInt(5, taxa.getIdtaxasEntrega());
+
+            stmt.executeUpdate();
         }
     }
 
-    public boolean excluir(int id) throws SQLException {
+    public void excluir(int id) throws SQLException {
 
         String sql = "DELETE FROM taxasEntrega "
-                + "WHERE idtaxasEntrega=?";
+                + "WHERE idtaxasEntrega = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-
-            return ps.executeUpdate() > 0;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
-    } 
+    }
+
+    private TaxasEntregas mapearTaxa(ResultSet rs)
+            throws SQLException {
+
+        TaxasEntregas taxa = new TaxasEntregas();
+
+        taxa.setIdtaxasEntrega(rs.getInt("idtaxasEntrega"));
+        taxa.setRegiao(rs.getString("regiao"));
+        taxa.setTipoTaxa(rs.getString("tipoTaxa"));
+        taxa.setValorTaxa(rs.getDouble("valorTaxa"));
+        taxa.setObservacao(rs.getString("observacao"));
+
+        return taxa;
+    }
 }

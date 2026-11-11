@@ -1,18 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ItensVendidos {
-    private int iditensVendas, quantidade, vendas_idvendas;
-    private double precoUnitario, desconto, valorTotal;
+
+    private int iditensVendas;
+    private int quantidade;
+    private double precoUnitario;
+    private double desconto;
+    private double valorTotal;
+    private int vendas_idvendas;
 
     public ItensVendidos() {
+    }
+
+    public ItensVendidos(int iditensVendas, int quantidade,
+            double precoUnitario, double desconto,
+            double valorTotal, int vendas_idvendas) {
+
+        this.iditensVendas = iditensVendas;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+        this.desconto = desconto;
+        this.valorTotal = valorTotal;
+        this.vendas_idvendas = vendas_idvendas;
     }
 
     public int getIditensVendas() {
@@ -29,14 +39,6 @@ public class ItensVendidos {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public int getVendas_idvendas() {
-        return vendas_idvendas;
-    }
-
-    public void setVendas_idvendas(int vendas_idvendas) {
-        this.vendas_idvendas = vendas_idvendas;
     }
 
     public double getPrecoUnitario() {
@@ -62,5 +64,12 @@ public class ItensVendidos {
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
-    
+
+    public int getVendas_idvendas() {
+        return vendas_idvendas;
+    }
+
+    public void setVendas_idvendas(int vendas_idvendas) {
+        this.vendas_idvendas = vendas_idvendas;
+    }
 }

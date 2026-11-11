@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package control;
+
+package Control;
 
 import Conection.Conexao;
 import Model.MovimentacoesFinanceiras;
@@ -13,14 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author IsraelSantos
- */
 public class MovimentacoesFinanceirasController {
-    // CADASTRAR MOVIMENTAÇÃO FINANCEIRA
-    public boolean cadastrar(MovimentacoesFinanceiras movimentacao) {
-        String sql = "INSERT INTO movimentacoesFinanceira "
+
+    public void cadastrar(MovimentacoesFinanceiras movimentacao)
+            throws SQLException {
+
+        String sql = "INSERT INTO movimentacoesFinanceiras "
                 + "(tipo, valor, dataHora, descricao, origem, "
                 + "contasFinanceiras_idcontasFinanceiras) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -35,60 +30,33 @@ public class MovimentacoesFinanceirasController {
             stmt.setString(5, movimentacao.getOrigem());
             stmt.setInt(6, movimentacao.getContasFinanceiras_idcontasFinanceiras());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar movimentação financeira: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // LISTAR TODAS AS MOVIMENTAÇÕES FINANCEIRAS
-    public List<MovimentacoesFinanceiras> listarTodos() {
-        List<MovimentacoesFinanceiras> movimentacoes = new ArrayList<>();
+    public List<MovimentacoesFinanceiras> listar() throws SQLException {
+        List<MovimentacoesFinanceiras> lista = new ArrayList<>();
 
-        String sql = "SELECT idmovimentacoesFinanceira, tipo, valor, "
-                + "dataHora, descricao, origem, "
-                + "contasFinanceiras_idcontasFinanceiras "
-                + "FROM movimentacoesFinanceira";
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "ORDER BY idmovimentacoesFinanceiras DESC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                MovimentacoesFinanceiras movimentacao =
-                        new MovimentacoesFinanceiras();
-
-                movimentacao.setIdmovimentacoesFinanceiras(
-                        rs.getInt("idmovimentacoesFinanceira"));
-                movimentacao.setTipo(rs.getString("tipo"));
-                movimentacao.setValor(rs.getDouble("valor"));
-                movimentacao.setDataHora(rs.getString("dataHora"));
-                movimentacao.setDescricao(rs.getString("descricao"));
-                movimentacao.setOrigem(rs.getString("origem"));
-                movimentacao.setContasFinanceiras_idcontasFinanceiras(
-                        rs.getInt("contasFinanceiras_idcontasFinanceiras"));
-
-                movimentacoes.add(movimentacao);
+                lista.add(mapearMovimentacao(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar movimentações financeiras: "
-                    + e.getMessage());
         }
 
-        return movimentacoes;
+        return lista;
     }
 
-    // BUSCAR MOVIMENTAÇÃO FINANCEIRA POR ID
-    public MovimentacoesFinanceiras buscarPorId(int id) {
-        String sql = "SELECT idmovimentacoesFinanceira, tipo, valor, "
-                + "dataHora, descricao, origem, "
-                + "contasFinanceiras_idcontasFinanceiras "
-                + "FROM movimentacoesFinanceira "
-                + "WHERE idmovimentacoesFinanceira = ?";
+    public MovimentacoesFinanceiras buscarPorId(int id)
+            throws SQLException {
+
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "WHERE idmovimentacoesFinanceiras = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -97,39 +65,117 @@ public class MovimentacoesFinanceirasController {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    MovimentacoesFinanceiras movimentacao =
-                            new MovimentacoesFinanceiras();
-
-                    movimentacao.setIdmovimentacoesFinanceiras(
-                            rs.getInt("idmovimentacoesFinanceira"));
-                    movimentacao.setTipo(rs.getString("tipo"));
-                    movimentacao.setValor(rs.getDouble("valor"));
-                    movimentacao.setDataHora(rs.getString("dataHora"));
-                    movimentacao.setDescricao(rs.getString("descricao"));
-                    movimentacao.setOrigem(rs.getString("origem"));
-                    movimentacao.setContasFinanceiras_idcontasFinanceiras(
-                            rs.getInt("contasFinanceiras_idcontasFinanceiras"));
-
-                    return movimentacao;
+                    return mapearMovimentacao(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar movimentação financeira: "
-                    + e.getMessage());
         }
 
         return null;
     }
 
-    // ATUALIZAR MOVIMENTAÇÃO FINANCEIRA
-    public boolean atualizar(int idOriginal,
-            MovimentacoesFinanceiras movimentacao) {
+    public List<MovimentacoesFinanceiras> buscarPorConta(int idConta)
+            throws SQLException {
 
-        String sql = "UPDATE movimentacoesFinanceira SET "
+        List<MovimentacoesFinanceiras> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "WHERE contasFinanceiras_idcontasFinanceiras = ? "
+                + "ORDER BY idmovimentacoesFinanceiras DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idConta);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<MovimentacoesFinanceiras> buscarPorTipo(String tipo)
+            throws SQLException {
+
+        List<MovimentacoesFinanceiras> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "WHERE tipo = ? "
+                + "ORDER BY idmovimentacoesFinanceiras DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<MovimentacoesFinanceiras> buscarPorOrigem(String origem)
+            throws SQLException {
+
+        List<MovimentacoesFinanceiras> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "WHERE origem LIKE ? "
+                + "ORDER BY idmovimentacoesFinanceiras DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + origem + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<MovimentacoesFinanceiras> buscarPorData(String data)
+            throws SQLException {
+
+        List<MovimentacoesFinanceiras> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacoesFinanceiras "
+                + "WHERE dataHora LIKE ? "
+                + "ORDER BY idmovimentacoesFinanceiras DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + data + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(MovimentacoesFinanceiras movimentacao)
+            throws SQLException {
+
+        String sql = "UPDATE movimentacoesFinanceiras SET "
                 + "tipo = ?, valor = ?, dataHora = ?, descricao = ?, "
                 + "origem = ?, contasFinanceiras_idcontasFinanceiras = ? "
-                + "WHERE idmovimentacoesFinanceira = ?";
+                + "WHERE idmovimentacoesFinanceiras = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -140,58 +186,42 @@ public class MovimentacoesFinanceirasController {
             stmt.setString(4, movimentacao.getDescricao());
             stmt.setString(5, movimentacao.getOrigem());
             stmt.setInt(6, movimentacao.getContasFinanceiras_idcontasFinanceiras());
-            stmt.setInt(7, idOriginal);
+            stmt.setInt(7, movimentacao.getIdmovimentacoesFinanceiras());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar movimentação financeira: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR MOVIMENTAÇÃO FINANCEIRA
-    public boolean excluir(int id) {
-        String sql = "DELETE FROM movimentacoesFinanceira "
-                + "WHERE idmovimentacoesFinanceira = ?";
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM movimentacoesFinanceiras "
+                + "WHERE idmovimentacoesFinanceiras = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir movimentação financeira: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
+    private MovimentacoesFinanceiras mapearMovimentacao(ResultSet rs)
+            throws SQLException {
 
- public ArrayList<String> listarTipos() {
+        MovimentacoesFinanceiras movimentacao =
+                new MovimentacoesFinanceiras();
 
-    ArrayList<String> lista = new ArrayList<>();
+        movimentacao.setIdmovimentacoesFinanceiras(
+                rs.getInt("idmovimentacoesFinanceiras"));
 
-    String sql = "SELECT DISTINCT tipo FROM movimentacoesFinanceiras "
-               + "ORDER BY tipo";
+        movimentacao.setTipo(rs.getString("tipo"));
+        movimentacao.setValor(rs.getDouble("valor"));
+        movimentacao.setDataHora(rs.getString("dataHora"));
+        movimentacao.setDescricao(rs.getString("descricao"));
+        movimentacao.setOrigem(rs.getString("origem"));
 
-    try (Connection conn = Conexao.conectar();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+        movimentacao.setContasFinanceiras_idcontasFinanceiras(
+                rs.getInt("contasFinanceiras_idcontasFinanceiras"));
 
-        while (rs.next()) {
-            lista.add(rs.getString("tipo"));
-        }
-
-    } catch (SQLException e) {
-        System.out.println("Erro ao listar tipos: " + e.getMessage());
+        return movimentacao;
     }
-
-    return lista;
 }
-
-}
-

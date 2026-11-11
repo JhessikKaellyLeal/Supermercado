@@ -1,6 +1,5 @@
 package Model;
 
-
 public class Caixas {
 
     private int idcaixas;
@@ -9,13 +8,11 @@ public class Caixas {
     private int status;
     private String observacao;
 
-    // Construtor vazio
     public Caixas() {
     }
 
-    // Construtor com todos os campos
     public Caixas(int idcaixas, String nome, String tipo,
-                       int status, String observacao) {
+            int status, String observacao) {
 
         this.idcaixas = idcaixas;
         this.nome = nome;
@@ -23,8 +20,6 @@ public class Caixas {
         this.status = status;
         this.observacao = observacao;
     }
-
-    // Getters e Setters
 
     public int getIdcaixas() {
         return idcaixas;
@@ -64,11 +59,5 @@ public class Caixas {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    // Exibir nome na JComboBox
-    @Override
-    public String toString() {
-        return nome;
     }
 }

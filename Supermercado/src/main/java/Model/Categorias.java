@@ -5,26 +5,14 @@ public class Categorias {
     private int idcategorias;
     private String nome;
     private String descricao;
-    private boolean status;
-
-    private int idcategorias;
-    private String nome;
-    private String descricao;
     private int status;
 
-
-public class Categorias {
-
-    private int idcategorias;
-    private String nome;
-    private String descricao;
-    private int status;
-
-    // CONSTRUTOR VAZIO
     public Categorias() {
     }
 
-    public Categorias(int idcategorias, String nome, String descricao, boolean status) {
+    public Categorias(int idcategorias, String nome,
+            String descricao, int status) {
+
         this.idcategorias = idcategorias;
         this.nome = nome;
         this.descricao = descricao;
@@ -61,10 +49,5 @@ public class Categorias {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return nome;
     }
 }

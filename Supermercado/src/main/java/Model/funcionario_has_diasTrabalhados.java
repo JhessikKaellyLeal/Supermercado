@@ -1,17 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
-public class funcionario_has_diasTrabalhados {
-  private int Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos,  diasTrabalhados_iddiasTrabalhados;
+public class Funcionario_has_diasTrabalhados {
 
-    public funcionario_has_diasTrabalhados() {
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
+    private int diasTrabalhados_iddiasTrabalhados;
+
+    public Funcionario_has_diasTrabalhados() {
+    }
+
+    public Funcionario_has_diasTrabalhados(
+            int Funcionario_idFuncionario,
+            int Funcionario_cargos_idcargos,
+            int Funcionario_setores_idsetores,
+            int Funcionario_turnos_idturnos,
+            int diasTrabalhados_iddiasTrabalhados) {
+
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+        this.Funcionario_cargos_idcargos = Funcionario_cargos_idcargos;
+        this.Funcionario_setores_idsetores = Funcionario_setores_idsetores;
+        this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
+        this.diasTrabalhados_iddiasTrabalhados = diasTrabalhados_iddiasTrabalhados;
     }
 
     public int getFuncionario_idFuncionario() {
@@ -53,5 +65,4 @@ public class funcionario_has_diasTrabalhados {
     public void setDiasTrabalhados_iddiasTrabalhados(int diasTrabalhados_iddiasTrabalhados) {
         this.diasTrabalhados_iddiasTrabalhados = diasTrabalhados_iddiasTrabalhados;
     }
-  
 }

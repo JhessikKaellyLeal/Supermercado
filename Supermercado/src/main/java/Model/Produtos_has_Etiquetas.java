@@ -1,17 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Produtos_has_Etiquetas {
-private int  produtos_idprodutos, produtos_categorias_idcategorias, produtos_marcas_idmarcas, produtos_unidadeMedidas_idunidadeMedidas, etiquetas_idetiquetas;
+
+    private int produtos_idprodutos;
+    private int produtos_categorias_idcategorias;
+    private int produtos_marcas_idmarcas;
+    private int produtos_unidadeMedidas_idunidadeMedidas;
+    private int etiquetas_idetiquetas;
 
     public Produtos_has_Etiquetas() {
+    }
+
+    public Produtos_has_Etiquetas(int produtos_idprodutos,
+            int produtos_categorias_idcategorias,
+            int produtos_marcas_idmarcas,
+            int produtos_unidadeMedidas_idunidadeMedidas,
+            int etiquetas_idetiquetas) {
+
+        this.produtos_idprodutos = produtos_idprodutos;
+        this.produtos_categorias_idcategorias = produtos_categorias_idcategorias;
+        this.produtos_marcas_idmarcas = produtos_marcas_idmarcas;
+        this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
+        this.etiquetas_idetiquetas = etiquetas_idetiquetas;
     }
 
     public int getProdutos_idprodutos() {
@@ -53,5 +64,4 @@ private int  produtos_idprodutos, produtos_categorias_idcategorias, produtos_mar
     public void setEtiquetas_idetiquetas(int etiquetas_idetiquetas) {
         this.etiquetas_idetiquetas = etiquetas_idetiquetas;
     }
-
 }

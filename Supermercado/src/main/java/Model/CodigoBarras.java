@@ -1,22 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-import java.io.File;
-
-/**
- *
- * @author AntônioVieira
- */
 public class CodigoBarras {
-   private int  idcodigoBarras, produtos_idprodutos, produtos_categorias_idcategorias, produtos_marcas_idmarcas, produtos_unidadeMedidas_idunidadeMedidas;
-   private String codigo, tipo, descricao;
-   private boolean status;
-   private File imagem;
+
+    private int idcodigoBarras;
+    private String codigo;
+    private byte[] imagem;
+    private String tipo;
+    private int status;
+    private String descricao;
+    private int produtos_idprodutos;
+    private int produtos_categorias_idcategorias;
+    private int produtos_marcas_idmarcas;
+    private int produtos_unidadeMedidas_idunidadeMedidas;
 
     public CodigoBarras() {
+    }
+
+    public CodigoBarras(int idcodigoBarras, String codigo, byte[] imagem,
+            String tipo, int status, String descricao,
+            int produtos_idprodutos,
+            int produtos_categorias_idcategorias,
+            int produtos_marcas_idmarcas,
+            int produtos_unidadeMedidas_idunidadeMedidas) {
+
+        this.idcodigoBarras = idcodigoBarras;
+        this.codigo = codigo;
+        this.imagem = imagem;
+        this.tipo = tipo;
+        this.status = status;
+        this.descricao = descricao;
+        this.produtos_idprodutos = produtos_idprodutos;
+        this.produtos_categorias_idcategorias = produtos_categorias_idcategorias;
+        this.produtos_marcas_idmarcas = produtos_marcas_idmarcas;
+        this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
 
     public int getIdcodigoBarras() {
@@ -25,6 +41,46 @@ public class CodigoBarras {
 
     public void setIdcodigoBarras(int idcodigoBarras) {
         this.idcodigoBarras = idcodigoBarras;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public int getProdutos_idprodutos() {
@@ -58,45 +114,4 @@ public class CodigoBarras {
     public void setProdutos_unidadeMedidas_idunidadeMedidas(int produtos_unidadeMedidas_idunidadeMedidas) {
         this.produtos_unidadeMedidas_idunidadeMedidas = produtos_unidadeMedidas_idunidadeMedidas;
     }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public File getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(File imagem) {
-        this.imagem = imagem;
-    }
- 
 }

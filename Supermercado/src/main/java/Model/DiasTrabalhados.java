@@ -1,18 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class DiasTrabalhados {
-  private int  iddiasTrabalhados;
-  private String nome;
+
+    private int iddiasTrabalhados;
+    private String nome;
 
     public DiasTrabalhados() {
+    }
+
+    public DiasTrabalhados(int iddiasTrabalhados, String nome) {
+        this.iddiasTrabalhados = iddiasTrabalhados;
+        this.nome = nome;
     }
 
     public int getIddiasTrabalhados() {
@@ -30,5 +29,4 @@ public class DiasTrabalhados {
     public void setNome(String nome) {
         this.nome = nome;
     }
-  
 }

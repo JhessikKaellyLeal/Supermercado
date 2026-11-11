@@ -1,19 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class Setores {
-   private int idsetores;
-   private String nome, descricao;
-   private boolean status;
+
+    private int idsetores;
+    private String nome;
+    private String descricao;
+    private int status;
 
     public Setores() {
+    }
+
+    public Setores(int idsetores, String nome, String descricao, int status) {
+        this.idsetores = idsetores;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.status = status;
     }
 
     public int getIdsetores() {
@@ -40,14 +42,11 @@ public class Setores {
         this.descricao = descricao;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
-
-    
-   
 }

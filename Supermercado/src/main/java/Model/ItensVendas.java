@@ -1,9 +1,5 @@
-/**
- *
- * @author JordanaLeite
- */
 
-package model;
+package Model;
 
 public class ItensVendas {
 
@@ -12,19 +8,59 @@ public class ItensVendas {
     private double precoUnitario;
     private double desconto;
     private double valorTotal;
-
     private int vendas_idvendas;
-
-    // Campos auxiliares (JOINs)
-
     private String nomeCliente;
-    private String nomeUsuario;
-    private String nomeCaixa;
-    private String codigoCupom;
+private String nomeUsuario;
+private String nomeCaixa;
+private String codigoCupom;
 
     public ItensVendas() {
     }
 
+    public ItensVendas(int iditensVendas, int quantidade,
+            double precoUnitario, double desconto,
+            double valorTotal, int vendas_idvendas) {
+
+        this.iditensVendas = iditensVendas;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+        this.desconto = desconto;
+        this.valorTotal = valorTotal;
+        this.vendas_idvendas = vendas_idvendas;
+    }
+
+    
+    public String getNomeCliente() {
+    return nomeCliente;
+}
+
+public void setNomeCliente(String nomeCliente) {
+    this.nomeCliente = nomeCliente;
+}
+
+public String getNomeUsuario() {
+    return nomeUsuario;
+}
+
+public void setNomeUsuario(String nomeUsuario) {
+    this.nomeUsuario = nomeUsuario;
+}
+
+public String getNomeCaixa() {
+    return nomeCaixa;
+}
+
+public void setNomeCaixa(String nomeCaixa) {
+    this.nomeCaixa = nomeCaixa;
+}
+
+public String getCodigoCupom() {
+    return codigoCupom;
+}
+
+public void setCodigoCupom(String codigoCupom) {
+    this.codigoCupom = codigoCupom;
+}
     public int getIditensVendas() {
         return iditensVendas;
     }
@@ -71,37 +107,5 @@ public class ItensVendas {
 
     public void setVendas_idvendas(int vendas_idvendas) {
         this.vendas_idvendas = vendas_idvendas;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public String getNomeUsuario() {
-        return nomeUsuario;
-    }
-
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
-    }
-
-    public String getNomeCaixa() {
-        return nomeCaixa;
-    }
-
-    public void setNomeCaixa(String nomeCaixa) {
-        this.nomeCaixa = nomeCaixa;
-    }
-
-    public String getCodigoCupom() {
-        return codigoCupom;
-    }
-
-    public void setCodigoCupom(String codigoCupom) {
-        this.codigoCupom = codigoCupom;
     }
 }

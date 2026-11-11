@@ -1,17 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class CondicoesPagamento {
-  private int  idcondicoesPagamento, quantidadeParcelas, intervaloDias;
+
+    private int idcondicoesPagamento;
+    private int quantidadeParcelas;
+    private int intervaloDias;
 
     public CondicoesPagamento() {
+    }
+
+    public CondicoesPagamento(int idcondicoesPagamento,
+            int quantidadeParcelas, int intervaloDias) {
+
+        this.idcondicoesPagamento = idcondicoesPagamento;
+        this.quantidadeParcelas = quantidadeParcelas;
+        this.intervaloDias = intervaloDias;
     }
 
     public int getIdcondicoesPagamento() {
@@ -37,5 +40,4 @@ public class CondicoesPagamento {
     public void setIntervaloDias(int intervaloDias) {
         this.intervaloDias = intervaloDias;
     }
-  
 }

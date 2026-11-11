@@ -1,283 +1,213 @@
-/**
- *
- * @author JordanaLeite
- */
-package Control;
-import Conection.Conexao;
-import model.ItensVendas;
 
+package Control;
+
+import Conection.Conexao;
+import Model.ItensVendas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItensVendasController {
+    
+    
 
-    // =====================================================
-    // LISTAR ITENS
-    // =====================================================
+    public void cadastrar(ItensVendas item) throws SQLException {
+        String sql = "INSERT INTO itensVendas "
+                + "(quantidade, precoUnitario, desconto, valorTotal, "
+                + "vendas_idvendas) VALUES (?, ?, ?, ?, ?)";
 
-    public List<ItensVendas> listar() {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, item.getQuantidade());
+            stmt.setDouble(2, item.getPrecoUnitario());
+            stmt.setDouble(3, item.getDesconto());
+            stmt.setDouble(4, item.getValorTotal());
+            stmt.setInt(5, item.getVendas_idvendas());
+
+            stmt.executeUpdate();
+        }
+    }
+
+   
+public List<ItensVendas> listar() throws SQLException {
+
+    List<ItensVendas> lista = new ArrayList<>();
+
+    String sql = "SELECT "
+            + "iv.*, "
+            + "c.nome AS nomeCliente, "
+            + "u.nome AS nomeUsuario, "
+            + "cx.nome AS nomeCaixa, "
+            + "cp.codigoCupom AS codigoCupom "
+            + "FROM itensVendas iv "
+            + "INNER JOIN vendas v "
+            + "ON iv.vendas_idvendas = v.idvendas "
+            + "LEFT JOIN cliente c "
+            + "ON v.cliente_idcliente = c.idcliente "
+            + "LEFT JOIN usuario u "
+            + "ON v.usuario_idusuario = u.idusuario "
+            + "LEFT JOIN caixas cx "
+            + "ON v.caixas_idcaixas = cx.idcaixas "
+            + "LEFT JOIN cupom cp "
+            + "ON v.cupom_idcupom = cp.idcupom "
+            + "ORDER BY iv.iditensVendas DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            ItensVendas item = mapearItem(rs);
+
+            item.setNomeCliente(rs.getString("nomeCliente"));
+            item.setNomeUsuario(rs.getString("nomeUsuario"));
+            item.setNomeCaixa(rs.getString("nomeCaixa"));
+            item.setCodigoCupom(rs.getString("codigoCupom"));
+
+            lista.add(item);
+        }
+    }
+
+    return lista;
+}
+
+
+    public ItensVendas buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM itensVendas "
+                + "WHERE iditensVendas = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearItem(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<ItensVendas> buscarPorVenda(int idVenda)
+            throws SQLException {
 
         List<ItensVendas> lista = new ArrayList<>();
 
-        String sql =
-                "SELECT "
-                + "iv.iditensVendas, "
-                + "iv.quantidade, "
-                + "iv.precoUnitario, "
-                + "iv.desconto, "
-                + "iv.valorTotal, "
-                + "iv.vendas_idvendas, "
+        String sql = "SELECT * FROM itensVendas "
+                + "WHERE vendas_idvendas = ? "
+                + "ORDER BY iditensVendas DESC";
 
-                + "c.nome AS cliente, "
-                + "u.nome AS usuario, "
-                + "cx.nome AS caixa, "
-                + "cp.codigoCupom AS cupom "
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                + "FROM itensVendas iv "
+            stmt.setInt(1, idVenda);
 
-                + "INNER JOIN vendas v "
-                + "ON iv.vendas_idvendas = v.idvendas "
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearItem(rs));
+                }
+            }
+        }
 
-                + "INNER JOIN cliente c "
-                + "ON c.idcliente = v.cliente_idcliente "
+        return lista;
+    }
 
-                + "INNER JOIN usuario u "
-                + "ON u.idusuario = v.usuario_idusuario "
+    public void atualizar(ItensVendas item) throws SQLException {
+        String sql = "UPDATE itensVendas SET "
+                + "quantidade = ?, precoUnitario = ?, desconto = ?, "
+                + "valorTotal = ?, vendas_idvendas = ? "
+                + "WHERE iditensVendas = ?";
 
-                + "INNER JOIN caixas cx "
-                + "ON cx.idcaixas = v.caixas_idcaixas "
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                + "INNER JOIN cupom cp "
-                + "ON cp.idcupom = v.cupom_idcupom "
+            stmt.setInt(1, item.getQuantidade());
+            stmt.setDouble(2, item.getPrecoUnitario());
+            stmt.setDouble(3, item.getDesconto());
+            stmt.setDouble(4, item.getValorTotal());
+            stmt.setInt(5, item.getVendas_idvendas());
+            stmt.setInt(6, item.getIditensVendas());
 
-                + "ORDER BY iv.iditensVendas DESC";
+            stmt.executeUpdate();
+        }
+    }
 
-        try {
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM itensVendas "
+                + "WHERE iditensVendas = ?";
 
-            Connection conn = Conexao.conectar();
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
 
-            ResultSet rs =
-                    pst.executeQuery();
+    private ItensVendas mapearItem(ResultSet rs) throws SQLException {
+        ItensVendas item = new ItensVendas();
 
-            while (rs.next()) {
+        item.setIditensVendas(rs.getInt("iditensVendas"));
+        item.setQuantidade(rs.getInt("quantidade"));
+        item.setPrecoUnitario(rs.getDouble("precoUnitario"));
+        item.setDesconto(rs.getDouble("desconto"));
+        item.setValorTotal(rs.getDouble("valorTotal"));
+        item.setVendas_idvendas(rs.getInt("vendas_idvendas"));
+
+        return item;
+    }
+    
+    
+public ItensVendas buscarDadosRelacionados(int idItem) throws SQLException {
+
+    String sql = "SELECT "
+            + "c.nome AS nomeCliente, "
+            + "u.nome AS nomeUsuario, "
+            + "cx.nome AS nomeCaixa, "
+            + "cp.codigoCupom AS codigoCupom "
+            + "FROM itensVendas iv "
+            + "INNER JOIN vendas v "
+            + "ON iv.vendas_idvendas = v.idvendas "
+            + "LEFT JOIN cliente c "
+            + "ON v.cliente_idcliente = c.idcliente "
+            + "LEFT JOIN usuario u "
+            + "ON v.usuario_idusuario = u.idusuario "
+            + "LEFT JOIN caixas cx "
+            + "ON v.caixas_idcaixas = cx.idcaixas "
+            + "LEFT JOIN cupom cp "
+            + "ON v.cupom_idcupom = cp.idcupom "
+            + "WHERE iv.iditensVendas = ?";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, idItem);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
 
                 ItensVendas item = new ItensVendas();
 
-                item.setIditensVendas(
-                        rs.getInt("iditensVendas"));
+                item.setNomeCliente(rs.getString("nomeCliente"));
+                item.setNomeUsuario(rs.getString("nomeUsuario"));
+                item.setNomeCaixa(rs.getString("nomeCaixa"));
+                item.setCodigoCupom(rs.getString("codigoCupom"));
 
-                item.setQuantidade(
-                        rs.getInt("quantidade"));
-
-                item.setPrecoUnitario(
-                        rs.getDouble("precoUnitario"));
-
-                item.setDesconto(
-                        rs.getDouble("desconto"));
-
-                item.setValorTotal(
-                        rs.getDouble("valorTotal"));
-
-                item.setVendas_idvendas(
-                        rs.getInt("vendas_idvendas"));
-
-                item.setNomeCliente(
-                        rs.getString("cliente"));
-
-                item.setNomeUsuario(
-                        rs.getString("usuario"));
-
-                item.setNomeCaixa(
-                        rs.getString("caixa"));
-
-                item.setCodigoCupom(
-                        rs.getString("cupom"));
-
-                lista.add(item);
+                return item;
             }
-
-            rs.close();
-            pst.close();
-            conn.close();
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Erro ao listar itens da venda: "
-                    + e.getMessage());
-        }
-
-        return lista;
-    }
-
-    // =====================================================
-    // SALVAR ITEM
-    // =====================================================
-
-    public boolean salvar(ItensVendas item) {
-
-        String sql =
-                "INSERT INTO itensVendas ("
-                + "quantidade, "
-                + "precoUnitario, "
-                + "desconto, "
-                + "valorTotal, "
-                + "vendas_idvendas"
-                + ") VALUES (?,?,?,?,?)";
-
-        try {
-
-            Connection conn = Conexao.conectar();
-
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
-
-            pst.setInt(
-                    1,
-                    item.getQuantidade());
-
-            pst.setDouble(
-                    2,
-                    item.getPrecoUnitario());
-
-            pst.setDouble(
-                    3,
-                    item.getDesconto());
-
-            pst.setDouble(
-                    4,
-                    item.getValorTotal());
-
-            pst.setInt(
-                    5,
-                    item.getVendas_idvendas());
-
-            pst.executeUpdate();
-
-            pst.close();
-            conn.close();
-
-            return true;
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Erro ao salvar item: "
-                    + e.getMessage());
-
-            return false;
         }
     }
 
-    // =====================================================
-    // EXCLUIR ITEM
-    // =====================================================
+    return null;
+}
 
-    public boolean excluir(int idItem) {
-
-        String sql =
-                "DELETE FROM itensVendas "
-                + "WHERE iditensVendas=?";
-
-        try {
-
-            Connection conn =
-                    Conexao.conectar();
-
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
-
-            pst.setInt(1, idItem);
-
-            pst.executeUpdate();
-
-            pst.close();
-            conn.close();
-
-            return true;
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Erro ao excluir item: "
-                    + e.getMessage());
-
-            return false;
-        }
-    }
-
-    // =====================================================
-    // BUSCAR POR VENDA
-    // =====================================================
-
-    public List<ItensVendas> buscarPorVenda(
-            int idVenda) {
-
-        List<ItensVendas> lista =
-                new ArrayList<>();
-
-        String sql =
-                "SELECT * "
-                + "FROM itensVendas "
-                + "WHERE vendas_idvendas=?";
-
-        try {
-
-            Connection conn =
-                    Conexao.conectar();
-
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
-
-            pst.setInt(1, idVenda);
-
-            ResultSet rs =
-                    pst.executeQuery();
-
-            while (rs.next()) {
-
-                ItensVendas item =
-                        new ItensVendas();
-
-                item.setIditensVendas(
-                        rs.getInt("iditensVendas"));
-
-                item.setQuantidade(
-                        rs.getInt("quantidade"));
-
-                item.setPrecoUnitario(
-                        rs.getDouble("precoUnitario"));
-
-                item.setDesconto(
-                        rs.getDouble("desconto"));
-
-                item.setValorTotal(
-                        rs.getDouble("valorTotal"));
-
-                item.setVendas_idvendas(
-                        rs.getInt("vendas_idvendas"));
-
-                lista.add(item);
-            }
-
-            rs.close();
-            pst.close();
-            conn.close();
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Erro ao buscar itens: "
-                    + e.getMessage());
-        }
-
-        return lista;
-    }
 }

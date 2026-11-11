@@ -1,49 +1,59 @@
-package Control;
 
+package Control;
 
 import Conection.Conexao;
 import Model.Caixas;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CaixasController {
 
-    // CADASTRAR CAIXA
-    public boolean cadastrar(Caixas caixa) {
+    // CADASTRAR
+    public boolean cadastrar(Caixas caixa) throws SQLException {
 
         String sql = "INSERT INTO caixas "
                 + "(nome, tipo, status, observacao) "
                 + "VALUES (?, ?, ?, ?)";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, caixa.getNome());
             stmt.setString(2, caixa.getTipo());
             stmt.setInt(3, caixa.getStatus());
             stmt.setString(4, caixa.getObservacao());
 
-            stmt.executeUpdate();
-            return true;
+            int linhas = stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar caixa: " + e.getMessage());
-            return false;
+            if (linhas > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        caixa.setIdcaixas(rs.getInt(1));
+                    }
+                }
+                return true;
+            }
         }
+
+        return false;
     }
 
-    // LISTAR TODOS OS CAIXAS
-    public ArrayList<Caixas> listar() {
+    // LISTAR TODOS
+    public List<Caixas> listar() throws SQLException {
 
-        ArrayList<Caixas> lista = new ArrayList<>();
+        List<Caixas> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM caixas ORDER BY idcaixas";
+        String sql = "SELECT * FROM caixas ORDER BY idcaixas DESC";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -58,21 +68,18 @@ public class CaixasController {
 
                 lista.add(caixa);
             }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar caixas: " + e.getMessage());
         }
 
         return lista;
     }
 
-    // BUSCAR CAIXA PELO ID
-    public Caixas buscarPorId(int id) {
+    // BUSCAR POR ID
+    public Caixas buscarPorId(int id) throws SQLException {
 
         String sql = "SELECT * FROM caixas WHERE idcaixas = ?";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
 
@@ -91,22 +98,23 @@ public class CaixasController {
                     return caixa;
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar caixa: " + e.getMessage());
         }
 
         return null;
     }
 
-    // ATUALIZAR CAIXA
-    public boolean atualizar(Caixas caixa) {
+    // ATUALIZAR
+    public boolean atualizar(Caixas caixa) throws SQLException {
 
-        String sql = "UPDATE caixas SET nome = ?, tipo = ?, "
-                + "status = ?, observacao = ? WHERE idcaixas = ?";
+        String sql = "UPDATE caixas SET "
+                + "nome = ?, "
+                + "tipo = ?, "
+                + "status = ?, "
+                + "observacao = ? "
+                + "WHERE idcaixas = ?";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, caixa.getNome());
             stmt.setString(2, caixa.getTipo());
@@ -115,28 +123,20 @@ public class CaixasController {
             stmt.setInt(5, caixa.getIdcaixas());
 
             return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao atualizar caixa: " + e.getMessage());
-            return false;
         }
     }
 
-    // EXCLUIR CAIXA
-    public boolean excluir(int id) {
+    // EXCLUIR
+    public boolean excluir(int id) throws SQLException {
 
         String sql = "DELETE FROM caixas WHERE idcaixas = ?";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
 
             return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao excluir caixa: " + e.getMessage());
-            return false;
         }
     }
 }

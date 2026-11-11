@@ -1,136 +1,262 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author AntônioVieira
- */
 import Conection.Conexao;
-import java.sql.*;
-import java.util.*;
+import Model.MovimentacaoEstoque;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MovimentacaoEstoqueController {
-    public boolean cadastrar(
-            String tipoMovimentacao,
-            int quantidade,
-            String dataMovimentacao,
-            String horaMovimentacao,
-            byte[] documentoReferencia,
-            int idProduto,
-            int idCategoria,
-            int idMarca,
-            int idUnidadeMedida) throws SQLException {
+
+    // LISTAR MOVIMENTAÇÕES POR NOME DO PRODUTO
+public List<MovimentacaoEstoque> listarMovimentacoesPorProduto(
+        String nomeProduto) throws SQLException {
+
+    List<MovimentacaoEstoque> lista = new ArrayList<>();
+
+    String sql = "SELECT me.* "
+            + "FROM movimentacaoEstoque me "
+            + "INNER JOIN produtos p "
+            + "ON me.produtos_idprodutos = p.idprodutos "
+            + "WHERE p.nome LIKE ? "
+            + "ORDER BY me.idmovimentacaoEstoque DESC";
+
+    try (Connection conn = Conexao.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, "%" + nomeProduto + "%");
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapearMovimentacao(rs));
+            }
+        }
+    }
+
+    return lista;
+}
+    
+    
+    public void cadastrar(MovimentacaoEstoque movimentacao)
+            throws SQLException {
 
         String sql = "INSERT INTO movimentacaoEstoque "
-                + "(tipoMovimentacao, quantidade, "
-                + "dataMovimentacao, horaMovimentacao, "
-                + "documentoReferencia, produtos_idprodutos, "
-                + "produtos_categorias_idcategorias, "
+                + "(tipoMovimentacao, quantidade, dataMovimentacao, "
+                + "horaMovimentacao, documentoReferencia, "
+                + "produtos_idprodutos, produtos_categorias_idcategorias, "
                 + "produtos_marcas_idmarcas, "
                 + "produtos_unidadeMedidas_idunidadeMedidas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, tipoMovimentacao);
-            ps.setInt(2, quantidade);
-            ps.setString(3, dataMovimentacao);
-            ps.setString(4, horaMovimentacao);
-            ps.setBytes(5, documentoReferencia);
-            ps.setInt(6, idProduto);
-            ps.setInt(7, idCategoria);
-            ps.setInt(8, idMarca);
-            ps.setInt(9, idUnidadeMedida);
+            stmt.setString(1, movimentacao.getTipoMovimentacao());
+            stmt.setInt(2, movimentacao.getQuantidade());
+            stmt.setString(3, movimentacao.getDataMovimentacao());
+            stmt.setString(4, movimentacao.getHoraMovimentacao());
+            stmt.setBytes(5, movimentacao.getDocumentoReferencia());
+            stmt.setInt(6, movimentacao.getProdutos_idprodutos());
+            stmt.setInt(7, movimentacao.getProdutos_categorias_idcategorias());
+            stmt.setInt(8, movimentacao.getProdutos_marcas_idmarcas());
+            stmt.setInt(9, movimentacao.getProdutos_unidadeMedidas_idunidadeMedidas());
 
-            return ps.executeUpdate() > 0;
+            stmt.executeUpdate();
         }
     }
 
-    public List<Map<String, Object>> listar() throws SQLException {
+    public List<MovimentacaoEstoque> listar() throws SQLException {
+        List<MovimentacaoEstoque> lista = new ArrayList<>();
 
-        List<Map<String, Object>> lista = new ArrayList<>();
+        String sql = "SELECT * FROM movimentacaoEstoque "
+                + "ORDER BY idmovimentacaoEstoque DESC";
 
-        String sql = "SELECT idmovimentacaoEstoque, "
-                + "tipoMovimentacao, quantidade, "
-                + "dataMovimentacao, horaMovimentacao, "
-                + "produtos_idprodutos, "
-                + "produtos_categorias_idcategorias, "
-                + "produtos_marcas_idmarcas, "
-                + "produtos_unidadeMedidas_idunidadeMedidas "
-                + "FROM movimentacaoEstoque";
-
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Map<String, Object> item = new LinkedHashMap<>();
-                ResultSetMetaData meta = rs.getMetaData();
-
-                for (int i = 1; i <= meta.getColumnCount(); i++) {
-                    item.put(meta.getColumnLabel(i), rs.getObject(i));
-                }
-
-                lista.add(item);
+                lista.add(mapearMovimentacao(rs));
             }
         }
 
         return lista;
     }
 
-    public boolean atualizar(
-            int id,
-            String tipoMovimentacao,
-            int quantidade,
-            String dataMovimentacao,
-            String horaMovimentacao,
-            byte[] documentoReferencia,
-            int idProduto,
-            int idCategoria,
-            int idMarca,
-            int idUnidadeMedida) throws SQLException {
+    public MovimentacaoEstoque buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM movimentacaoEstoque "
+                + "WHERE idmovimentacaoEstoque = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearMovimentacao(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<MovimentacaoEstoque> buscarPorProduto(int idProduto)
+            throws SQLException {
+
+        List<MovimentacaoEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacaoEstoque "
+                + "WHERE produtos_idprodutos = ? "
+                + "ORDER BY idmovimentacaoEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProduto);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<MovimentacaoEstoque> buscarPorTipo(String tipo)
+            throws SQLException {
+
+        List<MovimentacaoEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacaoEstoque "
+                + "WHERE tipoMovimentacao = ? "
+                + "ORDER BY idmovimentacaoEstoque DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tipo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<MovimentacaoEstoque> buscarPorData(String data)
+            throws SQLException {
+
+        List<MovimentacaoEstoque> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM movimentacaoEstoque "
+                + "WHERE dataMovimentacao = ? "
+                + "ORDER BY horaMovimentacao DESC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, data);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMovimentacao(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(MovimentacaoEstoque movimentacao)
+            throws SQLException {
 
         String sql = "UPDATE movimentacaoEstoque SET "
-                + "tipoMovimentacao=?, quantidade=?, "
-                + "dataMovimentacao=?, horaMovimentacao=?, "
-                + "documentoReferencia=?, produtos_idprodutos=?, "
-                + "produtos_categorias_idcategorias=?, "
-                + "produtos_marcas_idmarcas=?, "
-                + "produtos_unidadeMedidas_idunidadeMedidas=? "
-                + "WHERE idmovimentacaoEstoque=?";
+                + "tipoMovimentacao = ?, quantidade = ?, "
+                + "dataMovimentacao = ?, horaMovimentacao = ?, "
+                + "documentoReferencia = ?, produtos_idprodutos = ?, "
+                + "produtos_categorias_idcategorias = ?, "
+                + "produtos_marcas_idmarcas = ?, "
+                + "produtos_unidadeMedidas_idunidadeMedidas = ? "
+                + "WHERE idmovimentacaoEstoque = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setString(1, tipoMovimentacao);
-            ps.setInt(2, quantidade);
-            ps.setString(3, dataMovimentacao);
-            ps.setString(4, horaMovimentacao);
-            ps.setBytes(5, documentoReferencia);
-            ps.setInt(6, idProduto);
-            ps.setInt(7, idCategoria);
-            ps.setInt(8, idMarca);
-            ps.setInt(9, idUnidadeMedida);
-            ps.setInt(10, id);
+            stmt.setString(1, movimentacao.getTipoMovimentacao());
+            stmt.setInt(2, movimentacao.getQuantidade());
+            stmt.setString(3, movimentacao.getDataMovimentacao());
+            stmt.setString(4, movimentacao.getHoraMovimentacao());
+            stmt.setBytes(5, movimentacao.getDocumentoReferencia());
+            stmt.setInt(6, movimentacao.getProdutos_idprodutos());
+            stmt.setInt(7, movimentacao.getProdutos_categorias_idcategorias());
+            stmt.setInt(8, movimentacao.getProdutos_marcas_idmarcas());
+            stmt.setInt(9, movimentacao.getProdutos_unidadeMedidas_idunidadeMedidas());
+            stmt.setInt(10, movimentacao.getIdmovimentacaoEstoque());
 
-            return ps.executeUpdate() > 0;
+            stmt.executeUpdate();
         }
     }
 
-    public boolean excluir(int id) throws SQLException {
-
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM movimentacaoEstoque "
-                + "WHERE idmovimentacaoEstoque=?";
+                + "WHERE idmovimentacaoEstoque = ?";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-
-            return ps.executeUpdate() > 0;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
-    } 
+    }
+
+    private MovimentacaoEstoque mapearMovimentacao(ResultSet rs)
+            throws SQLException {
+
+        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+
+        movimentacao.setIdmovimentacaoEstoque(
+                rs.getInt("idmovimentacaoEstoque"));
+
+        movimentacao.setTipoMovimentacao(
+                rs.getString("tipoMovimentacao"));
+
+        movimentacao.setQuantidade(
+                rs.getInt("quantidade"));
+
+        movimentacao.setDataMovimentacao(
+                rs.getString("dataMovimentacao"));
+
+        movimentacao.setHoraMovimentacao(
+                rs.getString("horaMovimentacao"));
+
+        movimentacao.setDocumentoReferencia(
+                rs.getBytes("documentoReferencia"));
+
+        movimentacao.setProdutos_idprodutos(
+                rs.getInt("produtos_idprodutos"));
+
+        movimentacao.setProdutos_categorias_idcategorias(
+                rs.getInt("produtos_categorias_idcategorias"));
+
+        movimentacao.setProdutos_marcas_idmarcas(
+                rs.getInt("produtos_marcas_idmarcas"));
+
+        movimentacao.setProdutos_unidadeMedidas_idunidadeMedidas(
+                rs.getInt("produtos_unidadeMedidas_idunidadeMedidas"));
+
+        return movimentacao;
+    }
+    
+   
 }

@@ -35,12 +35,10 @@ import View.TelaPdvRealizacao;
 import View.TelaPedidos;
 import View.TelaPedidos;
 import View.TelaPedidos;
-import View.TelaProdutos;
-import View.TelaProdutos;
+
 import View.TelaSolicitacao;
 import View.TelaSolicitacao;
-import View.TelaVendaPagamentos;
-import View.TelaVendaPagamentos;
+
 import View.TelaVendas;
 import View.TelaVendas;
 import View.Tela_Funcionarios_RH;
@@ -56,6 +54,7 @@ import javax.swing.table.DefaultTableModel;
 import Control.HistoricoAcessoController;
 import Control.PermissoesController;
 import Model.Funcionario;
+import Model.HistoricosAcessos;
 import Model.Permissoes;
 import java.util.List;
 import java.util.Map;
@@ -68,20 +67,21 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
     private Usuario usuario;
     private final UsuarioController usuarioController = new UsuarioController();
      private int idUsuarioSelecionado = -1; 
-
+    private boolean carregandoComboHistorico = false;
     
     
     
-    public TelaPerfilUsuarios(Usuario usuario) {
+    public TelaPerfilUsuarios(Usuario usuario)  {
         initComponents();
         listarUsuariosCombo();
         listarFuncionariosCombo();
         listarHistoricoAcessos();
         listarPermissoesTabela();
-        
+         listarUsuariosComboPermissoes();
         listarHistoricoAcessosTabela();
         listarUsuariosTabela();
-       
+        listarTiposPermissao();
+      
       
         
         this.usuario= usuario;
@@ -93,95 +93,89 @@ public class TelaPerfilUsuarios extends javax.swing.JFrame {
         this::dispose
     );
         
-        this.setExtendedState(TelaProdutos.MAXIMIZED_BOTH);
+        this.setExtendedState(TelaPerfilUsuarios.MAXIMIZED_BOTH);
         
        
     }
   
 
-       // MÉTODO DE ACESSAR AS TELAS
+
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -196,62 +190,116 @@ public void navegar(String idtela) {
     }
 }
 
-
 // ---------------------------------------------- LISTAR NA COMBOBOX -----------------------------------------------------------------------------
 private void listarUsuariosCombo() {
 
-    cbTipoFuncionarioAreaPermissoes.removeAllItems();
-    cbHistoricoAcesso.removeAllItems();
-    UsuarioController controller = new UsuarioController();
+    carregandoComboHistorico = true;
 
-    List<Usuario> usuarios = controller.listar();
+    try {
 
-    for (Usuario usuario : usuarios) {
-        cbTipoFuncionarioAreaPermissoes.addItem(usuario.getNome());
-        cbHistoricoAcesso.addItem(usuario.getNome());
+        cbHistoricoAcesso.removeAllItems();
+
+        UsuarioController controller = new UsuarioController();
+
+        List<Usuario> usuarios = controller.listar();
+
+        for (Usuario usuario : usuarios) {
+            cbHistoricoAcesso.addItem(usuario.getNome());
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao carregar usuários: " + e.getMessage());
+    } finally {
+        carregandoComboHistorico = false;
     }
 }
 
 private void listarFuncionariosCombo() {
 
-    cbTipoFuncionario.removeAllItems();
+    try {
 
-    FuncionarioController controller = new FuncionarioController();
+        cbTipoFuncionario.removeAllItems();
 
-    List<Funcionario> funcionarios = controller.listar();
+        FuncionarioController controller = new FuncionarioController();
 
-    for (Funcionario funcionario : funcionarios) {
-        cbTipoFuncionario.addItem(funcionario.getNome());
+        List<Funcionario> funcionarios = controller.listar();
+
+        for (Funcionario funcionario : funcionarios) {
+            cbTipoFuncionario.addItem(funcionario.getNome());
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar funcionários: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
     }
 }
 
 private int buscarIdUsuarioSelecionado() {
 
-    String nome = (String) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+    try {
 
-    if (nome == null) {
-        return -1;
-    }
+        String nome = (String) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
 
-    UsuarioController controller = new UsuarioController();
-
-    List<Usuario> usuarios = controller.listar();
-
-    for (Usuario usuario : usuarios) {
-
-        if (usuario.getNome().equals(nome)) {
-            return usuario.getIdusuario();
+        if (nome == null || nome.trim().isEmpty()) {
+            return -1;
         }
+
+        UsuarioController controller = new UsuarioController();
+
+        List<Usuario> usuarios = controller.listar();
+
+        for (Usuario usuario : usuarios) {
+
+            if (usuario.getNome() != null
+                    && usuario.getNome().equalsIgnoreCase(nome.trim())) {
+
+                return usuario.getIdusuario();
+            }
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao buscar usuário: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     return -1;
 }
 
+private void listarUsuariosComboPermissoes() {
+
+    cbTipoFuncionarioAreaPermissoes.removeAllItems();
+
+    try {
+        UsuarioController controller = new UsuarioController();
+
+        List<Usuario> usuarios = controller.listar();
+
+        for (Usuario usuario : usuarios) {
+            cbTipoFuncionarioAreaPermissoes.addItem(usuario.getNome());
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Erro ao listar usuários: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
 // ---------------------------------------- LISTAR NA TABELA --------------------------------------------------------------------------------------
 
 private void listarHistoricoAcessos() {
 
-   
     try {
 
         DefaultTableModel modelo =
@@ -262,13 +310,30 @@ private void listarHistoricoAcessos() {
         HistoricoAcessoController controller =
                 new HistoricoAcessoController();
 
-        for (Object[] dados : controller.listarTodos()) {
+        List<HistoricosAcessos> lista = controller.listar();
 
-            modelo.addRow(dados);
+        for (HistoricosAcessos historico : lista) {
 
+            modelo.addRow(new Object[]{
+                historico.getIdhistoricoAcessos(),
+                historico.getDataAcesso(),
+                historico.getHorarioAcesso(),
+                historico.getUsuario_idusuario(),
+                historico.getTerminal_ip(),
+                historico.getDispositivo()
+            });
         }
 
-    } catch (Exception e) {
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum registro de acesso encontrado!",
+                    "Consulta",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+
+    } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(
                 this,
@@ -277,8 +342,10 @@ private void listarHistoricoAcessos() {
                 JOptionPane.ERROR_MESSAGE
         );
 
+        e.printStackTrace();
     }
 }
+
 
 private void adicionarUsuarioTabela() throws SQLException {
 
@@ -308,78 +375,123 @@ private void adicionarUsuarioTabela() throws SQLException {
     tbUsuarios.setModel(modelo);
 }
 
-private void listarHistoricoAcessosTabela() {
+private void listarHistoricoAcessosTabela()  {
 
-    DefaultTableModel modelo = new DefaultTableModel();
-    HistoricoAcessoController historicoAcessosController = new HistoricoAcessoController();
-    // Criando as colunas
-    modelo.addColumn("ID");
-    modelo.addColumn("Usuário");
-    modelo.addColumn("Data de Acesso");
-    modelo.addColumn("Horário");
-    modelo.addColumn("Terminal IP");
-    modelo.addColumn("Dispositivo");
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            HistoricoAcessoController controller =
+                    new HistoricoAcessoController();
+            
+            modelo.addColumn("ID");
+            modelo.addColumn("Usuário");
+            modelo.addColumn("Data de Acesso");
+            modelo.addColumn("Horário");
+            modelo.addColumn("Terminal IP");
+            modelo.addColumn("Dispositivo");
+            
+            List<HistoricosAcessos> historicos = controller.listar();
+            for (HistoricosAcessos acesso : historicos) {
+                
+                modelo.addRow(new Object[]{
+                    acesso.getIdhistoricoAcessos(),
+                    acesso.getUsuario_idusuario(),
+                    acesso.getDataAcesso(),
+                    acesso.getHorarioAcesso(),
+                    acesso.getTerminal_ip(),
+                    acesso.getDispositivo()
+                });
+            }
+            tbHistoricoAcessos.setModel(modelo);
+            if (historicos.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Nenhum registro de histórico encontrado!",
+                        "Consulta",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }   } catch (SQLException ex) {
+            System.getLogger(TelaPerfilUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+}
+
+private void listarUsuariosTabela()  {
+
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            // Criando as colunas
+            modelo.addColumn("ID");
+            modelo.addColumn("Nome");
+            modelo.addColumn("CPF");
+            modelo.addColumn("E-mail");
+            modelo.addColumn("Situação");
+            
+            List<Usuario> usuarios = usuarioController.listar();
+            // Preenchendo a tabela
+            for (Usuario usuario : usuarios) {
+                
+                String situacao;
+                
+                if (usuario.getBloqueio() == 1) {
+                    situacao = "Bloqueado";
+                } else {
+                    situacao = "Ativo";
+                }
+                
+                modelo.addRow(new Object[]{
+                    usuario.getIdusuario(),
+                    usuario.getNome(),
+                    usuario.getCpf(),
+                    usuario.getEmail(),
+                    situacao
+                });
+            }
+            tbUsuarios.setModel(modelo);
+        } catch (SQLException ex) {
+            System.getLogger(TelaPerfilUsuarios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+}
+
+private void listarHistoricoUsuario() {
 
     try {
 
-        List<Map<String, Object>> historicos =
-                historicoAcessosController.listarHistoricoAcessos();
-
-        // Preenchendo as colunas
-        for (Map<String, Object> acesso : historicos) {
-
-            modelo.addRow(new Object[]{
-                acesso.get("id"),
-                acesso.get("usuario"),
-                acesso.get("data"),
-                acesso.get("horario"),
-                acesso.get("ip"),
-                acesso.get("dispositivo")
-            });
+        if (cbHistoricoAcesso.getSelectedItem() == null) {
+            return;
         }
 
-        // Adicionando o modelo à JTable
-        tbHistoricoAcessos.setModel(modelo);
+        String nomeUsuario =
+                cbHistoricoAcesso.getSelectedItem().toString();
+
+        HistoricoAcessoController controller =
+                new HistoricoAcessoController();
+
+        List<HistoricosAcessos> historicos =
+                controller.listarPorNomeUsuario(nomeUsuario);
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbHistoricoAcessos.getModel();
+
+        modelo.setRowCount(0);
+
+        for (HistoricosAcessos historico : historicos) {
+
+            modelo.addRow(new Object[]{
+                historico.getIdhistoricoAcessos(),
+                historico.getDataAcesso(),
+                historico.getHorarioAcesso(),
+                historico.getTerminal_ip(),
+                historico.getDispositivo(),
+                historico.getUsuario_idusuario()
+            });
+        }
 
     } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(this,
-                "Erro ao listar histórico de acessos: " + e.getMessage());
+                "Erro ao listar histórico: " + e.getMessage());
     }
-}
-
-private void listarUsuariosTabela() {
-
-    DefaultTableModel modelo = new DefaultTableModel();
-
-    // Criando as colunas
-    modelo.addColumn("ID");
-    modelo.addColumn("Nome");
-    modelo.addColumn("CPF");
-    modelo.addColumn("E-mail");
-    modelo.addColumn("Situação");
-
-    List<Usuario> usuarios = usuarioController.listar();
-    // Preenchendo a tabela
-    for (Usuario usuario : usuarios) {
-        
-        String situacao;
-        
-        if (usuario.getBloqueio() == 1) {
-            situacao = "Bloqueado";
-        } else {
-            situacao = "Ativo";
-        }
-        
-        modelo.addRow(new Object[]{
-            usuario.getIdusuario(),
-            usuario.getNome(),
-            usuario.getCpf(),
-            usuario.getEmail(),
-            situacao
-        });
-    }
-    tbUsuarios.setModel(modelo);
 }
 
 // ------------------------- CADASTRO DE DADOS ----------------------------------------------------------------------------------------------------
@@ -393,14 +505,26 @@ private void cadastrarPermissoes() {
 
         int idUsuario = buscarIdUsuarioSelecionado();
 
-        if (idUsuario == -1) {
+        if (idUsuario <= 0) {
             JOptionPane.showMessageDialog(this,
                     "Selecione um usuário válido!");
             return;
         }
 
+        String tipo = cbTipoPermissao.getSelectedItem() == null
+                ? ""
+                : cbTipoPermissao.getSelectedItem().toString().trim();
+
+        if (tipo.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione o tipo de permissão!");
+            return;
+        }
+
+        // Criar Model
         Permissoes permissoes = new Permissoes();
 
+        permissoes.setTipo(tipo);
         permissoes.setTelaProdutos(chbTelaProdutos.isSelected() ? 1 : 0);
         permissoes.setTelaEstoque(chbTelaEstoque.isSelected() ? 1 : 0);
         permissoes.setTelaCompras(chbTelaCompras.isSelected() ? 1 : 0);
@@ -415,22 +539,40 @@ private void cadastrarPermissoes() {
         permissoes.setTelaFinaceiro(chbTelaFinaceiro.isSelected() ? 1 : 0);
         permissoes.setTelaRelatorios(chbTelaRelatorios.isSelected() ? 1 : 0);
 
+        // Salvar permissões e relacionar ao usuário
         PermissoesController controller = new PermissoesController();
 
         controller.salvarPermissoesUsuario(permissoes, idUsuario);
 
         JOptionPane.showMessageDialog(this,
-                "Permissões salvas com sucesso!");
+                "Permissões cadastradas com sucesso!");
 
         listarPermissoesTabela();
 
-    } catch (Exception e) {
+    } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(this,
-                "Erro ao salvar permissões: " + e.getMessage());
+                "Erro ao cadastrar permissões: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
 
         e.printStackTrace();
     }
+}
+
+private void listarTiposPermissao() {
+
+    cbTipoPermissao.removeAllItems();
+
+    cbTipoPermissao.addItem("Administrador");
+    cbTipoPermissao.addItem("Gerente");
+    cbTipoPermissao.addItem("Vendedor");
+    cbTipoPermissao.addItem("Caixa");
+    cbTipoPermissao.addItem("Estoquista");
+    cbTipoPermissao.addItem("Entregador");
+    cbTipoPermissao.addItem("RH");
+    cbTipoPermissao.addItem("Financeiro");
 }
 
 private void atualizarPermissoes() {
@@ -486,19 +628,33 @@ private void listarUsuarios() throws SQLException {
 
 private int buscarIdFuncionario(String nome) {
 
-    FuncionarioController controller = new FuncionarioController();
+    try {
 
-    List<Funcionario> funcionarios = controller.listar();
+        FuncionarioController controller = new FuncionarioController();
 
-    for (Funcionario funcionario : funcionarios) {
+        List<Funcionario> funcionarios = controller.listar();
 
-        if (funcionario.getNome().equals(nome)) {
-            return funcionario.getIdFuncionario();
+        for (Funcionario funcionario : funcionarios) {
+
+            if (funcionario.getNome().equalsIgnoreCase(nome.trim())) {
+                return funcionario.getIdFuncionario();
+            }
         }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao buscar funcionário: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     return -1;
 }
+
+
 
 private void listarPermissoesTabela() {
 
@@ -531,68 +687,80 @@ private void listarPermissoesTabela() {
 
         List<Object[]> lista = controller.listarPermissoesComUsuarios();
 
-        if (lista == null || lista.isEmpty()) {
-            tbPermissoes.setModel(modelo);
+        if (lista != null && !lista.isEmpty()) {
 
-            System.out.println("Nenhuma permissão encontrada no banco.");
-            return;
-        }
+            for (Object[] dados : lista) {
 
-        for (Object[] dados : lista) {
+                if (dados == null || dados.length < 14) {
+                    continue;
+                }
 
-            if (dados == null || dados.length < 14) {
-                System.out.println("Registro com quantidade incorreta de colunas.");
-                continue;
+                modelo.addRow(new Object[]{
+                    dados[0],
+                    converterPermissao(dados[1]),
+                    converterPermissao(dados[2]),
+                    converterPermissao(dados[3]),
+                    converterPermissao(dados[4]),
+                    converterPermissao(dados[5]),
+                    converterPermissao(dados[6]),
+                    converterPermissao(dados[7]),
+                    converterPermissao(dados[8]),
+                    converterPermissao(dados[9]),
+                    converterPermissao(dados[10]),
+                    converterPermissao(dados[11]),
+                    converterPermissao(dados[12]),
+                    converterPermissao(dados[13])
+                });
             }
 
-            modelo.addRow(new Object[]{
-                dados[0],
-                converterPermissao(dados[1]),
-                converterPermissao(dados[2]),
-                converterPermissao(dados[3]),
-                converterPermissao(dados[4]),
-                converterPermissao(dados[5]),
-                converterPermissao(dados[6]),
-                converterPermissao(dados[7]),
-                converterPermissao(dados[8]),
-                converterPermissao(dados[9]),
-                converterPermissao(dados[10]),
-                converterPermissao(dados[11]),
-                converterPermissao(dados[12]),
-                converterPermissao(dados[13])
-            });
+        } else {
+
+            System.out.println("Nenhuma permissão encontrada no banco.");
         }
 
-        tbPermissoes.setModel(modelo);
-
-        System.out.println("Registros encontrados: " + lista.size());
-        System.out.println("Registros exibidos: " + modelo.getRowCount());
-
-    } catch (Exception e) {
+    } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao listar permissões: " + e.getMessage());
 
         e.printStackTrace();
     }
+
+    tbPermissoes.setModel(modelo);
 }
+
 
 private void salvarPermissoesFuncionario() {
 
     try {
 
         if (cbTipoFuncionarioAreaPermissoes.getSelectedItem() == null) {
-
             JOptionPane.showMessageDialog(this,
                     "Selecione um funcionário!");
-
             return;
         }
 
-        Funcionario funcionario =
-                (Funcionario) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+        String nomeFuncionario =
+                cbTipoFuncionarioAreaPermissoes.getSelectedItem().toString();
 
-        int idFuncionario = funcionario.getIdFuncionario();
+        FuncionarioController funcionarioController =
+                new FuncionarioController();
+
+        int idFuncionario = -1;
+
+        for (Funcionario funcionario : funcionarioController.listar()) {
+
+            if (funcionario.getNome().equalsIgnoreCase(nomeFuncionario)) {
+                idFuncionario = funcionario.getIdFuncionario();
+                break;
+            }
+        }
+
+        if (idFuncionario == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!");
+            return;
+        }
 
         Permissoes permissoes = obterDadosPermissoes();
 
@@ -611,83 +779,68 @@ private void salvarPermissoesFuncionario() {
     }
 }
 
+
+
 private void cadastrarUsuario() {
 
     try {
 
-        // Capturar dados dos campos
         String nome = tfNomecompletoPerfil.getText().trim();
         String cpf = ffCPFCadastroUsuario.getText().trim();
         String email = tfEmailPerfil.getText().trim();
         String senha = new String(pfSenhaUsuario.getPassword());
 
-        // Validar campos obrigatórios
         if (nome.isEmpty() || cpf.isEmpty()
                 || email.isEmpty() || senha.isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
                     "Preencha todos os campos!");
-
             return;
         }
 
-        // Verificar funcionário selecionado
         if (cbTipoFuncionario.getSelectedItem() == null) {
 
             JOptionPane.showMessageDialog(this,
                     "Selecione um funcionário!");
-
             return;
         }
 
-        // Recuperar nome do funcionário
         String nomeFuncionario =
                 cbTipoFuncionario.getSelectedItem().toString();
 
-        // Buscar ID do funcionário
         int idFuncionario = buscarIdFuncionario(nomeFuncionario);
 
         if (idFuncionario == -1) {
 
             JOptionPane.showMessageDialog(this,
                     "Funcionário não encontrado!");
-
             return;
         }
 
-        // Definir situação do usuário
         int bloqueio = chbBloqueio.isSelected() ? 1 : 0;
 
-        // Chamar controller
+        // Criar objeto Usuario
+        Usuario usuario = new Usuario();
+
+        usuario.setNome(nome);
+        usuario.setCpf(cpf);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        usuario.setBloqueio(bloqueio);
+        usuario.setFuncionario_idFuncionario(idFuncionario);
+
+        // Cadastrar usuário
         UsuarioController controller = new UsuarioController();
 
-        boolean sucesso = controller.cadastrar(
-                nome,
-                cpf,
-                email,
-                senha,
-                bloqueio,
-                idFuncionario
-        );
+        controller.cadastrar(usuario);
 
-        if (sucesso) {
+        JOptionPane.showMessageDialog(this,
+                "Usuário cadastrado com sucesso!");
 
-            JOptionPane.showMessageDialog(this,
-                    "Usuário cadastrado com sucesso!");
+        limparCamposUsuario();
+        listarUsuarios();
 
-            limparCamposUsuario();
-
-            listarUsuarios();
-
-        } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "Não foi possível cadastrar o usuário. "
-                    + "Verifique se o CPF ou e-mail já existem.");
-
-        }
-
-    } catch (Exception e) {
+    } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao cadastrar usuário: " + e.getMessage());
@@ -695,6 +848,8 @@ private void cadastrarUsuario() {
         e.printStackTrace();
     }
 }
+
+
 
 // -------------------- LISTAGEM DE DADOS ---------------------------------------------------------------------------------------------------------
 
@@ -745,10 +900,11 @@ private String converterPermissao(Object valor) {
             : "Não";
 }
 
+
 private void carregarPermissoesFuncionario() {
 
-    // Primeiro limpa os checkboxes
-   // limparPermissoes();
+    // Limpar os checkboxes antes de carregar
+    limparPermissoes();
 
     if (cbTipoFuncionarioAreaPermissoes.getSelectedItem() == null) {
         return;
@@ -756,15 +912,23 @@ private void carregarPermissoesFuncionario() {
 
     try {
 
-        Funcionario funcionario =
-                (Funcionario) cbTipoFuncionarioAreaPermissoes.getSelectedItem();
+        // Recuperar o nome selecionado
+        String nomeFuncionario =
+                cbTipoFuncionarioAreaPermissoes.getSelectedItem().toString();
+
+        // Buscar ID do funcionário
+        int idFuncionario = buscarIdFuncionario(nomeFuncionario);
+
+        if (idFuncionario == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!");
+            return;
+        }
 
         PermissoesController controller = new PermissoesController();
 
-        // Precisamos buscar o usuário e sua permissão vinculada
-        Permissoes p = controller.buscarPorFuncionario(
-                funcionario.getIdFuncionario()
-        );
+        // Buscar permissões vinculadas ao funcionário
+        Permissoes p = controller.buscarPorFuncionario(idFuncionario);
 
         if (p == null) {
             return;
@@ -788,8 +952,11 @@ private void carregarPermissoesFuncionario() {
 
         JOptionPane.showMessageDialog(this,
                 "Erro ao carregar permissões: " + e.getMessage());
+
+        e.printStackTrace();
     }
 }
+
 
 private javax.swing.JLabel lblUsuarioHistorico;
 
@@ -863,6 +1030,110 @@ private void carregarDadosUsuario() {
 
 }
 
+
+private void atualizarUsuario() {
+
+    try {
+
+        // Verificar se existe usuário selecionado
+        if (idUsuarioSelecionado == -1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um usuário na tabela!");
+            return;
+        }
+
+        // Capturar dados
+        String nome = tfNomecompletoPerfil.getText().trim();
+        String cpf = ffCPFCadastroUsuario.getText().trim();
+        String email = tfEmailPerfil.getText().trim();
+        String senha = new String(pfSenhaUsuario.getPassword());
+
+        // Validar campos
+        if (nome.isEmpty() || cpf.isEmpty() || email.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha nome, CPF e e-mail!");
+            return;
+        }
+
+        // Verificar funcionário
+        if (cbTipoFuncionario.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um funcionário!");
+            return;
+        }
+
+        String nomeFuncionario =
+                cbTipoFuncionario.getSelectedItem().toString();
+
+        int idFuncionario = buscarIdFuncionario(nomeFuncionario);
+
+        if (idFuncionario == -1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Funcionário não encontrado!");
+            return;
+        }
+
+        // Situação do usuário
+        int bloqueio = chbBloqueio.isSelected() ? 1 : 0;
+
+        // Criar objeto Usuario
+        Usuario usuario = new Usuario();
+
+        usuario.setIdusuario(idUsuarioSelecionado);
+        usuario.setNome(nome);
+        usuario.setCpf(cpf);
+        usuario.setEmail(email);
+
+        // Manter senha atual se o campo estiver vazio
+        if (!senha.isEmpty()) {
+            usuario.setSenha(senha);
+        } else {
+            UsuarioController consulta = new UsuarioController();
+            Usuario usuarioAtual = consulta.buscarPorId(idUsuarioSelecionado);
+
+            if (usuarioAtual != null) {
+                usuario.setSenha(usuarioAtual.getSenha());
+            }
+        }
+
+        usuario.setBloqueio(bloqueio);
+        usuario.setFuncionario_idFuncionario(idFuncionario);
+
+        // Atualizar usuário
+        UsuarioController controller = new UsuarioController();
+
+        controller.atualizar(usuario);
+
+        JOptionPane.showMessageDialog(this,
+                "Usuário atualizado com sucesso!");
+
+        idUsuarioSelecionado = -1;
+
+        limparCamposUsuario();
+        listarUsuarios();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao atualizar usuário: " + e.getMessage());
+
+        e.printStackTrace();
+    }
+}
+
+
+
+
+
+
+
+
+
+
 /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -872,8 +1143,6 @@ private void carregarDadosUsuario() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
         areaPerfil = new javax.swing.JTabbedPane();
         areaHistoricoAcesso = new javax.swing.JPanel();
         cbHistoricoAcesso = new javax.swing.JComboBox<>();
@@ -900,6 +1169,7 @@ private void carregarDadosUsuario() {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbPermissoes = new javax.swing.JTable();
         lbFuncionarioAreaPermissoes1 = new javax.swing.JLabel();
+        cbTipoPermissao = new javax.swing.JComboBox<>();
         areaPerfilUsuario = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbUsuarios = new javax.swing.JTable();
@@ -915,6 +1185,7 @@ private void carregarDadosUsuario() {
         jLabel1 = new javax.swing.JLabel();
         ffCPFCadastroUsuario = new javax.swing.JFormattedTextField();
         pfSenhaUsuario = new javax.swing.JPasswordField();
+        btnAtualizarUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -956,7 +1227,7 @@ private void carregarDadosUsuario() {
         areaHistoricoAcessoLayout.setVerticalGroup(
             areaHistoricoAcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(areaHistoricoAcessoLayout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
+                .addContainerGap(120, Short.MAX_VALUE)
                 .addComponent(cbHistoricoAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1016,12 +1287,10 @@ private void carregarDadosUsuario() {
         chbTelaRelatorios.setText("Tela Relatorio");
 
         btnAtualizaAreaPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnAtualizaAreaPermissoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\EDITAR.png")); // NOI18N
         btnAtualizaAreaPermissoes.setText("Altualizar");
         btnAtualizaAreaPermissoes.addActionListener(this::btnAtualizaAreaPermissoesActionPerformed);
 
         btnSalvarPermissoes.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnSalvarPermissoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         btnSalvarPermissoes.setText("Salvar");
         btnSalvarPermissoes.addActionListener(this::btnSalvarPermissoesActionPerformed);
 
@@ -1055,6 +1324,8 @@ private void carregarDadosUsuario() {
 
         lbFuncionarioAreaPermissoes1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         lbFuncionarioAreaPermissoes1.setText("Habilite as telas Permitidas para este usuário");
+
+        cbTipoPermissao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout areaPermissoesLayout = new javax.swing.GroupLayout(areaPermissoes);
         areaPermissoes.setLayout(areaPermissoesLayout);
@@ -1092,7 +1363,9 @@ private void carregarDadosUsuario() {
                     .addGroup(areaPermissoesLayout.createSequentialGroup()
                         .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(134, 134, 134)
+                        .addComponent(cbTipoPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbFuncionarioAreaPermissoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(467, Short.MAX_VALUE))
@@ -1103,7 +1376,8 @@ private void carregarDadosUsuario() {
                 .addGap(51, 51, 51)
                 .addGroup(areaPermissoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbTipoFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbFuncionarioAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoPermissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addComponent(lbFuncionarioAreaPermissoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -1138,7 +1412,7 @@ private void carregarDadosUsuario() {
                     .addComponent(btnAtualizaAreaPermissoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         areaPerfil.addTab("Área Permissões", areaPermissoes);
@@ -1169,6 +1443,11 @@ private void carregarDadosUsuario() {
                 return types [columnIndex];
             }
         });
+        tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbUsuarios);
 
         chbBloqueio.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
@@ -1194,7 +1473,6 @@ private void carregarDadosUsuario() {
         lbTipoFuncionario.setText("Tipo de Funcionário");
 
         btnSalvarUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        btnSalvarUsuario.setIcon(new javax.swing.ImageIcon("C:\\Users\\AntônioVieira\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\salve-.png")); // NOI18N
         btnSalvarUsuario.setText("Salvar");
         btnSalvarUsuario.addActionListener(this::btnSalvarUsuarioActionPerformed);
 
@@ -1205,6 +1483,10 @@ private void carregarDadosUsuario() {
 
         pfSenhaUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         pfSenhaUsuario.setText("jPasswordField1");
+
+        btnAtualizarUsuario.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnAtualizarUsuario.setText("Atualizar");
+        btnAtualizarUsuario.addActionListener(this::btnAtualizarUsuarioActionPerformed);
 
         javax.swing.GroupLayout areaPerfilUsuarioLayout = new javax.swing.GroupLayout(areaPerfilUsuario);
         areaPerfilUsuario.setLayout(areaPerfilUsuarioLayout);
@@ -1235,9 +1517,11 @@ private void carregarDadosUsuario() {
                         .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144)
+                                .addComponent(btnAtualizarUsuario))
                             .addComponent(lbTipoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(1621, Short.MAX_VALUE))))
+                        .addContainerGap(1379, Short.MAX_VALUE))))
         );
         areaPerfilUsuarioLayout.setVerticalGroup(
             areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1265,7 +1549,9 @@ private void carregarDadosUsuario() {
                 .addGap(18, 18, 18)
                 .addComponent(pfSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(92, 92, 92)
-                .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(areaPerfilUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtualizarUsuario))
                 .addGap(245, 245, 245))
             .addGroup(areaPerfilUsuarioLayout.createSequentialGroup()
                 .addGap(117, 117, 117)
@@ -1288,7 +1574,7 @@ private void carregarDadosUsuario() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+                .addComponent(areaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
@@ -1297,9 +1583,10 @@ private void carregarDadosUsuario() {
 
     private void cbHistoricoAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHistoricoAcessoActionPerformed
         // TODO add your handling code here:
-     
-   
-
+        listarHistoricoUsuario();
+      
+       
+       
     }//GEN-LAST:event_cbHistoricoAcessoActionPerformed
 
     private void chbTelaPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbTelaPDVActionPerformed
@@ -1332,6 +1619,16 @@ private void carregarDadosUsuario() {
         // TODO add your handling code here:
           cadastrarUsuario();
     }//GEN-LAST:event_btnSalvarUsuarioActionPerformed
+
+    private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
+        // TODO add your handling code here:
+        carregarDadosUsuario();
+    }//GEN-LAST:event_tbUsuariosMouseClicked
+
+    private void btnAtualizarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarUsuarioActionPerformed
+        // TODO add your handling code here:
+        atualizarUsuario();
+    }//GEN-LAST:event_btnAtualizarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1368,13 +1665,13 @@ private void carregarDadosUsuario() {
     private javax.swing.JPanel areaPerfilUsuario;
     private javax.swing.JPanel areaPermissoes;
     private javax.swing.JButton btnAtualizaAreaPermissoes;
+    private javax.swing.JButton btnAtualizarUsuario;
     private javax.swing.JButton btnSalvarPermissoes;
     private javax.swing.JButton btnSalvarUsuario;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbHistoricoAcesso;
     private javax.swing.JComboBox<String> cbTipoFuncionario;
     private javax.swing.JComboBox<String> cbTipoFuncionarioAreaPermissoes;
+    private javax.swing.JComboBox<String> cbTipoPermissao;
     private javax.swing.JCheckBox chbBloqueio;
     private javax.swing.JCheckBox chbTelaCaixa;
     private javax.swing.JCheckBox chbTelaClientes;

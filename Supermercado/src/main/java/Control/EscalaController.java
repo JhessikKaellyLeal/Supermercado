@@ -1,134 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
-/**
- *
- * @author ArthurGiuvannucci
- */
-
-
 import Conection.Conexao;
+import Model.Escala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EscalaController {
 
-    // Cadastrar escala
-    public boolean cadastrar(
-            String periodoInicial,
-            String periodoFinal,
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno) {
-
+    public void cadastrar(Escala escala) throws SQLException {
         String sql = "INSERT INTO escala "
-                + "(periodoInicial, periodoFinal, "
-                + "Funcionario_idFuncionario, "
-                + "Funcionario_cargos_idcargos, "
-                + "Funcionario_setores_idsetores, "
+                + "(periodoInicial, periodoFinal, Funcionario_idFuncionario, "
+                + "Funcionario_cargos_idcargos, Funcionario_setores_idsetores, "
                 + "Funcionario_turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, periodoInicial);
-            stmt.setString(2, periodoFinal);
-            stmt.setInt(3, idFuncionario);
-            stmt.setInt(4, idCargo);
-            stmt.setInt(5, idSetor);
-            stmt.setInt(6, idTurno);
+            stmt.setString(1, escala.getPeriodoInicial());
+            stmt.setString(2, escala.getPeriodoFinal());
+            stmt.setInt(3, escala.getFuncionario_idFuncionario());
+            stmt.setInt(4, escala.getFuncionario_cargos_idcargos());
+            stmt.setInt(5, escala.getFuncionario_setores_idsetores());
+            stmt.setInt(6, escala.getFuncionario_turnos_idturnos());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException erro) {
-
-            System.out.println("Erro ao cadastrar escala: "
-                    + erro.getMessage());
-
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // Consultar escala pelo ID
-    public ResultSet consultarPorID(int idEscala) {
-
-        String sql = "SELECT * FROM escala WHERE idescala = ?";
-
-        try {
-            Connection conexao = Conexao.conectar();
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-
-            stmt.setInt(1, idEscala);
-
-            return stmt.executeQuery();
-
-        } catch (SQLException erro) {
-
-            System.out.println("Erro ao consultar escala: "
-                    + erro.getMessage());
-
-            return null;
-        }
-    }
-
-    // Listar todas as escalas
-    public ResultSet listarEscalas() {
+    public List<Escala> listar() throws SQLException {
+        List<Escala> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM escala";
 
-        try {
-            Connection conexao = Conexao.conectar();
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-            return stmt.executeQuery();
-
-        } catch (SQLException erro) {
-
-            System.out.println("Erro ao listar escalas: "
-                    + erro.getMessage());
-
-            return null;
+            while (rs.next()) {
+                lista.add(mapearEscala(rs));
+            }
         }
+
+        return lista;
     }
 
-    // Excluir escala
-    public boolean excluir(int idEscala) {
+    public Escala buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM escala WHERE idescala = ?";
 
-        String sql = "DELETE FROM escala WHERE idescala = ?";
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, id);
 
-            stmt.setInt(1, idEscala);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException erro) {
-
-            System.out.println("Erro ao excluir escala: "
-                    + erro.getMessage());
-
-            return false;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapearEscala(rs);
+                }
+            }
         }
+
+        return null;
     }
 
-    // Atualizar escala
-    public boolean atualizar(
-            int idEscala,
-            String periodoInicial,
-            String periodoFinal,
-            int idFuncionario,
-            int idCargo,
-            int idSetor,
-            int idTurno) {
-
+    public void atualizar(Escala escala) throws SQLException {
         String sql = "UPDATE escala SET "
                 + "periodoInicial = ?, "
                 + "periodoFinal = ?, "
@@ -138,26 +78,63 @@ public class EscalaController {
                 + "Funcionario_turnos_idturnos = ? "
                 + "WHERE idescala = ?";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, periodoInicial);
-            stmt.setString(2, periodoFinal);
-            stmt.setInt(3, idFuncionario);
-            stmt.setInt(4, idCargo);
-            stmt.setInt(5, idSetor);
-            stmt.setInt(6, idTurno);
-            stmt.setInt(7, idEscala);
+            stmt.setString(1, escala.getPeriodoInicial());
+            stmt.setString(2, escala.getPeriodoFinal());
+            stmt.setInt(3, escala.getFuncionario_idFuncionario());
+            stmt.setInt(4, escala.getFuncionario_cargos_idcargos());
+            stmt.setInt(5, escala.getFuncionario_setores_idsetores());
+            stmt.setInt(6, escala.getFuncionario_turnos_idturnos());
+            stmt.setInt(7, escala.getIdescala());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException erro) {
-
-            System.out.println("Erro ao atualizar escala: "
-                    + erro.getMessage());
-
-            return false;
+            stmt.executeUpdate();
         }
     }
 
+    public void excluir(int id) throws SQLException {
+        String sql = "DELETE FROM escala WHERE idescala = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Escala> buscarPorFuncionario(int idFuncionario) throws SQLException {
+        List<Escala> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM escala WHERE Funcionario_idFuncionario = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFuncionario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearEscala(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    private Escala mapearEscala(ResultSet rs) throws SQLException {
+        Escala escala = new Escala();
+
+        escala.setIdescala(rs.getInt("idescala"));
+        escala.setPeriodoInicial(rs.getString("periodoInicial"));
+        escala.setPeriodoFinal(rs.getString("periodoFinal"));
+        escala.setFuncionario_idFuncionario(rs.getInt("Funcionario_idFuncionario"));
+        escala.setFuncionario_cargos_idcargos(rs.getInt("Funcionario_cargos_idcargos"));
+        escala.setFuncionario_setores_idsetores(rs.getInt("Funcionario_setores_idsetores"));
+        escala.setFuncionario_turnos_idturnos(rs.getInt("Funcionario_turnos_idturnos"));
+
+        return escala;
+    }
 }

@@ -1,24 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class TaxasEntregas {
-   private int identregas,  idtaxasEntrega;
-   private String regiao, tipoTaxa, observacao;
-   private double valorTaxa;
+
+    private int idtaxasEntrega;
+    private String regiao;
+    private String tipoTaxa;
+    private double valorTaxa;
+    private String observacao;
 
     public TaxasEntregas() {
     }
 
+    public TaxasEntregas(int idtaxasEntrega, String regiao,
+            String tipoTaxa, double valorTaxa, String observacao) {
+
+        this.idtaxasEntrega = idtaxasEntrega;
+        this.regiao = regiao;
+        this.tipoTaxa = tipoTaxa;
+        this.valorTaxa = valorTaxa;
+        this.observacao = observacao;
+    }
 
     public int getIdtaxasEntrega() {
-       return idtaxasEntrega;
+        return idtaxasEntrega;
     }
 
     public void setIdtaxasEntrega(int idtaxasEntrega) {
@@ -41,14 +46,6 @@ public class TaxasEntregas {
         this.tipoTaxa = tipoTaxa;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
     public double getValorTaxa() {
         return valorTaxa;
     }
@@ -56,5 +53,12 @@ public class TaxasEntregas {
     public void setValorTaxa(double valorTaxa) {
         this.valorTaxa = valorTaxa;
     }
-   
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
 }

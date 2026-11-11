@@ -1,19 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class AberturaCaixas {
- private int  idaberturaCaixa, caixas_idcaixas, Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos;
- private String dataAbertura, horarioAbertura;
- private double valorInicial;
+
+    private int idaberturaCaixa;
+    private String dataAbertura;
+    private String horarioAbertura;
+    private double valorInicial;
+    private int caixas_idcaixas;
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
 
     public AberturaCaixas() {
+    }
+
+    public AberturaCaixas(int idaberturaCaixa, String dataAbertura,
+            String horarioAbertura, double valorInicial,
+            int caixas_idcaixas, int Funcionario_idFuncionario,
+            int Funcionario_cargos_idcargos,
+            int Funcionario_setores_idsetores,
+            int Funcionario_turnos_idturnos) {
+
+        this.idaberturaCaixa = idaberturaCaixa;
+        this.dataAbertura = dataAbertura;
+        this.horarioAbertura = horarioAbertura;
+        this.valorInicial = valorInicial;
+        this.caixas_idcaixas = caixas_idcaixas;
+        this.Funcionario_idFuncionario = Funcionario_idFuncionario;
+        this.Funcionario_cargos_idcargos = Funcionario_cargos_idcargos;
+        this.Funcionario_setores_idsetores = Funcionario_setores_idsetores;
+        this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
 
     public int getIdaberturaCaixa() {
@@ -22,6 +40,30 @@ public class AberturaCaixas {
 
     public void setIdaberturaCaixa(int idaberturaCaixa) {
         this.idaberturaCaixa = idaberturaCaixa;
+    }
+
+    public String getDataAbertura() {
+        return dataAbertura;
+    }
+
+    public void setDataAbertura(String dataAbertura) {
+        this.dataAbertura = dataAbertura;
+    }
+
+    public String getHorarioAbertura() {
+        return horarioAbertura;
+    }
+
+    public void setHorarioAbertura(String horarioAbertura) {
+        this.horarioAbertura = horarioAbertura;
+    }
+
+    public double getValorInicial() {
+        return valorInicial;
+    }
+
+    public void setValorInicial(double valorInicial) {
+        this.valorInicial = valorInicial;
     }
 
     public int getCaixas_idcaixas() {
@@ -63,29 +105,4 @@ public class AberturaCaixas {
     public void setFuncionario_turnos_idturnos(int Funcionario_turnos_idturnos) {
         this.Funcionario_turnos_idturnos = Funcionario_turnos_idturnos;
     }
-
-    public String getDataAbertura() {
-        return dataAbertura;
-    }
-
-    public void setDataAbertura(String dataAbertura) {
-        this.dataAbertura = dataAbertura;
-    }
-
-    public String getHorarioAbertura() {
-        return horarioAbertura;
-    }
-
-    public void setHorarioAbertura(String horarioAbertura) {
-        this.horarioAbertura = horarioAbertura;
-    }
-
-    public double getValorInicial() {
-        return valorInicial;
-    }
-
-    public void setValorInicial(double valorInicial) {
-        this.valorInicial = valorInicial;
-    }
- 
 }

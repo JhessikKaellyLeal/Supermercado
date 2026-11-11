@@ -1,19 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class ContasFinanceiras {
-  private int  idcontasFinanceiras;
-  private String nome, tipo, agencia, numeroConta, banco;
-  private boolean ativo;
+
+    private int idcontasFinanceiras;
+    private String nome;
+    private String tipo;
+    private String agencia;
+    private String numeroConta;
+    private String banco;
+    private int ativo;
 
     public ContasFinanceiras() {
+    }
+
+    public ContasFinanceiras(int idcontasFinanceiras, String nome, String tipo,
+            String agencia, String numeroConta, String banco, int ativo) {
+        this.idcontasFinanceiras = idcontasFinanceiras;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.agencia = agencia;
+        this.numeroConta = numeroConta;
+        this.banco = banco;
+        this.ativo = ativo;
     }
 
     public int getIdcontasFinanceiras() {
@@ -64,16 +73,11 @@ public class ContasFinanceiras {
         this.banco = banco;
     }
 
-    public boolean isAtivo() {
+    public int getAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(int ativo) {
         this.ativo = ativo;
     }
-
-    public int getAtivo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-  
 }

@@ -1,18 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
-/**
- *
- * @author AntônioVieira
- */
 public class SaldoCaixa {
- private int  idsaldoCaixa,  qttNotaDuzentos, qttNotaCem,qttNotaVinte, qttNotaCinquenta, qttNotaDez, qttNotaCinco, qttNotaDois, qttMoedaUm, qttMoedaCinquenta, qttMoedaVinteCinco,qttMoedaDez, qttMoedaCinco,aberturaCaixa_idaberturaCaixa ;
- private double valorSaldo;
+
+    private int idsaldoCaixa;
+    private int qttNotaDuzentos;
+    private int qttNotaCem;
+    private int qttNotaVinte;
+    private int qttNotaCinquenta;
+    private int qttNotaDez;
+    private int qttNotaCinco;
+    private int qttNotaDois;
+    private int qttMoedaUm;
+    private int qttMoedaCinquenta;
+    private int qttMoedaVinteCinco;
+    private int qttMoedaDez;
+    private int qttMoedaCinco;
+    private Double valorSaldo;
+    private int aberturaCaixa_idaberturaCaixa;
 
     public SaldoCaixa() {
+    }
+
+    public SaldoCaixa(int idsaldoCaixa, int qttNotaDuzentos,
+            int qttNotaCem, int qttNotaVinte, int qttNotaCinquenta,
+            int qttNotaDez, int qttNotaCinco, int qttNotaDois,
+            int qttMoedaUm, int qttMoedaCinquenta,
+            int qttMoedaVinteCinco, int qttMoedaDez,
+            int qttMoedaCinco, Double valorSaldo,
+            int aberturaCaixa_idaberturaCaixa) {
+
+        this.idsaldoCaixa = idsaldoCaixa;
+        this.qttNotaDuzentos = qttNotaDuzentos;
+        this.qttNotaCem = qttNotaCem;
+        this.qttNotaVinte = qttNotaVinte;
+        this.qttNotaCinquenta = qttNotaCinquenta;
+        this.qttNotaDez = qttNotaDez;
+        this.qttNotaCinco = qttNotaCinco;
+        this.qttNotaDois = qttNotaDois;
+        this.qttMoedaUm = qttMoedaUm;
+        this.qttMoedaCinquenta = qttMoedaCinquenta;
+        this.qttMoedaVinteCinco = qttMoedaVinteCinco;
+        this.qttMoedaDez = qttMoedaDez;
+        this.qttMoedaCinco = qttMoedaCinco;
+        this.valorSaldo = valorSaldo;
+        this.aberturaCaixa_idaberturaCaixa = aberturaCaixa_idaberturaCaixa;
     }
 
     public int getIdsaldoCaixa() {
@@ -119,6 +151,14 @@ public class SaldoCaixa {
         this.qttMoedaCinco = qttMoedaCinco;
     }
 
+    public Double getValorSaldo() {
+        return valorSaldo;
+    }
+
+    public void setValorSaldo(Double valorSaldo) {
+        this.valorSaldo = valorSaldo;
+    }
+
     public int getAberturaCaixa_idaberturaCaixa() {
         return aberturaCaixa_idaberturaCaixa;
     }
@@ -126,13 +166,4 @@ public class SaldoCaixa {
     public void setAberturaCaixa_idaberturaCaixa(int aberturaCaixa_idaberturaCaixa) {
         this.aberturaCaixa_idaberturaCaixa = aberturaCaixa_idaberturaCaixa;
     }
-
-    public double getValorSaldo() {
-        return valorSaldo;
-    }
-
-    public void setValorSaldo(double valorSaldo) {
-        this.valorSaldo = valorSaldo;
-    }
- 
 }

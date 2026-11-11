@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Control;
 
 import Conection.Conexao;
@@ -14,13 +11,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author GeovannaOliviera
- */
 public class ParcelasReceberController {
- public boolean cadastrar(ParcelasReceber parcela) {
 
+    public void cadastrar(ParcelasReceber parcela) throws SQLException {
         String sql = "INSERT INTO parcelasReceber "
                 + "(numeroParcela, valorParcela, dataVencimento, "
                 + "dataPagamento, valorRecebido, statusParcela, "
@@ -40,7 +33,7 @@ public class ParcelasReceberController {
                 stmt.setString(4, parcela.getDataPagamento());
             }
 
-            if (parcela.getValorRecebido() == 0) {
+            if (parcela.getValorRecebido()== null) {
                 stmt.setNull(5, Types.DOUBLE);
             } else {
                 stmt.setDouble(5, parcela.getValorRecebido());
@@ -50,21 +43,15 @@ public class ParcelasReceberController {
             stmt.setString(7, parcela.getObservacao());
             stmt.setInt(8, parcela.getContasReceber_idcontasReceber());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar parcela a receber: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // LISTAR TODAS AS PARCELAS
-    public List<ParcelasReceber> listarTodos() {
-
+    public List<ParcelasReceber> listar() throws SQLException {
         List<ParcelasReceber> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM parcelasReceber";
+        String sql = "SELECT * FROM parcelasReceber "
+                + "ORDER BY dataVencimento ASC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -73,82 +60,127 @@ public class ParcelasReceberController {
             while (rs.next()) {
                 lista.add(mapearParcela(rs));
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar parcelas a receber: "
-                    + e.getMessage());
         }
 
         return lista;
     }
 
-    // BUSCAR PARCELA PELO ID
-    public ParcelasReceber buscarPorId(int idparcelasReceber) {
-
+    public ParcelasReceber buscarPorId(int id) throws SQLException {
         String sql = "SELECT * FROM parcelasReceber "
                 + "WHERE idparcelasReceber = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idparcelasReceber);
+            stmt.setInt(1, id);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return mapearParcela(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar parcela: "
-                    + e.getMessage());
         }
 
         return null;
     }
 
-    // LISTAR PARCELAS DE UMA CONTA A RECEBER
-    public List<ParcelasReceber> buscarPorContaReceber(
-            int idcontasReceber) {
+    public List<ParcelasReceber> buscarPorContaReceber(int idConta)
+            throws SQLException {
 
         List<ParcelasReceber> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM parcelasReceber "
-                + "WHERE contasReceber_idcontasReceber = ?";
+                + "WHERE contasReceber_idcontasReceber = ? "
+                + "ORDER BY dataVencimento ASC";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idcontasReceber);
+            stmt.setInt(1, idConta);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     lista.add(mapearParcela(rs));
                 }
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao buscar parcelas da conta: "
-                    + e.getMessage());
         }
 
         return lista;
     }
 
-    // ATUALIZAR PARCELA
-    public boolean atualizar(
-            int idparcelasReceber,
-            ParcelasReceber parcela) {
+    public List<ParcelasReceber> buscarPorStatus(String status)
+            throws SQLException {
 
+        List<ParcelasReceber> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM parcelasReceber "
+                + "WHERE statusParcela = ? "
+                + "ORDER BY dataVencimento ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearParcela(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<ParcelasReceber> buscarPorVencimento(String data)
+            throws SQLException {
+
+        List<ParcelasReceber> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM parcelasReceber "
+                + "WHERE dataVencimento = ? "
+                + "ORDER BY dataVencimento ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, data);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearParcela(rs));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    public List<ParcelasReceber> listarEmAberto() throws SQLException {
+        List<ParcelasReceber> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM parcelasReceber "
+                + "WHERE statusParcela = 'Pendente' "
+                + "ORDER BY dataVencimento ASC";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearParcela(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public void atualizar(ParcelasReceber parcela) throws SQLException {
         String sql = "UPDATE parcelasReceber SET "
-                + "numeroParcela = ?, "
-                + "valorParcela = ?, "
-                + "dataVencimento = ?, "
-                + "dataPagamento = ?, "
-                + "valorRecebido = ?, "
-                + "statusParcela = ?, "
-                + "observacao = ?, "
-                + "contasReceber_idcontasReceber = ? "
+                + "numeroParcela = ?, valorParcela = ?, "
+                + "dataVencimento = ?, dataPagamento = ?, "
+                + "valorRecebido = ?, statusParcela = ?, "
+                + "observacao = ?, contasReceber_idcontasReceber = ? "
                 + "WHERE idparcelasReceber = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -164,7 +196,7 @@ public class ParcelasReceberController {
                 stmt.setString(4, parcela.getDataPagamento());
             }
 
-            if (parcela.getValorRecebido() == 0) {
+            if (parcela.getValorRecebido() == null) {
                 stmt.setNull(5, Types.DOUBLE);
             } else {
                 stmt.setDouble(5, parcela.getValorRecebido());
@@ -173,38 +205,43 @@ public class ParcelasReceberController {
             stmt.setString(6, parcela.getStatusParcela());
             stmt.setString(7, parcela.getObservacao());
             stmt.setInt(8, parcela.getContasReceber_idcontasReceber());
-            stmt.setInt(9, idparcelasReceber);
+            stmt.setInt(9, parcela.getIdparcelasReceber());
 
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar parcela: "
-                    + e.getMessage());
-            return false;
+            stmt.executeUpdate();
         }
     }
 
-    // EXCLUIR PARCELA
-    public boolean excluir(int idparcelasReceber) {
+    public void registrarRecebimento(int id, String dataPagamento,
+            double valorRecebido) throws SQLException {
 
+        String sql = "UPDATE parcelasReceber SET "
+                + "dataPagamento = ?, valorRecebido = ?, "
+                + "statusParcela = 'Recebida' "
+                + "WHERE idparcelasReceber = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, dataPagamento);
+            stmt.setDouble(2, valorRecebido);
+            stmt.setInt(3, id);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void excluir(int id) throws SQLException {
         String sql = "DELETE FROM parcelasReceber "
                 + "WHERE idparcelasReceber = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idparcelasReceber);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir parcela: "
-                    + e.getMessage());
-            return false;
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
 
-    // CONVERTER RESULTADO DO BANCO EM OBJETO
     private ParcelasReceber mapearParcela(ResultSet rs)
             throws SQLException {
 
@@ -226,12 +263,8 @@ public class ParcelasReceberController {
                 rs.getString("dataPagamento"));
 
         double valorRecebido = rs.getDouble("valorRecebido");
-
-        if (rs.wasNull()) {
-            parcela.setValorRecebido(null);
-        } else {
-            parcela.setValorRecebido(valorRecebido);
-        }
+        parcela.setValorRecebido(
+                rs.wasNull() ? null : valorRecebido);
 
         parcela.setStatusParcela(
                 rs.getString("statusParcela"));
@@ -243,5 +276,5 @@ public class ParcelasReceberController {
                 rs.getInt("contasReceber_idcontasReceber"));
 
         return parcela;
-    }    
+    }
 }

@@ -4,14 +4,7 @@
  */
 package View;
 
-
-import Control.ClienteController;
-import View.MenuPadrao;
 import Model.Usuario;
-import View.TelaHome;
-import View.TelaPerfilUsuarios;
-import View.TelaPromocoes;
-import View.Tela_Funcionarios_RH;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -22,7 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import Control.ClienteController;
+import Control.EnderecoController;
 import Model.Cliente;
+import Model.Endereco;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,109 +26,237 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class TelasClientes extends javax.swing.JFrame {
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelasClientes.class.getName());
+private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelasClientes.class.getName());
 
-     private MenuPadrao menu;  
-    private Usuario usuario;
+private MenuPadrao menu;  
+private Usuario usuario;
 
-    public TelasClientes(Usuario usuario) {
-        initComponents();
-          this.usuario= usuario;
-        this.menu=MenuPadrao.instalar(
+private ClienteController controller = new ClienteController();
+    
+private int larguraOriginal;
+private int alturaOriginal;
+
+private boolean redimensionamentoConfigurado = false;
+    
+     
+  public TelasClientes(Usuario usuario) {
+
+    initComponents();
+
+    this.usuario = usuario;
+
+    this.menu = MenuPadrao.instalar(
         this,
         usuario,
         "clientes",
         this::navegar,
         this::dispose
     );
-        
-         this.setExtendedState(TelasClientes.MAXIMIZED_BOTH);
-        
-    }
+
+    this.setExtendedState(TelasClientes.MAXIMIZED_BOTH);
+    configurarRedimensionamento();
+    carregarClientesConsulta();
+    configurarPlaceholderPesquisa();
     
-     // MÉTODO DE ACESSAR AS TELAS
+    
+    // Retira o painel do local original
+java.awt.Container pai =
+        painelDetalhesCliente.getParent();
+
+if (pai != null) {
+    pai.remove(painelDetalhesCliente);
+    pai.revalidate();
+    pai.repaint();
+}
+// Cria a janela flutuante
+janelaDetalhes = new javax.swing.JDialog(
+        this,
+        "Detalhes do cliente",
+        false
+);
+janelaDetalhes.setDefaultCloseOperation(
+        javax.swing.JDialog.HIDE_ON_CLOSE
+);
+// Coloca o painel dentro da janela
+janelaDetalhes.setContentPane(painelDetalhesCliente);
+janelaDetalhes.setSize(430, 550);
+janelaDetalhes.setResizable(false);
+janelaDetalhes.setLocationRelativeTo(this);
+painelEnderecoFlutuante.setVisible(false);
+permitirMoverPainel(painelEnderecoFlutuante);
+cbStatusConsulta.setSelectedItem("Ativo");
+configurarSelecaoTabelaEdicao();
+}
+   
+  private void configurarRedimensionamento() {
+
+    if (redimensionamentoConfigurado) {
+        return;
+    }
+
+    redimensionamentoConfigurado = true;
+
+    SwingUtilities.invokeLater(() -> {
+
+        // Área central disponível após instalar o MenuPadrao
+        Container area = abasClientes.getParent();
+
+        if (area == null) {
+            redimensionamentoConfigurado = false;
+            return;
+        }
+
+        area.addComponentListener(new java.awt.event.ComponentAdapter() {
+
+            @Override
+            public void componentResized(
+                    java.awt.event.ComponentEvent evt) {
+
+                redimensionarAbas();
+            }
+        });
+
+        redimensionarAbas();
+    });
+}
+  private void redimensionarAbas() {
+
+    int largura = abasClientes.getWidth();
+    int altura = abasClientes.getHeight();
+
+    if (largura <= 0 || altura <= 0) {
+        return;
+    }
+
+    // Referência de tamanho para a área central
+    double escalaX = largura / 1660.0;
+    double escalaY = altura / 930.0;
+
+    double escala = Math.min(escalaX, escalaY);
+
+    // Evita aumentar ou diminuir exageradamente
+    escala = Math.max(0.65, Math.min(1.0, escala));
+
+    redimensionarComponentes(painelCadastro, escala);
+    redimensionarComponentes(painelConsulta, escala);
+    redimensionarComponentes(painelEdicao, escala);
+    redimensionarComponentes(painelHistorico, escala);
+    redimensionarComponentes(painelPedidosRelatorio, escala);
+
+    abasClientes.revalidate();
+    abasClientes.repaint();
+}
+  private void redimensionarComponentes(
+        Container painel, double escala) {
+
+    for (Component componente : painel.getComponents()) {
+
+        Dimension tamanho = componente.getPreferredSize();
+
+        if (tamanho.width > 0 && tamanho.height > 0) {
+
+            Dimension novoTamanho = new Dimension(
+                Math.max(1, (int) (tamanho.width * escala)),
+                Math.max(1, (int) (tamanho.height * escala))
+            );
+
+            componente.setPreferredSize(novoTamanho);
+        }
+
+        Font fonte = componente.getFont();
+
+        if (fonte != null) {
+            componente.setFont(
+                fonte.deriveFont(
+                    Math.max(9f, fonte.getSize2D() * (float) escala)
+                )
+            );
+        }
+
+        if (componente instanceof Container) {
+            redimensionarComponentes(
+                (Container) componente, escala
+            );
+        }
+    }
+}
+  
+// MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
     switch (idtela) {
 
         case "inicio":
-            menu.abrirTela(this,new TelaHome(usuario));
-            break;
-
-        case "produtos":
-            menu.abrirTela(this,new TelaProdutos(usuario));
+            menu.abrirTela(this, new TelaHome(usuario));
             break;
 
         case "gerenciamentoProdutos":
-            menu.abrirTela(this,new TelaGerenciamentoProdutos(usuario));
+            menu.abrirTela(this, new TelaGerenciamentoProdutos(usuario));
+            break;
+
+        case "promocoes":
+            menu.abrirTela(this, new TelaPromocoes(usuario));
             break;
 
         case "estoque":
-            menu.abrirTela(this,new TelaEstoque(usuario));
-            break;
-
-        case "fornecedores":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaEstoque(usuario));
             break;
 
         case "fornecedoresTerceirizados":
-            menu.abrirTela(this,new TelaFornecedoresTerceirizados(usuario));
+            menu.abrirTela(this, new TelaFornecedoresTerceirizados(usuario));
             break;
 
         case "clientes":
-            menu.abrirTela(this,new TelasClientes(usuario));
+            menu.abrirTela(this, new TelasClientes(usuario));
             break;
 
         case "pedidos":
-            menu.abrirTela(this,new TelaPedidos(usuario));
+            menu.abrirTela(this, new TelaPedidos(usuario));
             break;
 
         case "entregas":
-            menu.abrirTela(this,new TelaEntregas(usuario));
+            menu.abrirTela(this, new TelaEntregas(usuario));
+            break;
+
+        case "pdvRealizacao":
+            menu.abrirTela(this, new TelaPdvRealizacao(usuario));
             break;
 
         case "vendas":
-            menu.abrirTela(this,new TelaVendas(usuario));
-            break;
-
-        case "pdv":
-            menu.abrirTela(this,new TelaPdvRealizacao(usuario));
-            break;
-
-        case "vendaPagamentos":
-            menu.abrirTela(this,new TelaVendaPagamentos(usuario));
+            menu.abrirTela(this, new TelaVendas(usuario));
             break;
 
         case "caixa":
-            menu.abrirTela(this,new TelaCaixa(usuario));
+            menu.abrirTela(this, new TelaCaixa(usuario));
             break;
 
         case "financeiro":
-            menu.abrirTela(this,new TelaFinanceiro(usuario));
+            menu.abrirTela(this, new TelaFinanceiro(usuario));
             break;
 
         case "funcionariosRH":
-            menu.abrirTela(this,new Tela_Funcionarios_RH(usuario));
+            menu.abrirTela(this, new Tela_Funcionarios_RH(usuario));
             break;
 
         case "perfilUsuarios":
-            menu.abrirTela(this,new TelaPerfilUsuarios(usuario));
+            menu.abrirTela(this, new TelaPerfilUsuarios(usuario));
             break;
 
         case "solicitacao":
-            menu.abrirTela(this,new TelaSolicitacao(usuario));
+            menu.abrirTela(this, new TelaSolicitacao(usuario));
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this,new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha());
             break;
 
         case "recuperacaoSenha":
-            //menu.abrirTela(this, new RecuperacaoSenha());
+            // Tela utilizada no fluxo de recuperação de senha.
+            // menu.abrirTela(this, new RecuperacaoSenha());
             break;
 
+        case "sair":
         case "logout":
-            // Retorna à tela de login
             menu.abrirTela(this, new TelaLoginUsuarios());
             break;
 
@@ -148,17 +271,18 @@ public void navegar(String idtela) {
     }
 }
 
- private void cadastrarCliente() {
+
+
+
+
+private void cadastrarCliente() {
 
     try {
 
         // Capturar os dados dos campos
         String nome = txtNome.getText().trim();
-
         String cpf = ftfCPF.getText().replaceAll("[^0-9]", "");
-
-        String rg = txtRGCadastro.getText().trim();
-
+        String rg = tfRG.getText().trim();
         String dataNascimento = ftData.getText().trim();
 
         String genero = "";
@@ -172,111 +296,93 @@ public void navegar(String idtela) {
         }
 
         String email = txtEmailCadastro.getText().trim();
-
         String telefone = ftfTelefone.getText().replaceAll("[^0-9]", "");
-
         String senha = new String(pfSenha.getPassword());
 
-        // Status: 1 = Ativo
-        int status = 1;
+        // Status: 1 = Ativo | 0 = Inativo
+        String statusSelecionado = cbStatusCadastro.getSelectedItem() != null
+                ? cbStatusCadastro.getSelectedItem().toString()
+                : "";
+
+        int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
 
         // Validar campos obrigatórios
         if (nome.isEmpty() || cpf.isEmpty() || rg.isEmpty()
                 || dataNascimento.isEmpty() || genero.isEmpty()
                 || email.isEmpty() || telefone.isEmpty()
-                || senha.isEmpty()) {
+                || senha.isEmpty() || statusSelecionado.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Preencha todos os campos obrigatórios!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Preencha todos os campos obrigatórios!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar CPF
         if (cpf.length() != 11) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe um CPF válido!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe um CPF válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         // Validar telefone
         if (telefone.length() < 10 || telefone.length() > 11) {
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Informe um telefone válido!",
-                "Atenção",
-                JOptionPane.WARNING_MESSAGE
-            );
-
+            JOptionPane.showMessageDialog(this,
+                    "Informe um telefone válido!",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Chamar o controller
+        // Criar Model
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(nome);
+        cliente.setCpf(cpf);
+        cliente.setRg(rg);
+        cliente.setDataNascimento(dataNascimento);
+        cliente.setGenero(genero);
+        cliente.setEmail(email);
+        cliente.setTelefone(telefone);
+        cliente.setStatus(status);
+        cliente.setSenha(senha);
+
+        // Cadastrar
         ClienteController controller = new ClienteController();
 
-        boolean sucesso = controller.cadastrar(
-            nome,
-            cpf,
-            rg,
-            dataNascimento,
-            genero,
-            email,
-            telefone,
-            status,
-            senha
-        );
+        controller.cadastrar(cliente);
 
-        if (sucesso) {
-
-            JOptionPane.showMessageDialog(
-                this,
+        JOptionPane.showMessageDialog(this,
                 "Cliente cadastrado com sucesso!",
                 "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+                JOptionPane.INFORMATION_MESSAGE);
 
-            limparCamposCadastro();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar o cliente!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
+        limparCamposCadastro();
+        carregarClientesConsulta();
 
     } catch (Exception e) {
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao cadastrar cliente: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this,
+                "Erro ao cadastrar cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
 
         e.printStackTrace();
     }
 }
+
  
  private void limparCamposCadastro() {
 
     // Limpar campos de texto
     txtNome.setText("");
     ftfCPF.setValue(null);
-    txtRGCadastro.setText("");
+    tfRG.setText("");
     ftData.setValue(null);
     txtEmailCadastro.setText("");
     ftfTelefone.setValue(null);
@@ -293,12 +399,737 @@ public void navegar(String idtela) {
     txtNome.requestFocus();
 
 }
+ 
+ ////////////////////////////////////////////////
+ ///TELA CONSULTA
+ ////////////////////////////////////////////
+ 
+private void carregarClientesConsulta() {
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    DefaultTableModel modelo =
+            (DefaultTableModel) tabelaConsultaClientes.getModel();
+
+    // Mantém a tabela vazia
+    modelo.setRowCount(0);
+
+    lblMensagemConsulta.setText("");
+}
+
+
+
+private void pesquisarClientesConsulta() {
+
+    try {
+
+        String pesquisa = txtPesquisaCliente.getText().trim();
+
+        if (pesquisa.isEmpty()
+                || pesquisa.equals("Digite o nome, CPF ou código...")) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Digite o nome, CPF ou código do cliente.",
+                    "Pesquisa de clientes",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            txtPesquisaCliente.requestFocus();
+            return;
+        }
+
+        Integer status = null;
+
+        String textoStatus = cbStatusConsulta.getSelectedItem() != null
+                ? cbStatusConsulta.getSelectedItem().toString()
+                : "Todos";
+
+        if (textoStatus.equalsIgnoreCase("Ativo")) {
+            status = 1;
+        } else if (textoStatus.equalsIgnoreCase("Inativo")) {
+            status = 0;
+        }
+
+        // Listar clientes pelo Controller
+        ClienteController controller = new ClienteController();
+        List<Cliente> clientes = controller.listar();
+
+        // Atualizar tabela
+        DefaultTableModel modelo =
+                (DefaultTableModel) tabelaConsultaClientes.getModel();
+
+        modelo.setRowCount(0);
+
+        for (Cliente cliente : clientes) {
+
+            boolean correspondePesquisa =
+                    String.valueOf(cliente.getIdcliente()).contains(pesquisa)
+                    || cliente.getNome().toLowerCase().contains(pesquisa.toLowerCase())
+                    || cliente.getCpf().contains(pesquisa);
+
+            boolean correspondeStatus =
+                    status == null || cliente.getStatus() == status;
+
+            if (correspondePesquisa && correspondeStatus) {
+
+                modelo.addRow(new Object[]{
+                    cliente.getIdcliente(),
+                    cliente.getNome(),
+                    cliente.getCpf(),
+                    cliente.getTelefone(),
+                    cliente.getEmail(),
+                    cliente.getStatus() == 1 ? "Ativo" : "Inativo"
+                });
+            }
+        }
+
+        // Mensagem de resultado
+        if (modelo.getRowCount() == 0) {
+
+            lblMensagemConsulta.setText("Nenhum cliente encontrado.");
+
+        } else {
+
+            lblMensagemConsulta.setText(
+                    modelo.getRowCount() + " cliente(s) encontrado(s).");
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Erro ao pesquisar clientes: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+
+        e.printStackTrace();
+    }
+}
+
+
+
+private void configurarPlaceholderPesquisa() {
+    String placeholder = "Digite o nome, CPF ou código...";
+    txtPesquisaCliente.setText(placeholder);
+    txtPesquisaCliente.setForeground(java.awt.Color.GRAY);
+    txtPesquisaCliente.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent e) {
+
+            if (txtPesquisaCliente.getText().equals(placeholder)) {
+                txtPesquisaCliente.setText("");
+                txtPesquisaCliente.setForeground(java.awt.Color.BLACK);
+            }
+        }
+        @Override
+        public void focusLost(java.awt.event.FocusEvent e) {
+            if (txtPesquisaCliente.getText().trim().isEmpty()) {
+                txtPesquisaCliente.setText(placeholder);
+                txtPesquisaCliente.setForeground(java.awt.Color.GRAY);
+            }
+        }
+    });
+}
+
+
+
+private void visualizarDetalhesCliente() {
+
+    try {
+
+        int linha = tabelaConsultaClientes.getSelectedRow();
+
+        if (linha == -1) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um cliente na tabela.",
+                    "Visualizar detalhes",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+
+        // Obter ID do cliente selecionado
+        int idcliente = Integer.parseInt(
+                tabelaConsultaClientes.getValueAt(linha, 0).toString()
+        );
+
+        // Buscar cliente
+        ClienteController clienteController = new ClienteController();
+
+        Cliente cliente = clienteController.buscarPorId(idcliente);
+
+        if (cliente == null) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível localizar esse cliente.",
+                    "Visualizar detalhes",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // Preencher dados pessoais
+        lblDetalheCodigo.setText("Código: " + cliente.getIdcliente());
+        lblDetalheNome.setText("Nome: " + cliente.getNome());
+        lblDetalheCPF.setText("CPF: " + cliente.getCpf());
+        lblDetalheRG.setText("RG: " + cliente.getRg());
+
+        lblDetalheNascimento.setText(
+                "Data de nascimento: "
+                + formatarDataBrasileira(cliente.getDataNascimento())
+        );
+
+        lblDetalheGenero.setText("Gênero: " + cliente.getGenero());
+
+        lblDetalheTelefone.setText(
+                "Telefone: " + formatarTelefone(cliente.getTelefone())
+        );
+
+        lblDetalheEmail.setText("E-mail: " + cliente.getEmail());
+
+        lblDetalheStatus.setText(
+                "Status: " + (cliente.getStatus() == 1 ? "Ativo" : "Inativo")
+        );
+
+        // Buscar endereço pelo Model
+        EnderecoController enderecoController = new EnderecoController();
+
+        Endereco endereco = enderecoController.buscarPorCliente(idcliente);
+
+        if (endereco != null) {
+
+            lbCiade.setText(
+                    "Cidade: " + endereco.getCidade()
+            );
+
+            lbBairro.setText(
+                    "Bairro: " + endereco.getBairro()
+            );
+
+            lbEndereco.setText(
+                    "Endereço: " + endereco.getRua()
+                    + ", Nº " + endereco.getNumero()
+            );
+
+        } else {
+
+            lbCiade.setText("Cidade: Não cadastrado");
+            lbBairro.setText("Bairro: Não cadastrado");
+            lbEndereco.setText("Endereço: Não cadastrado");
+        }
+
+        // Ajustar tamanho da label
+        lblDetalheCodigo.setPreferredSize(
+                new java.awt.Dimension(350, 25)
+        );
+
+        lblDetalheCodigo.setMinimumSize(
+                new java.awt.Dimension(350, 25)
+        );
+
+        // Atualizar painel
+        painelDetalhesCliente.revalidate();
+        painelDetalhesCliente.repaint();
+
+        // Exibir janela
+        janelaDetalhes.pack();
+        janelaDetalhes.setSize(430, 625);
+        janelaDetalhes.setLocationRelativeTo(this);
+        janelaDetalhes.setVisible(true);
+        janelaDetalhes.toFront();
+
+        lblDetalheCodigo.setVisible(true);
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao visualizar detalhes do cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+
+
+private String formatarDataBrasileira(String data) {
+
+    if (data == null || data.trim().isEmpty()) {
+        return "";
+    }
+
+    try {
+        java.time.LocalDate dataConvertida =
+                java.time.LocalDate.parse(data);
+
+        return dataConvertida.format(
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        );
+
+    } catch (java.time.format.DateTimeParseException e) {
+        return data;
+    }
+}
+
+private String formatarTelefone(String telefone) {
+
+    if (telefone == null || telefone.trim().isEmpty()) {
+        return "";
+    }
+
+    String numeros = telefone.replaceAll("\\D", "");
+
+    if (numeros.length() == 11) {
+
+        return "(" + numeros.substring(0, 2) + ") "
+                + numeros.substring(2, 7) + "-"
+                + numeros.substring(7);
+
+    } else if (numeros.length() == 10) {
+
+        return "(" + numeros.substring(0, 2) + ") "
+                + numeros.substring(2, 6) + "-"
+                + numeros.substring(6);
+    }
+
+    return telefone;
+}
+
+private javax.swing.JDialog janelaDetalhes;
+/////////////////////////////////////////////////
+//TELA EDIÇAO E DESATIVAÇAO
+/////////////////////////////////////////////////////
+
+private void pesquisarClientesEdicao() {
+
+    String pesquisa = txtPesquisaEdicao.getText().trim();
+
+    if (pesquisa.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Digite o nome, CPF ou código do cliente."
+        );
+        return;
+    }
+
+    String statusSelecionado = cbStatusEdicao.getSelectedItem() != null
+            ? cbStatusEdicao.getSelectedItem().toString().trim()
+            : "";
+
+    Integer status = null;
+
+    if (statusSelecionado.equalsIgnoreCase("Ativo")) {
+        status = 1;
+    } else if (statusSelecionado.equalsIgnoreCase("Inativo")) {
+        status = 0;
+    }
+
+    try {
+
+        Control.ClienteController controller =
+                new Control.ClienteController();
+
+        java.util.List<Model.Cliente> todosClientes =
+                controller.listar();
+
+        java.util.List<Model.Cliente> clientesEncontrados =
+                new java.util.ArrayList<>();
+
+        for (Model.Cliente cliente : todosClientes) {
+
+            boolean correspondePesquisa =
+                    String.valueOf(cliente.getIdcliente()).contains(pesquisa)
+                    || (cliente.getNome() != null
+                    && cliente.getNome().toLowerCase().contains(pesquisa.toLowerCase()))
+                    || (cliente.getCpf() != null
+                    && cliente.getCpf().contains(pesquisa));
+
+            boolean correspondeStatus =
+                    status == null || cliente.getStatus() == status;
+
+            if (correspondePesquisa && correspondeStatus) {
+                clientesEncontrados.add(cliente);
+            }
+        }
+
+        javax.swing.table.DefaultTableModel modelo =
+                (javax.swing.table.DefaultTableModel)
+                tabelaEdicaoClientes.getModel();
+
+        modelo.setRowCount(0);
+
+        if (clientesEncontrados.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum cliente encontrado."
+            );
+            return;
+        }
+
+        if (clientesEncontrados.size() > 1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Foram encontrados vários clientes.\n"
+                    + "Digite o código ou CPF para localizar "
+                    + "um cliente específico."
+            );
+            return;
+        }
+
+        Model.Cliente cliente = clientesEncontrados.get(0);
+
+        modelo.addRow(new Object[]{"Código", cliente.getIdcliente()});
+        modelo.addRow(new Object[]{"Nome", cliente.getNome()});
+        modelo.addRow(new Object[]{"CPF", cliente.getCpf()});
+        modelo.addRow(new Object[]{"Telefone", cliente.getTelefone()});
+        modelo.addRow(new Object[]{"E-mail", cliente.getEmail()});
+        modelo.addRow(new Object[]{
+            "Status",
+            cliente.getStatus() == 1 ? "Ativo" : "Inativo"
+        });
+
+        preencherCamposEdicao(cliente.getIdcliente());
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao pesquisar clientes: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+
+private void configurarSelecaoTabelaEdicao() {
+
+    tabelaEdicaoClientes.getSelectionModel()
+        .addListSelectionListener(e -> {
+
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+
+            int linhaSelecionada =
+                tabelaEdicaoClientes.getSelectedRow();
+
+            if (linhaSelecionada == -1) {
+                return;
+            }
+
+            int linhaModelo =
+                tabelaEdicaoClientes.convertRowIndexToModel(
+                    linhaSelecionada
+                );
+
+            int codigo = Integer.parseInt(
+                tabelaEdicaoClientes.getModel()
+                    .getValueAt(linhaModelo, 0).toString()
+            );
+
+            preencherCamposEdicao(codigo);
+        });
+}
+
+
+private void preencherCamposEdicao(int idcliente) {
+
+    try {
+
+        // Buscar dados do cliente
+        Control.ClienteController clienteController =
+                new Control.ClienteController();
+
+        Model.Cliente cliente =
+                clienteController.buscarPorId(idcliente);
+
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível carregar os dados do cliente."
+            );
+            return;
+        }
+
+        // Preencher dados pessoais
+        txtCodigoEdicao.setText(
+                String.valueOf(cliente.getIdcliente())
+        );
+
+        txtNomeEdicao.setText(
+                textoSeguro(cliente.getNome())
+        );
+
+        txtCPFCdicao.setText(
+                formatarCPFEdicao(textoSeguro(cliente.getCpf()))
+        );
+
+        txtRGEdicao.setText(
+                formatarRG(textoSeguro(cliente.getRg()))
+        );
+
+        txtTelefoneEdicao.setText(
+                formatarTelefoneEdicao(textoSeguro(cliente.getTelefone()))
+        );
+
+        txtDataNascimentoEdicao.setText(
+                formatarDataEdicao(textoSeguro(cliente.getDataNascimento()))
+        );
+
+        txtEmailEdicao.setText(
+                textoSeguro(cliente.getEmail())
+        );
+
+        // Buscar endereço do cliente
+        Control.EnderecoController enderecoController =
+                new Control.EnderecoController();
+
+        Model.Endereco endereco =
+                enderecoController.buscarPorCliente(idcliente);
+
+        if (endereco != null) {
+
+            txtEnderecoEdicao.setText(
+                    textoSeguro(endereco.getRua())
+                    + ", Nº " + textoSeguro(endereco.getNumero())
+            );
+
+            txtBairroEdicao.setText(
+                    textoSeguro(endereco.getBairro())
+            );
+
+            txtCidadeEdicao.setText(
+                    textoSeguro(endereco.getCidade())
+            );
+
+        } else {
+
+            txtEnderecoEdicao.setText("");
+            txtBairroEdicao.setText("");
+            txtCidadeEdicao.setText("");
+        }
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar dados do cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+
+private String textoSeguro(String valor) {
+    return valor == null ? "" : valor;
+}
+
+private String formatarCPFEdicao(String cpf) {
+    String n = cpf.replaceAll("\\D", "");
+
+    if (n.length() != 11) return cpf;
+
+    return n.substring(0, 3) + "."
+         + n.substring(3, 6) + "."
+         + n.substring(6, 9) + "-"
+         + n.substring(9, 11);
+}
+
+private String formatarRG(String rg) {
+    String n = rg.replaceAll("\\D", "");
+
+    if (n.length() != 7) return rg;
+
+    return n.substring(0, 1) + "."
+         + n.substring(1, 4) + "."
+         + n.substring(4, 7);
+}
+
+private String formatarTelefoneEdicao(String telefone) {
+    String n = telefone.replaceAll("\\D", "");
+
+    if (n.length() == 11) {
+        return "(" + n.substring(0, 2) + ") "
+             + n.substring(2, 7) + "-"
+             + n.substring(7, 11);
+    }
+
+    if (n.length() == 10) {
+        return "(" + n.substring(0, 2) + ") "
+             + n.substring(2, 6) + "-"
+             + n.substring(6, 10);
+    }
+
+    return telefone;
+}
+
+private String formatarDataEdicao(String data) {
+    if (data == null || data.trim().isEmpty()) {
+        return "";
+    }
+
+    if (data.matches("\\d{4}-\\d{2}-\\d{2}")) {
+        String[] partes = data.split("-");
+        return partes[2] + "/" + partes[1] + "/" + partes[0];
+    }
+
+    return data;
+}
+
+private void limparCamposEdicao() {
+    txtCodigoEdicao.setText("");
+    txtNomeEdicao.setText("");
+    txtCPFCdicao.setText("");
+    txtRGEdicao.setText("");
+    txtTelefoneEdicao.setText("");
+    txtDataNascimentoEdicao.setText("");
+    txtEmailEdicao.setText("");
+
+    txtEnderecoEdicao.setText("");
+    txtBairroEdicao.setText("");
+    txtCidadeEdicao.setText("");
+    javax.swing.table.DefaultTableModel modelo =
+            (javax.swing.table.DefaultTableModel) tabelaEdicaoClientes.getModel();
+    modelo.setRowCount(0);
+}
+
+private void permitirMoverPainel(JPanel painel) {
+
+    final java.awt.Point posicaoInicial = new java.awt.Point();
+
+    painel.addMouseListener(new java.awt.event.MouseAdapter() {
+
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            posicaoInicial.setLocation(evt.getPoint());
+        }
+    });
+
+    painel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+
+        @Override
+        public void mouseDragged(java.awt.event.MouseEvent evt) {
+
+            int novoX = painel.getX() + evt.getX() - posicaoInicial.x;
+            int novoY = painel.getY() + evt.getY() - posicaoInicial.y;
+
+            painel.setLocation(novoX, novoY);
+        }
+    });
+}
+
+//TELA HISTORICO DE COMPRAS E PAGAMENTOS
+
+
+private void pesquisarHistoricoCompras() {
+
+    String pesquisa = txtPesquisaHistorico.getText().trim();
+
+    if (pesquisa.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Digite o nome, CPF ou código do cliente."
+        );
+        return;
+    }
+
+    try {
+
+        Control.ClienteController controller =
+                new Control.ClienteController();
+
+        java.util.List<Model.Cliente> todosClientes =
+                controller.listar();
+
+        java.util.List<Model.Cliente> clientes =
+                new java.util.ArrayList<>();
+
+        for (Model.Cliente cliente : todosClientes) {
+
+            boolean encontrado =
+                    String.valueOf(cliente.getIdcliente()).contains(pesquisa)
+                    || (cliente.getNome() != null
+                    && cliente.getNome().toLowerCase().contains(
+                            pesquisa.toLowerCase()))
+                    || (cliente.getCpf() != null
+                    && cliente.getCpf().contains(pesquisa));
+
+            if (encontrado) {
+                clientes.add(cliente);
+            }
+        }
+
+        javax.swing.table.DefaultTableModel modelo =
+                (javax.swing.table.DefaultTableModel)
+                tabelaComprasHistorico.getModel();
+
+        modelo.setRowCount(0);
+
+        if (clientes.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum cliente encontrado."
+            );
+            return;
+        }
+
+        if (clientes.size() > 1) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Foram encontrados vários clientes. "
+                    + "Digite o CPF ou código para localizar "
+                    + "um cliente específico."
+            );
+            return;
+        }
+
+        int idcliente = clientes.get(0).getIdcliente();
+
+        // Buscar histórico de compras pelo ID do cliente.
+        // Aqui será utilizada a lista tipada do Model Compras.
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao pesquisar histórico: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+
+
+
+
+
+private String formatarDataHistorico(String data) {
+
+    try {
+        java.time.LocalDate dataConvertida =
+                java.time.LocalDate.parse(data);
+
+        return dataConvertida.format(
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+    } catch (Exception e) {
+        return data;
+    }
+}
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -319,7 +1150,6 @@ public void navegar(String idtela) {
         lblDescricaoCadastro = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
         lbRg = new javax.swing.JLabel();
-        txtRGCadastro = new javax.swing.JTextField();
         lbEmail = new javax.swing.JLabel();
         txtEmailCadastro = new javax.swing.JTextField();
         lbData = new javax.swing.JLabel();
@@ -332,6 +1162,16 @@ public void navegar(String idtela) {
         rbFeminino = new javax.swing.JRadioButton();
         rbMasculino = new javax.swing.JRadioButton();
         rbOutro = new javax.swing.JRadioButton();
+        tfRG = new javax.swing.JFormattedTextField();
+        painelEnderecoFlutuante = new javax.swing.JPanel();
+        lbCidadeCadastro = new javax.swing.JLabel();
+        tfCidadeCadastro = new javax.swing.JTextField();
+        lbBairroCadastro = new javax.swing.JLabel();
+        tfBairrocadastro = new javax.swing.JTextField();
+        lbEnderecocadastro = new javax.swing.JLabel();
+        tfEnderecoCadastro = new javax.swing.JTextField();
+        btnFinalizarCadastro = new javax.swing.JButton();
+        lbTituloEnderecocadastro = new javax.swing.JLabel();
         painelConsulta = new javax.swing.JPanel();
         painelConsultaClientes = new javax.swing.JPanel();
         btnLimparFiltros = new javax.swing.JButton();
@@ -362,6 +1202,10 @@ public void navegar(String idtela) {
         lblDetalheEmail = new javax.swing.JLabel();
         lbSituacaoCadastral = new javax.swing.JLabel();
         lblDetalheStatus = new javax.swing.JLabel();
+        lbenderecoflutuante = new javax.swing.JLabel();
+        lbCiade = new javax.swing.JLabel();
+        lbBairro = new javax.swing.JLabel();
+        lbEndereco = new javax.swing.JLabel();
         painelEdicao = new javax.swing.JPanel();
         painelEdicaoClientes = new javax.swing.JPanel();
         lblTituloEdicao = new javax.swing.JLabel();
@@ -435,8 +1279,9 @@ public void navegar(String idtela) {
         lBsubValorPendente = new javax.swing.JLabel();
         lbiconeSaldoPendente = new javax.swing.JLabel();
         painelPedidosRelatorio = new javax.swing.JPanel();
-        lblTituloPedidosRelatorio = new javax.swing.JLabel();
         painelpedidosTitulo = new javax.swing.JPanel();
+        lblTituloPedidosRelatorio = new javax.swing.JLabel();
+        lblDescricaoPedidosRelatorio = new javax.swing.JLabel();
         lblPesquisaClienteRelatorio = new javax.swing.JLabel();
         cbPeriodoRelatorio = new javax.swing.JComboBox<>();
         lblPeriodoRelatorio = new javax.swing.JLabel();
@@ -447,7 +1292,7 @@ public void navegar(String idtela) {
         txtPesquisaClienteRelatorio = new javax.swing.JTextField();
         painelPedidosClientes = new javax.swing.JPanel();
         tabelaPedidosClientes = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbPedidosClientes = new javax.swing.JTable();
         lblTituloTabelaPedidos = new javax.swing.JLabel();
         painelTotalPedidos = new javax.swing.JPanel();
         lblQuantidadePedidosRelatorio = new javax.swing.JLabel();
@@ -473,14 +1318,11 @@ public void navegar(String idtela) {
         cbMesRelatorio = new javax.swing.JComboBox<>();
         cbTipoRelatorio = new javax.swing.JComboBox<>();
         lblTituloGerarRelatorio = new javax.swing.JLabel();
-        lblDescricaoPedidosRelatorio = new javax.swing.JLabel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1920, 1800));
-        setPreferredSize(new java.awt.Dimension(1920, 1800));
 
         painelConteudo.setLayout(new java.awt.BorderLayout());
         getContentPane().add(painelConteudo, java.awt.BorderLayout.CENTER);
@@ -499,20 +1341,22 @@ public void navegar(String idtela) {
         lblTituloCadastro.setForeground(new java.awt.Color(10, 4, 138));
         lblTituloCadastro.setText("Cadastro de Clientes");
 
-        btnLimpar.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        btnLimpar.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimpar.setText("Limpar ");
         btnLimpar.setBorder(null);
-        btnLimpar.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnLimpar.setIconTextGap(8);
+        btnLimpar.setPreferredSize(new java.awt.Dimension(150, 45));
         btnLimpar.addActionListener(this::btnLimparActionPerformed);
 
         btnSalvar.setBackground(new java.awt.Color(10, 4, 138));
         btnSalvar.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\diskette (2).png")); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\diskette (6).png")); // NOI18N
         btnSalvar.setText("Salvar cadastro");
         btnSalvar.setBorder(null);
-        btnSalvar.setPreferredSize(new java.awt.Dimension(183, 40));
+        btnSalvar.setIconTextGap(8);
+        btnSalvar.setPreferredSize(new java.awt.Dimension(183, 45));
         btnSalvar.addActionListener(this::btnSalvarActionPerformed);
 
         try {
@@ -548,20 +1392,18 @@ public void navegar(String idtela) {
         lblNome.setText("Nome Completo *");
 
         lbRg.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        lbRg.setText("RG");
-
-        txtRGCadastro.setPreferredSize(new java.awt.Dimension(68, 40));
+        lbRg.setText("RG *");
 
         lbEmail.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        lbEmail.setText("E-mail");
+        lbEmail.setText("E-mail *");
 
         txtEmailCadastro.setPreferredSize(new java.awt.Dimension(68, 40));
 
         lbData.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        lbData.setText("Data de nascimento");
+        lbData.setText("Data de nascimento *");
 
         lbSenha.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        lbSenha.setText("Senha");
+        lbSenha.setText("Senha *");
 
         pfSenha.setPreferredSize(new java.awt.Dimension(68, 40));
 
@@ -580,7 +1422,7 @@ public void navegar(String idtela) {
         cbStatusCadastro.setPreferredSize(new java.awt.Dimension(83, 40));
 
         grupoGenero.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        grupoGenero.setText("Gênero");
+        grupoGenero.setText("Gênero *");
 
         rbFeminino.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
         rbFeminino.setText("Feminino");
@@ -591,6 +1433,13 @@ public void navegar(String idtela) {
         rbOutro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
         rbOutro.setText("Outro");
 
+        try {
+            tfRG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tfRG.setPreferredSize(new java.awt.Dimension(130, 40));
+
         javax.swing.GroupLayout painelDadosClienteLayout = new javax.swing.GroupLayout(painelDadosCliente);
         painelDadosCliente.setLayout(painelDadosClienteLayout);
         painelDadosClienteLayout.setHorizontalGroup(
@@ -598,17 +1447,6 @@ public void navegar(String idtela) {
             .addGroup(painelDadosClienteLayout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelDadosClienteLayout.createSequentialGroup()
-                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTelefone)
-                            .addComponent(lbEmail)
-                            .addComponent(lblCPF)
-                            .addComponent(ftfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(71, 71, 71)
-                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbRg)
-                            .addComponent(txtRGCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(81, Short.MAX_VALUE))
                     .addGroup(painelDadosClienteLayout.createSequentialGroup()
                         .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -620,57 +1458,71 @@ public void navegar(String idtela) {
                                 .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelDadosClienteLayout.createSequentialGroup()
-                                    .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ftfTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                        .addComponent(txtEmailCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtEmailCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                                     .addGap(71, 71, 71)
-                                    .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(lbData)
-                                        .addComponent(ftData, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                                        .addComponent(lbSenha)
-                                        .addComponent(pfSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(painelDadosClienteLayout.createSequentialGroup()
                                 .addComponent(rbFeminino)
-                                .addGap(166, 166, 166)
+                                .addGap(161, 161, 161)
                                 .addComponent(rbMasculino)
-                                .addGap(166, 166, 166)
+                                .addGap(158, 158, 158)
                                 .addComponent(rbOutro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addGap(19, 19, 19))
                     .addGroup(painelDadosClienteLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(102, 102, 102))))
+                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTelefone)
+                            .addComponent(lbEmail)
+                            .addComponent(ftfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCPF)
+                            .addComponent(ftfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(71, 71, 71)
+                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painelDadosClienteLayout.createSequentialGroup()
+                                .addComponent(lbRg)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(painelDadosClienteLayout.createSequentialGroup()
+                                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfRG, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbData)
+                                    .addComponent(ftData, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbSenha))
+                                .addContainerGap(111, Short.MAX_VALUE))))))
+            .addGroup(painelDadosClienteLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114))
         );
         painelDadosClienteLayout.setVerticalGroup(
             painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelDadosClienteLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(lblTituloCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescricaoCadastro)
-                .addGap(57, 57, 57)
-                .addComponent(lblNome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCPF)
-                    .addComponent(lbRg))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRGCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(44, 44, 44)
+                .addGap(21, 21, 21)
+                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(painelDadosClienteLayout.createSequentialGroup()
+                        .addComponent(lblTituloCadastro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDescricaoCadastro)
+                        .addGap(40, 40, 40)
+                        .addComponent(lblNome)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCPF)
+                            .addComponent(lbRg))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfRG, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ftfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
                 .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefone)
                     .addComponent(lbData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ftfTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ftData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(51, 51, 51)
+                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ftData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
                 .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEmail)
                     .addComponent(lbSenha))
@@ -682,18 +1534,91 @@ public void navegar(String idtela) {
                 .addComponent(lbStatuscadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbStatusCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(37, 37, 37)
                 .addComponent(grupoGenero)
-                .addGap(10, 10, 10)
-                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbFeminino)
-                    .addComponent(rbMasculino)
-                    .addComponent(rbOutro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelDadosClienteLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbFeminino)
+                            .addComponent(rbMasculino)
+                            .addComponent(rbOutro))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelDadosClienteLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addGroup(painelDadosClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(160, 160, 160))))
+        );
+
+        painelEnderecoFlutuante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbCidadeCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lbCidadeCadastro.setText("Cidade");
+
+        tfCidadeCadastro.setPreferredSize(new java.awt.Dimension(68, 40));
+
+        lbBairroCadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lbBairroCadastro.setText("Bairro");
+
+        tfBairrocadastro.setPreferredSize(new java.awt.Dimension(68, 40));
+
+        lbEnderecocadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lbEnderecocadastro.setText("Endereço");
+
+        tfEnderecoCadastro.setPreferredSize(new java.awt.Dimension(68, 45));
+
+        btnFinalizarCadastro.setBackground(new java.awt.Color(10, 4, 138));
+        btnFinalizarCadastro.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        btnFinalizarCadastro.setForeground(new java.awt.Color(255, 255, 255));
+        btnFinalizarCadastro.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\diskette (6).png")); // NOI18N
+        btnFinalizarCadastro.setText("Finalizar cadastro");
+        btnFinalizarCadastro.setBorder(null);
+        btnFinalizarCadastro.setIconTextGap(8);
+        btnFinalizarCadastro.setPreferredSize(new java.awt.Dimension(221, 45));
+        btnFinalizarCadastro.addActionListener(this::btnFinalizarCadastroActionPerformed);
+
+        lbTituloEnderecocadastro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
+        lbTituloEnderecocadastro.setText("Cadastrar endereço");
+
+        javax.swing.GroupLayout painelEnderecoFlutuanteLayout = new javax.swing.GroupLayout(painelEnderecoFlutuante);
+        painelEnderecoFlutuante.setLayout(painelEnderecoFlutuanteLayout);
+        painelEnderecoFlutuanteLayout.setHorizontalGroup(
+            painelEnderecoFlutuanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelEnderecoFlutuanteLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(painelEnderecoFlutuanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbTituloEnderecocadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbCidadeCadastro)
+                    .addComponent(lbEnderecocadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbBairroCadastro)
+                    .addComponent(btnFinalizarCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addComponent(tfEnderecoCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfBairrocadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfCidadeCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        painelEnderecoFlutuanteLayout.setVerticalGroup(
+            painelEnderecoFlutuanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelEnderecoFlutuanteLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(lbTituloEnderecocadastro)
+                .addGap(24, 24, 24)
+                .addComponent(lbCidadeCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfCidadeCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(lbBairroCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfBairrocadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(lbEnderecocadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfEnderecoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(btnFinalizarCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
         );
 
         javax.swing.GroupLayout painelCadastroLayout = new javax.swing.GroupLayout(painelCadastro);
@@ -701,16 +1626,23 @@ public void navegar(String idtela) {
         painelCadastroLayout.setHorizontalGroup(
             painelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelCadastroLayout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addContainerGap()
                 .addComponent(painelDadosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1939, Short.MAX_VALUE))
+                .addGap(119, 119, 119)
+                .addComponent(painelEnderecoFlutuante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1572, Short.MAX_VALUE))
         );
         painelCadastroLayout.setVerticalGroup(
             painelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelCadastroLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(painelDadosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1672, Short.MAX_VALUE))
+                .addGroup(painelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelCadastroLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(painelDadosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelCadastroLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(painelEnderecoFlutuante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(1799, Short.MAX_VALUE))
         );
 
         abasClientes.addTab("Cadastro", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\user.png"), painelCadastro); // NOI18N
@@ -724,7 +1656,9 @@ public void navegar(String idtela) {
         btnLimparFiltros.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparFiltros.setText("Limpar ");
         btnLimparFiltros.setBorder(null);
-        btnLimparFiltros.setPreferredSize(new java.awt.Dimension(131, 40));
+        btnLimparFiltros.setIconTextGap(8);
+        btnLimparFiltros.setPreferredSize(new java.awt.Dimension(131, 45));
+        btnLimparFiltros.addActionListener(this::btnLimparFiltrosActionPerformed);
 
         cbStatusConsulta.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         cbStatusConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Ativo", "Inativo", " " }));
@@ -739,6 +1673,7 @@ public void navegar(String idtela) {
         txtPesquisaCliente.setPreferredSize(new java.awt.Dimension(68, 40));
 
         lblPesquisaCliente.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        lblPesquisaCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (4).png")); // NOI18N
         lblPesquisaCliente.setText("Pesquisar clientes");
 
         lblDescricaoConsulta.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 22)); // NOI18N
@@ -754,59 +1689,57 @@ public void navegar(String idtela) {
         btnPesquisarConsulta.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarConsulta.setText("Pesquisar");
         btnPesquisarConsulta.setBorder(null);
-        btnPesquisarConsulta.setPreferredSize(new java.awt.Dimension(100, 40));
+        btnPesquisarConsulta.setIconTextGap(8);
+        btnPesquisarConsulta.setPreferredSize(new java.awt.Dimension(100, 45));
+        btnPesquisarConsulta.addActionListener(this::btnPesquisarConsultaActionPerformed);
 
         javax.swing.GroupLayout painelConsultaClientesLayout = new javax.swing.GroupLayout(painelConsultaClientes);
         painelConsultaClientes.setLayout(painelConsultaClientesLayout);
         painelConsultaClientesLayout.setHorizontalGroup(
             painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClientesLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
+                .addGap(51, 51, 51)
                 .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDescricaoConsulta)
                     .addComponent(lblTituloConsulta)
                     .addGroup(painelConsultaClientesLayout.createSequentialGroup()
-                        .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74)
-                        .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblStatusConsulta)
-                            .addComponent(cbStatusConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(painelConsultaClientesLayout.createSequentialGroup()
-                .addContainerGap(793, Short.MAX_VALUE)
-                .addComponent(btnPesquisarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98)
-                .addComponent(btnLimparFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+                        .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnPesquisarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(painelConsultaClientesLayout.createSequentialGroup()
+                                .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(48, 48, 48)
+                                .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblStatusConsulta)
+                                    .addComponent(cbStatusConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(94, 94, 94)
+                        .addComponent(btnLimparFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         painelConsultaClientesLayout.setVerticalGroup(
             painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClientesLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(35, 35, 35)
                 .addComponent(lblTituloConsulta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescricaoConsulta)
-                .addGap(52, 52, 52)
+                .addGap(64, 64, 64)
                 .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelConsultaClientesLayout.createSequentialGroup()
                         .addComponent(lblStatusConsulta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(painelConsultaClientesLayout.createSequentialGroup()
-                                .addComponent(cbStatusConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(100, 100, 100))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelConsultaClientesLayout.createSequentialGroup()
-                                .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnPesquisarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnLimparFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30))))
+                        .addComponent(cbStatusConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addGroup(painelConsultaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnPesquisarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimparFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30))
                     .addGroup(painelConsultaClientesLayout.createSequentialGroup()
                         .addComponent(lblPesquisaCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         painelConsultaClientes1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -816,12 +1749,15 @@ public void navegar(String idtela) {
         btnVisualizarDetalhes.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\eye (1).png")); // NOI18N
         btnVisualizarDetalhes.setText("Visualizar detalhes");
         btnVisualizarDetalhes.setBorder(null);
-        btnVisualizarDetalhes.setPreferredSize(new java.awt.Dimension(210, 40));
+        btnVisualizarDetalhes.setIconTextGap(8);
+        btnVisualizarDetalhes.setPreferredSize(new java.awt.Dimension(210, 45));
+        btnVisualizarDetalhes.addActionListener(this::btnVisualizarDetalhesActionPerformed);
 
         lblMensagemConsulta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblMensagemConsulta.setText("Selecione um cliente na tabela para visualizar seus dados.");
 
         lblClientesCadastrados.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 20)); // NOI18N
+        lblClientesCadastrados.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\persona.png")); // NOI18N
         lblClientesCadastrados.setText("Clientes cadastrados");
 
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -852,29 +1788,160 @@ public void navegar(String idtela) {
         painelConsultaClientes1Layout.setHorizontalGroup(
             painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClientes1Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(54, 54, 54)
                 .addGroup(painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblClientesCadastrados, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painelConsultaClientes1Layout.createSequentialGroup()
+                        .addGroup(painelConsultaClientes1Layout.createSequentialGroup()
                             .addComponent(lblMensagemConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnVisualizarDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(295, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         painelConsultaClientes1Layout.setVerticalGroup(
             painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClientes1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(47, 47, 47)
                 .addComponent(lblClientesCadastrados)
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addGroup(painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVisualizarDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMensagemConsulta))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+
+        painelDetalhesCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbDetalhesdocliente.setFont(new java.awt.Font("Arial Black", 0, 20)); // NOI18N
+        lbDetalhesdocliente.setText("Detalhes do cliente");
+
+        lbdadosPessoais.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbdadosPessoais.setForeground(new java.awt.Color(102, 102, 102));
+        lbdadosPessoais.setText("DADOS PESSOAIS");
+
+        lblDetalheCodigo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheCodigo.setText("Código:");
+
+        lblDetalheNome.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheNome.setText("Nome:");
+
+        lblDetalheCPF.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheCPF.setText("CPF:");
+
+        lblDetalheRG.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheRG.setText("RG:");
+
+        lblDetalheNascimento.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheNascimento.setText("Data de nascimento:");
+
+        lblDetalheGenero.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheGenero.setText("Gênero:");
+
+        lbDatalheContato.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbDatalheContato.setForeground(new java.awt.Color(102, 102, 102));
+        lbDatalheContato.setText("CONTATO");
+
+        lblDetalheTelefone.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheTelefone.setText("Telefone:");
+
+        lblDetalheEmail.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheEmail.setText("E-mail:");
+
+        lbSituacaoCadastral.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbSituacaoCadastral.setForeground(new java.awt.Color(102, 102, 102));
+        lbSituacaoCadastral.setText("SITUAÇÃO CADASTRAL");
+
+        lblDetalheStatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lblDetalheStatus.setText("Status:");
+
+        lbenderecoflutuante.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbenderecoflutuante.setForeground(new java.awt.Color(102, 102, 102));
+        lbenderecoflutuante.setText("ENDEREÇO");
+
+        lbCiade.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lbCiade.setText("Cidade:");
+
+        lbBairro.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lbBairro.setText("Bairro:");
+
+        lbEndereco.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 16)); // NOI18N
+        lbEndereco.setText("Endereço:");
+
+        javax.swing.GroupLayout painelDetalhesClienteLayout = new javax.swing.GroupLayout(painelDetalhesCliente);
+        painelDetalhesCliente.setLayout(painelDetalhesClienteLayout);
+        painelDetalhesClienteLayout.setHorizontalGroup(
+            painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelDetalhesClienteLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelDetalhesClienteLayout.createSequentialGroup()
+                        .addGroup(painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbDetalhesdocliente)
+                            .addComponent(lbdadosPessoais, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                        .addContainerGap(79, Short.MAX_VALUE))
+                    .addGroup(painelDetalhesClienteLayout.createSequentialGroup()
+                        .addComponent(lblDetalheNome)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(painelDetalhesClienteLayout.createSequentialGroup()
+                        .addGroup(painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbSituacaoCadastral)
+                            .addComponent(lblDetalheStatus)
+                            .addComponent(lblDetalheGenero)
+                            .addComponent(lblDetalheNascimento)
+                            .addComponent(lblDetalheRG)
+                            .addComponent(lblDetalheCPF)
+                            .addComponent(lblDetalheCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDatalheContato)
+                            .addGroup(painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblDetalheEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDetalheTelefone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbenderecoflutuante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                            .addComponent(lbBairro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbCiade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        painelDetalhesClienteLayout.setVerticalGroup(
+            painelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelDetalhesClienteLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(lbDetalhesdocliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbdadosPessoais)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDetalheCodigo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheNome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheCPF)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheRG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheNascimento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheGenero)
                 .addGap(18, 18, 18)
-                .addGroup(painelConsultaClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMensagemConsulta)
-                    .addComponent(btnVisualizarDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addComponent(lbDatalheContato)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDetalheTelefone)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheEmail)
+                .addGap(18, 18, 18)
+                .addComponent(lbenderecoflutuante)
+                .addGap(18, 18, 18)
+                .addComponent(lbCiade)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbBairro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbEndereco)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(lbSituacaoCadastral)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDetalheStatus)
+                .addGap(33, 33, 33))
         );
 
         javax.swing.GroupLayout painelConsultaLayout = new javax.swing.GroupLayout(painelConsulta);
@@ -882,20 +1949,27 @@ public void navegar(String idtela) {
         painelConsultaLayout.setHorizontalGroup(
             painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painelConsultaClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, 1374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelConsultaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1462, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(painelConsultaClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(painelConsultaClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, 1133, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
+                .addComponent(painelDetalhesCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1286, Short.MAX_VALUE))
         );
         painelConsultaLayout.setVerticalGroup(
             painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(painelConsultaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(painelConsultaClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1786, Short.MAX_VALUE))
+                .addGroup(painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelConsultaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(painelConsultaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(painelConsultaClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelConsultaLayout.createSequentialGroup()
+                        .addGap(296, 296, 296)
+                        .addComponent(painelDetalhesCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 1916, Short.MAX_VALUE))
         );
 
         abasClientes.addTab("Consulta", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search 24.png"), painelConsulta); // NOI18N
@@ -923,6 +1997,7 @@ public void navegar(String idtela) {
                 "Campo", "Informaçoes"
             }
         ));
+        tabelaEdicaoClientes.setShowHorizontalLines(true);
         scrollTabelaEdicao.setViewportView(tabelaEdicaoClientes);
 
         lblPesquisaEdicao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -945,65 +2020,72 @@ public void navegar(String idtela) {
         btnPesquisarEdicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarEdicao.setText("Pesquisar");
         btnPesquisarEdicao.setBorder(null);
-        btnPesquisarEdicao.setPreferredSize(new java.awt.Dimension(98, 40));
+        btnPesquisarEdicao.setIconTextGap(8);
+        btnPesquisarEdicao.setPreferredSize(new java.awt.Dimension(98, 45));
+        btnPesquisarEdicao.addActionListener(this::btnPesquisarEdicaoActionPerformed);
 
         lblTituloDadosEdicao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblTituloDadosEdicao.setText("Dados do cliente selecionado");
 
         lblDescricaoEdicao.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 22)); // NOI18N
-        lblDescricaoEdicao.setText("Localize um cliente para consultar, alterar seus dados ou desativar seu cadastro.");
+        lblDescricaoEdicao.setText("Localize um cliente para consultar, alterar seus dados ou \ndesativar seu cadastro.");
+
+        chick.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\chick (2).png")); // NOI18N
 
         javax.swing.GroupLayout painelEdicaoClientesLayout = new javax.swing.GroupLayout(painelEdicaoClientes);
         painelEdicaoClientes.setLayout(painelEdicaoClientesLayout);
         painelEdicaoClientesLayout.setHorizontalGroup(
             painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(57, 57, 57)
                 .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
                         .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTituloDadosEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scrollTabelaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
-                        .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPesquisaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPesquisaEdicao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
-                        .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblStatusEdicao)
                             .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
-                                .addComponent(cbStatusEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(181, 181, 181)
-                                .addComponent(btnPesquisarEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(299, 299, 299))
-                    .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
-                        .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPesquisaEdicao)
+                                    .addComponent(txtPesquisaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34)
+                                .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblStatusEdicao)
+                                    .addComponent(cbStatusEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblTituloEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblDescricaoEdicao)
-                            .addComponent(lblTituloEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(scrollTabelaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
+                        .addComponent(lblTituloDadosEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPesquisarEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121))))
+            .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(chick)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         painelEdicaoClientesLayout.setVerticalGroup(
             painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoClientesLayout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(35, 35, 35)
                 .addComponent(lblTituloEdicao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescricaoEdicao)
-                .addGap(28, 28, 28)
-                .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(69, 69, 69)
+                .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPesquisaEdicao)
                     .addComponent(lblStatusEdicao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesquisaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStatusEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbStatusEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(scrollTabelaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(painelEdicaoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTituloDadosEdicao)
                     .addComponent(btnPesquisarEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(scrollTabelaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTituloDadosEdicao)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGap(108, 108, 108)
+                .addComponent(chick))
         );
 
         painelEdicaoClientes1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1049,6 +2131,7 @@ public void navegar(String idtela) {
         lblEmailEdicao.setText("E-mail");
 
         txtBairroEdicao.setPreferredSize(new java.awt.Dimension(68, 40));
+        txtBairroEdicao.addActionListener(this::txtBairroEdicaoActionPerformed);
 
         txtCPFCdicao.setPreferredSize(new java.awt.Dimension(68, 40));
 
@@ -1056,6 +2139,7 @@ public void navegar(String idtela) {
         txtRGEdicao.addActionListener(this::txtRGEdicaoActionPerformed);
 
         txtTelefoneEdicao.setPreferredSize(new java.awt.Dimension(68, 40));
+        txtTelefoneEdicao.addActionListener(this::txtTelefoneEdicaoActionPerformed);
 
         lblTelefoneEdicao.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblTelefoneEdicao.setText("Telefone");
@@ -1065,82 +2149,83 @@ public void navegar(String idtela) {
         painelEdicaoClientes1Layout.setHorizontalGroup(
             painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTelefoneEdicao)
+                    .addComponent(txtBairroEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(lblCodigoEdicao)
+                    .addComponent(txtCPFCdicao, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(txtCodigoEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCPFCdicao)
+                    .addComponent(lblEmailEdicao)
+                    .addComponent(Bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtTelefoneEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEnderecoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCodigoEdicao)
-                            .addComponent(txtCodigoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCPFCdicao)
-                            .addComponent(txtCPFCdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTelefoneEdicao)
-                            .addComponent(txtCidadeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEmailEdicao)
-                            .addComponent(txtTelefoneEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(447, 447, 447)
-                        .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNomeEdicao)
-                            .addComponent(lblRGEdicao)
-                            .addComponent(txtBairroEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDataNascimentoEdicao)
-                            .addComponent(txtNomeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRGEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCidadeEdicao)
-                            .addComponent(txtDataNascimentoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEnderecoEdicao)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEdicaoClientes1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(txtEmailEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(421, 421, Short.MAX_VALUE))
+                    .addComponent(txtEnderecoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataNascimentoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCidadeEdicao)
+                    .addComponent(lblEnderecoEdicao)
+                    .addComponent(lblDataNascimentoEdicao)
+                    .addComponent(lblRGEdicao)
+                    .addComponent(lblNomeEdicao)
+                    .addComponent(txtRGEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCidadeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNomeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         painelEdicaoClientes1Layout.setVerticalGroup(
             painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCodigoEdicao)
-                    .addComponent(lblNomeEdicao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodigoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmailEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCPFCdicao)
-                    .addComponent(lblRGEdicao))
-                .addGap(7, 7, 7)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCPFCdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBairroEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
+                        .addComponent(lblNomeEdicao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
+                        .addComponent(lblCodigoEdicao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCodigoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
+                        .addComponent(lblRGEdicao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRGEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
+                        .addComponent(lblCPFCdicao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCPFCdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39)
                 .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefoneEdicao)
                     .addComponent(lblDataNascimentoEdicao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNomeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCidadeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
-                        .addComponent(lblEnderecoEdicao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRGEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDataNascimentoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(painelEdicaoClientes1Layout.createSequentialGroup()
-                        .addComponent(lblEmailEdicao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(14, 14, 14)
                         .addComponent(txtTelefoneEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36)
+                .addGap(38, 38, 38)
                 .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCidadeEdicao)
-                    .addComponent(Bairro))
+                    .addComponent(lblEnderecoEdicao)
+                    .addComponent(lblEmailEdicao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDataNascimentoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEnderecoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(85, 85, 85))
+                    .addComponent(txtEnderecoEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Bairro)
+                    .addComponent(lblCidadeEdicao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(painelEdicaoClientes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBairroEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCidadeEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         painelHistoricoClientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1149,46 +2234,51 @@ public void navegar(String idtela) {
         btnLimparEdicao.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparEdicao.setText("Limpar campos");
         btnLimparEdicao.setBorder(null);
-        btnLimparEdicao.setPreferredSize(new java.awt.Dimension(178, 40));
+        btnLimparEdicao.setIconTextGap(8);
+        btnLimparEdicao.setPreferredSize(new java.awt.Dimension(178, 45));
+        btnLimparEdicao.addActionListener(this::btnLimparEdicaoActionPerformed);
 
         btnSalvarAlteracoes.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnSalvarAlteracoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\diskette (5).png")); // NOI18N
         btnSalvarAlteracoes.setText("Salvar alterações");
         btnSalvarAlteracoes.setBorder(null);
-        btnSalvarAlteracoes.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnSalvarAlteracoes.setIconTextGap(8);
+        btnSalvarAlteracoes.setPreferredSize(new java.awt.Dimension(200, 45));
+        btnSalvarAlteracoes.addActionListener(this::btnSalvarAlteracoesActionPerformed);
 
         btnDesativarCliente.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         btnDesativarCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\user (1).png")); // NOI18N
         btnDesativarCliente.setText("Desativar cliente");
         btnDesativarCliente.setBorder(null);
-        btnDesativarCliente.setPreferredSize(new java.awt.Dimension(193, 40));
+        btnDesativarCliente.setPreferredSize(new java.awt.Dimension(193, 45));
+        btnDesativarCliente.addActionListener(this::btnDesativarClienteActionPerformed);
 
         javax.swing.GroupLayout painelHistoricoClientesLayout = new javax.swing.GroupLayout(painelHistoricoClientes);
         painelHistoricoClientes.setLayout(painelHistoricoClientesLayout);
         painelHistoricoClientesLayout.setHorizontalGroup(
             painelHistoricoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelHistoricoClientesLayout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(btnLimparEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(402, 402, 402)
-                .addComponent(btnSalvarAlteracoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
-                .addComponent(btnDesativarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116))
+                .addGap(53, 53, 53)
+                .addComponent(btnLimparEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(376, 376, 376)
+                .addComponent(btnSalvarAlteracoes, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
+                .addComponent(btnDesativarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
         painelHistoricoClientesLayout.setVerticalGroup(
             painelHistoricoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelHistoricoClientesLayout.createSequentialGroup()
                 .addGroup(painelHistoricoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelHistoricoClientesLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
+                        .addGap(28, 28, 28)
                         .addGroup(painelHistoricoClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSalvarAlteracoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDesativarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnLimparEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSalvarAlteracoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(painelHistoricoClientesLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(btnLimparEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
+                        .addComponent(btnDesativarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout painelEdicaoLayout = new javax.swing.GroupLayout(painelEdicao);
@@ -1196,34 +2286,42 @@ public void navegar(String idtela) {
         painelEdicaoLayout.setHorizontalGroup(
             painelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(painelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(17, 17, 17)
+                .addGroup(painelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(painelHistoricoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelEdicaoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelEdicaoClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1243, Short.MAX_VALUE))
+                    .addGroup(painelEdicaoLayout.createSequentialGroup()
+                        .addComponent(painelEdicaoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(painelEdicaoClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(1268, Short.MAX_VALUE))
         );
         painelEdicaoLayout.setVerticalGroup(
             painelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelEdicaoLayout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(painelEdicaoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(painelEdicaoClientes1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(23, 23, 23)
+                .addGroup(painelEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(painelEdicaoClientes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(painelEdicaoClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
                 .addComponent(painelHistoricoClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1245, Short.MAX_VALUE))
+                .addContainerGap(1998, Short.MAX_VALUE))
         );
 
         abasClientes.addTab("Edição e Desativação", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\pencil (1).png"), painelEdicao); // NOI18N
 
         painelHistorico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnComprovante.setBackground(new java.awt.Color(10, 4, 138));
         btnComprovante.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        btnComprovante.setForeground(new java.awt.Color(255, 255, 255));
+        btnComprovante.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\bill (1).png")); // NOI18N
         btnComprovante.setText("Comprovante");
         btnComprovante.setBorder(null);
 
+        btnExportarHistorico.setBackground(new java.awt.Color(10, 40, 138));
         btnExportarHistorico.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        btnExportarHistorico.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\share.png")); // NOI18N
         btnExportarHistorico.setText("Exportar ");
         btnExportarHistorico.setBorder(null);
         btnExportarHistorico.setPreferredSize(new java.awt.Dimension(171, 40));
@@ -1232,7 +2330,7 @@ public void navegar(String idtela) {
         painelhistoricoCompras.setPreferredSize(new java.awt.Dimension(300, 200));
 
         tabelaComprasHistorico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        tabelaComprasHistorico.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tabelaComprasHistorico.setFont(new java.awt.Font("Arial Narrow", 0, 16)); // NOI18N
         tabelaComprasHistorico.setForeground(new java.awt.Color(255, 255, 255));
         tabelaComprasHistorico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1257,13 +2355,11 @@ public void navegar(String idtela) {
         painelhistoricoComprasLayout.setHorizontalGroup(
             painelhistoricoComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelhistoricoComprasLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblTituloComprasHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(painelhistoricoComprasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1355, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(53, 53, 53)
+                .addGroup(painelhistoricoComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTituloComprasHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         painelhistoricoComprasLayout.setVerticalGroup(
             painelhistoricoComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1271,8 +2367,8 @@ public void navegar(String idtela) {
                 .addGap(34, 34, 34)
                 .addComponent(lblTituloComprasHistorico)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         painelhistorico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1284,7 +2380,9 @@ public void navegar(String idtela) {
         btnPesquisarHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarHistorico.setText("Pesquisar");
         btnPesquisarHistorico.setBorder(null);
-        btnPesquisarHistorico.setPreferredSize(new java.awt.Dimension(98, 40));
+        btnPesquisarHistorico.setIconTextGap(8);
+        btnPesquisarHistorico.setPreferredSize(new java.awt.Dimension(98, 45));
+        btnPesquisarHistorico.addActionListener(this::btnPesquisarHistoricoActionPerformed);
 
         txtPesquisaHistorico.setPreferredSize(new java.awt.Dimension(68, 35));
 
@@ -1296,7 +2394,8 @@ public void navegar(String idtela) {
         btnLimparHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparHistorico.setText("Limpar");
         btnLimparHistorico.setBorder(null);
-        btnLimparHistorico.setPreferredSize(new java.awt.Dimension(176, 40));
+        btnLimparHistorico.setIconTextGap(8);
+        btnLimparHistorico.setPreferredSize(new java.awt.Dimension(176, 45));
 
         lbpesquisarcliente.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbpesquisarcliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (4).png")); // NOI18N
@@ -1310,36 +2409,34 @@ public void navegar(String idtela) {
         painelhistoricoLayout.setHorizontalGroup(
             painelhistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelhistoricoLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(56, 56, 56)
                 .addGroup(painelhistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTituloHistorico)
+                    .addComponent(txtPesquisaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(painelhistoricoLayout.createSequentialGroup()
+                        .addComponent(btnPesquisarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(186, 186, 186)
+                        .addComponent(btnLimparHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbpesquisarcliente)
-                    .addComponent(lblDescricaoHistorico)
-                    .addComponent(lblTituloHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 907, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(403, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelhistoricoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPesquisarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addComponent(btnLimparHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79))
+                    .addComponent(lblDescricaoHistorico))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         painelhistoricoLayout.setVerticalGroup(
             painelhistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelhistoricoLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(19, 19, 19)
                 .addComponent(lblTituloHistorico)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescricaoHistorico)
-                .addGap(34, 34, 34)
+                .addGap(28, 28, 28)
                 .addComponent(lbpesquisarcliente)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtPesquisaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addGroup(painelhistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPesquisarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimparHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         painelhistoricoPagamentos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1349,7 +2446,7 @@ public void navegar(String idtela) {
         lblTituloPagamentosHistorico.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\money (2).png")); // NOI18N
         lblTituloPagamentosHistorico.setText("Histórico de Pagamentos");
 
-        tabelaPagamentosHistorico.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tabelaPagamentosHistorico.setFont(new java.awt.Font("Arial Narrow", 0, 16)); // NOI18N
         tabelaPagamentosHistorico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -1375,13 +2472,9 @@ public void navegar(String idtela) {
             .addGroup(painelhistoricoPagamentosLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(painelhistoricoPagamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelhistoricoPagamentosLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(lblTituloPagamentosHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelhistoricoPagamentosLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(139, Short.MAX_VALUE))
+                    .addComponent(lblTituloPagamentosHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         painelhistoricoPagamentosLayout.setVerticalGroup(
             painelhistoricoPagamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1464,7 +2557,7 @@ public void navegar(String idtela) {
                     .addComponent(lBsubTotalPagp)
                     .addComponent(LbVALORtOTALpAGO)
                     .addComponent(lBtotalPago))
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
         painelTotalPagoLayout.setVerticalGroup(
             painelTotalPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1475,7 +2568,11 @@ public void navegar(String idtela) {
                 .addComponent(LbVALORtOTALpAGO)
                 .addGap(24, 24, 24)
                 .addComponent(lBsubTotalPagp)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTotalPagoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbTotalPagoCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
 
         lBSaldoPendente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1496,25 +2593,28 @@ public void navegar(String idtela) {
         lBSaldoPendenteLayout.setHorizontalGroup(
             lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lBSaldoPendenteLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(19, 19, 19)
                 .addComponent(lbiconeSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(38, 38, 38)
                 .addGroup(lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lBvalorPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbsaldopendente1)
                     .addComponent(lBsubValorPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         lBSaldoPendenteLayout.setVerticalGroup(
             lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lBSaldoPendenteLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lbsaldopendente1)
-                .addGap(18, 18, 18)
-                .addComponent(lBvalorPendente)
-                .addGap(12, 12, 12)
-                .addComponent(lBsubValorPendente)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(lBSaldoPendenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbiconeSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(lBSaldoPendenteLayout.createSequentialGroup()
+                        .addComponent(lbsaldopendente1)
+                        .addGap(12, 12, 12)
+                        .addComponent(lBvalorPendente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lBsubValorPendente)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout painelHistoricoLayout = new javax.swing.GroupLayout(painelHistorico);
@@ -1522,58 +2622,63 @@ public void navegar(String idtela) {
         painelHistoricoLayout.setHorizontalGroup(
             painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelHistoricoLayout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(painelhistoricoCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 1371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelhistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 1371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelhistoricoPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 1371, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82)
+                .addContainerGap()
+                .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(painelhistoricoCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                    .addComponent(painelhistoricoPagamentos, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                    .addComponent(painelhistorico, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
                 .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painelTotalCompras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lBSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(painelTotalPago, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbGerarComprovante)
-                    .addComponent(btnComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExportarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(797, Short.MAX_VALUE))
+                    .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(painelTotalPago, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(painelTotalCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lBSaldoPendente, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)))
+                    .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnExportarHistorico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                        .addComponent(btnComprovante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(1461, Short.MAX_VALUE))
         );
         painelHistoricoLayout.setVerticalGroup(
             painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelHistoricoLayout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(painelHistoricoLayout.createSequentialGroup()
-                        .addComponent(painelhistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(painelhistoricoCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelHistoricoLayout.createSequentialGroup()
-                        .addComponent(painelTotalCompras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(lBSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(painelTotalPago, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
                 .addGroup(painelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelHistoricoLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(painelhistoricoPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelHistoricoLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addComponent(painelTotalCompras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lBSaldoPendente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(painelTotalPago, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(lbGerarComprovante)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                         .addComponent(btnComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnExportarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1997, 1997, 1997))
+                    .addGroup(painelHistoricoLayout.createSequentialGroup()
+                        .addComponent(painelhistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnExportarHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(1745, Short.MAX_VALUE))
+                        .addComponent(painelhistoricoCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(painelhistoricoPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         abasClientes.addTab("Histórico de Compras e Pagamentos", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\history 24.png"), painelHistorico); // NOI18N
 
         painelPedidosRelatorio.setPreferredSize(new java.awt.Dimension(1200, 936));
 
+        painelpedidosTitulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         lblTituloPedidosRelatorio.setFont(new java.awt.Font("Arial Black", 1, 30)); // NOI18N
+        lblTituloPedidosRelatorio.setForeground(new java.awt.Color(10, 4, 138));
         lblTituloPedidosRelatorio.setText("Pedidos e Relatório de Clientes");
 
-        painelpedidosTitulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblDescricaoPedidosRelatorio.setFont(new java.awt.Font("Arial", 0, 22)); // NOI18N
+        lblDescricaoPedidosRelatorio.setText("Consulte os pedidos dos clientes e gere relatórios de cadastro e movimentação.");
 
         lblPesquisaClienteRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblPesquisaClienteRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (4).png")); // NOI18N
@@ -1599,8 +2704,10 @@ public void navegar(String idtela) {
         btnLimparFiltrosRelatorio.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         btnLimparFiltrosRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\replay.png")); // NOI18N
         btnLimparFiltrosRelatorio.setBorder(null);
+        btnLimparFiltrosRelatorio.setIconTextGap(8);
         btnLimparFiltrosRelatorio.setLabel("Limpar");
         btnLimparFiltrosRelatorio.setPreferredSize(new java.awt.Dimension(138, 40));
+        btnLimparFiltrosRelatorio.addActionListener(this::btnLimparFiltrosRelatorioActionPerformed);
 
         btnPesquisarRelatorio.setBackground(new java.awt.Color(10, 4, 138));
         btnPesquisarRelatorio.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
@@ -1608,6 +2715,7 @@ public void navegar(String idtela) {
         btnPesquisarRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\search (3).png")); // NOI18N
         btnPesquisarRelatorio.setText("Pesquisar");
         btnPesquisarRelatorio.setBorder(null);
+        btnPesquisarRelatorio.setIconTextGap(6);
         btnPesquisarRelatorio.setPreferredSize(new java.awt.Dimension(75, 40));
 
         txtPesquisaClienteRelatorio.setPreferredSize(new java.awt.Dimension(68, 35));
@@ -1619,102 +2727,62 @@ public void navegar(String idtela) {
             .addGroup(painelpedidosTituloLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbStatusRelatorio, 0, 131, Short.MAX_VALUE)
-                    .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(66, 66, 66)
-                .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelpedidosTituloLayout.createSequentialGroup()
-                        .addComponent(cbPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-                        .addComponent(btnPesquisarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnLimparFiltrosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))
-                    .addGroup(painelpedidosTituloLayout.createSequentialGroup()
-                        .addComponent(lblPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(painelpedidosTituloLayout.createSequentialGroup()
+                                .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbStatusRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(painelpedidosTituloLayout.createSequentialGroup()
+                                .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblStatusRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(68, 68, 68)
+                        .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(painelpedidosTituloLayout.createSequentialGroup()
+                                .addComponent(cbPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)
+                                .addComponent(btnPesquisarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimparFiltrosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lblTituloPedidosRelatorio)
+                    .addComponent(lblDescricaoPedidosRelatorio))
+                .addGap(23, 23, 23))
         );
         painelpedidosTituloLayout.setVerticalGroup(
             painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelpedidosTituloLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTituloPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDescricaoPedidosRelatorio)
+                .addGap(18, 18, 18)
                 .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelpedidosTituloLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblStatusRelatorio)
-                            .addComponent(lblPeriodoRelatorio))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStatusRelatorio))
+                        .addGap(1, 1, 1)
+                        .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbStatusRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(painelpedidosTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbStatusRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnPesquisarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimparFiltrosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(painelpedidosTituloLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(lblPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPesquisaClienteRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(43, 43, 43))
+                            .addComponent(btnLimparFiltrosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(painelpedidosTituloLayout.createSequentialGroup()
+                            .addComponent(lblPeriodoRelatorio)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cbPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(118, 118, 118))
         );
 
         painelPedidosClientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTable1.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbPedidosClientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tbPedidosClientes.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        tbPedidosClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -1730,8 +2798,8 @@ public void navegar(String idtela) {
                 "Nº do pedido", "Código do cliente", "Nome do cliente", "Data do pedido", "Valor total", "Status"
             }
         ));
-        jTable1.setShowVerticalLines(true);
-        tabelaPedidosClientes.setViewportView(jTable1);
+        tbPedidosClientes.setShowVerticalLines(true);
+        tabelaPedidosClientes.setViewportView(tbPedidosClientes);
 
         lblTituloTabelaPedidos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblTituloTabelaPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart.png")); // NOI18N
@@ -1744,18 +2812,18 @@ public void navegar(String idtela) {
             .addGroup(painelPedidosClientesLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(painelPedidosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabelaPedidosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 1230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTituloTabelaPedidos))
-                .addContainerGap(102, Short.MAX_VALUE))
+                    .addComponent(lblTituloTabelaPedidos)
+                    .addComponent(tabelaPedidosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 1014, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         painelPedidosClientesLayout.setVerticalGroup(
             painelPedidosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPedidosClientesLayout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(lblTituloTabelaPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabelaPedidosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         painelTotalPedidos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1766,7 +2834,7 @@ public void navegar(String idtela) {
         lblTotalPedidosRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblTotalPedidosRelatorio.setText("Total de pedidos:");
 
-        lbIconetotalPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart-shopping-fast (1).png")); // NOI18N
+        lbIconetotalPedidos.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\cart (4).png")); // NOI18N
 
         javax.swing.GroupLayout painelTotalPedidosLayout = new javax.swing.GroupLayout(painelTotalPedidos);
         painelTotalPedidos.setLayout(painelTotalPedidosLayout);
@@ -1780,14 +2848,14 @@ public void navegar(String idtela) {
                             .addComponent(lblQuantidadePedidosRelatorio)
                             .addComponent(lblTotalPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(painelTotalPedidosLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
+                        .addGap(39, 39, 39)
                         .addComponent(lbIconetotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         painelTotalPedidosLayout.setVerticalGroup(
             painelTotalPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelTotalPedidosLayout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(lbIconetotalPedidos)
                 .addGap(18, 18, 18)
                 .addComponent(lblTotalPedidosRelatorio)
@@ -1804,7 +2872,7 @@ public void navegar(String idtela) {
         lblTotalValorPedidosRelatorio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblTotalValorPedidosRelatorio.setText("R$ 0,00");
 
-        lbIconeValorTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\coins.png")); // NOI18N
+        lbIconeValorTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\dollar (1).png")); // NOI18N
 
         javax.swing.GroupLayout painelvalorTotalPedidosLayout = new javax.swing.GroupLayout(painelvalorTotalPedidos);
         painelvalorTotalPedidos.setLayout(painelvalorTotalPedidosLayout);
@@ -1814,21 +2882,18 @@ public void navegar(String idtela) {
                 .addGroup(painelvalorTotalPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelvalorTotalPedidosLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(lblTotalValorPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelvalorTotalPedidosLayout.createSequentialGroup()
-                        .addGap(0, 22, Short.MAX_VALUE)
-                        .addComponent(lblValorPedidosRelatorio)))
-                .addContainerGap())
-            .addGroup(painelvalorTotalPedidosLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(lbIconeValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(painelvalorTotalPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblValorPedidosRelatorio)
+                            .addComponent(lblTotalValorPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painelvalorTotalPedidosLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(lbIconeValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         painelvalorTotalPedidosLayout.setVerticalGroup(
             painelvalorTotalPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelvalorTotalPedidosLayout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(lbIconeValorTotal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblValorPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1845,7 +2910,7 @@ public void navegar(String idtela) {
         lblPedidosPendentesRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblPedidosPendentesRelatorio.setText("Pedidos pendentes:");
 
-        lbIconePendente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\clock-three (1).png")); // NOI18N
+        lbIconePendente.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\clock (3).png")); // NOI18N
 
         javax.swing.GroupLayout painelPedidospendetesLayout = new javax.swing.GroupLayout(painelPedidospendetes);
         painelPedidospendetes.setLayout(painelPedidospendetesLayout);
@@ -1866,9 +2931,9 @@ public void navegar(String idtela) {
         painelPedidospendetesLayout.setVerticalGroup(
             painelPedidospendetesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPedidospendetesLayout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addComponent(lbIconePendente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPedidosPendentesRelatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblQuantidadePendentesRelatorio)
@@ -1881,11 +2946,13 @@ public void navegar(String idtela) {
         lblTipoRelatorio.setText("Tipo de relatório");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\documents (1).png")); // NOI18N
         jLabel1.setText("Formato");
 
         btnGerarRelatorio.setBackground(new java.awt.Color(10, 4, 138));
         btnGerarRelatorio.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         btnGerarRelatorio.setForeground(new java.awt.Color(255, 255, 255));
+        btnGerarRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\report (1).png")); // NOI18N
         btnGerarRelatorio.setText("Gerar relatório");
         btnGerarRelatorio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnGerarRelatorio.setPreferredSize(new java.awt.Dimension(109, 40));
@@ -1898,6 +2965,7 @@ public void navegar(String idtela) {
         lbMesRelatorio.setText("Mês");
 
         lbPeriodoRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lbPeriodoRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\calendar.png")); // NOI18N
         lbPeriodoRelatorio.setText("Período do relatório");
         lbPeriodoRelatorio.setIconTextGap(8);
 
@@ -1919,6 +2987,7 @@ public void navegar(String idtela) {
         cbTipoRelatorio.addActionListener(this::cbTipoRelatorioActionPerformed);
 
         lblTituloGerarRelatorio.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 22)); // NOI18N
+        lblTituloGerarRelatorio.setIcon(new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\newspaper (3).png")); // NOI18N
         lblTituloGerarRelatorio.setText("Gerar Relatório");
 
         javax.swing.GroupLayout painelGerarRelatorioLayout = new javax.swing.GroupLayout(painelGerarRelatorio);
@@ -1930,7 +2999,6 @@ public void navegar(String idtela) {
                 .addGroup(painelGerarRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
                     .addComponent(lblTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTituloGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbTipoRelatorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1941,14 +3009,10 @@ public void navegar(String idtela) {
                             .addComponent(lbMesRelatorio))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                         .addGroup(painelGerarRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbTipoRelatorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(painelGerarRelatorioLayout.createSequentialGroup()
-                                .addGroup(painelGerarRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblTituloGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbPeriodoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(65, 65, 65))))
+                            .addComponent(lbAnoRelatorio)
+                            .addComponent(cbAnoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblTituloGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         painelGerarRelatorioLayout.setVerticalGroup(
             painelGerarRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1959,7 +3023,7 @@ public void navegar(String idtela) {
                 .addComponent(lblTipoRelatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbTipoRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbPeriodoRelatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(painelGerarRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1978,140 +3042,77 @@ public void navegar(String idtela) {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblDescricaoPedidosRelatorio.setFont(new java.awt.Font("Arial", 0, 22)); // NOI18N
-        lblDescricaoPedidosRelatorio.setText("Consulte os pedidos dos clientes e gere relatórios de cadastro e movimentação.");
-
         javax.swing.GroupLayout painelPedidosRelatorioLayout = new javax.swing.GroupLayout(painelPedidosRelatorio);
         painelPedidosRelatorio.setLayout(painelPedidosRelatorioLayout);
         painelPedidosRelatorioLayout.setHorizontalGroup(
             painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
                 .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelpedidosTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(painelGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
+                        .addContainerGap()
+                        .addComponent(painelGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(painelTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(197, 197, 197)
-                                .addComponent(painelPedidospendetes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(591, 591, 591)
-                                .addComponent(painelvalorTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblDescricaoPedidosRelatorio)
-                            .addComponent(lblTituloPedidosRelatorio)))
-                    .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(painelpedidosTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(painelPedidosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(1265, Short.MAX_VALUE))
+                            .addComponent(painelvalorTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(painelTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 73, Short.MAX_VALUE)
+                        .addComponent(painelPedidospendetes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(painelPedidosClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(1683, 1683, 1683))
         );
         painelPedidosRelatorioLayout.setVerticalGroup(
             painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(lblTituloPedidosRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(painelpedidosTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescricaoPedidosRelatorio)
-                .addGap(32, 32, 32)
-                .addComponent(painelpedidosTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
                 .addComponent(painelPedidosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(painelvalorTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(painelPedidosRelatorioLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(painelPedidosRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(painelPedidospendetes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(painelTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35)))
-                .addComponent(painelGerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1289, Short.MAX_VALUE))
+                            .addComponent(painelTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(painelPedidospendetes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(painelvalorTotalPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(painelGerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(1935, Short.MAX_VALUE))
         );
 
         abasClientes.addTab("Pedidos e Relatório", new javax.swing.ImageIcon("C:\\Users\\CleicianeGomes\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\resources\\assets\\document.png"), painelPedidosRelatorio); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(2167, 2167, 2167)
-                .addComponent(painelConteudo, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(abasClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 2882, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(abasClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 2713, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(painelConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(abasClientes, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
+         limparCamposCadastro() ;
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
- cadastrarCliente();
-        // TEXT FIELD
-String nomeCompleto = txtNome.getText().trim();
+// TEXT FIELD
+    // Verifica se os dados pessoais estão preenchidos
+    if (txtNome.getText().trim().isEmpty()
+            || tfRG.getText().trim().isEmpty()
+            || txtEmailCadastro.getText().trim().isEmpty()
+            || ftfCPF.getText().replaceAll("[^0-9]", "").isEmpty()
+            || ftfTelefone.getText().replaceAll("[^0-9]", "").isEmpty()
+            || ftData.getText().trim().isEmpty()
+            || pfSenha.getPassword().length == 0) {
+        JOptionPane.showMessageDialog(this,
+                "Preencha todos os dados pessoais antes de continuar.");
+        return;
+    }
+    // Abre o painel de endereço
+    painelEnderecoFlutuante.setVisible(true);
 
-String rg = txtRGCadastro.getText().trim();
-
-String email = txtEmailCadastro.getText().trim();
-
-
-// FORMATTED FIELD
-String cpf = ftfCPF.getText().replaceAll("[^0-9]", "");
-
-String telefone = ftfTelefone.getText().replaceAll("[^0-9]", "");
-
-String dataNascimento = ftData.getText().trim();
-
-
-// PASSWORD FIELD
-String senha = new String(pfSenha.getPassword());
-
-
-// GÊNERO (RADIO BUTTON)
-String genero = "";
-
-if (rbFeminino.isSelected()) {
-    genero = "Feminino";
-} else if (rbMasculino.isSelected()) {
-    genero = "Masculino";
-} else if (rbOutro.isSelected()) {
-    genero = "Outro";
-}
-// COMBO BOX - STATUS
-String statusSelecionado = cbStatusCadastro.getSelectedItem().toString();
-
-int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
-
-        //COMBO  BOX
-        /*
-        String nome  = nomeVariavel.getSelectedItem().toString();
-        */
-
-        //TEXT   AREA
-        /*
-        String nome = nomeVariavel.getText().toString();
-        */
+    painelEnderecoFlutuante.getParent().setComponentZOrder(
+            painelEnderecoFlutuante, 0
+    );
+    painelEnderecoFlutuante.getParent().repaint();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void ftfCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfCPFActionPerformed
@@ -2137,6 +3138,498 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private void cbTipoRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoRelatorioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoRelatorioActionPerformed
+
+    private void cbPeriodoRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPeriodoRelatorioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPeriodoRelatorioActionPerformed
+
+    private void btnPesquisarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarConsultaActionPerformed
+        // TODO add your handling code here:
+           pesquisarClientesConsulta();
+
+    }//GEN-LAST:event_btnPesquisarConsultaActionPerformed
+
+    private void btnLimparFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparFiltrosActionPerformed
+        // TODO add your handling code here:
+// Limpa o campo de pesquisa
+   txtPesquisaCliente.setText(
+            "Digite o nome, CPF ou código..."
+    );
+
+    txtPesquisaCliente.setForeground(java.awt.Color.GRAY);
+
+    // Limpa a tabela, sem carregar os clientes
+    DefaultTableModel modelo =
+            (DefaultTableModel) tabelaConsultaClientes.getModel();
+    modelo.setRowCount(0);
+    lblMensagemConsulta.setText(""); 
+    // Esconde o painel de detalhes
+janelaDetalhes.setVisible(false);
+// Atualiza a organização visual
+painelConsulta.revalidate();
+painelConsulta.repaint();
+// Limpa os campos de detalhes
+lblDetalheCodigo.setText("");
+lblDetalheNome.setText("");
+lblDetalheCPF.setText("");
+lblDetalheRG.setText("");
+lblDetalheNascimento.setText("");
+lblDetalheGenero.setText("");
+lblDetalheTelefone.setText("");
+lblDetalheEmail.setText("");
+lblDetalheStatus.setText("");
+    }//GEN-LAST:event_btnLimparFiltrosActionPerformed
+
+    private void btnVisualizarDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarDetalhesActionPerformed
+        // TODO add your handling code here:
+         visualizarDetalhesCliente();
+         
+    }//GEN-LAST:event_btnVisualizarDetalhesActionPerformed
+
+    private void btnLimparEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparEdicaoActionPerformed
+        // TODO add your handling code here:
+    txtCodigoEdicao.setText("");
+    txtNomeEdicao.setText("");
+    txtCPFCdicao.setText("");
+    txtRGEdicao.setText("");
+    txtTelefoneEdicao.setText("");
+    txtDataNascimentoEdicao.setText("");
+    txtEmailEdicao.setText("");
+
+    txtEnderecoEdicao.setText("");
+    txtBairroEdicao.setText("");
+    txtCidadeEdicao.setText("");
+
+    // Limpar a tabela de detalhes
+    javax.swing.table.DefaultTableModel modelo =
+            (javax.swing.table.DefaultTableModel) tabelaEdicaoClientes.getModel();
+
+    modelo.setRowCount(0);
+    }//GEN-LAST:event_btnLimparEdicaoActionPerformed
+
+    private void btnLimparFiltrosRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparFiltrosRelatorioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimparFiltrosRelatorioActionPerformed
+
+    private void btnPesquisarEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarEdicaoActionPerformed
+        // TODO add your handling code here:
+        pesquisarClientesEdicao();
+    }//GEN-LAST:event_btnPesquisarEdicaoActionPerformed
+
+    private void txtBairroEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBairroEdicaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBairroEdicaoActionPerformed
+
+    private void txtTelefoneEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneEdicaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefoneEdicaoActionPerformed
+
+    private void btnDesativarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesativarClienteActionPerformed
+        // TODO add your handling code here:
+      desativarCliente();
+    }//GEN-LAST:event_btnDesativarClienteActionPerformed
+
+    
+private void desativarCliente() {
+
+    String codigo = txtCodigoEdicao.getText().trim();
+
+    if (codigo.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Pesquise e selecione um cliente antes de desativá-lo.",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+
+        int idcliente = Integer.parseInt(codigo);
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza de que deseja desativar este cliente?",
+                "Confirmar desativação",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+
+            Control.ClienteController controller =
+                    new Control.ClienteController();
+
+            boolean sucesso = controller.desativar(idcliente);
+
+            if (sucesso) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Cliente desativado com sucesso!",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                limparCamposEdicao();
+                carregarClientesConsulta();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Não foi possível desativar o cliente.",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Código do cliente inválido.",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao desativar cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+    
+    private void btnFinalizarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarCadastroActionPerformed
+        // TODO add your handling code here:
+    
+
+    String cidade = tfCidadeCadastro.getText().trim();
+    String bairro = tfBairrocadastro.getText().trim();
+    String rua = tfEnderecoCadastro.getText().trim();
+
+    if (cidade.isEmpty() || bairro.isEmpty() || rua.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Preencha todos os campos do endereço."
+        );
+        return;
+    }
+
+    String nome = txtNome.getText().trim();
+    String rg = tfRG.getText().trim();
+    String email = txtEmailCadastro.getText().trim();
+    String cpf = ftfCPF.getText().replaceAll("[^0-9]", "");
+    String telefone = ftfTelefone.getText().replaceAll("[^0-9]", "");
+    String dataNascimento = ftData.getText().trim();
+    String senha = new String(pfSenha.getPassword());
+
+    String genero = "";
+
+    if (rbFeminino.isSelected()) {
+        genero = "Feminino";
+    } else if (rbMasculino.isSelected()) {
+        genero = "Masculino";
+    } else if (rbOutro.isSelected()) {
+        genero = "Outro";
+    }
+
+    String statusSelecionado =
+            cbStatusCadastro.getSelectedItem().toString();
+
+    int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
+
+    try {
+
+        // Criar Model Cliente
+        Model.Cliente cliente = new Model.Cliente();
+
+        cliente.setNome(nome);
+        cliente.setCpf(cpf);
+        cliente.setRg(rg);
+        cliente.setDataNascimento(dataNascimento);
+        cliente.setGenero(genero);
+        cliente.setEmail(email);
+        cliente.setTelefone(telefone);
+        cliente.setStatus(status);
+        cliente.setSenha(senha);
+
+        // Cadastrar cliente
+        Control.ClienteController clienteController =
+                new Control.ClienteController();
+
+        boolean sucesso = clienteController.cadastrar(cliente);
+
+        if (!sucesso) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar o cliente."
+            );
+            return;
+        }
+
+        // Criar Model Endereco
+        Model.Endereco endereco = new Model.Endereco();
+
+        endereco.setBairro(bairro);
+        endereco.setCep("");
+        endereco.setCidade(cidade);
+        endereco.setEstado("");
+        endereco.setRua(rua);
+        endereco.setNumero("");
+        endereco.setCliente_idcliente(cliente.getIdcliente());
+
+        // Cadastrar endereço
+        Control.EnderecoController enderecoController =
+                new Control.EnderecoController();
+
+        boolean enderecoCadastrado = enderecoController.cadastrar(
+                endereco.getBairro(),
+                endereco.getCep(),
+                endereco.getCidade(),
+                endereco.getEstado(),
+                endereco.getRua(),
+                endereco.getNumero(),
+                endereco.getCliente_idcliente()
+        );
+
+        if (enderecoCadastrado) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cliente cadastrado com sucesso!"
+            );
+
+            painelEnderecoFlutuante.setVisible(false);
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cliente cadastrado, mas houve um erro ao cadastrar o endereço."
+            );
+        }
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+
+
+    }//GEN-LAST:event_btnFinalizarCadastroActionPerformed
+
+    private void btnSalvarAlteracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarAlteracoesActionPerformed
+     
+
+    if (txtCodigoEdicao.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecione um cliente na tabela."
+        );
+        return;
+    }
+
+    try {
+
+        int idcliente = Integer.parseInt(
+                txtCodigoEdicao.getText().trim()
+        );
+
+        String nome = txtNomeEdicao.getText().trim();
+        String cpf = txtCPFCdicao.getText().replaceAll("[^0-9]", "");
+        String rg = txtRGEdicao.getText().trim();
+        String telefone = txtTelefoneEdicao.getText().replaceAll("[^0-9]", "");
+        String dataNascimento = txtDataNascimentoEdicao.getText().trim();
+        String email = txtEmailEdicao.getText().trim();
+
+        if (nome.isEmpty() || cpf.isEmpty() || telefone.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha o nome, CPF e telefone."
+            );
+            return;
+        }
+
+        Control.ClienteController controller =
+                new Control.ClienteController();
+
+        // Recuperar cliente cadastrado
+        Model.Cliente cliente =
+                controller.buscarPorId(idcliente);
+
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cliente não encontrado."
+            );
+            return;
+        }
+
+        // Atualizar dados do Model
+        cliente.setNome(nome);
+        cliente.setCpf(cpf);
+        cliente.setRg(rg);
+        cliente.setTelefone(telefone);
+        cliente.setDataNascimento(dataNascimento);
+        cliente.setEmail(email);
+
+        // Salvar alterações
+        boolean atualizado = controller.atualizar(cliente);
+
+        if (atualizado) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Alterações salvas com sucesso!"
+            );
+
+            pesquisarClientesEdicao();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível salvar as alterações."
+            );
+        }
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Código do cliente inválido."
+        );
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao salvar alterações: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+
+    }//GEN-LAST:event_btnSalvarAlteracoesActionPerformed
+
+    
+private void pesquisarHistoricoCliente() {
+
+    String pesquisa = txtPesquisaHistorico.getText().trim();
+
+    if (pesquisa.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Digite o nome, CPF ou código do cliente."
+        );
+        return;
+    }
+
+    try {
+
+        Control.ClienteController controller =
+                new Control.ClienteController();
+
+        java.util.List<Model.Cliente> todosClientes =
+                controller.listar();
+
+        java.util.List<Model.Cliente> clientesEncontrados =
+                new java.util.ArrayList<>();
+
+        for (Model.Cliente cliente : todosClientes) {
+
+            boolean correspondePesquisa =
+                    String.valueOf(cliente.getIdcliente()).contains(pesquisa)
+                    || (cliente.getNome() != null
+                    && cliente.getNome().toLowerCase().contains(
+                            pesquisa.toLowerCase()))
+                    || (cliente.getCpf() != null
+                    && cliente.getCpf().contains(pesquisa));
+
+            if (correspondePesquisa) {
+                clientesEncontrados.add(cliente);
+            }
+        }
+
+        javax.swing.table.DefaultTableModel modelo =
+                (javax.swing.table.DefaultTableModel)
+                tabelaComprasHistorico.getModel();
+
+        modelo.setRowCount(0);
+
+        if (clientesEncontrados.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum cliente encontrado."
+            );
+            return;
+        }
+
+        if (clientesEncontrados.size() > 1) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Foram encontrados vários clientes. "
+                    + "Digite o CPF ou código para localizar "
+                    + "um cliente específico."
+            );
+            return;
+        }
+
+        // Cliente localizado
+        Model.Cliente cliente = clientesEncontrados.get(0);
+
+        int idcliente = cliente.getIdcliente();
+
+        // Aqui será carregado o histórico de compras
+        // utilizando o Controller e o Model de compras.
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Cliente localizado: " + cliente.getNome()
+                + "\nCódigo: " + idcliente
+                + "\nCPF: " + cliente.getCpf()
+        );
+
+    } catch (java.sql.SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao pesquisar cliente: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+}
+
+
+
+    
+    private void btnPesquisarHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarHistoricoActionPerformed
+        // TODO add your handling code here:
+      pesquisarHistoricoCliente();
+      pesquisarHistoricoCompras();
+    }//GEN-LAST:event_btnPesquisarHistoricoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2173,6 +3666,7 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JButton btnComprovante;
     private javax.swing.JButton btnDesativarCliente;
     private javax.swing.JButton btnExportarHistorico;
+    private javax.swing.JButton btnFinalizarCadastro;
     private javax.swing.JButton btnGerarRelatorio;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnLimparEdicao;
@@ -2194,6 +3688,7 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JComboBox<String> cbStatusEdicao;
     private javax.swing.JComboBox<String> cbStatusRelatorio;
     private javax.swing.JComboBox<String> cbTipoRelatorio;
+    private javax.swing.JLabel chick;
     private javax.swing.JFormattedTextField ftData;
     private javax.swing.JFormattedTextField ftfCPF;
     private javax.swing.JFormattedTextField ftfTelefone;
@@ -2204,7 +3699,6 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel lBSaldoPendente;
     private javax.swing.JLabel lBSubtituloCompras;
     private javax.swing.JLabel lBsubTotalPagp;
@@ -2212,19 +3706,32 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JLabel lBtotalPago;
     private javax.swing.JLabel lBvalorPendente;
     private javax.swing.JLabel lbAnoRelatorio;
+    private javax.swing.JLabel lbBairro;
+    private javax.swing.JLabel lbBairroCadastro;
+    private javax.swing.JLabel lbCiade;
+    private javax.swing.JLabel lbCidadeCadastro;
     private javax.swing.JLabel lbData;
+    private javax.swing.JLabel lbDatalheContato;
+    private javax.swing.JLabel lbDetalhesdocliente;
     private javax.swing.JLabel lbEmail;
+    private javax.swing.JLabel lbEndereco;
+    private javax.swing.JLabel lbEnderecocadastro;
     private javax.swing.JLabel lbGerarComprovante;
     private javax.swing.JLabel lbIconePendente;
+    private javax.swing.JLabel lbIconeTotalCompras;
     private javax.swing.JLabel lbIconeValorTotal;
     private javax.swing.JLabel lbIconetotalPedidos;
     private javax.swing.JLabel lbMesRelatorio;
     private javax.swing.JLabel lbPeriodoRelatorio;
     private javax.swing.JLabel lbRg;
     private javax.swing.JLabel lbSenha;
+    private javax.swing.JLabel lbSituacaoCadastral;
     private javax.swing.JLabel lbStatuscadastro;
+    private javax.swing.JLabel lbTituloEnderecocadastro;
+    private javax.swing.JLabel lbTotalPagoCompras;
     private javax.swing.JLabel lbValortotalCompras;
     private javax.swing.JLabel lbdadosPessoais;
+    private javax.swing.JLabel lbenderecoflutuante;
     private javax.swing.JLabel lbiconeSaldoPendente;
     private javax.swing.JLabel lblCPF;
     private javax.swing.JLabel lblCPFCdicao;
@@ -2291,6 +3798,7 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JPanel painelEdicao;
     private javax.swing.JPanel painelEdicaoClientes;
     private javax.swing.JPanel painelEdicaoClientes1;
+    private javax.swing.JPanel painelEnderecoFlutuante;
     private javax.swing.JPanel painelGerarRelatorio;
     private javax.swing.JPanel painelHistorico;
     private javax.swing.JPanel painelHistoricoClientes;
@@ -2315,6 +3823,10 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JTable tabelaEdicaoClientes;
     private javax.swing.JTable tabelaPagamentosHistorico;
     private javax.swing.JScrollPane tabelaPedidosClientes;
+    private javax.swing.JTable tbPedidosClientes;
+    private javax.swing.JTextField tfBairrocadastro;
+    private javax.swing.JTextField tfCidadeCadastro;
+    private javax.swing.JTextField tfEnderecoCadastro;
     private javax.swing.JFormattedTextField tfRG;
     private javax.swing.JTextField txtBairroEdicao;
     private javax.swing.JTextField txtCPFCdicao;
@@ -2330,7 +3842,6 @@ int status = statusSelecionado.equalsIgnoreCase("Ativo") ? 1 : 0;
     private javax.swing.JTextField txtPesquisaClienteRelatorio;
     private javax.swing.JTextField txtPesquisaEdicao;
     private javax.swing.JTextField txtPesquisaHistorico;
-    private javax.swing.JTextField txtRGCadastro;
     private javax.swing.JTextField txtRGEdicao;
     private javax.swing.JTextField txtTelefoneEdicao;
     // End of variables declaration//GEN-END:variables
