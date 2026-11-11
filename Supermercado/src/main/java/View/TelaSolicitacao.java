@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View;
 
 
@@ -22,13 +18,23 @@ import control.ComprasController;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
-
+import Control.FuncionarioController;
+import Model.Compras;
+import Model.ItensCompras;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import control.ItensCompraController;
 
 /**
  *
  * @author IsraelSantos
  */
 public class TelaSolicitacao extends javax.swing.JFrame {
+    
+    
+    private Integer idCompraEmEdicao = null;
+
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaSolicitacao.class.getName());
 
@@ -41,8 +47,11 @@ public class TelaSolicitacao extends javax.swing.JFrame {
         preencherComboFornecedores();
         carregarSituacoes();
         carregarResponsavel();
-        listarProdutos();
-        
+        //listarProdutos();
+        configurarTabelaItens();
+        listarCompras();
+        tfNumCompra.setText("000000");
+        preencherDataAtual();
         
         
         this.usuario= usuario;
@@ -158,31 +167,28 @@ public void navegar(String idtela) {
  
     
 // ------------------------------------- LISTAR ------------------------------------------------------
+
 private void preencherComboFornecedores() {
 
-    try {
-
-        FornecedoresController controller =
+    FornecedoresController controller =
             new FornecedoresController();
 
-        List<Fornecedores> lista = controller.listarTodos();
+    fornecedoresCarregados = controller.listarTodos();
 
-        cbFornecedor.removeAllItems();
+    cbFornecedor.removeAllItems();
 
-        cbFornecedor.addItem(null);
+    cbFornecedor.addItem("Selecione um fornecedor...");
 
-        for (Fornecedores fornecedor : lista) {
-            cbFornecedor.addItem(fornecedor.getRazaoSocial());
-        }
+    for (Fornecedores fornecedor : fornecedoresCarregados) {
 
-    } catch (Exception e) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro ao carregar fornecedores: " + e.getMessage()
+        cbFornecedor.addItem(
+                fornecedor.getRazaoSocial()
         );
     }
+
+    cbFornecedor.setSelectedIndex(0);
 }
+
 
 private void carregarSituacoes() {
 
@@ -201,18 +207,26 @@ private void carregarSituacoes() {
     cbSituacao.setSelectedIndex(0);
 }
 
+
 private void carregarResponsavel() {
 
-    FornecedoresController controller = new FornecedoresController();
+    FuncionarioController controller =
+            new FuncionarioController();
+
+    funcionariosCarregados = controller.listarTodos();
 
     cbFuncionario.removeAllItems();
 
-    List<Fornecedores> lista = controller.listarTodos();
+    cbFuncionario.addItem("Selecione um funcionário...");
 
-    for (Fornecedores fornecedor : lista) {
-        cbFuncionario.addItem(fornecedor.getNomeResponsavel());
+    for (Funcionario funcionario : funcionariosCarregados) {
+
+        cbFuncionario.addItem(funcionario.getNome());
     }
+
+    cbFuncionario.setSelectedIndex(0);
 }
+
 
 
 
@@ -248,8 +262,8 @@ private void listarProdutos() {
                 produto.getPrecoVenda(),
                 produto.getEstoque(),
                 produto.getUnidadeMedidas_idunidadeMedidas(),
-                Integer.parseInt(produto.get("situacao").toString()) == 1
-                        ? "Ativo" : "Inativo"
+                produto.getSituacao()
+                
 
             });
 
@@ -273,92 +287,1376 @@ private void listarProdutos() {
 
 // ----------------------------- CADASTRAR ------------------------------------------------------------
 
+
 private void cadastrarCompra() {
 
     try {
+        // 1. Recuperar fornecedor e funcionário
+        Fornecedores fornecedor = obterFornecedorSelecionado();
+        Funcionario funcionario = obterFuncionarioSelecionado();
 
-        // Recuperar os dados dos campos
         String dataCompra = jfData.getText().trim();
-        String situacao = cbSituacao.getSelectedItem().toString();
-        String valorTexto = tfValorTotal.getText().trim();
 
-        // Recuperar os objetos selecionados
-        Fornecedores fornecedor =
-                (Fornecedores) cbFornecedor.getSelectedItem();
+        String situacao = cbSituacao.getSelectedItem() == null
+                ? ""
+                : cbSituacao.getSelectedItem().toString();
 
-        Funcionario funcionario =
-                (Funcionario) cbFuncionario.getSelectedItem();
-
-        // Validações
-        if (dataCompra.isEmpty()
-                || valorTexto.isEmpty()
-                || fornecedor == null
-                || funcionario == null
-                || cbSituacao.getSelectedItem() == null) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Preencha todos os campos obrigatórios!",
-                    "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
+        // 2. Validar dados da compra
+        if (fornecedor == null || funcionario == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione o fornecedor e o funcionário!");
             return;
         }
 
-        // Converter valor para double
-        double valorTotal = Double.parseDouble(
-                valorTexto.replace(",", ".")
-        );
+        if (dataCompra.isEmpty()
+                || dataCompra.contains("_")
+                || situacao.isEmpty()
+                || cbSituacao.getSelectedIndex() <= 0) {
 
-        // Recuperar IDs
-        int idFornecedor = fornecedor.getIdfornecedores();
+            JOptionPane.showMessageDialog(this,
+                    "Informe a data e selecione uma situação!");
+            return;
+        }
 
-        int idFuncionario = funcionario.getIdFuncionario();
-        int idCargo = funcionario.getCargos_idcargos();
-        int idSetor = funcionario.getSetores_idsetores();
-        int idTurno = funcionario.getTurnos_idturnos();
+        // 3. Verificar se existem produtos
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbProdutos.getModel();
 
-        // Cadastrar compra
-        ComprasController controller = new ComprasController();
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Adicione pelo menos um produto à compra!");
+            return;
+        }
 
-        controller.cadastrar(
-                valorTotal,
-                situacao,
-                dataCompra,
-                idFornecedor,
-                idFuncionario,
-                idCargo,
-                idSetor,
-                idTurno
-        );
+        // 4. Consultar os produtos cadastrados
+        ProdutosController produtosController =
+                new ProdutosController();
 
+        List<Produtos> produtos =
+                produtosController.listar();
+
+        Map<Integer, Produtos> produtosPorId =
+                new HashMap<>();
+
+        for (Produtos produto : produtos) {
+            produtosPorId.put(
+                    produto.getIdprodutos(), produto);
+        }
+
+        // 5. Preparar os itens da compra
+        List<ItensCompras> itens = new ArrayList<>();
+
+        double valorTotal = 0.0;
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+
+            int idProduto = ((Number)
+                    modelo.getValueAt(i, 0)).intValue();
+
+            int quantidade = ((Number)
+                    modelo.getValueAt(i, 3)).intValue();
+
+            double desconto = ((Number)
+                    modelo.getValueAt(i, 4)).doubleValue();
+
+            double totalItem = ((Number)
+                    modelo.getValueAt(i, 5)).doubleValue();
+
+            Produtos produto = produtosPorId.get(idProduto);
+
+            if (produto == null) {
+                throw new IllegalArgumentException(
+                        "Produto não encontrado: " + idProduto);
+            }
+
+            if (quantidade <= 0) {
+                throw new IllegalArgumentException(
+                        "Quantidade inválida para o produto "
+                        + produto.getNome());
+            }
+
+            // Recuperar o preço aplicado ao adicionar
+            double precoUnitario =
+                    (totalItem + desconto) / quantidade;
+
+            if (!Double.isFinite(precoUnitario)
+                    || precoUnitario <= 0
+                    || !Double.isFinite(desconto)
+                    || desconto < 0
+                    || !Double.isFinite(totalItem)
+                    || totalItem < 0) {
+
+                throw new IllegalArgumentException(
+                        "Valores inválidos para "
+                        + produto.getNome());
+            }
+
+            ItensCompras item = new ItensCompras();
+
+            item.setQuantidade(quantidade);
+            item.setPrecoUnitario(precoUnitario);
+            item.setDesconto(desconto);
+
+            item.setProdutos_idprodutos(idProduto);
+
+            item.setProdutos_categorias_idcategorias(
+                    produto.getCategorias_idcategorias());
+
+            item.setProdutos_marcas_idmarcas(
+                    produto.getMarcas_idmarcas());
+
+            item.setProdutos_unidadeMedidas_idunidadeMedidas(
+                    produto.getUnidadeMedidas_idunidadeMedidas());
+
+            itens.add(item);
+
+            valorTotal += totalItem;
+        }
+
+        // 6. Preparar os dados da compra
+        Compras compra = new Compras();
+
+        compra.setValorTotal(valorTotal);
+        compra.setSituacao(situacao);
+        compra.setDataCompra(dataCompra);
+
+        compra.setFornecedores_idfornecedores(
+                fornecedor.getIdfornecedores());
+
+        compra.setFuncionario_idFuncionario(
+                funcionario.getIdFuncionario());
+
+        compra.setFuncionario_cargos_idcargos(
+                funcionario.getCargos_idcargos());
+
+        compra.setFuncionario_setores_idsetores(
+                funcionario.getSetores_idsetores());
+
+        compra.setFuncionario_turnos_idturnos(
+                funcionario.getTurnos_idturnos());
+
+        // 7. Salvar compra e itens na mesma transação
+        ComprasController controller =
+                new ComprasController();
+
+        int idCompra = controller.cadastrarCompraComItens(
+                compra, itens);
+
+        // 8. Informar sucesso
         JOptionPane.showMessageDialog(
                 this,
-                "Compra cadastrada com sucesso!"
+                "Compra cadastrada com sucesso!\n"
+                + "Número da compra: " + idCompra,
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE
         );
-
-    } catch (NumberFormatException e) {
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Informe um valor total válido!"
-        );
+        // Limpar os campos após salvar
+        limparCamposCadastro();
+        // Atualizar a lista de compras
+        listarCompras();
 
     } catch (SQLException e) {
 
         JOptionPane.showMessageDialog(
                 this,
-                "Erro ao cadastrar compra: " + e.getMessage()
+                "Erro ao salvar no banco: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar compra: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+    private void configurarTabelaItens() {
+
+        DefaultTableModel modelo = new DefaultTableModel(
+            new Object[]{
+                "Código",
+                "Produto",
+                "Unidade",
+                "Quantidade",
+                "Desconto",
+                "Total"
+            }, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int linha, int coluna) {
+                return false;
+            }
+        };
+
+        tbProdutos.setModel(modelo);
+    }
+
+
+private Produtos produtoSelecionado;
+
+private void pesquisarProduto() {
+
+    String pesquisa = tfPesquisarProduto.getText().trim();
+
+    if (pesquisa.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Digite o nome ou código do produto!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+
+        ProdutosController controller = new ProdutosController();
+
+        List<Produtos> produtos = controller.listar();
+
+        List<Produtos> encontrados = new java.util.ArrayList<>();
+
+        for (Produtos produto : produtos) {
+
+            if (produto.getNome().toLowerCase()
+                    .contains(pesquisa.toLowerCase())
+                    || produto.getCodigo().toLowerCase()
+                    .contains(pesquisa.toLowerCase())) {
+
+                encontrados.add(produto);
+            }
+        }
+
+        if (encontrados.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum produto encontrado!"
+            );
+            return;
+        }
+
+        String[] opcoes = new String[encontrados.size()];
+
+        for (int i = 0; i < encontrados.size(); i++) {
+
+            Produtos produto = encontrados.get(i);
+
+            opcoes[i] = produto.getNome()
+                    + " - Código: " + produto.getCodigo();
+        }
+
+        String escolha = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecione o produto desejado:",
+                "Pesquisar Produtos",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opcoes,
+                opcoes[0]
+        );
+
+        if (escolha == null) {
+            return;
+        }
+
+        for (int i = 0; i < opcoes.length; i++) {
+
+            if (opcoes[i].equals(escolha)) {
+
+                produtoSelecionado = encontrados.get(i);
+
+                tfPesquisarProduto.setText(
+                        produtoSelecionado.getNome()
+                );
+
+                jfPrecoUnitario.setText(
+                        String.format(
+                                java.util.Locale.forLanguageTag("pt-BR"),
+                                "%.2f",
+                                produtoSelecionado.getPrecoCusto()
+                        )
+                );
+                
+                preencherUnidadeProduto();
+
+                break;
+            }
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao pesquisar produto: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+private void preencherUnidadeProduto() {
+
+    if (produtoSelecionado == null) {
+        return;
+    }
+
+    int idUnidade = produtoSelecionado
+            .getUnidadeMedidas_idunidadeMedidas();
+
+    cbUnidade.removeAllItems();
+
+    cbUnidade.addItem(String.valueOf(idUnidade));
+
+    cbUnidade.setSelectedIndex(0);
+}
+
+
+
+private void adicionarItem() {
+
+    // Verificar se um produto foi selecionado
+    if (produtoSelecionado == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Pesquise e selecione um produto primeiro!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+
+        // Recuperar quantidade, preço e desconto
+        int quantidade =
+                ((Number) jsQuantidade.getValue()).intValue();
+
+        double precoUnitario =
+                converterValor(jfPrecoUnitario.getText());
+
+        double desconto =
+                converterValor(jfDesconto.getText());
+
+        // Validar quantidade
+        if (quantidade <= 0) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe uma quantidade maior que zero!"
+            );
+            return;
+        }
+
+        // Validar preço
+        if (!Double.isFinite(precoUnitario)
+                || precoUnitario <= 0) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe um preço unitário válido!"
+            );
+            return;
+        }
+
+        // Calcular subtotal
+        double subtotal = quantidade * precoUnitario;
+
+        // Validar desconto
+        if (!Double.isFinite(desconto)
+                || desconto < 0
+                || desconto > subtotal) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "O desconto deve estar entre R$ 0,00 e o subtotal!"
+            );
+            return;
+        }
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbProdutos.getModel();
+
+        int idProduto = produtoSelecionado.getIdprodutos();
+
+        String nomeProduto = produtoSelecionado.getNome();
+
+        
+        if (cbUnidade.getSelectedItem() == null
+                || cbUnidade.getSelectedItem().toString()
+                        .equals("Selecione...")) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione uma unidade válida!"
+            );
+            return;
+        }
+
+
+        String unidade =
+                cbUnidade.getSelectedItem().toString();
+
+        // Calcular total do item
+        double totalItem = subtotal - desconto;
+
+        // Verificar se existe uma linha selecionada
+        int linhaSelecionada = tbProdutos.getSelectedRow();
+
+        int linhaModelo = -1;
+
+        if (linhaSelecionada != -1) {
+            linhaModelo = tbProdutos.convertRowIndexToModel(
+                    linhaSelecionada
+            );
+        }
+
+        // Verificar se o produto já está na tabela
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+
+            int idExistente = Integer.parseInt(
+                    modelo.getValueAt(i, 0).toString()
+            );
+
+            if (idExistente == idProduto
+                    && i != linhaModelo) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Este produto já foi adicionado à solicitação!"
+                );
+                return;
+            }
+        }
+
+        if (linhaModelo >= 0) {
+
+            // ATUALIZAR PRODUTO EXISTENTE
+            modelo.setValueAt(idProduto, linhaModelo, 0);
+            modelo.setValueAt(nomeProduto, linhaModelo, 1);
+            modelo.setValueAt(unidade, linhaModelo, 2);
+            modelo.setValueAt(quantidade, linhaModelo, 3);
+            modelo.setValueAt(desconto, linhaModelo, 4);
+            modelo.setValueAt(totalItem, linhaModelo, 5);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Produto atualizado na tabela com sucesso!"
+            );
+
+        } else {
+
+            // ADICIONAR NOVO PRODUTO
+            modelo.addRow(new Object[]{
+                idProduto,
+                nomeProduto,
+                unidade,
+                quantidade,
+                desconto,
+                totalItem
+            });
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Produto adicionado com sucesso!"
+            );
+        }
+
+        // Atualizar valor total da compra
+        atualizarValorTotal();
+
+        // Limpar seleção da tabela
+        tbProdutos.clearSelection();
+
+        // Limpar campos
+        produtoSelecionado = null;
+
+        tfPesquisarProduto.setText("");
+        jsQuantidade.setValue(0);
+        jfPrecoUnitario.setText("0,00");
+        jfDesconto.setText("0,00");
+
+        cbUnidade.removeAllItems();
+        cbUnidade.addItem("Selecione...");
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao processar produto: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
         );
     }
 }
 
 
 
+private double converterValor(String texto) {
+
+    texto = texto.trim()
+            .replace("R$", "")
+            .replace(" ", "");
+
+    if (texto.isEmpty()) {
+        return 0.0;
+    }
+
+    // Aceita formatos como 6,50 e 1.250,75
+    if (texto.contains(",")) {
+        texto = texto.replace(".", "")
+                     .replace(",", ".");
+    }
+
+    return Double.parseDouble(texto);
+}
 
 
 
+private void atualizarValorTotal() {
 
+    double valorTotal = 0.0;
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tbProdutos.getModel();
+
+    // Percorrer todos os produtos adicionados
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+
+        Object valor = modelo.getValueAt(i, 5);
+
+        if (valor != null) {
+            valorTotal += converterValor(valor.toString());
+        }
+    }
+
+    // Formatar o valor em reais
+    String totalFormatado = String.format(
+            new java.util.Locale("pt", "BR"),
+            "R$ %.2f",
+            valorTotal
+    );
+
+    // Atualizar o campo Valor Total
+    tfValorTotal.setText(totalFormatado);
+}
+
+
+private List<Fornecedores> fornecedoresCarregados =
+        new java.util.ArrayList<>();
+
+
+private Fornecedores obterFornecedorSelecionado() {
+
+    int indice = cbFornecedor.getSelectedIndex();
+
+    if (indice <= 0
+            || indice > fornecedoresCarregados.size()) {
+        return null;
+    }
+
+    return fornecedoresCarregados.get(indice - 1);
+}
+
+private List<Funcionario> funcionariosCarregados
+            = new java.util.ArrayList<>();
+
+
+private Funcionario obterFuncionarioSelecionado() {
+
+    int indice = cbFuncionario.getSelectedIndex();
+
+    if (indice <= 0
+            || indice > funcionariosCarregados.size()) {
+        return null;
+    }
+
+    return funcionariosCarregados.get(indice - 1);
+}
+
+
+private void listarCompras() {
+
+    DefaultTableModel modelo = new DefaultTableModel(
+        new Object[]{
+            "Nº da Compra",
+            "Data",
+            "Fornecedor",
+            "Funcionário",
+            "Situação",
+            "Total"
+        }, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int linha, int coluna) {
+            return false;
+        }
+    };
+
+    try {
+
+        ComprasController controller = new ComprasController();
+
+        List<Compras> compras = controller.listarTodos();
+
+        for (Compras compra : compras) {
+
+            String nomeFornecedor = "ID: "
+                    + compra.getFornecedores_idfornecedores();
+
+            for (Fornecedores fornecedor : fornecedoresCarregados) {
+                if (fornecedor.getIdfornecedores()
+                        == compra.getFornecedores_idfornecedores()) {
+
+                    nomeFornecedor = fornecedor.getRazaoSocial();
+                    break;
+                }
+            }
+
+            String nomeFuncionario = "ID: "
+                    + compra.getFuncionario_idFuncionario();
+
+            for (Funcionario funcionario : funcionariosCarregados) {
+                if (funcionario.getIdFuncionario()
+                        == compra.getFuncionario_idFuncionario()) {
+
+                    nomeFuncionario = funcionario.getNome();
+                    break;
+                }
+            }
+
+            modelo.addRow(new Object[]{
+                compra.getIdcompras(),
+                compra.getDataCompra(),
+                nomeFornecedor,
+                nomeFuncionario,
+                compra.getSituacao(),
+                String.format(
+                        java.util.Locale.forLanguageTag("pt-BR"),
+                        "R$ %.2f",
+                        compra.getValorTotal()
+                )
+            });
+        }
+
+        jtListaCompras.setModel(modelo);
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao listar compras: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+private void limparCamposCadastro() {
+
+    // Limpar fornecedor e funcionário
+    cbFornecedor.setSelectedIndex(0);
+    cbFuncionario.setSelectedIndex(0);
+    cbSituacao.setSelectedIndex(0);
+
+    // Limpar data
+    preencherDataAtual();
+
+    // Limpar informações do produto
+    produtoSelecionado = null;
+
+    tfPesquisarProduto.setText("");
+    jsQuantidade.setValue(0);
+    jfPrecoUnitario.setText("0,00");
+    jfDesconto.setText("0,00");
+
+    // Limpar unidade
+    cbUnidade.removeAllItems();
+    cbUnidade.addItem("Selecione...");
+
+    // Limpar produtos adicionados
+    DefaultTableModel modelo =
+            (DefaultTableModel) tbProdutos.getModel();
+
+    modelo.setRowCount(0);
+
+    // Zerar o valor total
+    tfValorTotal.setText("R$ 0,00");
+    
+    // Encerrar o modo de edição
+    idCompraEmEdicao = null;
+
+    // Limpar número da compra
+    tfNumCompra.setText("000000");
+    }
+
+
+private void selecionarCompraParaEditar() {
+
+    // Verificar qual linha foi selecionada
+    int linha = jtListaCompras.getSelectedRow();
+
+    // Validar a seleção
+    if (linha == -1) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecione uma compra na tabela para editar!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+        // Converter a linha visual para a linha do modelo
+        int linhaModelo = jtListaCompras
+                .convertRowIndexToModel(linha);
+
+        // Recuperar o ID da compra
+        int idCompra = Integer.parseInt(
+                jtListaCompras.getModel()
+                        .getValueAt(linhaModelo, 0).toString()
+        );
+
+        // Consultar a compra no banco de dados
+        ComprasController controller =
+                new ComprasController();
+
+        Compras compra = controller.buscarPorId(idCompra);
+
+        if (compra == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Compra não encontrada no banco de dados!"
+            );
+            return;
+        }
+        // Carregar os dados da compra nos campos
+        carregarDadosCompra(compra);
+        
+        // Carregar os produtos vinculados à compra
+        carregarItensCompra(compra.getIdcompras());  
+        
+        // Guardar o ID da compra que está sendo editada
+        idCompraEmEdicao = compra.getIdcompras();
+
+
+        // Confirmar a identificação da compra
+        JOptionPane.showMessageDialog(
+                this,
+                "Compra selecionada com sucesso!\n"
+                + "Número da compra: " + compra.getIdcompras()
+                + "\nSituação: " + compra.getSituacao()
+                + "\nValor total: R$ "
+                + String.format("%.2f", compra.getValorTotal()),
+                "Editar Compra",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao selecionar compra: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+private void carregarDadosCompra(Compras compra) {
+
+    // Número da compra
+    tfNumCompra.setText(
+            String.format("%06d", compra.getIdcompras())
+    );
+
+    // Data da compra
+    jfData.setText(compra.getDataCompra());
+
+    // Selecionar fornecedor
+    for (int i = 0; i < fornecedoresCarregados.size(); i++) {
+
+        Fornecedores fornecedor = fornecedoresCarregados.get(i);
+
+        if (fornecedor.getIdfornecedores()
+                == compra.getFornecedores_idfornecedores()) {
+
+            cbFornecedor.setSelectedIndex(i + 1);
+            break;
+        }
+    }
+
+    // Selecionar funcionário
+    for (int i = 0; i < funcionariosCarregados.size(); i++) {
+
+        Funcionario funcionario = funcionariosCarregados.get(i);
+
+        if (funcionario.getIdFuncionario()
+                == compra.getFuncionario_idFuncionario()) {
+
+            cbFuncionario.setSelectedIndex(i + 1);
+            break;
+        }
+    }
+
+    // Selecionar situação
+    cbSituacao.setSelectedItem(compra.getSituacao());
+
+    // Exibir valor total
+    tfValorTotal.setText(
+            String.format(
+                    java.util.Locale.forLanguageTag("pt-BR"),
+                    "R$ %.2f",
+                    compra.getValorTotal()
+            )
+    );
+}
+
+private void carregarItensCompra(int idCompra)
+        throws SQLException {
+
+    // Consultar os itens da compra no banco
+    ItensCompraController itensController =
+            new ItensCompraController();
+
+    List<ItensCompras> itens =
+            itensController.listarPorCompra(idCompra);
+
+    // Consultar os produtos cadastrados
+    ProdutosController produtosController =
+            new ProdutosController();
+
+    List<Produtos> produtos =
+            produtosController.listar();
+
+    // Recuperar o modelo da tabela
+    DefaultTableModel modelo =
+            (DefaultTableModel) tbProdutos.getModel();
+
+    // Limpar os itens anteriores
+    modelo.setRowCount(0);
+
+    // Percorrer os itens da compra
+    for (ItensCompras item : itens) {
+
+        String nomeProduto = "Produto não encontrado";
+
+        // Localizar o nome do produto
+        for (Produtos produto : produtos) {
+
+            if (produto.getIdprodutos()
+                    == item.getProdutos_idprodutos()) {
+
+                nomeProduto = produto.getNome();
+                break;
+            }
+        }
+
+        // Calcular o total do item
+        double totalItem =
+                (item.getQuantidade() * item.getPrecoUnitario())
+                - item.getDesconto();
+
+        
+        // Adicionar à tabela
+        modelo.addRow(new Object[]{
+            item.getProdutos_idprodutos(),
+            nomeProduto,
+            String.valueOf(
+                item.getProdutos_unidadeMedidas_idunidadeMedidas()
+            ),
+            item.getQuantidade(),
+            item.getDesconto(),
+            totalItem
+        });
+
+    }
+
+    // Atualizar o valor total exibido
+    atualizarValorTotal();
+}
+
+
+private void selecionarItemParaEditar() {
+
+    int linha = tbProdutos.getSelectedRow();
+
+    if (linha == -1) {
+        return;
+    }
+
+    try {
+        int linhaModelo =
+                tbProdutos.convertRowIndexToModel(linha);
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbProdutos.getModel();
+
+        // Recuperar o ID do produto
+        int idProduto = Integer.parseInt(
+                modelo.getValueAt(linhaModelo, 0).toString()
+        );
+
+        // Localizar o produto no banco
+        ProdutosController controller =
+                new ProdutosController();
+
+        List<Produtos> produtos = controller.listar();
+
+        produtoSelecionado = null;
+
+        for (Produtos produto : produtos) {
+
+            if (produto.getIdprodutos() == idProduto) {
+                produtoSelecionado = produto;
+                break;
+            }
+        }
+
+        if (produtoSelecionado == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Produto não encontrado!"
+            );
+            return;
+        }
+
+        // Preencher o nome do produto
+        tfPesquisarProduto.setText(
+                produtoSelecionado.getNome()
+        );
+
+        // Preencher a quantidade
+        int quantidade = ((Number)
+                modelo.getValueAt(linhaModelo, 3)).intValue();
+
+        jsQuantidade.setValue(quantidade);
+
+        // Recuperar desconto e total
+        double desconto = ((Number)
+                modelo.getValueAt(linhaModelo, 4)).doubleValue();
+
+        double total = ((Number)
+                modelo.getValueAt(linhaModelo, 5)).doubleValue();
+
+        // Recuperar o preço unitário original da compra
+        double precoUnitario =
+                (total + desconto) / quantidade;
+
+        // Preencher preço unitário
+        jfPrecoUnitario.setText(
+                String.format(
+                        java.util.Locale.forLanguageTag("pt-BR"),
+                        "%.2f",
+                        precoUnitario
+                )
+        );
+
+        // Preencher desconto
+        jfDesconto.setText(
+                String.format(
+                        java.util.Locale.forLanguageTag("pt-BR"),
+                        "%.2f",
+                        desconto
+                )
+        );
+
+        // Preencher unidade
+        preencherUnidadeProduto();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao selecionar item: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+private void salvarEdicaoCompra() {
+
+    try {
+
+        // 1. Verificar se existe uma compra em edição
+        if (idCompraEmEdicao == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhuma compra selecionada para edição!"
+            );
+            return;
+        }
+
+        // 2. Recuperar fornecedor e funcionário
+        Fornecedores fornecedor =
+                obterFornecedorSelecionado();
+
+        Funcionario funcionario =
+                obterFuncionarioSelecionado();
+
+        String dataCompra = jfData.getText().trim();
+
+        String situacao =
+                cbSituacao.getSelectedItem() == null
+                ? ""
+                : cbSituacao.getSelectedItem().toString();
+
+        // 3. Validar dados da compra
+        if (fornecedor == null || funcionario == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione o fornecedor e o funcionário!"
+            );
+            return;
+        }
+
+        if (dataCompra.isEmpty()
+                || dataCompra.contains("_")
+                || situacao.isEmpty()
+                || cbSituacao.getSelectedIndex() <= 0) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Informe a data e selecione uma situação!"
+            );
+            return;
+        }
+
+        // 4. Verificar se existem produtos
+        DefaultTableModel modelo =
+                (DefaultTableModel) tbProdutos.getModel();
+
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "A compra deve possuir pelo menos um produto!"
+            );
+            return;
+        }
+
+        // 5. Consultar os produtos cadastrados
+        ProdutosController produtosController =
+                new ProdutosController();
+
+        List<Produtos> produtos =
+                produtosController.listar();
+
+        Map<Integer, Produtos> produtosPorId =
+                new HashMap<>();
+
+        for (Produtos produto : produtos) {
+            produtosPorId.put(
+                    produto.getIdprodutos(), produto
+            );
+        }
+
+        // 6. Preparar os itens atualizados
+        List<ItensCompras> itens = new ArrayList<>();
+
+        double valorTotal = 0.0;
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+
+            int idProduto = ((Number)
+                    modelo.getValueAt(i, 0)).intValue();
+
+            int quantidade = ((Number)
+                    modelo.getValueAt(i, 3)).intValue();
+
+            double desconto = ((Number)
+                    modelo.getValueAt(i, 4)).doubleValue();
+
+            double totalItem = ((Number)
+                    modelo.getValueAt(i, 5)).doubleValue();
+
+            Produtos produto =
+                    produtosPorId.get(idProduto);
+
+            if (produto == null) {
+                throw new IllegalArgumentException(
+                        "Produto não encontrado: " + idProduto
+                );
+            }
+
+            if (quantidade <= 0) {
+                throw new IllegalArgumentException(
+                        "Quantidade inválida para "
+                        + produto.getNome()
+                );
+            }
+
+            // Recuperar o preço unitário aplicado
+            double precoUnitario =
+                    (totalItem + desconto) / quantidade;
+
+            // Validar valores
+            if (!Double.isFinite(precoUnitario)
+                    || precoUnitario <= 0
+                    || !Double.isFinite(desconto)
+                    || desconto < 0
+                    || !Double.isFinite(totalItem)
+                    || totalItem < 0
+                    || desconto > quantidade * precoUnitario) {
+
+                throw new IllegalArgumentException(
+                        "Valores inválidos para "
+                        + produto.getNome()
+                );
+            }
+
+            // Criar o objeto do item
+            ItensCompras item = new ItensCompras();
+
+            item.setQuantidade(quantidade);
+            item.setPrecoUnitario(precoUnitario);
+            item.setDesconto(desconto);
+
+            item.setProdutos_idprodutos(idProduto);
+
+            item.setProdutos_categorias_idcategorias(
+                    produto.getCategorias_idcategorias()
+            );
+
+            item.setProdutos_marcas_idmarcas(
+                    produto.getMarcas_idmarcas()
+            );
+
+            item.setProdutos_unidadeMedidas_idunidadeMedidas(
+                    produto.getUnidadeMedidas_idunidadeMedidas()
+            );
+
+            itens.add(item);
+
+            valorTotal += totalItem;
+        }
+
+        // 7. Preparar os dados da compra
+        Compras compra = new Compras();
+
+        compra.setIdcompras(idCompraEmEdicao);
+
+        compra.setValorTotal(valorTotal);
+        compra.setSituacao(situacao);
+        compra.setDataCompra(dataCompra);
+
+        compra.setFornecedores_idfornecedores(
+                fornecedor.getIdfornecedores()
+        );
+
+        compra.setFuncionario_idFuncionario(
+                funcionario.getIdFuncionario()
+        );
+
+        compra.setFuncionario_cargos_idcargos(
+                funcionario.getCargos_idcargos()
+        );
+
+        compra.setFuncionario_setores_idsetores(
+                funcionario.getSetores_idsetores()
+        );
+
+        compra.setFuncionario_turnos_idturnos(
+                funcionario.getTurnos_idturnos()
+        );
+
+        // 8. Atualizar compra e itens no MySQL
+        ComprasController controller =
+                new ComprasController();
+
+        boolean atualizado =
+                controller.atualizarCompraComItens(
+                        idCompraEmEdicao,
+                        compra,
+                        itens
+                );
+
+        if (atualizado) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Compra atualizada com sucesso!\n"
+                    + "Número da compra: "
+                    + idCompraEmEdicao,
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            // 9. Encerrar modo de edição
+            idCompraEmEdicao = null;
+
+            // 10. Limpar os campos
+            limparCamposCadastro();
+
+            // 11. Atualizar a tabela inferior
+            listarCompras();
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao atualizar compra no banco: "
+                + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao editar compra: "
+                + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+private void excluirCompra() {
+
+    // 1. Verificar se uma compra foi selecionada
+    int linhaSelecionada = jtListaCompras.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecione uma compra na tabela para excluir!",
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+
+        // 2. Converter a linha visual para a linha do modelo
+        int linhaModelo = jtListaCompras.convertRowIndexToModel(
+                linhaSelecionada
+        );
+
+        // 3. Recuperar o ID da compra
+        int idCompra = Integer.parseInt(
+                jtListaCompras.getModel()
+                        .getValueAt(linhaModelo, 0).toString()
+        );
+
+        // 4. Solicitar confirmação
+        int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja realmente excluir a compra nº "
+                + idCompra + "?\n\n"
+                + "Todos os produtos vinculados a essa compra "
+                + "também serão excluídos.\n"
+                + "Esta operação não poderá ser desfeita!",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        // 5. Cancelar se o usuário escolher Não
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        // 6. Excluir compra e itens no MySQL
+        ComprasController controller =
+                new ComprasController();
+
+        boolean excluido =
+                controller.excluirCompraComItens(idCompra);
+
+        if (excluido) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Compra nº " + idCompra
+                    + " excluída com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            // 7. Limpar campos e encerrar eventual edição
+            limparCamposCadastro();
+
+            // 8. Atualizar a tabela inferior
+            listarCompras();
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao excluir compra no banco: "
+                + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao excluir compra: "
+                + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+
+private void confirmarLimpeza() {
+
+    // Verificar se existe uma compra em edição
+    boolean editandoCompra = idCompraEmEdicao != null;
+
+    // Verificar se existem produtos na tabela
+    DefaultTableModel modelo =
+            (DefaultTableModel) tbProdutos.getModel();
+
+    boolean possuiProdutos = modelo.getRowCount() > 0;
+
+    // Solicitar confirmação quando houver dados
+    if (editandoCompra || possuiProdutos) {
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja realmente limpar os campos?\n\n"
+                + "As alterações não salvas serão descartadas.",
+                "Confirmar limpeza",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+    }
+
+    // Utilizar o método que já existe
+    limparCamposCadastro();
+
+    // Limpar seleção da tabela inferior
+    jtListaCompras.clearSelection();
+}
+
+
+private void preencherDataAtual() {
+
+    java.time.LocalDate hoje = java.time.LocalDate.now();
+
+    java.time.format.DateTimeFormatter formato =
+            java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    jfData.setText(hoje.format(formato));
+}
 
 
 
@@ -892,6 +2190,11 @@ private void cadastrarCompra() {
                 "Código", "Produto", "Unidade", "Quantidade", "Desconto", "Total"
             }
         ));
+        tbProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbProdutosMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tbProdutos);
 
         jTextField4.setEditable(false);
@@ -908,8 +2211,6 @@ private void cadastrarCompra() {
         jtPreenchaCampos.setText("Preencha os campos obrigatórios para salvar compra.");
         jtPreenchaCampos.addActionListener(this::jtPreenchaCamposActionPerformed);
 
-        tfPesquisarProduto.setForeground(new java.awt.Color(204, 204, 204));
-        tfPesquisarProduto.setText("Digite o código ou nome do produto...");
         tfPesquisarProduto.addActionListener(this::tfPesquisarProdutoActionPerformed);
 
         jbPesquisarProduto.setIcon(new javax.swing.ImageIcon("C:\\Users\\IsraelSantos\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\lupa (1).png")); // NOI18N
@@ -933,12 +2234,14 @@ private void cadastrarCompra() {
 
         jbAdicionarItem.setIcon(new javax.swing.ImageIcon("C:\\Users\\IsraelSantos\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\+.png")); // NOI18N
         jbAdicionarItem.setText("Adicionar Item");
+        jbAdicionarItem.addActionListener(this::jbAdicionarItemActionPerformed);
 
         jLvalorTotal.setText("Valor Total:");
 
         tfValorTotal.setEditable(false);
         tfValorTotal.setBackground(new java.awt.Color(204, 204, 204));
         tfValorTotal.setText("R$ 0,00");
+        tfValorTotal.addActionListener(this::tfValorTotalActionPerformed);
 
         javax.swing.GroupLayout jpSolicitacaoLayout = new javax.swing.GroupLayout(jpSolicitacao);
         jpSolicitacao.setLayout(jpSolicitacaoLayout);
@@ -948,9 +2251,9 @@ private void cadastrarCompra() {
                 .addGap(14, 14, 14)
                 .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpSolicitacaoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpSolicitacaoLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
                                 .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLnumCompra)
                                     .addComponent(jLdataCompra))
@@ -963,19 +2266,15 @@ private void cadastrarCompra() {
                                 .addGap(43, 43, 43)
                                 .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jpSolicitacaoLayout.createSequentialGroup()
-                                .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpSolicitacaoLayout.createSequentialGroup()
-                                        .addComponent(jLsituacao)
-                                        .addGap(92, 92, 92))
+                                .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jpSolicitacaoLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jpSolicitacaoLayout.createSequentialGroup()
-                                                .addComponent(jLfuncionarioResponsavel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                            .addGroup(jpSolicitacaoLayout.createSequentialGroup()
-                                                .addComponent(jLfornecedor)
-                                                .addGap(79, 79, 79)))))
+                                        .addComponent(jLfornecedor)
+                                        .addGap(79, 79, 79))
+                                    .addGroup(jpSolicitacaoLayout.createSequentialGroup()
+                                        .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLfuncionarioResponsavel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLsituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jpSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -4478,21 +5777,36 @@ private void cadastrarCompra() {
     }//GEN-LAST:event_cbFuncionarioActionPerformed
 
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
-        // TODO add your handling code here:
+         // Confirmar a identificação da compra
+         selecionarCompraParaEditar();
     }//GEN-LAST:event_jbEditarActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
-        cadastrarCompra();
+        
+        if (idCompraEmEdicao == null) {
+
+            // Cadastrar uma nova compra
+            cadastrarCompra();
+
+        } else {
+
+            // Atualizar uma compra existente
+            salvarEdicaoCompra();
+
+        }
+
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // TODO add your handling code here:
+        excluirCompra();
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparActionPerformed
-        // TODO add your handling code here:
-       // limparCamposCadastro();
+        // limparCamposCadastro();
+        confirmarLimpeza();
+       
     }//GEN-LAST:event_jbLimparActionPerformed
 
     private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
@@ -4817,7 +6131,22 @@ private void cadastrarCompra() {
 
     private void jbPesquisarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarProdutoActionPerformed
         // TODO add your handling code here:
+        pesquisarProduto();
     }//GEN-LAST:event_jbPesquisarProdutoActionPerformed
+
+    private void jbAdicionarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarItemActionPerformed
+        // TODO add your handling code here:
+        adicionarItem();
+    }//GEN-LAST:event_jbAdicionarItemActionPerformed
+
+    private void tfValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValorTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfValorTotalActionPerformed
+
+    private void tbProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProdutosMouseClicked
+        // TODO add your handling code here:
+        selecionarItemParaEditar();
+    }//GEN-LAST:event_tbProdutosMouseClicked
 
     /**
      * @param args the command line arguments

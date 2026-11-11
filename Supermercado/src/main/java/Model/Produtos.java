@@ -14,7 +14,7 @@ public class Produtos {
    private int  idprodutos, estoque, categorias_idcategorias, marcas_idmarcas, unidadeMedidas_idunidadeMedidas;
 private String nome, codigo, descricao, validade;
 private double precoCusto,  precoVenda;
-private boolean situacao;
+private int situacao;
 private File imagem;
 
     public Produtos() {
@@ -108,11 +108,11 @@ private File imagem;
         this.precoVenda = precoVenda;
     }
 
-    public boolean isSituacao() {
+    public int getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(boolean situacao) {
+    public void setSituacao(int situacao) {
         this.situacao = situacao;
     }
 
@@ -124,8 +124,6 @@ private File imagem;
         this.imagem = imagem;
     }
 
-    public Object get(String situacao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  
 
 }

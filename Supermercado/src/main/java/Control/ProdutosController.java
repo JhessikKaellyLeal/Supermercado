@@ -35,7 +35,7 @@ public class ProdutosController {
                 + "unidadeMedidas_idunidadeMedidas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, nome);
@@ -77,7 +77,7 @@ public List<Produtos> listar() throws SQLException {
             + "u.idunidadeMedidas "
             + "ORDER BY p.nome";
 
-    try (Connection c = Conexao.getConnection();
+    try (Connection c = Conexao.conectar();
          PreparedStatement ps = c.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
 
@@ -93,7 +93,7 @@ public List<Produtos> listar() throws SQLException {
             produto.setPrecoCusto(rs.getDouble("precoCusto"));
             produto.setPrecoVenda(rs.getDouble("precoVenda"));
 
-            produto.setSituacao(rs.getInt("situacao") == 1);
+            produto.setSituacao(rs.getInt("situacao"));
             produto.setEstoque(rs.getInt("estoque"));
             produto.setValidade(rs.getString("validade"));
 
@@ -137,7 +137,7 @@ public List<Produtos> listar() throws SQLException {
                 + "unidadeMedidas_idunidadeMedidas=? "
                 + "WHERE idprodutos=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, nome);
@@ -168,7 +168,7 @@ public List<Produtos> listar() throws SQLException {
         String sql = "UPDATE produtos SET situacao=0 "
                    + "WHERE idprodutos=?";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -194,7 +194,7 @@ public List<Produtos> listar() throws SQLException {
                 + "AND p.situacao = 1 "
                 + "ORDER BY p.nome";
 
-        try (Connection c = Conexao.getConnection();
+        try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, "%" + termo.trim() + "%");

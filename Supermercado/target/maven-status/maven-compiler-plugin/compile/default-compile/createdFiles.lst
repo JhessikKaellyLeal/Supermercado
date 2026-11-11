@@ -14,6 +14,7 @@ Model\Usuario.class
 Control\Funcionario_has_feriasController.class
 View\TelaGerenciamentoProdutos$3.class
 Control\TaxasEntregaController.class
+View\TelaSolicitacao$12.class
 Model\Permissoes.class
 View\TelaVendas$3.class
 View\TelaVendas$9.class
@@ -48,6 +49,7 @@ View\TelaGerenciamentoProdutos.class
 Control\ContratosFornecedoresController.class
 Control\PromocaoController.class
 View\TelaVendaPagamentos$1.class
+View\TelaSolicitacao$13.class
 Model\PagamentoVenda.class
 Control\LotesProdutosController.class
 View\TelaGerenciamentoProdutos$2.class
@@ -78,6 +80,7 @@ Model\Etiquetas.class
 View\TelaProdutos$1.class
 Model\Pedidos.class
 View\TelaSolicitacao$5.class
+View\TelaSolicitacao$11.class
 View\TelaEstoque$1.class
 View\TelaVendaPagamentos$3.class
 Control\CargosController.class
@@ -177,3 +180,4 @@ Model\CodigoBarras.class
 View\TelaHome.class
 View\TelaVendaPagamentos$9.class
 Control\FechamentoCaixaController.class
+Control\FuncionarioController.class

@@ -37,7 +37,7 @@ public class PontoController {
                 + "Funcionario_turnos_idturnos) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, data);
@@ -66,7 +66,7 @@ public class PontoController {
                 + "Funcionario_idFuncionario "
                 + "FROM ponto ORDER BY idponto";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -104,7 +104,7 @@ public class PontoController {
                 + "Funcionario_turnos_idturnos=? "
                 + "WHERE idponto=?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, data);
@@ -130,7 +130,7 @@ public class PontoController {
     public boolean excluir(int idPonto) throws SQLException {
         String sql = "DELETE FROM ponto WHERE idponto = ?";
 
-        try (Connection con = Conexao.getConnection();
+        try (Connection con = Conexao.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idPonto);

@@ -19,11 +19,16 @@ import java.util.List;
  */
 public class ItensCompraController {
     // CADASTRAR ITEM DA COMPRA
+    
     public boolean cadastrar(ItensCompras item) {
+
         String sql = "INSERT INTO itensCompra "
                 + "(quantidade, precoUnitario, desconto, "
-                + "compras_idcompras, produtos_idprodutos) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "compras_idcompras, produtos_idprodutos, "
+                + "produtos_categorias_idcategorias, "
+                + "produtos_marcas_idmarcas, "
+                + "produtos_unidadeMedidas_idunidadeMedidas) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -31,17 +36,32 @@ public class ItensCompraController {
             stmt.setInt(1, item.getQuantidade());
             stmt.setDouble(2, item.getPrecoUnitario());
             stmt.setDouble(3, item.getDesconto());
+
             stmt.setInt(4, item.getCompras_idcompras());
             stmt.setInt(5, item.getProdutos_idprodutos());
+
+            stmt.setInt(6,
+                    item.getProdutos_categorias_idcategorias());
+
+            stmt.setInt(7,
+                    item.getProdutos_marcas_idmarcas());
+
+            stmt.setInt(8,
+                    item.getProdutos_unidadeMedidas_idunidadeMedidas());
 
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar item da compra: "
-                    + e.getMessage());
+
+            System.err.println(
+                    "Erro ao cadastrar item da compra: "
+                    + e.getMessage()
+            );
+
             return false;
         }
     }
+
 
     // LISTAR TODOS OS ITENS DA COMPRA
     public List<ItensCompras> listarTodos() {
@@ -170,4 +190,59 @@ public class ItensCompraController {
             return false;
         }
     }
+    
+    public List<ItensCompras> listarPorCompra(int idCompra)
+            throws SQLException {
+
+        List<ItensCompras> itens = new ArrayList<>();
+
+        String sql = "SELECT * FROM itensCompra "
+                + "WHERE compras_idcompras = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCompra);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    ItensCompras item = new ItensCompras();
+
+                    item.setIditensCompra(
+                            rs.getInt("iditensCompra"));
+
+                    item.setQuantidade(
+                            rs.getInt("quantidade"));
+
+                    item.setPrecoUnitario(
+                            rs.getDouble("precoUnitario"));
+
+                    item.setDesconto(
+                            rs.getDouble("desconto"));
+
+                    item.setCompras_idcompras(
+                            rs.getInt("compras_idcompras"));
+
+                    item.setProdutos_idprodutos(
+                            rs.getInt("produtos_idprodutos"));
+
+                    item.setProdutos_categorias_idcategorias(
+                            rs.getInt("produtos_categorias_idcategorias"));
+
+                    item.setProdutos_marcas_idmarcas(
+                            rs.getInt("produtos_marcas_idmarcas"));
+
+                    item.setProdutos_unidadeMedidas_idunidadeMedidas(
+                            rs.getInt("produtos_unidadeMedidas_idunidadeMedidas"));
+
+                    itens.add(item);
+                }
+            }
+        }
+
+        return itens;
+    }
+
 }
