@@ -139,4 +139,13 @@ public class CaixasController {
             return false;
         }
     }
+
+    public boolean cadastrar(String nome, String tipo, int status, String observacao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
+
+
+
+
+   

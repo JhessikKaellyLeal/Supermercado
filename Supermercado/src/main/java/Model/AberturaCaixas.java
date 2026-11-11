@@ -8,10 +8,20 @@ package Model;
  *
  * @author AntônioVieira
  */
+
 public class AberturaCaixas {
- private int  idaberturaCaixa, caixas_idcaixas, Funcionario_idFuncionario, Funcionario_cargos_idcargos, Funcionario_setores_idsetores, Funcionario_turnos_idturnos;
- private String dataAbertura, horarioAbertura;
- private double valorInicial;
+
+    private int idaberturaCaixa;
+    private int caixas_idcaixas;
+    private int Funcionario_idFuncionario;
+    private int Funcionario_cargos_idcargos;
+    private int Funcionario_setores_idsetores;
+    private int Funcionario_turnos_idturnos;
+
+    private String dataAbertura;
+    private String horarioAbertura;
+
+    private double valorInicial;
 
     public AberturaCaixas() {
     }
@@ -87,5 +97,5 @@ public class AberturaCaixas {
     public void setValorInicial(double valorInicial) {
         this.valorInicial = valorInicial;
     }
- 
 }
+

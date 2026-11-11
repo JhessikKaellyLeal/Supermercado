@@ -7,6 +7,7 @@ package View;
 import Conection.Conexao;
 import Control.AberturaCaixaController;
 import Control.CaixasController;
+import Model.AberturaCaixas;
 import Model.Caixas;
 import Model.Usuario;
 import View.AlterarSenha;
@@ -26,15 +27,18 @@ import View.Tela_Funcionarios_RH;
 import View.TelasClientes;
 import control.MovimentacoesFinanceirasController;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -367,68 +371,286 @@ private int pegarIdCombo(JComboBox<String> combo) {
     return Integer.parseInt(selecionado.split(" - ")[0]);
 }
 // --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+
 
 
 
 private void cadastrarAberturaCaixa() {
 
     try {
-        AberturaCaixa abertura = new AberturaCaixa();
 
-        abertura.setDataAbertura(ffDataInicial.getText().trim());
+        // Criar objeto
+        AberturaCaixas abertura = new AberturaCaixas();
 
-        abertura.setHorarioAbertura(
-            ffHoradeAbertura.getText().trim()
-        );
+        // Capturar dados dos campos
+        String data = ffDataInicial.getText().trim();
+        String horario = ffHoradeAbertura.getText().trim();
+        String valorTexto = txfValorASuprir.getText()
+                .trim().replace(",", ".");
 
-        abertura.setValorInicial(
-            Double.parseDouble(
-                txfValorInicial.getText().replace(",", ".")
-            )
-        );
+        // Validar campos obrigatórios
+        if (data.isEmpty() || horario.isEmpty() || valorTexto.isEmpty()) {
 
-        abertura.setCaixas_idcaixas(
-            pegarIdCombo(cbxCaixa)
-        );
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos obrigatórios!"
+            );
+            return;
+        }
 
-        abertura.setFuncionario_idFuncionario(
-            pegarIdCombo(cbxOperador)
-        );
+        // Recuperar IDs das ComboBoxes
+        int idCaixa = pegarIdCombo(cbxCaixa);
+        int idFuncionario = pegarIdCombo(cbxOperador);
 
+        if (idCaixa <= 0 || idFuncionario <= 0) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Selecione um caixa e um operador!"
+            );
+            return;
+        }
+
+        // Preencher objeto
+        abertura.setDataAbertura(data);
+        abertura.setHorarioAbertura(horario);
+        abertura.setValorInicial(Double.parseDouble(valorTexto));
+
+        abertura.setCaixas_idcaixas(idCaixa);
+        abertura.setFuncionario_idFuncionario(idFuncionario);
+
+        // IMPORTANTE:
+        // Preencha também cargo, setor e turno caso
+        // essas informações sejam obrigatórias no seu banco.
+
+        // Cadastrar
         AberturaCaixaController controller =
-            new AberturaCaixaController();
+                new AberturaCaixaController();
 
         if (controller.cadastrar(abertura)) {
+
             javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Abertura de caixa cadastrada com sucesso!"
+                    this,
+                    "Abertura de caixa cadastrada com sucesso!"
             );
+
         } else {
+
             javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Não foi possível cadastrar a abertura."
+                    this,
+                    "Não foi possível cadastrar a abertura."
             );
         }
 
     } catch (NumberFormatException e) {
+
         javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Informe um valor inicial válido."
+                this,
+                "Informe um valor inicial válido!"
+        );
+
+    } catch (java.sql.SQLException e) {
+
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Erro ao cadastrar abertura: " + e.getMessage()
         );
     }
 }
 
 
 
+public List<Caixas> listar() {
+
+    List<Caixas> lista = new ArrayList<>();
+
+    String sql = "SELECT idcaixas, nome FROM caixas";
+
+    try (Connection con = Conexao.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+
+            Caixas caixa = new Caixas();
+
+            caixa.setIdcaixas(rs.getInt("idcaixas"));
+            caixa.setNome(rs.getString("nome"));
+
+            lista.add(caixa);
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Erro ao listar caixas: " + e.getMessage()
+        );
+    }
+
+    return lista;
+}                                                                                                                                                   
+
+public List<Caixas> listarNomes() {
+
+    List<Caixas> lista = new ArrayList<>();
+
+    String sql = "SELECT idcaixas, nome FROM caixas";
+
+    try (Connection con = Conexao.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+
+            Caixas caixa = new Caixas();
+
+            caixa.setIdcaixas(rs.getInt("idcaixas"));
+            caixa.setNome(rs.getString("nome"));
+
+            lista.add(caixa);
+        }
+
+    } catch (SQLException e) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Erro ao listar nomes: " + e.getMessage()
+        );
+    }
+
+    return lista;
+}
+
+private void configurarStatus() {
+
+    // Criar grupo para os RadioButtons
+    ButtonGroup grupoStatus = new ButtonGroup();
+
+    grupoStatus.add(rbAtivo);
+    grupoStatus.add(rbInativo);
+
+    // Deixar Ativo selecionado por padrão
+    rbAtivo.setSelected(true);
+}
+
+private void cadastrarCaixas() {
+
+    try {
+
+        String nome = txfNome.getText().trim();
+
+        String tipo = cbxTipodeCaixa.getSelectedItem() != null
+                ? cbxTipodeCaixa.getSelectedItem().toString()
+                : "";
+
+        String observacao = txaObservacoes.getText().trim();
+
+        int status = -1;
+
+        if (rbAtivoCadrastodeCaixa.isSelected()) {
+            status = 1;
+        } else if (rbInativoCadrastodeCaixa.isSelected()) {
+            status = 0;
+        }
+
+        if (nome.isEmpty() || tipo.isEmpty()
+                || observacao.isEmpty() || status == -1) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Preencha todos os campos!"
+            );
+            return;
+        }
+
+        // Criar objeto
+        Caixas caixa = new Caixas();
+
+        caixa.setNome(nome);
+        caixa.setTipo(tipo);
+        caixa.setStatus(status);
+        caixa.setObservacao(observacao);
+
+        // Chamar Controller
+        CaixasController controller = new CaixasController();
+
+        boolean sucesso = controller.cadastrar(caixa);
+
+        if (sucesso) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Caixa cadastrado com sucesso!"
+            );
+
+            txfNome.setText("");
+            txaObservacoes.setText("");
+
+            rbAtivoCadrastodeCaixa.setSelected(true);
+
+            carregarComboBoxes();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao cadastrar caixa!"
+            );
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro: " + e.getMessage()
+        );
+    }
+}
 
 
+       
 
+private void listarCaixasTabela() {
 
+    DefaultTableModel modelo =
 
+            (DefaultTableModel) tbDadosdeCaixa.getModel();
 
+    modelo.setRowCount(0);
 
+    CaixasController controller = new CaixasController();
 
+    ArrayList<Caixas> lista = controller.listar();
 
+    for (Caixas caixa : lista) {
+
+        modelo.addRow(new Object[]{
+
+            caixa.getIdcaixas(),
+
+            caixa.getNome(),
+
+            caixa.getObservacao(),
+
+            caixa.getTipo(),
+
+            caixa.getStatus() == 1 ? "Ativo" : "Inativo",
+
+            "",
+
+            "",
+
+            "",
+
+            ""
+
+        });
+
+    }
+
+}
 
 
 
@@ -470,7 +692,7 @@ private void cadastrarAberturaCaixa() {
         jButton4 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tbpnlTelasdeSupermercado = new javax.swing.JTabbedPane();
         pnlMovimentacoesTelas = new javax.swing.JPanel();
         pnlMovimentacoes = new javax.swing.JPanel();
         lbDataInicialMovimentacoes = new javax.swing.JLabel();
@@ -682,7 +904,6 @@ private void cadastrarAberturaCaixa() {
         btnSalvodeCaixa = new javax.swing.JButton();
         btnEditarCaixa = new javax.swing.JButton();
         btnLimparCaixa = new javax.swing.JButton();
-        btnNovodeCaixa = new javax.swing.JButton();
         pnlConferenciaTelas = new java.awt.Panel();
         pnlContagemdeCedulas = new javax.swing.JPanel();
         lbContagemdeCedulas = new javax.swing.JLabel();
@@ -1109,7 +1330,7 @@ private void cadastrarAberturaCaixa() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTabbedPane1.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
+        tbpnlTelasdeSupermercado.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
 
         lbDataInicialMovimentacoes.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbDataInicialMovimentacoes.setText("Data Inicial:");
@@ -1144,6 +1365,7 @@ private void cadastrarAberturaCaixa() {
         btnPesquisa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnPesquisa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPesquisa.setText("Pesquisar");
+        btnPesquisa.addActionListener(this::btnPesquisaActionPerformed);
 
         javax.swing.GroupLayout pnlMovimentacoesLayout = new javax.swing.GroupLayout(pnlMovimentacoes);
         pnlMovimentacoes.setLayout(pnlMovimentacoesLayout);
@@ -1216,12 +1438,14 @@ private void cadastrarAberturaCaixa() {
         btnImprimi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnImprimi.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimi.setText("Imprimir");
+        btnImprimi.addActionListener(this::btnImprimiActionPerformed);
 
         btnExportarMovimentacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExportarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnExportarMovimentacoes.setText("Exportar");
+        btnExportarMovimentacoes.addActionListener(this::btnExportarMovimentacoesActionPerformed);
 
-        btnVizualiza.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVizualiza.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnVizualiza.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\olho (1).png")); // NOI18N
         btnVizualiza.setText("Vizualiar");
         btnVizualiza.addActionListener(this::btnVizualizaActionPerformed);
@@ -1229,6 +1453,7 @@ private void cadastrarAberturaCaixa() {
         btnVoltarMovimentacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnVoltarMovimentacoes.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back-arrow.png")); // NOI18N
         btnVoltarMovimentacoes.setText("Voltar");
+        btnVoltarMovimentacoes.addActionListener(this::btnVoltarMovimentacoesActionPerformed);
 
         tbMovimentacoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1297,7 +1522,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnVizualiza, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(340, 340, 340)
                         .addComponent(btnVoltarMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3869, Short.MAX_VALUE))
+                .addGap(0, 3907, Short.MAX_VALUE))
             .addGroup(pnlMovimentacoesTelasLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(pnlMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1315,10 +1540,10 @@ private void cadastrarAberturaCaixa() {
                     .addComponent(btnVizualiza, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlRegistroMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1529, Short.MAX_VALUE))
+                .addGap(0, 1576, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Movimentações", pnlMovimentacoesTelas);
+        tbpnlTelasdeSupermercado.addTab("Movimentações", pnlMovimentacoesTelas);
 
         lbHistoricodeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbHistoricodeCaixa.setText("Historico de Caixas");
@@ -1354,6 +1579,7 @@ private void cadastrarAberturaCaixa() {
         btnpesquisar.setForeground(new java.awt.Color(255, 255, 255));
         btnpesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnpesquisar.setText("Pesquisar");
+        btnpesquisar.addActionListener(this::btnpesquisarActionPerformed);
 
         lbTipodeOperacao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbTipodeOperacao.setText("Tipo de operação:");
@@ -1466,19 +1692,23 @@ private void cadastrarAberturaCaixa() {
         btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(this::btnImprimirActionPerformed);
 
         btnExporta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExporta.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnExporta.setText("Exportar");
+        btnExporta.addActionListener(this::btnExportaActionPerformed);
 
         btnVizualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVizualizar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\olho (1).png")); // NOI18N
         btnVizualizar.setText("Vizualizar");
         btnVizualizar.setToolTipText("");
+        btnVizualizar.addActionListener(this::btnVizualizarActionPerformed);
 
         btnVoltar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVoltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\back-arrow.png")); // NOI18N
         btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(this::btnVoltarActionPerformed);
 
         lbResgistrodeHistoricocaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbResgistrodeHistoricocaixa.setText("Resgistros do Historico de Caixa");
@@ -1547,7 +1777,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlRegistrodeHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlHistoricodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(3765, Short.MAX_VALUE))
+                .addContainerGap(3803, Short.MAX_VALUE))
         );
         pnlHistoricoTelasLayout.setVerticalGroup(
             pnlHistoricoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1569,7 +1799,7 @@ private void cadastrarAberturaCaixa() {
                 .addGap(1548, 1548, 1548))
         );
 
-        jTabbedPane1.addTab("Histórico", pnlHistoricoTelas);
+        tbpnlTelasdeSupermercado.addTab("Histórico", pnlHistoricoTelas);
 
         lbCaixa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbCaixa.setText("Caixa :");
@@ -1709,10 +1939,12 @@ private void cadastrarAberturaCaixa() {
         btnNovo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\marketing.png")); // NOI18N
         btnNovo.setText("Novo");
+        btnNovo.addActionListener(this::btnNovoActionPerformed);
 
         btnSalvar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(this::btnSalvarActionPerformed);
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\pencil (2).png")); // NOI18N
@@ -1722,14 +1954,17 @@ private void cadastrarAberturaCaixa() {
         btnExcluir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\bin.png")); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(this::btnExcluirActionPerformed);
 
         btnLimpar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\cleaning.png")); // NOI18N
         btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(this::btnLimparActionPerformed);
 
         btnPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(this::btnPesquisarActionPerformed);
 
         lbRegistrodeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbRegistrodeCaixa.setText("Registro de Difereças de caixa");
@@ -1800,7 +2035,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3511, Short.MAX_VALUE))
+                .addGap(0, 3549, Short.MAX_VALUE))
             .addGroup(pnlDiferencadeCaixasTelasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlRegistrodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1821,10 +2056,10 @@ private void cadastrarAberturaCaixa() {
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlRegistrodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1507, Short.MAX_VALUE))
+                .addContainerGap(1554, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Diferenças de Caixas", pnlDiferencadeCaixasTelas);
+        tbpnlTelasdeSupermercado.addTab("Diferenças de Caixas", pnlDiferencadeCaixasTelas);
 
         lbDadosdeAtendimento.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbDadosdeAtendimento.setText("Dados de Pontos de Atendimento");
@@ -1940,28 +2175,40 @@ private void cadastrarAberturaCaixa() {
                         .addGap(201, 201, 201))))
         );
 
+        btnNOVO.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnNOVO.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\marketing.png")); // NOI18N
         btnNOVO.setText("Novo");
+        btnNOVO.addActionListener(this::btnNOVOActionPerformed);
 
+        btnSALVAR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnSALVAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnSALVAR.setText("Salvar");
         btnSALVAR.addActionListener(this::btnSALVARActionPerformed);
 
+        btnEDITAR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEDITAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\pencil (2).png")); // NOI18N
         btnEDITAR.setText("Editar");
+        btnEDITAR.addActionListener(this::btnEDITARActionPerformed);
 
+        btnEXCLUIR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEXCLUIR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\bin.png")); // NOI18N
         btnEXCLUIR.setText("Excluir");
+        btnEXCLUIR.addActionListener(this::btnEXCLUIRActionPerformed);
 
+        btnLIMPAR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnLIMPAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\cleaning.png")); // NOI18N
         btnLIMPAR.setText("Limpar");
+        btnLIMPAR.addActionListener(this::btnLIMPARActionPerformed);
 
+        btnPESQUISAR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnPESQUISAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\search.png")); // NOI18N
         btnPESQUISAR.setText("Pesquisar");
         btnPESQUISAR.addActionListener(this::btnPESQUISARActionPerformed);
 
+        btnVOLTAR.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnVOLTAR.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\right-arrow.png")); // NOI18N
         btnVOLTAR.setText("Voltar");
+        btnVOLTAR.addActionListener(this::btnVOLTARActionPerformed);
 
         tbPntosdeAtedimento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1993,11 +2240,11 @@ private void cadastrarAberturaCaixa() {
             pnlPontosdeAtendimentoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
                 .addComponent(pnlDadosdeAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3248, Short.MAX_VALUE))
+                .addGap(0, 3286, Short.MAX_VALUE))
             .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnlPontosdeAtendimentoTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnNOVO, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSALVAR, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2011,9 +2258,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(btnPESQUISAR, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlPontosdeAtendimentoTelasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1316, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1316, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlPontosdeAtendimentoTelasLayout.setVerticalGroup(
@@ -2029,12 +2274,12 @@ private void cadastrarAberturaCaixa() {
                     .addComponent(btnLIMPAR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPESQUISAR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1546, 1546, 1546))
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Pontos de Atedimento", pnlPontosdeAtendimentoTelas);
+        tbpnlTelasdeSupermercado.addTab("Pontos de Atedimento", pnlPontosdeAtendimentoTelas);
 
         lbEntradasdeNumerarios.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbEntradasdeNumerarios.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\healthy.png")); // NOI18N
@@ -2081,16 +2326,17 @@ private void cadastrarAberturaCaixa() {
                             .addComponent(lbObservacoesTX)
                             .addComponent(lbValoraSuprir)
                             .addComponent(lbMotivodoSuprimento)
-                            .addComponent(lbDatadeSuprimentos)
                             .addComponent(lbEntradasdeNumerarios)
                             .addComponent(lbCaixaDestino)
                             .addGroup(pnlEntradasdeNumerosLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(pnlEntradasdeNumerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbxMotivodoSuprimento, 0, 195, Short.MAX_VALUE)
-                                    .addComponent(cbxCaixaDestino, 0, 195, Short.MAX_VALUE)
-                                    .addComponent(ffDataeHORAS, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txfValorASuprir)))))
+                                .addGroup(pnlEntradasdeNumerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbDatadeSuprimentos)
+                                    .addGroup(pnlEntradasdeNumerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cbxMotivodoSuprimento, 0, 195, Short.MAX_VALUE)
+                                        .addComponent(cbxCaixaDestino, 0, 195, Short.MAX_VALUE)
+                                        .addComponent(ffDataeHORAS, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txfValorASuprir))))))
                     .addGroup(pnlEntradasdeNumerosLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -2464,12 +2710,14 @@ private void cadastrarAberturaCaixa() {
         btnEmitirComprovante.setForeground(new java.awt.Color(255, 255, 255));
         btnEmitirComprovante.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\impressora.png")); // NOI18N
         btnEmitirComprovante.setText("EMITIR COMPROVANTE");
+        btnEmitirComprovante.addActionListener(this::btnEmitirComprovanteActionPerformed);
 
         btnVisualizarComprovante.setBackground(new java.awt.Color(0, 0, 255));
-        btnVisualizarComprovante.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnVisualizarComprovante.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnVisualizarComprovante.setForeground(new java.awt.Color(255, 255, 255));
         btnVisualizarComprovante.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\olho (1).png")); // NOI18N
         btnVisualizarComprovante.setText("VISUALIZAR COMPROVANTE");
+        btnVisualizarComprovante.addActionListener(this::btnVisualizarComprovanteActionPerformed);
 
         javax.swing.GroupLayout pnlConfirmacaodoComprovanteLayout = new javax.swing.GroupLayout(pnlConfirmacaodoComprovante);
         pnlConfirmacaodoComprovante.setLayout(pnlConfirmacaodoComprovanteLayout);
@@ -2477,11 +2725,6 @@ private void cadastrarAberturaCaixa() {
             pnlConfirmacaodoComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
                 .addGroup(pnlConfirmacaodoComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(lbDiferencas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ffDiferencaSuprimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(pnlConfirmacaodoComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2503,14 +2746,19 @@ private void cadastrarAberturaCaixa() {
                             .addGroup(pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
                                 .addComponent(lbTotalConferido)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ffTotalConferido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(ffTotalConferido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(lbDiferencas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ffDiferencaSuprimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16))
             .addGroup(pnlConfirmacaodoComprovanteLayout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(pnlConfirmacaodoComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnEmitirComprovante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVisualizarComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(85, Short.MAX_VALUE))
+                    .addComponent(btnVisualizarComprovante, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                    .addComponent(btnEmitirComprovante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         pnlConfirmacaodoComprovanteLayout.setVerticalGroup(
             pnlConfirmacaodoComprovanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2560,14 +2808,14 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlComprovanteSuprimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(182, 182, 182)
                         .addComponent(pnlConfirmacaodoComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 3150, Short.MAX_VALUE))
+                .addGap(0, 3188, Short.MAX_VALUE))
         );
         pnlSuprimentosTelasLayout.setVerticalGroup(
             pnlSuprimentosTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSuprimentosTelasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlAtualizacaodeSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 1837, Short.MAX_VALUE))
+                .addGap(0, 1884, Short.MAX_VALUE))
             .addGroup(pnlSuprimentosTelasLayout.createSequentialGroup()
                 .addGroup(pnlSuprimentosTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlEntradasdeNumeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2578,19 +2826,19 @@ private void cadastrarAberturaCaixa() {
                 .addGroup(pnlSuprimentosTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pnlComprovanteSuprimentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlConfirmacaodoComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1383, Short.MAX_VALUE))
+                .addContainerGap(1430, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Suprimentos", pnlSuprimentosTelas);
+        tbpnlTelasdeSupermercado.addTab("Suprimentos", pnlSuprimentosTelas);
 
         tbDadosdeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tbDadosdeCaixa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"000123", "Loja Central", "Caixa01", "Normal", "Maria Souza", "Aberto", "17/06/2025", "8:00", "", null},
-                {"000124", "Loja Central", "Caixa02", "Normal", "Carlos Lima", "Aberto", "17/06/2025", "8:05", null, null},
-                {"000125", "Loja Central", "Caixa03", "Preferencial", "Ana Oliveira", "Fechado", "16/06/2025", "9:00", "16/06/2025", "17:30"},
-                {"000126", "Loja Bairro", "Caixa01", "Normal", "Roberto Alves", "Fechado", "16/06/2025", "9:10", "16/06/2025", "18:00"},
-                {"000127", "Loja Bairro", "Caixa02", "Normal", "Juliana Costa", "Aberto", "17/06/2025", "8:15", null, null}
+                {"", "", "", "", "", "", "", "", "", null},
+                {"", "", "", "", "", "", "", "", null, null},
+                {"", "", "", "", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", "", "", null, null}
             },
             new String [] {
                 "Código", "Ponto de Atendimento", "Descrição", "Tipo de Caixa", "Operador", "Status", "Data de Abertura", "Horário de Abertura", "Data de Fechamento", "Horário de Fechamento"
@@ -2629,6 +2877,12 @@ private void cadastrarAberturaCaixa() {
 
         cbxTipodeCaixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
+        try {
+            ffDatadeAbertura.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         btnCalendarioAberto.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\calendar.png")); // NOI18N
 
         lbDatadeAbetura.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -2637,14 +2891,28 @@ private void cadastrarAberturaCaixa() {
         lbHorariodeAbertura.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbHorariodeAbertura.setText("Horário de Abertura:");
 
+        try {
+            ffHoradeAbertura.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         btnRelogioAberto.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\clock (1).png")); // NOI18N
 
         lbDatadeFechamento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbDatadeFechamento.setText("Data de Fechamento:");
 
-        ffDatadeFechamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("##/##/####"))));
+        try {
+            ffDatadeFechamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
-        ffHoradeFechamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        try {
+            ffHoradeFechamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         lbHorariodeFechamento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbHorariodeFechamento.setText("Horário de Fechamento:");
@@ -2722,9 +2990,7 @@ private void cadastrarAberturaCaixa() {
                         .addGroup(pnlDadosDoCaixaLayout.createSequentialGroup()
                             .addGroup(pnlDadosDoCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(lbHorariodeFechamento)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDadosDoCaixaLayout.createSequentialGroup()
-                                    .addGap(8, 8, 8)
-                                    .addComponent(lbDatadeFechamento)))
+                                .addComponent(lbDatadeFechamento))
                             .addGap(25, 25, 25)
                             .addGroup(pnlDadosDoCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(ffDatadeFechamento)
@@ -2806,6 +3072,7 @@ private void cadastrarAberturaCaixa() {
         btnSalvodeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSalvodeCaixa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\diskette (1).png")); // NOI18N
         btnSalvodeCaixa.setText("Salvo");
+        btnSalvodeCaixa.addActionListener(this::btnSalvodeCaixaActionPerformed);
 
         btnEditarCaixa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEditarCaixa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\pencil (2).png")); // NOI18N
@@ -2817,10 +3084,6 @@ private void cadastrarAberturaCaixa() {
         btnLimparCaixa.setText("Limpar");
         btnLimparCaixa.addActionListener(this::btnLimparCaixaActionPerformed);
 
-        btnNovodeCaixa.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\marketing.png")); // NOI18N
-        btnNovodeCaixa.setText("Novo");
-        btnNovodeCaixa.addActionListener(this::btnNovodeCaixaActionPerformed);
-
         javax.swing.GroupLayout pnlCadastrodeCaixaLayout = new javax.swing.GroupLayout(pnlCadastrodeCaixa);
         pnlCadastrodeCaixa.setLayout(pnlCadastrodeCaixaLayout);
         pnlCadastrodeCaixaLayout.setHorizontalGroup(
@@ -2829,36 +3092,31 @@ private void cadastrarAberturaCaixa() {
                 .addContainerGap()
                 .addGroup(pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCadastrodeCaixaLayout.createSequentialGroup()
-                        .addComponent(btnNovodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLimparCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlDadosDoCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1258, 1258, 1258))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         pnlCadastrodeCaixaLayout.setVerticalGroup(
             pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastrodeCaixaLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(pnlDadosDoCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditarCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimparCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(btnSalvodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnNovodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlDadosDoCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCadastrodeCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvodeCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimparCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1535, Short.MAX_VALUE))
+                .addContainerGap(1582, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cadastro de Caixas", pnlCadastrodeCaixa);
+        tbpnlTelasdeSupermercado.addTab("Cadastro de Caixas", pnlCadastrodeCaixa);
 
         lbContagemdeCedulas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbContagemdeCedulas.setText("1.Contagem de Cédulas");
@@ -3291,7 +3549,7 @@ private void cadastrarAberturaCaixa() {
                 .addGroup(pnlConferenciaTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlResumodeDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlChetkdeAprovacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 3021, Short.MAX_VALUE))
+                .addGap(0, 3059, Short.MAX_VALUE))
         );
         pnlConferenciaTelasLayout.setVerticalGroup(
             pnlConferenciaTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3314,10 +3572,10 @@ private void cadastrarAberturaCaixa() {
                                 .addComponent(pnlMeiosdePagamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(pnlResulmoGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(pnlResgidtrodeDivergencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 1520, Short.MAX_VALUE))
+                .addGap(0, 1567, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Conferência", pnlConferenciaTelas);
+        tbpnlTelasdeSupermercado.addTab("Conferência", pnlConferenciaTelas);
 
         lbSangriasdeCaixa.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbSangriasdeCaixa.setText("Sangrias de Caixa");
@@ -3342,7 +3600,7 @@ private void cadastrarAberturaCaixa() {
         lbMdaSangria.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbMdaSangria.setText("Motivo da sangria");
 
-        cbxMotivoSangria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxMotivoSangria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         lbMotivo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbMotivo.setText("Motivo*");
@@ -3408,8 +3666,8 @@ private void cadastrarAberturaCaixa() {
                 .addComponent(cbxMotivoSangria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(lbObservacoesSangria)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tbCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3456,9 +3714,9 @@ private void cadastrarAberturaCaixa() {
                     .addComponent(txfNumerodaSolicitacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txfDatadaSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbCAIXA)
-                    .addComponent(lbOperadorS))
+                    .addComponent(lbOperadorS, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlSolicitacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxCaixaSangrias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3513,8 +3771,6 @@ private void cadastrarAberturaCaixa() {
 
         lbAutorizacaoSangria.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbAutorizacaoSangria.setText("Autorização");
-
-        cbxUautorizacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lbUsuarioautorizacao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbUsuarioautorizacao.setText("Usuario autorizador*");
@@ -3687,7 +3943,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlTotaldeM, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(pnlComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(3492, Short.MAX_VALUE))
+                .addContainerGap(3530, Short.MAX_VALUE))
         );
         pnlSangriasTelasLayout.setVerticalGroup(
             pnlSangriasTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3706,10 +3962,10 @@ private void cadastrarAberturaCaixa() {
                             .addComponent(pnlTotaldeM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pnlComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(pnlSolicitacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1530, Short.MAX_VALUE))
+                .addContainerGap(1577, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Sangrias", pnlSangriasTelas);
+        tbpnlTelasdeSupermercado.addTab("Sangrias", pnlSangriasTelas);
 
         lbFiltros.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbFiltros.setText("Filtros");
@@ -3755,11 +4011,13 @@ private void cadastrarAberturaCaixa() {
         btnLimparFLT.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimparFLT.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\cleaning.png")); // NOI18N
         btnLimparFLT.setText("Limpar Filtros");
+        btnLimparFLT.addActionListener(this::btnLimparFLTActionPerformed);
 
         btnAplicarFLT.setBackground(new java.awt.Color(0, 0, 0));
         btnAplicarFLT.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAplicarFLT.setForeground(new java.awt.Color(255, 255, 255));
         btnAplicarFLT.setText("Aplicar Filtros");
+        btnAplicarFLT.addActionListener(this::btnAplicarFLTActionPerformed);
 
         javax.swing.GroupLayout pnlFiltrosLayout = new javax.swing.GroupLayout(pnlFiltros);
         pnlFiltros.setLayout(pnlFiltrosLayout);
@@ -4068,34 +4326,42 @@ private void cadastrarAberturaCaixa() {
 
         btnAbrirCaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAbrirCaixa.setText("Abrir Caixa");
+        btnAbrirCaixa.addActionListener(this::btnAbrirCaixaActionPerformed);
 
         btnFecharCaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnFecharCaixa.setText("Fechar caixa");
+        btnFecharCaixa.addActionListener(this::btnFecharCaixaActionPerformed);
 
         btnPausarCaixa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPausarCaixa.setText("Pausar caixa");
+        btnPausarCaixa.addActionListener(this::btnPausarCaixaActionPerformed);
 
         btnEncerrarPausar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEncerrarPausar.setText("Encerrar pausar");
+        btnEncerrarPausar.addActionListener(this::btnEncerrarPausarActionPerformed);
 
         btnIniciarConferecia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnIniciarConferecia.setText("Iniciar conferencia");
+        btnIniciarConferecia.addActionListener(this::btnIniciarConfereciaActionPerformed);
 
         btnCancelarConferencia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCancelarConferencia.setText("Cancelar conferencia");
+        btnCancelarConferencia.addActionListener(this::btnCancelarConferenciaActionPerformed);
 
         btnImprimirResumo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnImprimirResumo.setText("Imprimir resumo");
+        btnImprimirResumo.addActionListener(this::btnImprimirResumoActionPerformed);
 
         btnTransferirOperador.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTransferirOperador.setText("Transferir operador");
+        btnTransferirOperador.addActionListener(this::btnTransferirOperadorActionPerformed);
 
         javax.swing.GroupLayout pnlAcoesRapidaLayout = new javax.swing.GroupLayout(pnlAcoesRapida);
         pnlAcoesRapida.setLayout(pnlAcoesRapidaLayout);
         pnlAcoesRapidaLayout.setHorizontalGroup(
             pnlAcoesRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAcoesRapidaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(39, Short.MAX_VALUE)
                 .addGroup(pnlAcoesRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnTransferirOperador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAbrirCaixa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -4109,35 +4375,34 @@ private void cadastrarAberturaCaixa() {
                     .addComponent(btnCancelarConferencia, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
             .addGroup(pnlAcoesRapidaLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(lbAcoesRapidas)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAcoesRapidaLayout.setVerticalGroup(
             pnlAcoesRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAcoesRapidaLayout.createSequentialGroup()
-                .addGroup(pnlAcoesRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlAcoesRapidaLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(btnFecharCaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnEncerrarPausar, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnCancelarConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(btnImprimirResumo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAcoesRapidaLayout.createSequentialGroup()
-                        .addComponent(lbAcoesRapidas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAbrirCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnPausarCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(btnIniciarConferecia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)))
-                .addComponent(btnTransferirOperador, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addGap(131, 131, 131)
+                .addComponent(btnFecharCaixa)
+                .addGap(33, 33, 33)
+                .addComponent(btnEncerrarPausar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelarConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(btnImprimirResumo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAcoesRapidaLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lbAcoesRapidas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAbrirCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(btnPausarCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(btnIniciarConferecia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(btnTransferirOperador, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
 
         lbHistoricoAlteracoes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -4260,15 +4525,15 @@ private void cadastrarAberturaCaixa() {
                     .addGroup(pnlCaixasAeFTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(pnlHistoricodeAlteracoes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pnlAcoesRapida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(3407, Short.MAX_VALUE))
+                .addContainerGap(3445, Short.MAX_VALUE))
         );
         pnlCaixasAeFTelasLayout.setVerticalGroup(
             pnlCaixasAeFTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCaixasAeFTelasLayout.createSequentialGroup()
                 .addComponent(pnlDetalhesdoCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlAcoesRapida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
+                .addComponent(pnlAcoesRapida, javax.swing.GroupLayout.PREFERRED_SIZE, 380, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
                 .addComponent(pnlHistoricodeAlteracoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1133, 1133, 1133))
             .addGroup(pnlCaixasAeFTelasLayout.createSequentialGroup()
@@ -4281,15 +4546,15 @@ private void cadastrarAberturaCaixa() {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Caixa Abertos/Fechados", pnlCaixasAeFTelas);
+        tbpnlTelasdeSupermercado.addTab("Caixa Abertos/Fechados", pnlCaixasAeFTelas);
 
-        lbTotalaReceber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTotalaReceber.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbTotalaReceber.setText("Total a Receber:");
 
         lbOperacaodeDinheoC.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbOperacaodeDinheoC.setText("Operação de dinheiro-Caixa 01 Frente");
 
-        lbTotalrecebido.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTotalrecebido.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbTotalrecebido.setText("Total Recebido:");
 
         javax.swing.GroupLayout pnlTotalrecebidoLayout = new javax.swing.GroupLayout(pnlTotalrecebido);
@@ -4333,19 +4598,15 @@ private void cadastrarAberturaCaixa() {
             pnlOPERADORESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOPERADORESLayout.createSequentialGroup()
                 .addComponent(lbOperacaodeDinheoC, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(pnlOPERADORESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlOPERADORESLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txfTotalaReceberOperadores, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))
-                    .addGroup(pnlOPERADORESLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lbTotalaReceber)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlOPERADORESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txfTotalaReceberOperadores, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbTotalaReceber))
+                .addGap(35, 35, 35))
             .addComponent(pnlTotalrecebido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        lbTroco.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTroco.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lbTroco.setText("Troco:");
 
         btnImagemTroco.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\Supermercado\\Supermercado\\src\\main\\resources\\assets\\coin.png")); // NOI18N
@@ -4722,6 +4983,7 @@ private void cadastrarAberturaCaixa() {
         btnRegularTroco.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnRegularTroco.setIcon(new javax.swing.ImageIcon("C:\\Users\\PedroLeite\\Documents\\ProjetoPI_Supermercado\\GerenciamentoSupermercado\\src\\main\\java\\com\\mycompany\\gerenciamentosupermercado\\back-arrow.png")); // NOI18N
         btnRegularTroco.setText("Recalcular Troco");
+        btnRegularTroco.addActionListener(this::btnRegularTrocoActionPerformed);
 
         javax.swing.GroupLayout pnlResumodoRecebimentoLayout = new javax.swing.GroupLayout(pnlResumodoRecebimento);
         pnlResumodoRecebimento.setLayout(pnlResumodoRecebimentoLayout);
@@ -4875,7 +5137,7 @@ private void cadastrarAberturaCaixa() {
                         .addComponent(pnlOPERADORES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlTroco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(3602, Short.MAX_VALUE))
+                .addContainerGap(3640, Short.MAX_VALUE))
         );
         pnlOperadoresdeTelasLayout.setVerticalGroup(
             pnlOperadoresdeTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4894,13 +5156,13 @@ private void cadastrarAberturaCaixa() {
                         .addGroup(pnlOperadoresdeTelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pnlResumodoRecebimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pnlMoedas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(1439, Short.MAX_VALUE))
+                        .addContainerGap(1486, Short.MAX_VALUE))
                     .addGroup(pnlOperadoresdeTelasLayout.createSequentialGroup()
                         .addComponent(pnlTabelasdeCedulas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
-        jTabbedPane1.addTab("Operadores", pnlOperadoresdeTelas);
+        tbpnlTelasdeSupermercado.addTab("Operadores", pnlOperadoresdeTelas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -4908,15 +5170,15 @@ private void cadastrarAberturaCaixa() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addGap(60, 60, 60))
+                .addComponent(tbpnlTelasdeSupermercado)
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addGap(40, 40, 40))
+                .addComponent(tbpnlTelasdeSupermercado)
+                .addContainerGap())
         );
 
         pack();
@@ -4924,27 +5186,30 @@ private void cadastrarAberturaCaixa() {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+        cadastrarCaixas();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSALVARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSALVARActionPerformed
         // TODO add your handling code here:
+        cadastrarCaixas();
+        
+        cadastrarCaixas();
     }//GEN-LAST:event_btnSALVARActionPerformed
 
     private void btnPESQUISARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPESQUISARActionPerformed
         // TODO add your handling code here:
+        cadastrarCaixas();
     }//GEN-LAST:event_btnPESQUISARActionPerformed
 
     private void btnEditarCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCaixaActionPerformed
-        // TODO add your handling code here:
+         // TODO add your handling code here:
+         cadastrarCaixas();
     }//GEN-LAST:event_btnEditarCaixaActionPerformed
-
+ 
     private void btnLimparCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCaixaActionPerformed
         // TODO add your handling code here:
+        cadastrarCaixas();
     }//GEN-LAST:event_btnLimparCaixaActionPerformed
-
-    private void btnNovodeCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovodeCaixaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNovodeCaixaActionPerformed
 
     private void cbxPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPeriodoActionPerformed
         // TODO add your handling code here:
@@ -4956,7 +5221,177 @@ private void cadastrarAberturaCaixa() {
 
     private void btnVizualizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVizualizaActionPerformed
         // TODO add your handling code here:
+        cadastrarCaixas();
+        
     }//GEN-LAST:event_btnVizualizaActionPerformed
+
+    private void btnAbrirCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCaixaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnAbrirCaixaActionPerformed
+
+    private void btnSalvodeCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvodeCaixaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+      
+    }//GEN-LAST:event_btnSalvodeCaixaActionPerformed
+
+    private void btnImprimiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimiActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnImprimiActionPerformed
+
+    private void btnExportarMovimentacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarMovimentacoesActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnExportarMovimentacoesActionPerformed
+
+    private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnPesquisaActionPerformed
+
+    private void btnVoltarMovimentacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarMovimentacoesActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnVoltarMovimentacoesActionPerformed
+
+    private void btnpesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesquisarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnpesquisarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnExportaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnExportaActionPerformed
+
+    private void btnVizualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVizualizarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnVizualizarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnNOVOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNOVOActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnNOVOActionPerformed
+
+    private void btnEDITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEDITARActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnEDITARActionPerformed
+
+    private void btnEXCLUIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEXCLUIRActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnEXCLUIRActionPerformed
+
+    private void btnLIMPARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLIMPARActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnLIMPARActionPerformed
+
+    private void btnVOLTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVOLTARActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnVOLTARActionPerformed
+
+    private void btnEmitirComprovanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirComprovanteActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnEmitirComprovanteActionPerformed
+
+    private void btnVisualizarComprovanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarComprovanteActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+        
+    }//GEN-LAST:event_btnVisualizarComprovanteActionPerformed
+
+    private void btnLimparFLTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparFLTActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnLimparFLTActionPerformed
+
+    private void btnAplicarFLTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarFLTActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnAplicarFLTActionPerformed
+
+    private void btnFecharCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharCaixaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnFecharCaixaActionPerformed
+
+    private void btnEncerrarPausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncerrarPausarActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnEncerrarPausarActionPerformed
+
+    private void btnPausarCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPausarCaixaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnPausarCaixaActionPerformed
+
+    private void btnCancelarConferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarConferenciaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnCancelarConferenciaActionPerformed
+
+    private void btnIniciarConfereciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarConfereciaActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnIniciarConfereciaActionPerformed
+
+    private void btnImprimirResumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirResumoActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnImprimirResumoActionPerformed
+
+    private void btnTransferirOperadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirOperadorActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnTransferirOperadorActionPerformed
+
+    private void btnRegularTrocoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegularTrocoActionPerformed
+        // TODO add your handling code here:
+        cadastrarCaixas();
+    }//GEN-LAST:event_btnRegularTrocoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -5028,7 +5463,6 @@ private void cadastrarAberturaCaixa() {
     private javax.swing.JButton btnMoedasdeConferencia;
     private javax.swing.JButton btnNOVO;
     private javax.swing.JButton btnNovo;
-    private javax.swing.JButton btnNovodeCaixa;
     private javax.swing.JLabel btnOperador;
     private javax.swing.JButton btnPESQUISAR;
     private javax.swing.JButton btnPausarCaixa;
@@ -5149,7 +5583,6 @@ private void cadastrarAberturaCaixa() {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea3;
@@ -5413,6 +5846,7 @@ private void cadastrarAberturaCaixa() {
     private javax.swing.JTable tbValorqtt;
     private javax.swing.JTable tbValorqttMoeda;
     private javax.swing.JScrollPane tbValorqttMoedas;
+    private javax.swing.JTabbedPane tbpnlTelasdeSupermercado;
     private javax.swing.JTable tbqttdeMoedas;
     private javax.swing.JTextField tfENDERECO;
     private javax.swing.JTextField tfTELEFONE;
@@ -5447,6 +5881,12 @@ private void cadastrarAberturaCaixa() {
     private javax.swing.JTextField txfValorTotalRecebido;
     private javax.swing.JTextPane txpObservaçoes;
     // End of variables declaration//GEN-END:variables
+
+    private void listarMovimentacoes() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+   
 
    
    
