@@ -161,6 +161,7 @@ Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro d
 # Perfil de Usuários
 
 # Solicitações
+A Tela de Solicitação de Compras é responsável pelo gerenciamento das compras do supermercado, permitindo cadastrar, consultar, editar e excluir solicitações. Ela utiliza principalmente cinco tabelas do MySQL: compras, itensCompra, produtos, fornecedores e Funcionario. Sua implementação segue uma separação entre interface gráfica, Models e Controllers, utilizando Java Swing, JDBC e MySQL para realizar as operações de CRUD e manter a integridade dos dados.
 
 # Alterar Senha
 
