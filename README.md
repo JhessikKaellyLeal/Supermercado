@@ -187,6 +187,462 @@ Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro d
 # Financeiro
 
 # Funcionários / RH
+# Módulo de Recursos Humanos (RH) — Sistema de Supermercado
+
+## 1. Visão geral
+
+O módulo de Recursos Humanos (RH) é responsável por organizar e administrar informações relacionadas aos funcionários e à estrutura de trabalho do supermercado.
+
+A interface foi desenvolvida em **Java**, utilizando a biblioteca **Java Swing**, por meio de uma tela principal chamada `Tela_Funcionarios_RH.java`.
+
+A tela utiliza componentes gráficos, incluindo um `JTabbedPane`, que organiza as funcionalidades em diferentes abas, facilitando o acesso e a administração das informações.
+
+O módulo utiliza o banco de dados MySQL para armazenar os registros e segue uma organização baseada em três partes principais:
+
+- **View (Interface):** apresenta as telas e permite a interação do usuário.
+- **Controller (Controle):** executa as operações e faz a comunicação com o banco de dados.
+- **Model (Modelo):** representa os dados e atributos das entidades do sistema.
+
+## 2. Funcionalidades da tela de RH
+
+A tela principal reúne funcionalidades relacionadas à administração dos recursos humanos do supermercado.
+
+### 2.1. Funcionários
+
+Permite trabalhar com os dados cadastrais dos funcionários, incluindo:
+
+- Nome;
+- CPF;
+- Telefone;
+- Data de nascimento;
+- Data de admissão;
+- Cargo;
+- Setor;
+- Turno;
+- Status do funcionário.
+
+O cadastro utiliza informações selecionadas nos campos da interface e encaminha os dados ao `FuncionarioController`.
+
+### 2.2. Cargos
+
+Permite cadastrar e administrar os cargos existentes no supermercado.
+
+As informações utilizadas incluem:
+
+- Nome do cargo;
+- Descrição;
+- Salário-base;
+- Carga horária;
+- Adicional de periculosidade;
+- Adicional de insalubridade;
+- Adicional noturno;
+- Status do cargo.
+
+### 2.3. Setores
+
+Permite organizar os setores da empresa, registrando:
+
+- Nome do setor;
+- Descrição;
+- Status.
+
+### 2.4. Turnos
+
+Permite cadastrar e administrar os horários de trabalho.
+
+Os dados utilizados incluem:
+
+- Nome do turno;
+- Descrição;
+- Horário de início;
+- Horário de saída;
+- Início e término do intervalo;
+- Duração do turno;
+- Indicação de turno noturno;
+- Status.
+
+### 2.5. Escalas
+
+Permite registrar e consultar escalas de trabalho dos funcionários.
+
+O cadastro trabalha com:
+
+- Período inicial;
+- Período final;
+- Identificação do funcionário.
+
+O Controller também possui operações para consultar, atualizar e excluir escalas, além de obter o ID de um funcionário a partir de seu nome.
+
+### 2.6. Controle de ponto
+
+Permite registrar informações relacionadas ao ponto dos funcionários.
+
+Os dados utilizados são:
+
+- Data;
+- Horário;
+- Justificativa;
+- Arquivo anexado;
+- Identificação do funcionário;
+- Cargo;
+- Setor;
+- Turno.
+
+O sistema trabalha com o arquivo anexado em formato de bytes (`byte[]`), permitindo que o Controller encaminhe seu conteúdo ao banco de dados.
+
+### 2.7. Afastamentos
+
+Permite registrar informações sobre afastamentos dos funcionários.
+
+Os dados utilizados incluem:
+
+- Tipo de afastamento;
+- Data de início;
+- Data final;
+- Quantidade de dias;
+- Situação;
+- Data de registro;
+- Funcionário;
+- Cargo;
+- Setor;
+- Turno.
+
+### 2.8. Férias
+
+A interface possui uma funcionalidade de cadastro de férias, utilizando:
+
+- Data de início;
+- Data final;
+- Situação.
+
+**Observação:** o código da tela chama um `FeriasController`, mas esse Controller não foi enviado para análise. Portanto, suas operações internas e sua implementação não estão documentadas nesta versão.
+
+### 2.9. Metas
+
+Permite registrar e acompanhar metas associadas aos funcionários.
+
+Os dados utilizados incluem:
+
+- Tipo de meta;
+- Período inicial;
+- Período final;
+- Meta prevista;
+- Resultado atual;
+- Porcentagem atingida;
+- Situação;
+- Funcionário;
+- Cargo;
+- Setor;
+- Turno.
+
+## 3. Controllers utilizados
+
+Os Controllers são responsáveis por receber as informações da interface, executar as operações necessárias e realizar a comunicação com o banco de dados.
+
+A seguir estão os Controllers identificados no projeto.
+
+### 3.1. FuncionarioController
+
+Responsável pelas operações relacionadas aos funcionários.
+
+**Principais métodos:**
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra um funcionário. |
+| `consultarPorCPF()` | Consulta um funcionário pelo CPF. |
+| `consultarPorID()` | Consulta um funcionário pelo identificador. |
+| `listarFuncionarios()` | Retorna os registros de funcionários. |
+| `listar()` | Retorna uma lista de funcionários. |
+| `atualizar()` | Atualiza os dados de um funcionário. |
+| `excluir()` | Exclui um funcionário. |
+
+### 3.2. CargosController
+
+Responsável pelo gerenciamento dos cargos.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra um cargo. |
+| `listar()` | Lista os cargos cadastrados. |
+| `atualizar()` | Atualiza um cargo. |
+| `excluir()` | Exclui um cargo. |
+
+### 3.3. SetoresController
+
+Responsável pelo gerenciamento dos setores.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra um setor. |
+| `listar()` | Lista os setores cadastrados. |
+| `atualizar()` | Atualiza um setor. |
+| `excluir()` | Exclui um setor. |
+
+### 3.4. TurnosController
+
+Responsável pelo gerenciamento dos turnos de trabalho.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra um turno. |
+| `listar()` | Lista os turnos. |
+| `listarAtivos()` | Retorna os turnos ativos. |
+| `consultarPorId()` | Consulta um turno pelo ID. |
+| `pesquisarPorNome()` | Pesquisa turnos pelo nome. |
+| `atualizar()` | Atualiza os dados de um turno. |
+| `alterarStatus()` | Altera o status de um turno. |
+| `excluir()` | Exclui um turno. |
+| `consultarLista()` | Realiza uma consulta de turnos. |
+| `montarTurno()` | Monta um objeto de turno a partir dos dados consultados. |
+
+### 3.5. EscalaController
+
+Responsável pelo gerenciamento das escalas de trabalho.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra uma escala. |
+| `consultarPorID()` | Consulta uma escala pelo ID. |
+| `listarEscalas()` | Lista as escalas cadastradas. |
+| `atualizar()` | Atualiza uma escala. |
+| `excluir()` | Exclui uma escala. |
+| `obterIdFuncionarioPorNome()` | Obtém o ID do funcionário pelo nome. |
+
+### 3.6. PontoController
+
+Responsável pelas operações relacionadas ao controle de ponto.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Registra um ponto. |
+| `listar()` | Lista os registros de ponto. |
+| `atualizar()` | Atualiza um registro de ponto. |
+| `excluir()` | Exclui um registro de ponto. |
+
+### 3.7. AfastamentosController
+
+Responsável pelo gerenciamento dos afastamentos.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Registra um afastamento. |
+| `listar()` | Lista os afastamentos. |
+| `atualizar()` | Atualiza um afastamento. |
+| `excluir()` | Exclui um afastamento. |
+| `IdsFuncionario()` | Obtém os IDs relacionados ao funcionário a partir do nome. |
+
+### 3.8. MetasController
+
+Responsável pelo gerenciamento das metas dos funcionários.
+
+| Método | Função |
+|---|---|
+| `cadastrar()` | Cadastra uma meta. |
+| `listar()` | Lista as metas. |
+| `atualizar()` | Atualiza uma meta. |
+| `excluir()` | Exclui uma meta. |
+| `listarTiposMeta()` | Retorna os tipos de meta disponíveis. |
+
+## 4. Models utilizados
+
+Os Models representam as entidades e seus respectivos atributos, organizando os dados utilizados pelos Controllers.
+
+As classes identificadas no arquivo enviado foram:
+
+### 4.1. Cargos
+
+Representa os cargos existentes no supermercado.
+
+Atributos:
+
+- `idcargos`
+- `nome`
+- `descricao`
+- `salariobase`
+- `cargahorario`
+- `adicionalpericulosidade`
+- `adicionalinsalubridade`
+- `adicionalnoturno`
+- `statuscargo`
+
+### 4.2. Setores
+
+Representa os setores da empresa.
+
+Atributos:
+
+- `idsetores`
+- `nome`
+- `descricao`
+- `status`
+
+### 4.3. Turnos
+
+Representa os turnos de trabalho.
+
+Atributos:
+
+- `idturnos`
+- `nome`
+- `descricao`
+- `horaInicio`
+- `horaSaida`
+- `intervaloInicio`
+- `intervaloFinal`
+- `duracaoTurno`
+- `turnoNoturno`
+- `status`
+
+### 4.4. Escala
+
+Representa os períodos de escala dos funcionários.
+
+Atributos:
+
+- `iddiasTrabalhados`
+- `Funcionario_idFuncionario`
+- `Funcionario_cargos_idcargos`
+- `Funcionario_setores_idsetores`
+- `Funcionario_turnos_idturnos`
+- `periodoInicial`
+- `periodoFinal`
+
+### 4.5. Ponto
+
+Representa os registros de ponto dos funcionários.
+
+Atributos:
+
+- `idponto`
+- `Funcionario_idFuncionario`
+- `Funcionario_cargos_idcargos`
+- `Funcionario_setores_idsetores`
+- `Funcionario_turnos_idturnos`
+- `data`
+- `horario`
+- `justificativa`
+- `arquivo`
+
+### 4.6. Afastamentos
+
+Representa os registros de afastamento dos funcionários.
+
+Atributos:
+
+- `idafastamentos`
+- `Funcionario_idFuncionario`
+- `Funcionario_cargos_idcargos`
+- `Funcionario_setores_idsetores`
+- `Funcionario_turnos_idturnos`
+- `tipo`
+- `inicio`
+- `finalAfastamentos`
+- `dias`
+- `situacao`
+- `dataRegistro`
+
+### 4.7. Metas
+
+Representa as metas associadas aos funcionários.
+
+Atributos:
+
+- `idmetas`
+- `Funcionario_idFuncionario`
+- `Funcionario_cargos_idcargos`
+- `Funcionario_setores_idsetores`
+- `Funcionario_turnos_idturnos`
+- `tipo`
+- `periodoInicial`
+- `periodoFinal`
+- `situacao`
+- `metaPrevista`
+- `resultadoAtual`
+- `porcentagemAtingido`
+
+**Observação:** os arquivos `Funcionario.java` e `Ferias.java` não estavam presentes no ZIP enviado. Por isso, seus atributos não foram incluídos nesta documentação.
+
+## 5. Comunicação entre as camadas
+
+O funcionamento do módulo segue o fluxo abaixo:
+
+1. O usuário interage com a tela `Tela_Funcionarios_RH.java`.
+2. A interface captura os valores preenchidos nos campos.
+3. A tela chama o método correspondente do Controller.
+4. O Controller executa a operação utilizando a conexão com o banco de dados.
+5. O banco de dados armazena ou retorna as informações.
+6. O resultado é utilizado pela aplicação para atualizar ou apresentar os dados na interface.
+
+### Exemplo de fluxo
+
+```text
+Usuário
+   |
+   v
+Tela_Funcionarios_RH.java
+   |
+   v
+FuncionarioController
+   |
+   v
+Conexao / MySQL
+   |
+   v
+Banco de dados
+```
+
+Os Controllers utilizam classes como `Connection`, `PreparedStatement` e `ResultSet`, da biblioteca JDBC, para executar consultas e operações no banco de dados.
+
+## 6. Organização dos arquivos
+
+Com base nos arquivos enviados, a organização identificada é:
+
+```text
+src/
+├── Control/
+│   ├── FuncionarioController.java
+│   ├── CargosController.java
+│   ├── SetoresController.java
+│   ├── TurnosController.java
+│   ├── EscalaController.java
+│   ├── PontoController.java
+│   ├── AfastamentosController.java
+│   └── MetasController.java
+│
+├── Model/
+│   ├── Cargos.java
+│   ├── Setores.java
+│   ├── Turnos.java
+│   ├── Escala.java
+│   ├── Ponto.java
+│   ├── Afastamentos.java
+│   └── Metas.java
+│
+├── Conection/
+│   └── Conexao.java
+│
+└── View/
+    └── Tela_Funcionarios_RH.java
+```
+
+*Observação: a estrutura acima representa os arquivos identificados e os pacotes utilizados nos códigos enviados. A localização exata da classe de conexão e da tela deve ser conferida na estrutura completa do projeto.*
+
+## 7. Tecnologias utilizadas
+
+- **Java:** linguagem de programação utilizada no desenvolvimento.
+- **Java Swing:** biblioteca utilizada para construir a interface gráfica.
+- **NetBeans:** ambiente de desenvolvimento integrado utilizado no projeto.
+- **MySQL:** sistema gerenciador de banco de dados.
+- **JDBC:** tecnologia utilizada para realizar a comunicação entre Java e MySQL.
+
+## 8. Considerações finais
+
+O módulo de Recursos Humanos centraliza diferentes operações administrativas relacionadas aos funcionários do supermercado.
+
+Sua estrutura permite organizar informações de funcionários, cargos, setores e turnos, além de disponibilizar funcionalidades relacionadas a escalas, ponto, afastamentos, férias e metas.
+
+A separação entre interface, Controllers e Models contribui para a organização do código, facilita a manutenção e permite que cada parte do sistema tenha uma responsabilidade específica.
 
 # Perfil de Usuários
 
