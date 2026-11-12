@@ -184,6 +184,26 @@ Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro d
 
 # Caixa
 
+O módulo Caixa permite controlar os pontos de atendimento e as movimentações financeiras realizadas pelos operadores. Nele é possível cadastrar caixas, realizar aberturas e fechamentos, registrar sangrias e suprimentos, acompanhar movimentações, realizar conferências, calcular saldos, identificar diferenças de caixa e consultar o histórico de operações.
+
+### Model (Modelo)
+O Model é responsável por representar os dados de cada tabela do banco de dados. Ele contém os atributos, métodos de acesso e as informações necessárias para realizar operações com os registros.
+
+No módulo Caixa, os Models são responsáveis por armazenar informações de caixas, movimentações, operadores, suprimentos, sangrias, conferências, aberturas e fechamentos. Eles permitem que o sistema consulte, cadastre, atualize e exclua informações no banco de dados MySQL.
+
+### Controller (Controlador)
+O Controller é responsável por controlar a comunicação entre a View e o Model. Ele recebe as informações enviadas pelas telas, realiza validações, executa as operações solicitadas e encaminha os dados para serem armazenados ou consultados no banco de dados.
+
+No módulo Caixa, os Controllers controlam as operações de cadastro, edição, exclusão, pesquisa, abertura, fechamento e consulta de movimentações. Também são responsáveis por buscar informações para preencher as tabelas e ComboBoxes das telas.
+
+### View (Visualização)
+A View representa a parte visual do sistema, ou seja, as telas que o usuário utiliza para realizar as operações. Ela contém campos de preenchimento, botões, tabelas, caixas de seleção e filtros de pesquisa.
+
+No módulo Caixa, a View permite que o operador ou administrador visualize informações, cadastre registros, consulte movimentações, realize conferências e acompanhe as operações dos caixas.
+
+Funcionamento das telas do módulo Caixa
+A seguir, está a descrição das principais telas e suas funcionalidades dentro do padrão MVC.
+1. Movimentações
 # Financeiro
 
 # Funcionários / RH
