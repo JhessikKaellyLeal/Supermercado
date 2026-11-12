@@ -131,6 +131,10 @@ CREATE TABLE IF NOT EXISTS promocao (
   qttMinima INT NOT NULL
 );
 
+Model: promocao_model.js – responsável pela comunicação com o banco de dados e pelas operações relacionadas às promoções.
+
+Controller: promocao_controller.js – responsável por processar as requisições, aplicar as regras de negócio e controlar as operações de cadastro e gerenciamento das promoções.
+
 ## Tela de Promoções / Aba Cupom
 
 Aba responsável pelo cadastro e gerenciamento de cupons de desconto da loja. Permite criar cupons promocionais para oferecer benefícios aos clientes durante suas compras, incentivando o consumo e proporcionando descontos em produtos ou no valor total dos pedidos.
@@ -160,7 +164,13 @@ CREATE TABLE IF NOT EXISTS cupom (
   promocao_idpromocao INT NOT NULL
 );
 
+Model: cupom_model.js – responsável pela comunicação com o banco de dados e pelas operações relacionadas aos cupons.
+
+Controller: cupom_controller.js – responsável por processar as requisições e controlar as operações de cadastro e gerenciamento dos cupons.
+
+
 Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro do sistema de supermercado
+
 
 # Pedidos
 
