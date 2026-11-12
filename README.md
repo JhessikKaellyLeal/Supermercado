@@ -69,6 +69,8 @@ O projeto também proporciona a aplicação prática de conhecimentos em desenvo
 
 # Início
 
+Painel principal do sistema, responsável por apresentar uma visão geral do supermercado. Exibe indicadores de vendas, caixas abertos, pedidos pendentes, contas a pagar e receber, notificações e entregas. Também disponibiliza atalhos para acessar rapidamente as principais funcionalidades e módulos do sistema.
+
 # Produtos
 
 # Gerenciamento de Produtos
@@ -76,6 +78,8 @@ O projeto também proporciona a aplicação prática de conhecimentos em desenvo
 # Estoque
 
 # Fornecedores
+
+Módulo responsável pelo gerenciamento completo dos fornecedores e empresas terceirizadas. Possui abas para cadastro de empresas, gerenciamento de categorias, contratos, documentos, avaliações de desempenho, contatos, condições de pagamento, registro de ocorrências e consulta ao histórico de compras. Seu objetivo é centralizar as informações e facilitar o acompanhamento do relacionamento entre o supermercado e seus fornecedores.
 
 # Clientes
 
