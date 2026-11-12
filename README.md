@@ -177,6 +177,50 @@ Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro d
 # Entregas
 
 # Vendas
+A tela de Vendas foi desenvolvida em Java Swing e tem como objetivo permitir a consulta e o acompanhamento das vendas realizadas no supermercado, reunindo informações comerciais e financeiras em uma única interface. Ela apresenta áreas destinadas à consulta de vendas, filtros por período, informações de operadores e produtos, formas de pagamento, cancelamentos, estornos, comprovantes, bandeiras de cartões, parcelamentos, taxas e contas bancárias.
+
+## Integração com o Banco de Dados
+A tela realiza consultas ao banco de dados MySQL, principalmente às seguintes tabelas:
+- vendas: fornece os dados principais da venda, como identificador, data, horário, valor total, valor pago, troco, quantidade de itens e status.
+- cliente: fornece o nome do cliente relacionado à venda.
+- usuario: fornece o nome do operador responsável pela venda.
+- caixas: fornece a identificação do caixa utilizado.
+- cupom: fornece o código do cupom associado à venda.
+- itensVendas: armazena os itens vinculados a cada venda, incluindo quantidade, preço unitário, desconto e valor total.
+- pagamentoVenda: relaciona os pagamentos realizados às vendas e às formas de pagamento.
+- formasPagamento: fornece os nomes das formas de pagamento utilizadas.
+- categorias: disponibiliza os nomes das categorias para seleção nos filtros.
+- permissoes: fornece os tipos de níveis de acesso.
+- contasFinanceiras: disponibiliza informações de bancos e tipos de contas financeiras.
+Essas consultas permitem apresentar informações das vendas e seus respectivos relacionamentos, além de preencher tabelas e listas de seleção da interface
+
+## Utilização do VendasController
+O VendasController é responsável pela comunicação entre a tela e o banco de dados no que diz respeito aos registros de vendas. Entre seus métodos estão:
+- listar(): consulta os registros da tabela vendas e relaciona cada venda aos dados do cliente, usuário, caixa e cupom. As informações retornadas são utilizadas para preencher as tabelas de vendas da interface.
+- listarVendasPorFormaPagamento(): consulta as tabelas pagamentoVenda, formasPagamento e vendas, agrupando os resultados por forma de pagamento. Retorna a quantidade de vendas, o valor médio e o valor total de cada forma de pagamento.
+- pesquisar(String textoPesquisa): permite pesquisar vendas utilizando informações como número da venda, nome do cliente, nome do operador, código do cupom ou status.
+- cadastrar(), atualizar() e excluir(): métodos responsáveis pelas operações de inclusão, alteração e exclusão de registros de vendas.
+- totalVendas(): consulta a quantidade total de registros existentes na tabela de vendas.
+Na implementação atual da TelaVendas, os métodos listar() e listarVendasPorFormaPagamento() são utilizados para carregar os dados apresentados nas tabelas. Os demais métodos fazem parte das operações disponibilizadas pelo controller, mas não estão todos integrados às ações da interface.
+
+## Utilização do Model Vendas
+A classe Model.Vendas representa os registros da tabela vendas e organiza os dados recebidos do banco de dados por meio de atributos, construtores, métodos getters e setters.
+Os principais atributos são:
+- idvendas: identificador da venda.
+- dataVenda e horarioVenda: data e horário em que a venda foi realizada.
+- valorTotal: valor total da venda.
+- valorPago: valor recebido pelo pagamento.
+- troco: valor devolvido ao cliente.
+- quantidadeItens: quantidade de itens da venda.
+- statusVenda: situação atual da venda.
+- cliente_idcliente, usuario_idusuario, caixas_idcaixas e cupom_idcupom: identificadores relacionados às demais tabelas do banco de dados.
+O modelo também possui os atributos nomeCliente, nomeUsuario, nomeCaixa e codigoCupom, utilizados para armazenar informações obtidas por meio dos relacionamentos realizados nas consultas SQL. Dessa forma, a tela consegue apresentar nomes e códigos associados à venda, em vez de exibir somente os identificadores das chaves estrangeiras.
+
+## Funcionamento da Interface
+As informações são organizadas em tabelas (JTable) e listas de seleção (JComboBox). O carregamento das tabelas utiliza DefaultTableModel, enquanto os dados são obtidos por meio dos controllers correspondentes. Na inicialização da tela, são carregadas as listas de seleção, as tabelas de vendas e de itens de venda, os dados agrupados por forma de pagamento e as contas bancárias. A interface também utiliza componentes como JFrame, JPanel, JTabbedPane, JTextField, JFormattedTextField e JButton.
+
+## Objetivo
+A tela de Vendas busca centralizar as informações das operações comerciais do supermercado, facilitando a visualização dos registros, o acompanhamento dos valores, a identificação dos responsáveis pelas vendas e a consulta das informações relacionadas aos pagamentos. Sua estrutura também reúne recursos de apoio ao controle financeiro e administrativo das vendas.
 
 # PDV
 
