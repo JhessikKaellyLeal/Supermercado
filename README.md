@@ -119,17 +119,17 @@ Tela responsável pelo cadastro e gerenciamento das promoções dos produtos da 
 
 # Tabela do banco utilizada no MYsql
 
-CREATE TABLE IF NOT EXISTS promocao (
-  idpromocao INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(45) NOT NULL,
-  tipo VARCHAR(45) NOT NULL,
-  status TINYINT NOT NULL,
-  dataInicio VARCHAR(45) NOT NULL,
-  dataFinal VARCHAR(45) NOT NULL,
-  regras VARCHAR(200) NULL,
-  desconto INT NOT NULL,
-  qttMinima INT NOT NULL
-);
+- CREATE TABLE IF NOT EXISTS promocao (
+ - idpromocao INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-  nome VARCHAR(45) NOT NULL,
+-  tipo VARCHAR(45) NOT NULL,
+-  status TINYINT NOT NULL,
+-  dataInicio VARCHAR(45) NOT NULL,
+-  dataFinal VARCHAR(45) NOT NULL,
+-  regras VARCHAR(200) NULL,
+-  desconto INT NOT NULL,
+-  qttMinima INT NOT NULL
+-);
 
 Model: promocao_model.js – responsável pela comunicação com o banco de dados e pelas operações relacionadas às promoções.
 
@@ -149,20 +149,20 @@ Aba responsável pelo cadastro e gerenciamento de cupons de desconto da loja. Pe
 
 # Tabela do banco utilizada no MYsql
 
-CREATE TABLE IF NOT EXISTS cupom (
-  idcupom INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  codigoCupom VARCHAR(45) NOT NULL,
-  tipoDesconto VARCHAR(45) NOT NULL,
-  valorDesconto DOUBLE NOT NULL,
-  valorMinimoCompra DOUBLE NOT NULL,
-  qttMaximaUso INT NOT NULL,
-  limitePorCliente INT NOT NULL,
-  tipoUso VARCHAR(45) NOT NULL,
-  dataInicio VARCHAR(45) NOT NULL,
-  dataFinal VARCHAR(45) NOT NULL,
-  observacao VARCHAR(200) NULL,
-  promocao_idpromocao INT NOT NULL
-);
+- CREATE TABLE IF NOT EXISTS cupom (
+-  idcupom INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-  codigoCupom VARCHAR(45) NOT NULL,
+-  tipoDesconto VARCHAR(45) NOT NULL,
+-  valorDesconto DOUBLE NOT NULL,
+-  valorMinimoCompra DOUBLE NOT NULL,
+-  qttMaximaUso INT NOT NULL,
+-  limitePorCliente INT NOT NULL,
+-  tipoUso VARCHAR(45) NOT NULL,
+-  dataInicio VARCHAR(45) NOT NULL,
+-  dataFinal VARCHAR(45) NOT NULL,
+-  observacao VARCHAR(200) NULL,
+-  promocao_idpromocao INT NOT NULL
+- );
 
 Model: cupom_model.js – responsável pela comunicação com o banco de dados e pelas operações relacionadas aos cupons.
 
