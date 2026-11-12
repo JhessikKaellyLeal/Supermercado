@@ -85,6 +85,259 @@ A tela de Gerenciamento de Produtos é responsável pelo controle e organizaçã
 O módulo de Produtos é responsável pelo gerenciamento e organização dos produtos do supermercado. Ele possui telas de cadastro, consulta, edição e exclusão de produtos, gerenciamento de estoque, controle de produtos pesáveis, geração de etiquetas e emissão de relatórios. Na tela de Cadastro de Produtos, é possível registrar novos produtos com informações como nome, código, descrição, preços, estoque, validade, categoria, marca e unidade de medida. Utiliza o Model/Produtos e o Control/ProdutosController. Na tela de Gerenciamento de Produtos, é possível consultar, editar e excluir produtos cadastrados, utilizando o Model/Produtos e o Control/ProdutosController. Na tela de Estoque, é possível acompanhar as quantidades disponíveis dos produtos, utilizando o Model/Produtos e o Control/ProdutosController. Na tela de Produtos Pesáveis, é realizado o controle dos produtos vendidos por peso. Na tela de Etiquetas, é possível gerar etiquetas com as informações dos produtos. Já na tela de Relatórios, são apresentadas informações para auxiliar no acompanhamento dos produtos. As classes Model e Control das três últimas telas devem ser identificadas conforme a estrutura do projeto. O objetivo do módulo é facilitar o controle dos produtos e manter suas informações organizadas.
 # Estoque
 
+# 🛒 Sistema de Gerenciamento de Supermercado
+
+## 📦 Módulo de Controle de Estoque
+
+O módulo de **Controle de Estoque** faz parte do desenvolvimento de um sistema de gerenciamento de supermercado, desenvolvido com a linguagem Java, utilizando a IDE NetBeans, a biblioteca Swing para construção das interfaces gráficas e o banco de dados MySQL para armazenamento e gerenciamento das informações.
+
+O principal objetivo dessa tela é permitir o controle e o acompanhamento dos produtos armazenados no supermercado, facilitando o gerenciamento das quantidades disponíveis, entradas, saídas, perdas e demais movimentações realizadas no estoque.
+
+A aplicação utiliza o padrão de arquitetura **MVC (Model-View-Controller)**, responsável por organizar o código, separar as responsabilidades e facilitar a manutenção e a expansão do sistema.
+
+---
+
+## 🖥️ Funcionalidades da Tela de Estoque
+
+A tela de estoque foi planejada para oferecer diferentes funcionalidades relacionadas ao gerenciamento dos produtos e das quantidades armazenadas.
+
+### 1. Consulta de Estoque
+
+Permite consultar os produtos cadastrados e visualizar suas informações, facilitando o acompanhamento das quantidades disponíveis.
+
+A consulta utiliza informações relacionadas às seguintes tabelas:
+- `estoque`
+- `produtos`
+- `categorias`
+- `marcas`
+- `unidadeMedidas`
+
+Também permite realizar pesquisas para localizar produtos específicos.
+
+### 2. Cadastro de Estoque
+
+Permite registrar informações referentes à quantidade atual e à quantidade reservada de determinado produto.
+
+Os principais dados utilizados são:
+- Produto;
+- Categoria;
+- Marca;
+- Unidade de medida;
+- Quantidade atual;
+- Quantidade reservada;
+- Data de atualização.
+
+O cadastro utiliza a tabela `estoque`, relacionada à tabela `produtos` e às informações complementares do produto.
+
+### 3. Movimentação de Estoque
+
+Responsável pelo registro das movimentações realizadas nos produtos, permitindo acompanhar as alterações nas quantidades armazenadas.
+
+Entre as operações previstas estão:
+- Entrada de mercadorias;
+- Saída de mercadorias;
+- Registro da quantidade movimentada;
+- Data e horário da movimentação;
+- Tipo de movimentação;
+- Documento de referência.
+
+A funcionalidade utiliza a tabela `movimentacaoEstoque`.
+
+### 4. Perdas de Estoque
+
+Permite registrar produtos que sofreram algum tipo de perda, auxiliando no controle de mercadorias danificadas, vencidas ou inutilizadas.
+
+As informações incluem:
+- Produto;
+- Quantidade perdida;
+- Data do registro;
+- Motivo da perda.
+
+A funcionalidade utiliza a tabela `perdasEstoque`.
+
+### 5. Controle de Lotes
+
+Funcionalidade planejada para acompanhar os lotes de produtos cadastrados, permitindo organizar as mercadorias de acordo com seus registros e prazos de validade.
+
+Utiliza a tabela `lotesProdutos`.
+
+### 6. Controle de Validade
+
+Permite acompanhar os prazos de validade dos produtos, facilitando a identificação de mercadorias próximas do vencimento e de produtos vencidos.
+
+Essa funcionalidade poderá utilizar informações das tabelas `produtos` e `lotesProdutos`.
+
+### 7. Produtos Próximos do Vencimento
+
+Funcionalidade destinada à identificação de produtos que estão próximos da data de vencimento, permitindo que o supermercado tome providências para evitar perdas.
+
+### 8. Produtos Vencidos e com Estoque Baixo
+
+Permite identificar mercadorias vencidas e produtos que apresentam quantidades inferiores ao estoque necessário.
+
+Essa funcionalidade auxilia no planejamento de reposições e na prevenção de prejuízos.
+
+### 9. Relatório de Estoque
+
+Funcionalidade planejada para apresentar informações organizadas sobre os produtos e suas respectivas quantidades, possibilitando uma visão geral da situação do estoque.
+
+---
+
+## 🗄️ Banco de Dados MySQL
+
+O sistema utiliza o banco de dados **supermercado**, desenvolvido em MySQL.
+
+As tabelas foram organizadas de acordo com os setores e as funcionalidades do supermercado, estabelecendo relacionamentos por meio de chaves primárias (PRIMARY KEY) e chaves estrangeiras (FOREIGN KEY).
+
+### Tabelas do banco de dados
+
+O banco de dados possui as seguintes tabelas:
+
+### 1. Recursos Humanos
+
+- `cargos`
+- `setores`
+- `turnos`
+- `Funcionario`
+- `usuario`
+- `diasTrabalhados`
+- `escala`
+- `ponto`
+- `ferias`
+- `afastamentos`
+- `metas`
+- `permissoes`
+- `historicoAcessos`
+
+### 2. Produtos e Controle de Estoque
+
+- `categorias`
+- `marcas`
+- `unidadeMedidas`
+- `produtos`
+- `codigoBarras`
+- `etiquetas`
+- `estoque`
+- `lotesProdutos`
+- `movimentacaoEstoque`
+- `perdasEstoque`
+
+### 3. Fornecedores e Financeiro
+
+- `fornecedores`
+- `contratosFornecedores`
+- `contasPagar`
+- `contasReceber`
+- `contasFinanceiras`
+- `movimentacoesFinanceiras`
+
+### 4. Vendas e Frente de Caixa
+
+- `formasPagamento`
+- `condicoesPagamento`
+- `cliente`
+- `endereco`
+- `caixas`
+- `aberturaCaixa`
+- `fechamentoCaixa`
+- `sangria`
+- `saldoCaixa`
+- `vendas`
+- `cupom`
+- `pedidos`
+
+### 5. Entregas
+
+- `veiculos`
+- `taxasEntrega`
+- `entregas`
+
+---
+
+## 🧩 Arquitetura MVC
+
+O projeto utiliza o padrão arquitetural MVC (Model-View-Controller), que divide a aplicação em três partes principais.
+
+### Model
+
+Responsável por representar as entidades do banco de dados, armazenando os atributos e disponibilizando métodos construtores, getters e setters.
+
+### View
+
+Responsável pela interface gráfica do sistema, desenvolvida com Java Swing no NetBeans por meio de formulários JFrame.
+
+A tela principal deste módulo é a `TelaEstoque`, responsável pela interação entre o usuário e as funcionalidades de controle de estoque.
+
+### Controller
+
+Responsável pela comunicação entre os Models e o banco de dados MySQL, executando operações como cadastro, consulta, alteração, exclusão e pesquisa de registros.
+
+A conexão com o banco de dados é realizada por meio da classe `Conexao`, utilizando JDBC.
+
+---
+
+## ☕ Models e Controllers
+
+As classes foram organizadas nos pacotes `Model`, `Control` e `Conection`.
+
+### Models e Controllers já trabalhados
+
+| Model | Controller | Responsabilidade |
+|---|---|---|
+| `Produtos` | `ProdutosController` | Cadastro, consulta, alteração, exclusão e pesquisa de produtos. |
+| `Estoque` | `EstoqueController` | Cadastro e gerenciamento das informações de estoque. |
+| `Categorias` | `CategoriasController` | Gerenciamento das categorias dos produtos. |
+| `Marcas` | `MarcasController` | Gerenciamento das marcas dos produtos. |
+| `UnidadeMedidas` | `UnidadeMedidasController` | Gerenciamento das unidades de medida. |
+
+### Models e Controllers previstos para desenvolvimento futuro
+
+As seguintes classes estão previstas para ampliar as funcionalidades do sistema:
+
+| Model | Controller | Responsabilidade |
+|---|---|---|
+| `MovimentacaoEstoque` | `MovimentacaoEstoqueController` | Registro e gerenciamento das entradas e saídas de produtos. |
+| `PerdasEstoque` | `PerdasEstoqueController` | Registro e consulta das perdas de mercadorias. |
+| `LotesProdutos` | `LotesProdutosController` | Gerenciamento dos lotes e informações de validade. |
+| `CodigoBarras` | `CodigoBarrasController` | Gerenciamento dos códigos de barras dos produtos. |
+| `Etiquetas` | `EtiquetasController` | Gerenciamento das etiquetas dos produtos. |
+
+As demais entidades do banco de dados também poderão receber suas respectivas classes Model e Controller conforme o desenvolvimento dos módulos de Recursos Humanos, Financeiro, Vendas, Fornecedores e Entregas.
+
+**Observação:** os tipos de movimentação e os motivos de perdas são informações armazenadas em campos VARCHAR nas respectivas tabelas, não sendo tabelas independentes do banco de dados.
+
+---
+
+## 🔗 Tecnologias utilizadas
+
+- **Java:** linguagem utilizada no desenvolvimento da aplicação.
+- **NetBeans IDE:** ambiente de desenvolvimento.
+- **Java Swing:** construção das interfaces gráficas.
+- **MySQL:** sistema de gerenciamento do banco de dados.
+- **JDBC:** comunicação entre Java e MySQL.
+- **MVC:** padrão de organização da aplicação.
+- **Git e GitHub:** versionamento e armazenamento do código-fonte.
+
+---
+
+## 🎯 Objetivo do Projeto
+
+O objetivo do projeto é desenvolver um sistema completo de gerenciamento de supermercado, integrando diferentes setores em uma única aplicação.
+
+O módulo de estoque busca proporcionar maior organização e controle das mercadorias, reduzindo erros de gerenciamento, facilitando o acompanhamento dos produtos e contribuindo para uma administração mais eficiente.
+
+O desenvolvimento é realizado de maneira modular, permitindo implementar novas funcionalidades e integrar novos setores ao sistema conforme a evolução do projeto.
+
+---
+
+## 🚀 Desenvolvimento
+
+O projeto encontra-se em desenvolvimento, com funcionalidades implementadas gradualmente.
+
+Novos módulos, telas, Models e Controllers serão adicionados conforme a evolução da aplicação, buscando manter uma estrutura organizada, funcional e de fácil manutenção.
+
+
+
 # Fornecedores
 
 Módulo responsável pelo gerenciamento completo dos fornecedores e empresas terceirizadas. Possui abas para cadastro de empresas, gerenciamento de categorias, contratos, documentos, avaliações de desempenho, contatos, condições de pagamento, registro de ocorrências e consulta ao histórico de compras. Seu objetivo é centralizar as informações e facilitar o acompanhamento do relacionamento entre o supermercado e seus fornecedores.
