@@ -90,6 +90,21 @@ O módulo de Produtos é responsável pelo gerenciamento e organização dos pro
 Módulo responsável pelo gerenciamento completo dos fornecedores e empresas terceirizadas. Possui abas para cadastro de empresas, gerenciamento de categorias, contratos, documentos, avaliações de desempenho, contatos, condições de pagamento, registro de ocorrências e consulta ao histórico de compras. Seu objetivo é centralizar as informações e facilitar o acompanhamento do relacionamento entre o supermercado e seus fornecedores.
 
 # Clientes
+A tela de Clientes permite ao funcionário gerenciar os cadastros e acompanhar as informações relacionadas aos clientes do supermercado. É dividida em cinco abas:
+## Cadastro
+Permite registrar novos clientes, preenchendo informações pessoais, contato e endereço.
+## Consulta
+Permite pesquisar e visualizar os clientes cadastrados, utilizando nome, CPF ou código.
+## Edição e Desativação
+Permite localizar clientes, atualizar seus dados cadastrais e alterar a situação do cadastro para ativo ou inativo.
+## Histórico de Compras e Pagamentos
+Permite consultar as compras e os pagamentos realizados por cada cliente, visualizar valores, datas, formas de pagamento e situações. Também disponibiliza a geração de comprovantes e exportação do histórico.
+## Pedidos e Relatório
+Permite consultar os pedidos realizados pelos clientes, acompanhar seus status, aplicar filtros de pesquisa e gerar relatórios.
+## Model e Controller
+A tela utiliza a classe Cliente, do pacote Model, para representar os dados dos clientes, e a classe ClienteController, do pacote Control, para executar as operações e consultas no banco de dados.
+## Tabelas utilizadas
+cliente, endereco, vendas, pagamentovenda, formaspagamento e pedidos.
 
 ## Tela de Promoções / Aba Promocoes
 
