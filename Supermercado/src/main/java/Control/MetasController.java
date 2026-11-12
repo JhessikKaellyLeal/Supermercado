@@ -15,7 +15,7 @@ public class MetasController {
     public void cadastrar(Metas meta) throws SQLException {
         String sql = "INSERT INTO metas "
                 + "(tipo, periodoInicial, periodoFinal, metaPrevista, "
-                + "resultadoAtual, porcentagemAtingida, situacao, "
+                + "resultadoAtual, porcentagemAtingido, situacao, "
                 + "funcionario_idFuncionario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -153,7 +153,7 @@ public class MetasController {
         String sql = "UPDATE metas SET "
                 + "tipo = ?, periodoInicial = ?, periodoFinal = ?, "
                 + "metaPrevista = ?, resultadoAtual = ?, "
-                + "porcentagemAtingida = ?, situacao = ?, "
+                + "porcentagemAtingido = ?, situacao = ?, "
                 + "funcionario_idFuncionario = ? "
                 + "WHERE idmetas = ?";
 
@@ -210,7 +210,7 @@ public class MetasController {
                 rs.wasNull() ? null : resultado
         );
 
-        double porcentagem = rs.getDouble("porcentagemAtingida");
+        double porcentagem = rs.getDouble("porcentagemAtingido");
         meta.setPorcentagemAtingida(
                 rs.wasNull() ? null : porcentagem
         );

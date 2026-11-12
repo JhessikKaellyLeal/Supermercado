@@ -99,7 +99,7 @@ public void navegar(String idtela) {
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this, new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha(usuario));
             break;
 
         case "recuperacaoSenha":
@@ -122,6 +122,8 @@ public void navegar(String idtela) {
             break;
     }
 }
+
+
 
     
     @SuppressWarnings("unchecked")
@@ -203,7 +205,7 @@ public void navegar(String idtela) {
         lbVerTodas3 = new javax.swing.JLabel();
         jpCentralNotificações = new javax.swing.JPanel();
         lbCentralNotificaçoes = new javax.swing.JLabel();
-        lbVoçePossui3 = new javax.swing.JLabel();
+        lbVocePossui3 = new javax.swing.JLabel();
         btnVerNotificaçoes = new javax.swing.JButton();
         jpHistorico = new javax.swing.JPanel();
         lbHistorico = new javax.swing.JLabel();
@@ -226,6 +228,7 @@ public void navegar(String idtela) {
 
         jLabel11.setText("Gerencie as açoes do Supermercado Por aqui.");
 
+        lbJuntosPor.setBackground(new java.awt.Color(0, 0, 0));
         lbJuntosPor.setText("Juntos Por");
 
         lbDiaDia.setText("Um dia a dia");
@@ -237,41 +240,38 @@ public void navegar(String idtela) {
         jpBannerLayout.setHorizontalGroup(
             jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpBannerLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jLabel11)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jpBannerLayout.createSequentialGroup()
+                .addGap(73, 73, 73)
                 .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpBannerLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel11))
-                    .addGroup(jpBannerLayout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbOla)
-                            .addComponent(lbBemVindo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbJuntosPor)
-                            .addGroup(jpBannerLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jpBannerLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(lbMaisPratico))
-                                    .addComponent(lbDiaDia))))))
-                .addGap(70, 70, 70))
+                    .addComponent(lbOla)
+                    .addComponent(lbBemVindo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 970, Short.MAX_VALUE)
+                .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbJuntosPor)
+                    .addComponent(lbDiaDia)
+                    .addComponent(lbMaisPratico))
+                .addGap(88, 88, 88))
         );
         jpBannerLayout.setVerticalGroup(
             jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpBannerLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbJuntosPor)
-                    .addComponent(lbOla))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpBannerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbBemVindo)
-                    .addComponent(lbDiaDia))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbMaisPratico)
-                .addGap(21, 21, 21)
+                    .addGroup(jpBannerLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lbOla)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbBemVindo))
+                    .addGroup(jpBannerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbJuntosPor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbDiaDia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbMaisPratico)))
+                .addGap(33, 33, 33)
                 .addComponent(jLabel11)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -281,16 +281,23 @@ public void navegar(String idtela) {
 
         lbAçoesRapidas.setText("Açoes Rapidas");
 
+        btnNovaVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao.jpeg"))); // NOI18N
         btnNovaVenda.setText("Nova Venda");
+        btnNovaVenda.addActionListener(this::btnNovaVendaActionPerformed);
 
+        btnCadastrarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caixa.jpeg"))); // NOI18N
         btnCadastrarProduto.setText("Cadastar Produto");
 
+        btnCadastrarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User.jpeg"))); // NOI18N
         btnCadastrarClientes.setText("Cadastrar Clientes");
 
+        btnNovoPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao (2).jpeg"))); // NOI18N
         btnNovoPedido.setText("Novo Pedido");
 
+        btnContasPagarReceber.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Arquivos.jpeg"))); // NOI18N
         btnContasPagarReceber.setText("Contas a Pagar/Receber");
 
+        btnRelatorios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Grapicos.jpeg"))); // NOI18N
         btnRelatorios.setText("Relatorios");
 
         javax.swing.GroupLayout jpAçoesRapidasLayout = new javax.swing.GroupLayout(jpAçoesRapidas);
@@ -298,22 +305,21 @@ public void navegar(String idtela) {
         jpAçoesRapidasLayout.setHorizontalGroup(
             jpAçoesRapidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAçoesRapidasLayout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(btnNovaVenda)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCadastrarProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCadastrarClientes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnNovoPedido)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnContasPagarReceber)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRelatorios)
-                .addGap(29, 29, 29))
-            .addGroup(jpAçoesRapidasLayout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(lbAçoesRapidas)
+                .addGroup(jpAçoesRapidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpAçoesRapidasLayout.createSequentialGroup()
+                        .addComponent(btnNovaVenda)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCadastrarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCadastrarClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNovoPedido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnContasPagarReceber)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRelatorios))
+                    .addComponent(lbAçoesRapidas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpAçoesRapidasLayout.setVerticalGroup(
@@ -329,7 +335,7 @@ public void navegar(String idtela) {
                     .addComponent(btnNovoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnContasPagarReceber, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jpResumoGeral.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -337,6 +343,7 @@ public void navegar(String idtela) {
 
         lbResumoGeral.setText("Resumo geral");
 
+        lbVendasHoje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao.jpeg"))); // NOI18N
         lbVendasHoje.setText("Vendas hoje");
 
         lb4258.setText("R$ 4.258,90");
@@ -369,9 +376,10 @@ public void navegar(String idtela) {
                 .addComponent(lb4258)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbemRelacaoaOntem)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caixa Registradora.jpeg"))); // NOI18N
         jLabel25.setText("Caixas abertos");
 
         jLabel31.setText("3");
@@ -407,6 +415,7 @@ public void navegar(String idtela) {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Arquivos.jpeg"))); // NOI18N
         jLabel26.setText("Pedidos Pendentes");
 
         jLabel33.setText("5");
@@ -427,7 +436,7 @@ public void navegar(String idtela) {
                         .addGroup(jPanel12Layout.createSequentialGroup()
                             .addGap(85, 85, 85)
                             .addComponent(jLabel33))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,6 +450,7 @@ public void navegar(String idtela) {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dinhairo.jpeg"))); // NOI18N
         jLabel27.setText("Contas a pagar");
 
         jLabel35.setText("2.340,00");
@@ -450,6 +460,7 @@ public void navegar(String idtela) {
         jPanel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dinhairo.jpeg"))); // NOI18N
         jLabel28.setText("Contas a receber");
 
         jLabel37.setText("1.870,50");
@@ -481,7 +492,7 @@ public void navegar(String idtela) {
                 .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel38)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -521,53 +532,60 @@ public void navegar(String idtela) {
             jpResumoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpResumoGeralLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jpResumoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbResumoGeral)
-                    .addGroup(jpResumoGeralLayout.createSequentialGroup()
-                        .addComponent(jpVendasHoje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addComponent(lbResumoGeral)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpResumoGeralLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpVendasHoje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpResumoGeralLayout.setVerticalGroup(
             jpResumoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpResumoGeralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbResumoGeral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(29, 29, 29)
                 .addGroup(jpResumoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpVendasHoje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jpNotificações.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jpNotificações.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
+        lbNotificaçoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sino.jpeg"))); // NOI18N
         lbNotificaçoes.setText("Notificaçoes");
 
         lbVerTodas.setText("Ver todas");
 
+        lbPedido4587.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao (2).jpeg"))); // NOI18N
         lbPedido4587.setText("Pedido #4587 aguardando entrega");
 
         lb10e24.setText("10:24");
 
+        lbEstoqueBaixo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Alerta.jpeg"))); // NOI18N
         lbEstoqueBaixo.setText("Estoque baixo: Arroz (5 un.)");
 
         lb9e50.setText("09:50");
 
+        lbContaPagarVencida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cartao.jpeg"))); // NOI18N
         lbContaPagarVencida.setText("Conta a pagar vencida");
 
         lb8e32.setText("08:32");
 
+        VendaFinalizada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Check.jpeg"))); // NOI18N
         VendaFinalizada.setText("Venda finalizada");
 
+        lbNovoClienteCadastrado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Exclamaçao.jpeg"))); // NOI18N
         lbNovoClienteCadastrado.setText("Novo cliente cadastrado");
 
         lb8e15.setText("08:15");
@@ -604,45 +622,44 @@ public void navegar(String idtela) {
                                 .addComponent(lbVerTodas))
                             .addGroup(jpNotificaçõesLayout.createSequentialGroup()
                                 .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                                        .addComponent(lbContaPagarVencida)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lb8e32))
-                                    .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                                        .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lbPedido4587)
-                                            .addComponent(lbEstoqueBaixo))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lb9e50)
-                                            .addComponent(lb10e24)))
-                                    .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                                        .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lbCaixa2)
-                                            .addComponent(VendaFinalizada))
-                                        .addGap(113, 113, 113)
-                                        .addComponent(lb8e15))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpNotificaçõesLayout.createSequentialGroup()
+                                        .addGap(33, 33, 33)
+                                        .addComponent(lbReporProduto))
+                                    .addGroup(jpNotificaçõesLayout.createSequentialGroup()
                                         .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lbFornecedor)
-                                            .addComponent(lbNovoClienteCadastrado))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lb7e48)
+                                            .addGroup(jpNotificaçõesLayout.createSequentialGroup()
+                                                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lbPedido4587)
+                                                    .addComponent(lbEstoqueBaixo))
+                                                .addGap(12, 12, 12)
+                                                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lb9e50)
+                                                    .addComponent(lb10e24)))
+                                            .addGroup(jpNotificaçõesLayout.createSequentialGroup()
+                                                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(VendaFinalizada)
+                                                    .addComponent(lbNovoClienteCadastrado)
+                                                    .addComponent(lbContaPagarVencida)
+                                                    .addGroup(jpNotificaçõesLayout.createSequentialGroup()
+                                                        .addGap(33, 33, 33)
+                                                        .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(lbFornecedor)
+                                                            .addComponent(lbCaixa2))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lb7e48)
+                                                    .addComponent(lb8e15)
+                                                    .addComponent(lb8e32))))
                                         .addGap(6, 6, 6)))
-                                .addGap(0, 38, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(16, 16, 16))
                     .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                        .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(lbJoaoPereira))
-                            .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(lbClienteMariaSilva)))
+                        .addGap(27, 27, 27)
+                        .addComponent(lbClienteMariaSilva)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jpNotificaçõesLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(lbReporProduto)
+                .addGap(53, 53, 53)
+                .addComponent(lbJoaoPereira)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jpNotificaçõesLayout.setVerticalGroup(
@@ -657,24 +674,24 @@ public void navegar(String idtela) {
                     .addComponent(lbPedido4587)
                     .addComponent(lb10e24))
                 .addGap(1, 1, 1)
-                .addComponent(lbClienteMariaSilva)
-                .addGap(18, 18, 18)
+                .addComponent(lbClienteMariaSilva, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEstoqueBaixo)
                     .addComponent(lb9e50))
-                .addGap(1, 1, 1)
-                .addComponent(lbReporProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbContaPagarVencida)
-                    .addComponent(lb8e32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbReporProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb8e32)
+                    .addComponent(lbContaPagarVencida))
                 .addGap(4, 4, 4)
-                .addComponent(lbFornecedor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(VendaFinalizada)
                     .addComponent(lb8e15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbCaixa2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -688,20 +705,27 @@ public void navegar(String idtela) {
         jpAtalhos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jpAtalhos.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
+        lbAtalhos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Menu.jpeg"))); // NOI18N
         lbAtalhos.setText("Atalhos");
 
+        btnNovaVenda2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao.jpeg"))); // NOI18N
         btnNovaVenda2.setText("Nova Venda");
         btnNovaVenda2.addActionListener(this::btnNovaVenda2ActionPerformed);
 
+        btnCadastrarProduto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caixa.jpeg"))); // NOI18N
         btnCadastrarProduto2.setText("Cadastrar Produto");
         btnCadastrarProduto2.addActionListener(this::btnCadastrarProduto2ActionPerformed);
 
+        btnNovoPedido2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao (2).jpeg"))); // NOI18N
         btnNovoPedido2.setText("Novo Pedido");
 
+        btnRelatorio2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Grapicos.jpeg"))); // NOI18N
         btnRelatorio2.setText("Relatorio");
 
+        btnCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User.jpeg"))); // NOI18N
         btnCadastrarCliente.setText("Cadastrar Cliente");
 
+        btnContasPagarReceber2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Arquivos.jpeg"))); // NOI18N
         btnContasPagarReceber2.setText("Contas a Pagar/Receber");
 
         javax.swing.GroupLayout jpAtalhosLayout = new javax.swing.GroupLayout(jpAtalhos);
@@ -772,6 +796,7 @@ public void navegar(String idtela) {
         });
         jScrollPane1.setViewportView(tbPedidosEntregasPendentes);
 
+        lbPedidosEntregasPendentes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Caminhao (2).jpeg"))); // NOI18N
         lbPedidosEntregasPendentes.setText("Pedidos e entregas Pendentes");
 
         lbVerTodas2.setText("Ver todas >");
@@ -782,26 +807,25 @@ public void navegar(String idtela) {
             jpPedidosPendentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpPedidosPendentesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpPedidosPendentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpPedidosPendentesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jpPedidosPendentesLayout.createSequentialGroup()
-                        .addComponent(lbPedidosEntregasPendentes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbVerTodas2)
-                        .addGap(83, 83, 83))))
+                .addComponent(lbPedidosEntregasPendentes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbVerTodas2)
+                .addGap(83, 83, 83))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPedidosPendentesLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         jpPedidosPendentesLayout.setVerticalGroup(
             jpPedidosPendentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPedidosPendentesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jpPedidosPendentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPedidosEntregasPendentes)
                     .addComponent(lbVerTodas2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jpContasPagarReceber.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -829,34 +853,35 @@ public void navegar(String idtela) {
         jpContasPagarReceberLayout.setHorizontalGroup(
             jpContasPagarReceberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpContasPagarReceberLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
-            .addGroup(jpContasPagarReceberLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(34, 34, 34)
                 .addComponent(lbContasPagarReceber)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbVerTodas3)
-                .addGap(28, 28, 28))
+                .addContainerGap())
+            .addGroup(jpContasPagarReceberLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jpContasPagarReceberLayout.setVerticalGroup(
             jpContasPagarReceberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpContasPagarReceberLayout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addGroup(jpContasPagarReceberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbContasPagarReceber)
                     .addComponent(lbVerTodas3))
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jpCentralNotificações.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jpCentralNotificações.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
+        lbCentralNotificaçoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sino.jpeg"))); // NOI18N
         lbCentralNotificaçoes.setText("Central de Notificações");
 
-        lbVoçePossui3.setText("Voçe possui 3 novas notificações");
+        lbVocePossui3.setText("Voçe possui 3 novas notificações");
 
         btnVerNotificaçoes.setText("Ver notificações");
 
@@ -868,14 +893,14 @@ public void navegar(String idtela) {
                 .addGroup(jpCentralNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpCentralNotificaçõesLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(lbVoçePossui3))
+                        .addComponent(lbVocePossui3))
                     .addGroup(jpCentralNotificaçõesLayout.createSequentialGroup()
                         .addGap(103, 103, 103)
                         .addComponent(btnVerNotificaçoes))
                     .addGroup(jpCentralNotificaçõesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbCentralNotificaçoes)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jpCentralNotificaçõesLayout.setVerticalGroup(
             jpCentralNotificaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -883,15 +908,16 @@ public void navegar(String idtela) {
                 .addGap(15, 15, 15)
                 .addComponent(lbCentralNotificaçoes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbVoçePossui3)
+                .addComponent(lbVocePossui3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVerNotificaçoes)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jpHistorico.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jpHistorico.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
+        lbHistorico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Relogio.jpeg"))); // NOI18N
         lbHistorico.setText("Historico");
 
         lbAcesseHistoricoMovimentaçoes.setText("Acesse o historico de movimentações do sistema");
@@ -924,12 +950,13 @@ public void navegar(String idtela) {
                 .addComponent(lbAcesseHistoricoMovimentaçoes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVerHistorico)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jpAlertas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jpAlertas.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
+        lbConfigurarAlertas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Configuracoes.jpeg"))); // NOI18N
         lbConfigurarAlertas.setText("Configurar Alertas");
 
         lbPersonalizarAlertas.setText("Personalizar os alertas do sistema");
@@ -952,7 +979,7 @@ public void navegar(String idtela) {
                     .addGroup(jpAlertasLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbConfigurarAlertas)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jpAlertasLayout.setVerticalGroup(
             jpAlertasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -961,46 +988,41 @@ public void navegar(String idtela) {
                 .addComponent(lbConfigurarAlertas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbPersonalizarAlertas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnConfigurar)
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jpBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jpPedidosPendentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(95, 95, 95)
-                                .addComponent(jpContasPagarReceber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jpContasPagarReceber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jpCentralNotificações, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jpHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jpAlertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)))
-                        .addComponent(jpAtalhos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jpResumoGeral, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jpAçoesRapidas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(26, 26, 26)
-                                .addComponent(jpNotificações, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jpBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jpAlertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jpAçoesRapidas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jpResumoGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jpAtalhos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jpNotificações, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1008,30 +1030,26 @@ public void navegar(String idtela) {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpBanner, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jpNotificações, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jpAçoesRapidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jpResumoGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jpAtalhos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addComponent(jpResumoGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpContasPagarReceber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpPedidosPendentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(83, 83, 83)
+                            .addComponent(jpPedidosPendentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jpContasPagarReceber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jpHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jpCentralNotificações, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpAlertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(102, Short.MAX_VALUE))
+                            .addComponent(jpAlertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jpNotificações, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jpAtalhos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         pack();
@@ -1049,6 +1067,10 @@ public void navegar(String idtela) {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNovaVenda2ActionPerformed
 
+    private void btnNovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaVendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNovaVendaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1059,16 +1081,7 @@ public void navegar(String idtela) {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
+       
         //</editor-fold>
 
         /* Create and display the form */
@@ -1157,7 +1170,7 @@ public void navegar(String idtela) {
     private javax.swing.JLabel lbVerTodas;
     private javax.swing.JLabel lbVerTodas2;
     private javax.swing.JLabel lbVerTodas3;
-    private javax.swing.JLabel lbVoçePossui3;
+    private javax.swing.JLabel lbVocePossui3;
     private javax.swing.JLabel lbemRelacaoaOntem;
     private javax.swing.JTable tbContasPagarReceber;
     private javax.swing.JTable tbPedidosEntregasPendentes;

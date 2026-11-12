@@ -157,7 +157,7 @@ public void navegar(String idtela) {
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this, new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha(usuario));
             break;
 
         case "recuperacaoSenha":
@@ -288,71 +288,176 @@ public void listarMarcasCadastro() {
     return valor == null ? "" : valor.toString();
 }   
  
+
 private void cadastrarProduto() {
- try {
+
+    try {
 
         ProdutosController controller = new ProdutosController();
+
         CategoriasController categoriasController = new CategoriasController();
         MarcasController marcasController = new MarcasController();
-        UnidadeMedidasController  unidadeMedidasController = new  UnidadeMedidasController ();
-        // Dados do produto
+        UnidadeMedidasController unidadeMedidasController =
+                new UnidadeMedidasController();
+
+        // 1. CAPTURAR OS DADOS DO PRODUTO
+
         String nome = ftfCodigodoprodutoCadastro.getText().trim();
-        String codigo = ftfCodigodoprodutoCadastro.getText().trim();
+        String codigo = tfNomeprodutoCadastro.getText().trim();
         String descricao = taDescricaoCadastroCD.getText().trim();
 
+        // 2. VALIDAR NOME E CÓDIGO
+
+        if (nome.isEmpty() || codigo.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha o nome e o código do produto!");
+
+            return;
+        }
+
+        // 3. CAPTURAR PREÇOS
+
+        String custoTexto = tfIconeValorCustoCadastro.getText().trim();
+        String vendaTexto = tfIconePrecoVendaCadastro.getText().trim();
+
+        if (custoTexto.isEmpty() || vendaTexto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Preencha o preço de custo e o preço de venda!");
+
+            return;
+        }
+
+        // Converter valores no formato brasileiro
         double precoCusto = Double.parseDouble(
-                tfIconeValorCustoCadastro.getText().replace(",", ".")
+                custoTexto.replace(".", "").replace(",", ".")
         );
 
         double precoVenda = Double.parseDouble(
-                tfIconePrecoVendaCadastro.getText().replace(",", ".")
+                vendaTexto.replace(".", "").replace(",", ".")
         );
 
-        int estoque = Integer.parseInt(
-                tfEstoqueC.getText().trim()
-        );
+        if (precoCusto < 0 || precoVenda < 0) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Os preços não podem ser negativos!");
+
+            return;
+        }
+
+        // 4. CAPTURAR ESTOQUE
+
+        String estoqueTexto = tfEstoqueC.getText().trim();
+
+        if (estoqueTexto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Informe a quantidade em estoque!");
+
+            return;
+        }
+
+        int estoque = Integer.parseInt(estoqueTexto);
+
+        if (estoque < 0) {
+
+            JOptionPane.showMessageDialog(this,
+                    "O estoque não pode ser negativo!");
+
+            return;
+        }
+
+        // 5. CAPTURAR VALIDADE
 
         String validade = tfValidadeCadastrar.getText().trim();
 
+        if (validade.isEmpty()) {
+            validade = null;
+        }
+
+        // 6. CAPTURAR SITUAÇÃO
+
         int situacao;
 
-if (rbAtivoCadastro.isSelected()) {
-    situacao = 1; // Ligado
-} else if (rbDesligadoCadastro.isSelected()) {
-    situacao = 0; // Desligado
-} else {
-    JOptionPane.showMessageDialog(this,
-            "Selecione a situação do produto!");
-    return;
-}
+        if (rbAtivoCadastro.isSelected()) {
 
-        // Recuperar IDs dos ComboBoxes
-       String nomeCategoria = cbCategoriaCadastro.getSelectedItem().toString();
+            situacao = 1;
 
-        int idCategoria = categoriasController.buscarIdPorNome(nomeCategoria);
+        } else if (rbDesligadoCadastro.isSelected()) {
 
-       String nomeMarca = cbMarcaCadastro.getSelectedItem().toString();
+            situacao = 0;
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione a situação do produto!");
+
+            return;
+        }
+
+        // 7. RECUPERAR ID DA CATEGORIA
+
+        if (cbCategoriaCadastro.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma categoria!");
+
+            return;
+        }
+
+        String nomeCategoria =
+                cbCategoriaCadastro.getSelectedItem().toString();
+
+        int idCategoria =
+                categoriasController.buscarIdPorNome(nomeCategoria);
+
+        // 8. RECUPERAR ID DA MARCA
+
+        if (cbMarcaCadastro.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Selecione uma marca!");
+
+            return;
+        }
+
+        String nomeMarca =
+                cbMarcaCadastro.getSelectedItem().toString();
 
         int idMarca = marcasController.buscarIdPorNome(nomeMarca);
 
-        String nomeUnidade = cbUnidadeMedidaCadastro.getSelectedItem().toString();
+        // 9. RECUPERAR ID DA UNIDADE DE MEDIDA
 
-        int idUnidade = unidadeMedidasController.buscarIdPorNome(nomeUnidade);
+        if (cbUnidadeMedidaCadastro.getSelectedItem() == null) {
 
-        if (nome.isEmpty() || codigo.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "Preencha o nome e o código do produto!");
+                    "Selecione uma unidade de medida!");
+
             return;
         }
 
-        if (idCategoria == 0 || idMarca == 0 || idUnidade == 0) {
+        String nomeUnidade =
+                cbUnidadeMedidaCadastro.getSelectedItem().toString();
+
+        int idUnidade =
+                unidadeMedidasController.buscarIdPorNome(nomeUnidade);
+
+        // 10. VALIDAR OS IDs
+
+        if (idCategoria <= 0 || idMarca <= 0 || idUnidade <= 0) {
+
             JOptionPane.showMessageDialog(this,
-                    "Selecione categoria, marca e unidade de medida!");
+                    "Categoria, marca ou unidade de medida inválida!");
+
             return;
         }
 
-        // Por enquanto, sem imagem
+        // 11. IMAGEM
+
         byte[] imagem = null;
+
+        // 12. CADASTRAR PRODUTO
 
         boolean sucesso = controller.cadastrar(
                 nome,
@@ -367,8 +472,9 @@ if (rbAtivoCadastro.isSelected()) {
                 idCategoria,
                 idMarca,
                 idUnidade
-                
         );
+
+        // 13. VERIFICAR RESULTADO
 
         if (sucesso) {
 
@@ -381,12 +487,13 @@ if (rbAtivoCadastro.isSelected()) {
 
             JOptionPane.showMessageDialog(this,
                     "Não foi possível cadastrar o produto!");
+
         }
 
     } catch (NumberFormatException e) {
 
         JOptionPane.showMessageDialog(this,
-                "Verifique os valores de preço e estoque!");
+                "Verifique os valores informados em preço e estoque!");
 
     } catch (Exception e) {
 
@@ -396,6 +503,7 @@ if (rbAtivoCadastro.isSelected()) {
         e.printStackTrace();
     }
 }
+
 
 private void pesquisarProdutoSelecionado() {
 

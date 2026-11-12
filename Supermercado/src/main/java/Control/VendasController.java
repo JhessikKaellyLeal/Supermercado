@@ -131,16 +131,16 @@ public Vendas buscarDadosRelacionados(int idVenda) throws SQLException {
     List<Object[]> lista = new ArrayList<>();
 
     String sql = "SELECT "
-            + "fp.tipo AS formaPagamento, "
+            + "fp.nome AS formaPagamento, "
             + "COUNT(DISTINCT v.idvendas) AS quantidadeVendas, "
-            + "AVG(pv.valorPago) AS valorMedio, "
-            + "SUM(pv.valorPago) AS valorTotal "
+            + "AVG(pv.valor) AS valorMedio, "
+            + "SUM(pv.valor) AS valorTotal "
             + "FROM pagamentoVenda pv "
             + "INNER JOIN formasPagamento fp "
             + "ON pv.formasPagamento_idformasPagamento = fp.idformasPagamento "
             + "INNER JOIN vendas v "
             + "ON pv.vendas_idvendas = v.idvendas "
-            + "GROUP BY fp.idformasPagamento, fp.tipo "
+            + "GROUP BY fp.idformasPagamento, fp.nome "
             + "ORDER BY quantidadeVendas DESC";
 
     try (Connection conn = Conexao.conectar();

@@ -116,7 +116,7 @@ public void navegar(String idtela) {
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this, new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha(usuario));
             break;
 
         case "recuperacaoSenha":

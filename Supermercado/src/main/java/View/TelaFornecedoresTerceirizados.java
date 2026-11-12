@@ -43,9 +43,10 @@ public class TelaFornecedoresTerceirizados extends javax.swing.JFrame {
         this::dispose
     );
        this.setExtendedState(TelaFornecedoresTerceirizados.MAXIMIZED_BOTH);
+       
+       
     }
     
-
 // MÉTODO DE ACESSAR AS TELAS
 public void navegar(String idtela) {
 
@@ -112,7 +113,7 @@ public void navegar(String idtela) {
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this, new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha(usuario));
             break;
 
         case "recuperacaoSenha":
@@ -148,6 +149,7 @@ public void navegar(String idtela) {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
+        jLabel162 = new javax.swing.JLabel();
         pnlCategorias = new javax.swing.JPanel();
         pnlContratos = new javax.swing.JPanel();
         pnlDocumentos = new javax.swing.JPanel();
@@ -481,15 +483,24 @@ public void navegar(String idtela) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel162.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel162.setText("Implementação Futura!");
+
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1931, Short.MAX_VALUE)
+            .addGroup(pnlCadastroLayout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(jLabel162, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1369, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1679, Short.MAX_VALUE)
+            .addGroup(pnlCadastroLayout.createSequentialGroup()
+                .addGap(169, 169, 169)
+                .addComponent(jLabel162, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1578, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastros", pnlCadastro);
@@ -2878,6 +2889,7 @@ public void navegar(String idtela) {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel160;
     private javax.swing.JLabel jLabel161;
+    private javax.swing.JLabel jLabel162;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;

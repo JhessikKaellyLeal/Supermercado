@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CategoriasController {
     
-    public int buscarIdPorNome(String nome) throws SQLException {
+   public int buscarIdPorNome(String nome) throws SQLException {
 
-    String sql = "SELECT idcategorias FROM categorias WHERE nomeCategoria = ?";
+    String sql = "SELECT idcategorias FROM categorias WHERE nome = ?";
 
     try (Connection conn = Conexao.conectar();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,7 +33,6 @@ public class CategoriasController {
 
     return 0;
 }
-
     // CADASTRAR
     public boolean cadastrar(Categorias categoria) throws SQLException {
 

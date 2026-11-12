@@ -125,7 +125,7 @@ public void navegar(String idtela) {
             break;
 
         case "alterarSenha":
-            menu.abrirTela(this, new AlterarSenha());
+            menu.abrirTela(this, new AlterarSenha(usuario));
             break;
 
         case "recuperacaoSenha":
@@ -594,10 +594,10 @@ private void pesquisar() {
         lbItensVenda = new javax.swing.JLabel();
         JScrollPane = new javax.swing.JScrollPane();
         tbItensVendaConsulta = new javax.swing.JTable();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tbVendasCadastradasConsulta = new javax.swing.JTable();
         jpVendasCadastradas = new javax.swing.JPanel();
         lbVendasCadastradas = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tbVendasCadastradasConsulta = new javax.swing.JTable();
         jpFiltros = new javax.swing.JPanel();
         jpCabecalhoPeriodoVendas = new javax.swing.JPanel();
         lbPeriodoVendas = new javax.swing.JLabel();
@@ -1076,8 +1076,8 @@ private void pesquisar() {
                 .addContainerGap()
                 .addGroup(jpItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbItensVenda)
-                    .addComponent(JScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(JScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jpItensVendaLayout.setVerticalGroup(
             jpItensVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1088,6 +1088,12 @@ private void pesquisar() {
                 .addComponent(JScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jpVendasCadastradas.setBackground(new java.awt.Color(10, 4, 138));
+
+        lbVendasCadastradas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbVendasCadastradas.setForeground(new java.awt.Color(255, 255, 255));
+        lbVendasCadastradas.setText("Vendas cadastradas");
 
         tbVendasCadastradasConsulta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tbVendasCadastradasConsulta.setModel(new javax.swing.table.DefaultTableModel(
@@ -1111,12 +1117,6 @@ private void pesquisar() {
         });
         jScrollPane7.setViewportView(tbVendasCadastradasConsulta);
 
-        jpVendasCadastradas.setBackground(new java.awt.Color(10, 4, 138));
-
-        lbVendasCadastradas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lbVendasCadastradas.setForeground(new java.awt.Color(255, 255, 255));
-        lbVendasCadastradas.setText("Vendas cadastradas");
-
         javax.swing.GroupLayout jpVendasCadastradasLayout = new javax.swing.GroupLayout(jpVendasCadastradas);
         jpVendasCadastradas.setLayout(jpVendasCadastradasLayout);
         jpVendasCadastradasLayout.setHorizontalGroup(
@@ -1124,7 +1124,9 @@ private void pesquisar() {
             .addGroup(jpVendasCadastradasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbVendasCadastradas)
-                .addContainerGap(638, Short.MAX_VALUE))
+                .addContainerGap(1302, Short.MAX_VALUE))
+            .addGroup(jpVendasCadastradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1484, Short.MAX_VALUE))
         );
         jpVendasCadastradasLayout.setVerticalGroup(
             jpVendasCadastradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1132,6 +1134,11 @@ private void pesquisar() {
                 .addContainerGap()
                 .addComponent(lbVendasCadastradas)
                 .addContainerGap(222, Short.MAX_VALUE))
+            .addGroup(jpVendasCadastradasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpVendasCadastradasLayout.createSequentialGroup()
+                    .addGap(30, 30, 30)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(30, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jpConsultaLayout = new javax.swing.GroupLayout(jpConsulta);
@@ -1146,10 +1153,8 @@ private void pesquisar() {
                         .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConsultaLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jpConsultaLayout.setVerticalGroup(
             jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1160,12 +1165,9 @@ private void pesquisar() {
                 .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpDetalhesVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpItensVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(jpConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpConsultaLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jpVendasCadastradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(214, 214, 214))
         );
 
         tpInicio.addTab("Consulta e Detalhes de Pagamento", jpConsulta);
@@ -3855,7 +3857,7 @@ private void pesquisar() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 65, Short.MAX_VALUE))
+                .addGap(0, 64, Short.MAX_VALUE))
         );
 
         pack();

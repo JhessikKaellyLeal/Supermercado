@@ -14,7 +14,7 @@ public class MarcasController {
     
     public int buscarIdPorNome(String nome) throws SQLException {
 
-    String sql = "SELECT idmarcas FROM marcas WHERE nomeMarca = ?";
+    String sql = "SELECT idmarcas FROM marcas WHERE nome = ?";
 
     try (Connection conn = Conexao.conectar();
          PreparedStatement stmt = conn.prepareStatement(sql)) {

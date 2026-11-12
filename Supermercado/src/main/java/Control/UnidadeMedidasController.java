@@ -15,7 +15,7 @@ public class UnidadeMedidasController {
     
     public int buscarIdPorNome(String nome) throws SQLException {
 
-    String sql = "SELECT idunidadeMedidas FROM unidadeMedidas WHERE nomeUnidade = ?";
+    String sql = "SELECT idunidadeMedidas FROM unidadeMedidas WHERE nome = ?";
 
     try (Connection conn = Conexao.conectar();
          PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -20,7 +20,7 @@ public class HistoricoAcessoController {
     String sql = "SELECT h.* FROM historicoAcessos h "
             + "INNER JOIN usuario u ON h.usuario_idusuario = u.idusuario "
             + "WHERE u.nome LIKE ? "
-            + "ORDER BY h.idhistoricoAcesso DESC";
+            + "ORDER BY h.idhistoricoAcessos DESC";
 
     try (Connection conn = Conexao.conectar();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
