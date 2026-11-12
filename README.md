@@ -665,11 +665,120 @@ Sua estrutura permite organizar informações de funcionários, cargos, setores 
 A separação entre interface, Controllers e Models contribui para a organização do código, facilita a manutenção e permite que cada parte do sistema tenha uma responsabilidade específica.
 
 # Perfil de Usuários
+Funcionamento da Tela Perfil dos Usuários
+A tela Perfil dos Usuários funciona como um ambiente de gerenciamento das contas dos funcionários que utilizam o sistema do supermercado.
 
+Quando o funcionário responsável acessa essa tela, ele pode consultar os usuários cadastrados, selecionar uma conta e realizar operações de gerenciamento.
+
+O funcionamento acontece da seguinte forma:
+
+## Cadastro de Usuários: o funcionário responsável pode cadastrar novas contas de acesso, preenchendo as informações necessárias, como nome, CPF, e-mail e senha.
+
+## Consulta e Atualização: os usuários cadastrados são apresentados em uma tabela. Ao selecionar um registro, suas informações são carregadas nos campos correspondentes, permitindo consultar e atualizar os dados.
+
+## Controle de Bloqueio: o responsável pode bloquear ou desbloquear uma conta, impedindo ou permitindo que determinado usuário realize o login no sistema.
+
+## Gerenciamento de Permissões: é possível selecionar um usuário e definir quais áreas do sistema ele poderá acessar, como produtos, estoque, vendas, clientes, financeiro e relatórios.
+
+## Histórico de Acessos: o sistema registra as entradas dos usuários, armazenando informações como data, horário, terminal e dispositivo. O responsável pode consultar esses registros e filtrar o histórico pelo funcionário selecionado.
+
+Dessa forma, a tela permite que o funcionário responsável tenha controle sobre as contas cadastradas, mantenha as informações atualizadas, organize os níveis de acesso e acompanhe a utilização do sistema, contribuindo para a segurança e organização do supermercado.
+
+Models e Controllers necessários
+Model	Controller	Função
+Usuario	UsuarioController	Cadastrar, listar, atualizar e bloquear usuários.
+Funcionario	FuncionarioController	Consultar funcionários e preencher as ComboBoxes.
+Permissoes	PermissoesController	Consultar, cadastrar e atualizar permissões de acesso.
+HistoricoAcessos	HistoricoAcessosController	Registrar, listar e filtrar o histórico de acessos.
 # Solicitações
 A Tela de Solicitação de Compras é responsável pelo gerenciamento das compras do supermercado, permitindo cadastrar, consultar, editar e excluir solicitações. Ela utiliza principalmente cinco tabelas do MySQL: compras, itensCompra, produtos, fornecedores e Funcionario. Sua implementação segue uma separação entre interface gráfica, Models e Controllers, utilizando Java Swing, JDBC e MySQL para realizar as operações de CRUD e manter a integridade dos dados.
 
 # Alterar Senha
+Anexo do usuário
+agora faça para a tela recuperação de senha
+Para a tela Recuperar Senha (TelaRecuperarSenha), você precisa de 1 Model e 1 Controller principal, pois a recuperação da senha está relacionada à tabela usuario.
 
+1. Model e Controller necessários
+Classe
+
+Responsabilidade
+
+Usuario.java
+
+Representa os dados do usuário, incluindo CPF e senha.
+
+UsuarioController.java
+
+Localiza o usuário pelo CPF, valida os dados e atualiza a senha.
+
+2. Funcionamento da tela
+A tela Recuperar Senha permite que o usuário redefina sua senha de acesso ao sistema utilizando seu CPF como identificação.
+
+## CPF
+
+O usuário informa o CPF cadastrado no sistema. O Controller consulta a tabela usuario para verificar se existe uma conta associada ao documento informado.
+
+## Nova Senha
+
+O usuário informa a nova senha que deseja utilizar para acessar o sistema.
+
+## Confirmar Nova Senha
+
+O usuário digita novamente a nova senha. O sistema verifica se os dois campos possuem o mesmo conteúdo.
+
+## Botão Salvar Nova Senha
+
+Ao clicar, o sistema realiza as seguintes verificações:
+
+Verifica se todos os campos foram preenchidos.
+
+Valida se o CPF está cadastrado.
+
+Verifica se a nova senha e a confirmação são iguais.
+
+Verifica se a nova senha atende aos critérios de segurança.
+
+Atualiza a senha do usuário no banco de dados.
+
+Apresenta uma mensagem informando o resultado da operação.
+
+## Botão Voltar ao Login
+
+Retorna à tela de login sem realizar alterações na senha.
 # Recuperação de Senha
+1. Model e Controller necessários
+Classe	Responsabilidade
+Usuario.java	Representa os dados do usuário, incluindo sua senha.
+UsuarioController.java	Valida a senha atual e realiza a alteração da nova senha.
 
+2. Funcionamento da tela
+A tela Alterar Senha permite que o funcionário que está utilizando o sistema modifique sua senha de acesso, garantindo que somente ele possa realizar essa alteração mediante a confirmação da senha atual.
+
+Senha Atual
+
+O funcionário informa sua senha atual. O sistema consulta o banco de dados e verifica se ela corresponde à senha cadastrada para sua conta.
+
+Nova Senha
+
+O funcionário informa a nova senha que deseja utilizar para acessar o sistema.
+
+Confirmar Nova Senha
+
+O funcionário digita novamente a nova senha. O sistema verifica se os dois campos possuem o mesmo conteúdo.
+
+Botões Mostrar
+
+Permitem visualizar ou ocultar o conteúdo digitado nos campos de senha.
+
+Botão Cancelar
+
+Cancela a operação e limpa os campos da tela, sem realizar alterações no banco de dados.
+
+Botão Salvar Nova Senha
+
+Realiza as seguintes verificações:
+1. Verifica se todos os campos foram preenchidos.
+2. Confirma se a senha atual está correta.
+3. Verifica se a nova senha é diferente da atual.
+4. Confirma se a nova senha e sua confirmação são iguais.
+5. Atualiza a senha do usuário no banco de dados.
