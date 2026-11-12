@@ -174,7 +174,32 @@ Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro d
 
 # Pedidos
 
+A tela permite que o funcionário do supermercado realize o cadastro e o gerenciamento dos pedidos feitos pelos clientes. Por meio dela, é possível registrar as informações do pedido, como número, data, status, CPF do cliente, endereço e horário de entrega. Também permite consultar pedidos cadastrados, visualizar seus detalhes, realizar a separação e conferência dos produtos, alterar o status e cancelar pedidos quando necessário. As informações são armazenadas e consultadas no banco de dados, utilizando a tabela pedidos e suas relações com as tabelas de clientes, usuários e entregas. Essa tela utiliza a classe Pedidos do Model e a classe PedidosController do Control. Nela são divididas em 6 abas:
+##Cadastro
+##Consulta e Detalhes
+##Separação
+##Conferência
+##Alteração de Status
+##Cancelamento
+
+
 # Entregas
+
+A tela permite que o funcionário do supermercado realize o cadastro e o gerenciamento das entregas dos pedidos feitos pelos clientes. Por meio dela, é possível cadastrar entregadores, veículos, taxas de entrega, endereços e regiões atendidas, além de organizar datas, horários e agendas de entrega. Também permite distribuir as entregas entre os funcionários responsáveis, atualizar seus status, registrar tentativas de entrega e confirmar quando um pedido é recebido pelo cliente. As informações são armazenadas e consultadas no banco de dados, utilizando a tabela entregas e suas relações com as tabelas de clientes, veículos, taxas de entrega e funcionários. Essa tela utiliza a classe Entrega, Endereco, TaxasEntregas, Funcionario e Veiculos do Model e a classe EntregaController, EnderecoController, TaxasEntregasController, FuncionarioController e VeiculosController do Control. Nelas são divididas em 13 abas:
+##Entregadores
+##Veículos
+##Taxas
+##Endereços
+##Entregas
+##Regiões
+##Data e Horário
+##Agenda
+##Distribuição
+##Status
+##Tentativas
+##Confirmação
+##Histórico e Relatório
+
 
 # Vendas
 A tela de Vendas foi desenvolvida em Java Swing e tem como objetivo permitir a consulta e o acompanhamento das vendas realizadas no supermercado, reunindo informações comerciais e financeiras em uma única interface. Ela apresenta áreas destinadas à consulta de vendas, filtros por período, informações de operadores e produtos, formas de pagamento, cancelamentos, estornos, comprovantes, bandeiras de cartões, parcelamentos, taxas e contas bancárias.
