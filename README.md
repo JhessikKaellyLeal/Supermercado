@@ -501,6 +501,199 @@ As informações são organizadas em tabelas (JTable) e listas de seleção (JCo
 A tela de Vendas busca centralizar as informações das operações comerciais do supermercado, facilitando a visualização dos registros, o acompanhamento dos valores, a identificação dos responsáveis pelas vendas e a consulta das informações relacionadas aos pagamentos. Sua estrutura também reúne recursos de apoio ao controle financeiro e administrativo das vendas.
 
 # PDV
+# Módulo de Ponto de Venda (PDV)
+
+## 1. Sobre o módulo
+
+O módulo de Ponto de Venda (PDV) faz parte do sistema de gerenciamento de supermercado, desenvolvido em Java, utilizando Java Swing para a construção das interfaces gráficas e MySQL para o armazenamento das informações.
+
+Seu objetivo é permitir a realização de vendas no estabelecimento, possibilitando a leitura de códigos de barras, inclusão de produtos na venda, acompanhamento dos valores e finalização da operação.
+
+O módulo também utiliza informações de usuários, caixas e produtos para registrar as operações realizadas.
+
+## 2. Tecnologias utilizadas
+
+- **Java:** linguagem de programação utilizada no desenvolvimento.
+- **Java Swing:** biblioteca utilizada para a construção das interfaces gráficas.
+- **NetBeans:** ambiente de desenvolvimento utilizado no projeto.
+- **MySQL:** sistema gerenciador de banco de dados.
+- **JDBC:** tecnologia utilizada para realizar a comunicação entre a aplicação Java e o banco de dados.
+
+## 3. Organização do código
+
+A tela principal do módulo é representada pela classe:
+
+- `TelaPdvRealizacao`: responsável pela interface gráfica e pelas operações realizadas na tela de PDV.
+
+O projeto utiliza os seguintes componentes para trabalhar com os dados:
+
+- **View:** apresenta a interface gráfica e recebe as interações do operador.
+- **Controller:** disponibiliza métodos para operações relacionadas aos dados.
+- **Model:** representa as entidades utilizadas pela aplicação.
+
+### Classes relacionadas ao PDV
+
+**Models identificados:**
+- `CodigoBarras`
+- `Usuario`
+
+**Controllers identificados:**
+- `CodigoBarrasController`
+- `UsuarioController`
+
+**Classes auxiliares:**
+- `Conexao`: responsável por fornecer a conexão com o banco de dados.
+- `MenuPadrao`: utilizado para a navegação entre as telas do sistema.
+
+**Observação:** embora os Controllers de código de barras e usuário estejam relacionados ao sistema, os métodos apresentados na tela `TelaPdvRealizacao` realizam consultas e operações diretamente no banco de dados em vez de utilizar esses Controllers.
+
+## 4. Funcionalidades da tela
+
+### 4.1. Identificação do operador
+
+A tela recebe um objeto `Usuario` pelo construtor e armazena essa informação para identificar o usuário durante a utilização do PDV.
+
+Esse objeto também é utilizado na inicialização do menu de navegação, permitindo manter o contexto do usuário ao acessar outras telas.
+
+### 4.2. Leitura de código de barras
+
+Permite informar ou realizar a leitura de um código de barras para localizar um produto cadastrado.
+
+A consulta verifica:
+- Código de barras informado;
+- Associação do código ao produto;
+- Situação ativa do código de barras;
+- Situação ativa do produto.
+
+Quando o produto é localizado, suas informações são utilizadas para inclusão na tabela de itens da venda.
+
+### 4.3. Inclusão de produtos na venda
+
+Após localizar o produto, a aplicação verifica se ele já está presente na tabela de itens.
+
+- Caso o produto já esteja na lista, sua quantidade é incrementada, respeitando a disponibilidade em estoque.
+- Caso ainda não esteja na lista, ele é adicionado com quantidade inicial igual a um.
+- O valor total da linha é atualizado de acordo com a quantidade e o preço do produto.
+
+### 4.4. Atualização dos valores
+
+O método `atualizarTotalVenda()` percorre os itens presentes na tabela e calcula o valor total da venda.
+
+São considerados:
+- Quantidade de cada produto;
+- Valor total de cada linha;
+- Quantidade total de itens.
+
+Os resultados são apresentados nos campos correspondentes da interface.
+
+### 4.5. Finalização da venda
+
+O método `finalizarVenda()` realiza as operações necessárias para registrar a venda.
+
+Antes de prosseguir, verifica:
+- Se existem produtos na tabela;
+- Se o valor total é válido;
+- Se o valor recebido é suficiente para pagar a compra.
+
+Em seguida, calcula o troco e utiliza as informações do operador e do caixa selecionado para localizar seus respectivos registros no banco de dados.
+
+A operação utiliza transação JDBC, com `commit()` para confirmar as alterações e `rollback()` em caso de erro.
+
+### 4.6. Registro dos itens vendidos
+
+Após registrar a venda, a aplicação obtém o identificador gerado e utiliza esse código para associar os itens à venda na tabela `itensVendas`.
+
+São registrados:
+- Quantidade;
+- Preço unitário;
+- Desconto;
+- Valor total;
+- Identificador da venda.
+
+### 4.7. Atualização do estoque
+
+Durante a finalização, a aplicação executa uma atualização no estoque dos produtos vendidos.
+
+A operação subtrai a quantidade comercializada do estoque disponível, verificando se existe quantidade suficiente.
+
+Caso a atualização não afete nenhum registro, a operação gera uma exceção e a transação pode ser revertida.
+
+## 5. Estrutura do banco de dados
+
+O módulo PDV utiliza as seguintes tabelas do banco de dados `supermercado`:
+
+| Tabela | Finalidade |
+|---|---|
+| `codigoBarras` | Armazena os códigos de barras associados aos produtos. |
+| `produtos` | Armazena os dados dos produtos, incluindo nome, preço e estoque. |
+| `usuario` | Armazena os dados dos usuários que operam o sistema. |
+| `caixas` | Armazena os caixas disponíveis no supermercado. |
+| `vendas` | Armazena os registros das vendas realizadas. |
+| `itensVendas` | Armazena os produtos e valores associados a cada venda. |
+
+### 5.1. Relacionamentos entre as tabelas
+
+Os principais relacionamentos utilizados são:
+
+- **codigoBarras e produtos:** cada código de barras está associado a um produto.
+- **vendas e usuario:** cada venda possui referência ao usuário responsável.
+- **vendas e caixas:** cada venda possui referência ao caixa utilizado.
+- **itensVendas e vendas:** os itens são associados à venda correspondente.
+
+## 6. Estrutura dos Models
+
+### CodigoBarras
+
+A classe `CodigoBarras` representa os dados relacionados aos códigos de barras dos produtos.
+
+Seus atributos incluem:
+- Identificador do código de barras;
+- Código;
+- Tipo;
+- Descrição;
+- Situação;
+- Imagem;
+- Identificadores do produto, categoria, marca e unidade de medida.
+
+### Usuario
+
+A classe `Usuario` representa os dados de identificação e acesso dos usuários do sistema.
+
+Seus atributos incluem:
+- Identificador do usuário;
+- Nome;
+- CPF;
+- E-mail;
+- Senha;
+- Situação de bloqueio;
+- Identificador do funcionário relacionado.
+
+## 7. Estrutura dos Controllers
+
+### CodigoBarrasController
+
+Disponibiliza métodos para manipulação dos códigos de barras:
+
+- `cadastrar()`: realiza o cadastro de um código de barras.
+- `listar()`: consulta os códigos de barras e seus respectivos produtos.
+- `editar()`: atualiza as informações de um código de barras.
+- `desativar()`: altera a situação do código de barras para inativo.
+
+### UsuarioController
+
+Disponibiliza métodos para manipulação dos usuários:
+
+- `cadastrar()`: registra um novo usuário.
+- `login()`: verifica e-mail, senha e situação de bloqueio.
+- `consultarPorCPF()`: consulta um usuário pelo CPF.
+- `atualizar()`: modifica os dados de um usuário.
+- `excluir()`: remove um usuário pelo identificador.
+
+**Observação:** os métodos desses Controllers estão disponíveis no projeto, mas não são chamados diretamente pelos métodos de leitura de produtos e finalização da venda apresentados na tela de PDV.
+
+## 8. Considerações técnicas
+
+A implementação
 
 # Venda e Pagamentos
 
