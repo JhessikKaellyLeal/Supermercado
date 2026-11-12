@@ -86,6 +86,62 @@ Módulo responsável pelo gerenciamento completo dos fornecedores e empresas ter
 
 # Clientes
 
+## Tela de Promoções / Aba Promocoes
+
+Tela responsável pelo cadastro e gerenciamento das promoções dos produtos da loja. Permite registrar ofertas, definir preços promocionais e períodos de validade, facilitando a organização e o controle das campanhas promocionais do supermercado.
+
+##Principais funcionalidades:
+- Cadastrar novas promoções para os produtos.
+- Definir o preço promocional.
+- Informar a data de início e término da promoção.
+- Gerenciar as promoções cadastradas.
+- Facilitar a identificação dos produtos em oferta.
+
+# Tabela do banco utilizada no MYsql
+
+CREATE TABLE IF NOT EXISTS promocao (
+  idpromocao INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(45) NOT NULL,
+  tipo VARCHAR(45) NOT NULL,
+  status TINYINT NOT NULL,
+  dataInicio VARCHAR(45) NOT NULL,
+  dataFinal VARCHAR(45) NOT NULL,
+  regras VARCHAR(200) NULL,
+  desconto INT NOT NULL,
+  qttMinima INT NOT NULL
+);
+
+## Tela de Promoções / Aba Cupom
+
+Aba responsável pelo cadastro e gerenciamento de cupons de desconto da loja. Permite criar cupons promocionais para oferecer benefícios aos clientes durante suas compras, incentivando o consumo e proporcionando descontos em produtos ou no valor total dos pedidos.
+
+**Principais funcionalidades:**
+- Cadastrar novos cupons de desconto.
+- Definir códigos exclusivos para os cupons.
+- Estabelecer o tipo e o valor do desconto.
+- Definir o período de validade dos cupons.
+- Configurar regras de utilização e limites de uso.
+- Gerenciar os cupons cadastrados.
+
+# Tabela do banco utilizada no MYsql
+
+CREATE TABLE IF NOT EXISTS cupom (
+  idcupom INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  codigoCupom VARCHAR(45) NOT NULL,
+  tipoDesconto VARCHAR(45) NOT NULL,
+  valorDesconto DOUBLE NOT NULL,
+  valorMinimoCompra DOUBLE NOT NULL,
+  qttMaximaUso INT NOT NULL,
+  limitePorCliente INT NOT NULL,
+  tipoUso VARCHAR(45) NOT NULL,
+  dataInicio VARCHAR(45) NOT NULL,
+  dataFinal VARCHAR(45) NOT NULL,
+  observacao VARCHAR(200) NULL,
+  promocao_idpromocao INT NOT NULL
+);
+
+Ambas as duas abas permitem realizar o cadastro de determinadas funcoes dentro do sistema de supermercado
+
 # Pedidos
 
 # Entregas
