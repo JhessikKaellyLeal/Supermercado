@@ -831,3 +831,9 @@ Realiza as seguintes verificações:
 3. Verifica se a nova senha é diferente da atual.
 4. Confirma se a nova senha e sua confirmação são iguais.
 5. Atualiza a senha do usuário no banco de dados.
+
+Tabela: usuario
+Campo	Utilização
+idusuario	Identifica o usuário cadastrado.
+cpf	Localiza a conta do usuário.
+senha	Armazena a nova senha após a recuperação.
