@@ -110,7 +110,7 @@ cliente, endereco, vendas, pagamentovenda, formaspagamento e pedidos.
 
 Tela responsável pelo cadastro e gerenciamento das promoções dos produtos da loja. Permite registrar ofertas, definir preços promocionais e períodos de validade, facilitando a organização e o controle das campanhas promocionais do supermercado.
 
-##Principais funcionalidades:
+## Principais funcionalidades:
 - Cadastrar novas promoções para os produtos.
 - Definir o preço promocional.
 - Informar a data de início e término da promoção.
@@ -139,7 +139,7 @@ Controller: promocao_controller.js – responsável por processar as requisiçõ
 
 Aba responsável pelo cadastro e gerenciamento de cupons de desconto da loja. Permite criar cupons promocionais para oferecer benefícios aos clientes durante suas compras, incentivando o consumo e proporcionando descontos em produtos ou no valor total dos pedidos.
 
-**Principais funcionalidades:**
+## Principais funcionalidades:
 - Cadastrar novos cupons de desconto.
 - Definir códigos exclusivos para os cupons.
 - Estabelecer o tipo e o valor do desconto.
