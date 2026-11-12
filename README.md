@@ -529,462 +529,148 @@ A seguir, está a descrição das principais telas e suas funcionalidades dentro
 # Financeiro
 
 # Funcionários / RH
-# Módulo de Recursos Humanos (RH) — Sistema de Supermercado
+# Módulo de Recursos Humanos (RH)
 
-## 1. Visão geral
+## 1. Sobre o módulo
 
-O módulo de Recursos Humanos (RH) é responsável por organizar e administrar informações relacionadas aos funcionários e à estrutura de trabalho do supermercado.
+O módulo de Recursos Humanos (RH) faz parte do sistema de gerenciamento de supermercado, desenvolvido em Java, utilizando Java Swing para a construção das interfaces gráficas e MySQL para o armazenamento dos dados.
 
-A interface foi desenvolvida em **Java**, utilizando a biblioteca **Java Swing**, por meio de uma tela principal chamada `Tela_Funcionarios_RH.java`.
+Seu objetivo é centralizar o gerenciamento dos funcionários e das informações relacionadas à organização do trabalho, permitindo o controle de cargos, setores, turnos, escalas, registros de ponto, férias, afastamentos e metas.
 
-A tela utiliza componentes gráficos, incluindo um `JTabbedPane`, que organiza as funcionalidades em diferentes abas, facilitando o acesso e a administração das informações.
+O módulo também está relacionado ao gerenciamento de usuários, permissões de acesso e histórico de acessos ao sistema.
 
-O módulo utiliza o banco de dados MySQL para armazenar os registros e segue uma organização baseada em três partes principais:
+## 2. Tecnologias utilizadas
 
-- **View (Interface):** apresenta as telas e permite a interação do usuário.
-- **Controller (Controle):** executa as operações e faz a comunicação com o banco de dados.
-- **Model (Modelo):** representa os dados e atributos das entidades do sistema.
+- **Java:** linguagem de programação utilizada no desenvolvimento do sistema.
+- **Java Swing:** biblioteca utilizada para construir as interfaces gráficas.
+- **NetBeans:** ambiente de desenvolvimento utilizado na construção do projeto.
+- **MySQL:** sistema gerenciador de banco de dados utilizado para armazenar as informações.
+- **JDBC:** tecnologia utilizada para estabelecer a comunicação entre a aplicação Java e o banco de dados.
 
-## 2. Funcionalidades da tela de RH
+## 3. Organização do código
 
-A tela principal reúne funcionalidades relacionadas à administração dos recursos humanos do supermercado.
+O módulo utiliza uma organização baseada em três componentes principais:
 
-### 2.1. Funcionários
+- **View:** contém as telas e os componentes gráficos com os quais o usuário interage.
+- **Controller:** concentra métodos responsáveis pelas operações e pelo gerenciamento dos dados.
+- **Model:** representa as entidades e estruturas de dados utilizadas pelo sistema.
 
-Permite trabalhar com os dados cadastrais dos funcionários, incluindo:
+Essa organização busca separar a interface gráfica das operações relacionadas aos dados.
 
-- Nome;
-- CPF;
-- Telefone;
-- Data de nascimento;
-- Data de admissão;
-- Cargo;
-- Setor;
-- Turno;
-- Status do funcionário.
+## 4. Funcionalidades do módulo
 
-O cadastro utiliza informações selecionadas nos campos da interface e encaminha os dados ao `FuncionarioController`.
+### 4.1. Gerenciamento de funcionários
 
-### 2.2. Cargos
+Permite trabalhar com os dados dos funcionários, incluindo:
 
-Permite cadastrar e administrar os cargos existentes no supermercado.
+- Cadastro de funcionários;
+- Consulta de funcionários;
+- Edição de informações;
+- Identificação por CPF;
+- Associação do funcionário a um cargo, setor e turno;
+- Controle da situação do funcionário.
 
-As informações utilizadas incluem:
+### 4.2. Gerenciamento de cargos
 
-- Nome do cargo;
-- Descrição;
+Permite cadastrar e organizar os cargos existentes no supermercado, armazenando informações como:
+
+- Nome e descrição do cargo;
 - Salário-base;
 - Carga horária;
 - Adicional de periculosidade;
 - Adicional de insalubridade;
 - Adicional noturno;
-- Status do cargo.
+- Situação do cargo.
 
-### 2.3. Setores
+### 4.3. Gerenciamento de setores
 
-Permite organizar os setores da empresa, registrando:
+Permite organizar os setores do supermercado, armazenando o nome, a descrição e a situação de cada setor.
 
-- Nome do setor;
-- Descrição;
-- Status.
+### 4.4. Gerenciamento de turnos
 
-### 2.4. Turnos
+Permite cadastrar os turnos de trabalho, registrando:
 
-Permite cadastrar e administrar os horários de trabalho.
-
-Os dados utilizados incluem:
-
-- Nome do turno;
-- Descrição;
-- Horário de início;
-- Horário de saída;
-- Início e término do intervalo;
+- Nome e descrição;
+- Horário de início e saída;
+- Horários de intervalo;
 - Duração do turno;
-- Indicação de turno noturno;
-- Status.
+- Identificação de turno noturno;
+- Situação do turno.
 
-### 2.5. Escalas
+### 4.5. Gerenciamento de escalas
 
-Permite registrar e consultar escalas de trabalho dos funcionários.
+Armazena os períodos de escala associados aos funcionários, considerando os dados de funcionário, cargo, setor e turno.
 
-O cadastro trabalha com:
+### 4.6. Controle de ponto
 
-- Período inicial;
-- Período final;
-- Identificação do funcionário.
+Armazena os registros de ponto dos funcionários, incluindo data, horário, justificativa e possibilidade de anexar um arquivo relacionado ao registro.
 
-O Controller também possui operações para consultar, atualizar e excluir escalas, além de obter o ID de um funcionário a partir de seu nome.
+### 4.7. Gerenciamento de férias
 
-### 2.6. Controle de ponto
+O banco de dados possui estrutura para registrar períodos de férias e suas respectivas situações, além de uma tabela de associação entre funcionários e férias.
 
-Permite registrar informações relacionadas ao ponto dos funcionários.
+### 4.8. Gerenciamento de afastamentos
 
-Os dados utilizados são:
-
-- Data;
-- Horário;
-- Justificativa;
-- Arquivo anexado;
-- Identificação do funcionário;
-- Cargo;
-- Setor;
-- Turno.
-
-O sistema trabalha com o arquivo anexado em formato de bytes (`byte[]`), permitindo que o Controller encaminhe seu conteúdo ao banco de dados.
-
-### 2.7. Afastamentos
-
-Permite registrar informações sobre afastamentos dos funcionários.
-
-Os dados utilizados incluem:
+Permite armazenar informações sobre afastamentos, como:
 
 - Tipo de afastamento;
-- Data de início;
-- Data final;
+- Data de início e término;
 - Quantidade de dias;
 - Situação;
 - Data de registro;
-- Funcionário;
-- Cargo;
-- Setor;
-- Turno.
+- Funcionário relacionado.
 
-### 2.8. Férias
+### 4.9. Gerenciamento de metas
 
-A interface possui uma funcionalidade de cadastro de férias, utilizando:
-
-- Data de início;
-- Data final;
-- Situação.
-
-**Observação:** o código da tela chama um `FeriasController`, mas esse Controller não foi enviado para análise. Portanto, suas operações internas e sua implementação não estão documentadas nesta versão.
-
-### 2.9. Metas
-
-Permite registrar e acompanhar metas associadas aos funcionários.
-
-Os dados utilizados incluem:
+A estrutura permite registrar metas associadas aos funcionários, contendo:
 
 - Tipo de meta;
-- Período inicial;
-- Período final;
+- Período inicial e final;
 - Meta prevista;
 - Resultado atual;
 - Porcentagem atingida;
-- Situação;
-- Funcionário;
-- Cargo;
-- Setor;
-- Turno.
+- Situação.
 
-## 3. Controllers utilizados
+### 4.10. Usuários e permissões
 
-Os Controllers são responsáveis por receber as informações da interface, executar as operações necessárias e realizar a comunicação com o banco de dados.
+O módulo também se relaciona ao controle de usuários e permissões do sistema.
 
-A seguir estão os Controllers identificados no projeto.
+A estrutura permite:
+- Associar um usuário a um funcionário;
+- Armazenar nome, CPF, e-mail e senha;
+- Controlar o bloqueio de usuários;
+- Definir permissões de acesso às diferentes áreas do sistema.
 
-### 3.1. FuncionarioController
+### 4.11. Histórico de acessos
 
-Responsável pelas operações relacionadas aos funcionários.
+O banco de dados possui uma tabela para armazenar informações sobre os acessos dos usuários, incluindo data, horário, IP do terminal, dispositivo e usuário relacionado.
 
-**Principais métodos:**
+## 5. Estrutura do banco de dados
 
-| Método | Função |
+O módulo RH utiliza as seguintes tabelas do banco de dados `supermercado`:
+
+| Tabela | Finalidade |
 |---|---|
-| `cadastrar()` | Cadastra um funcionário. |
-| `consultarPorCPF()` | Consulta um funcionário pelo CPF. |
-| `consultarPorID()` | Consulta um funcionário pelo identificador. |
-| `listarFuncionarios()` | Retorna os registros de funcionários. |
-| `listar()` | Retorna uma lista de funcionários. |
-| `atualizar()` | Atualiza os dados de um funcionário. |
-| `excluir()` | Exclui um funcionário. |
-
-### 3.2. CargosController
-
-Responsável pelo gerenciamento dos cargos.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Cadastra um cargo. |
-| `listar()` | Lista os cargos cadastrados. |
-| `atualizar()` | Atualiza um cargo. |
-| `excluir()` | Exclui um cargo. |
-
-### 3.3. SetoresController
-
-Responsável pelo gerenciamento dos setores.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Cadastra um setor. |
-| `listar()` | Lista os setores cadastrados. |
-| `atualizar()` | Atualiza um setor. |
-| `excluir()` | Exclui um setor. |
-
-### 3.4. TurnosController
-
-Responsável pelo gerenciamento dos turnos de trabalho.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Cadastra um turno. |
-| `listar()` | Lista os turnos. |
-| `listarAtivos()` | Retorna os turnos ativos. |
-| `consultarPorId()` | Consulta um turno pelo ID. |
-| `pesquisarPorNome()` | Pesquisa turnos pelo nome. |
-| `atualizar()` | Atualiza os dados de um turno. |
-| `alterarStatus()` | Altera o status de um turno. |
-| `excluir()` | Exclui um turno. |
-| `consultarLista()` | Realiza uma consulta de turnos. |
-| `montarTurno()` | Monta um objeto de turno a partir dos dados consultados. |
-
-### 3.5. EscalaController
-
-Responsável pelo gerenciamento das escalas de trabalho.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Cadastra uma escala. |
-| `consultarPorID()` | Consulta uma escala pelo ID. |
-| `listarEscalas()` | Lista as escalas cadastradas. |
-| `atualizar()` | Atualiza uma escala. |
-| `excluir()` | Exclui uma escala. |
-| `obterIdFuncionarioPorNome()` | Obtém o ID do funcionário pelo nome. |
-
-### 3.6. PontoController
-
-Responsável pelas operações relacionadas ao controle de ponto.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Registra um ponto. |
-| `listar()` | Lista os registros de ponto. |
-| `atualizar()` | Atualiza um registro de ponto. |
-| `excluir()` | Exclui um registro de ponto. |
-
-### 3.7. AfastamentosController
-
-Responsável pelo gerenciamento dos afastamentos.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Registra um afastamento. |
-| `listar()` | Lista os afastamentos. |
-| `atualizar()` | Atualiza um afastamento. |
-| `excluir()` | Exclui um afastamento. |
-| `IdsFuncionario()` | Obtém os IDs relacionados ao funcionário a partir do nome. |
-
-### 3.8. MetasController
-
-Responsável pelo gerenciamento das metas dos funcionários.
-
-| Método | Função |
-|---|---|
-| `cadastrar()` | Cadastra uma meta. |
-| `listar()` | Lista as metas. |
-| `atualizar()` | Atualiza uma meta. |
-| `excluir()` | Exclui uma meta. |
-| `listarTiposMeta()` | Retorna os tipos de meta disponíveis. |
-
-## 4. Models utilizados
-
-Os Models representam as entidades e seus respectivos atributos, organizando os dados utilizados pelos Controllers.
-
-As classes identificadas no arquivo enviado foram:
-
-### 4.1. Cargos
-
-Representa os cargos existentes no supermercado.
-
-Atributos:
-
-- `idcargos`
-- `nome`
-- `descricao`
-- `salariobase`
-- `cargahorario`
-- `adicionalpericulosidade`
-- `adicionalinsalubridade`
-- `adicionalnoturno`
-- `statuscargo`
-
-### 4.2. Setores
-
-Representa os setores da empresa.
-
-Atributos:
-
-- `idsetores`
-- `nome`
-- `descricao`
-- `status`
-
-### 4.3. Turnos
-
-Representa os turnos de trabalho.
-
-Atributos:
-
-- `idturnos`
-- `nome`
-- `descricao`
-- `horaInicio`
-- `horaSaida`
-- `intervaloInicio`
-- `intervaloFinal`
-- `duracaoTurno`
-- `turnoNoturno`
-- `status`
-
-### 4.4. Escala
-
-Representa os períodos de escala dos funcionários.
-
-Atributos:
-
-- `iddiasTrabalhados`
-- `Funcionario_idFuncionario`
-- `Funcionario_cargos_idcargos`
-- `Funcionario_setores_idsetores`
-- `Funcionario_turnos_idturnos`
-- `periodoInicial`
-- `periodoFinal`
-
-### 4.5. Ponto
-
-Representa os registros de ponto dos funcionários.
-
-Atributos:
-
-- `idponto`
-- `Funcionario_idFuncionario`
-- `Funcionario_cargos_idcargos`
-- `Funcionario_setores_idsetores`
-- `Funcionario_turnos_idturnos`
-- `data`
-- `horario`
-- `justificativa`
-- `arquivo`
-
-### 4.6. Afastamentos
-
-Representa os registros de afastamento dos funcionários.
-
-Atributos:
-
-- `idafastamentos`
-- `Funcionario_idFuncionario`
-- `Funcionario_cargos_idcargos`
-- `Funcionario_setores_idsetores`
-- `Funcionario_turnos_idturnos`
-- `tipo`
-- `inicio`
-- `finalAfastamentos`
-- `dias`
-- `situacao`
-- `dataRegistro`
-
-### 4.7. Metas
-
-Representa as metas associadas aos funcionários.
-
-Atributos:
-
-- `idmetas`
-- `Funcionario_idFuncionario`
-- `Funcionario_cargos_idcargos`
-- `Funcionario_setores_idsetores`
-- `Funcionario_turnos_idturnos`
-- `tipo`
-- `periodoInicial`
-- `periodoFinal`
-- `situacao`
-- `metaPrevista`
-- `resultadoAtual`
-- `porcentagemAtingido`
-
-**Observação:** os arquivos `Funcionario.java` e `Ferias.java` não estavam presentes no ZIP enviado. Por isso, seus atributos não foram incluídos nesta documentação.
-
-## 5. Comunicação entre as camadas
-
-O funcionamento do módulo segue o fluxo abaixo:
-
-1. O usuário interage com a tela `Tela_Funcionarios_RH.java`.
-2. A interface captura os valores preenchidos nos campos.
-3. A tela chama o método correspondente do Controller.
-4. O Controller executa a operação utilizando a conexão com o banco de dados.
-5. O banco de dados armazena ou retorna as informações.
-6. O resultado é utilizado pela aplicação para atualizar ou apresentar os dados na interface.
-
-### Exemplo de fluxo
-
-```text
-Usuário
-   |
-   v
-Tela_Funcionarios_RH.java
-   |
-   v
-FuncionarioController
-   |
-   v
-Conexao / MySQL
-   |
-   v
-Banco de dados
-```
-
-Os Controllers utilizam classes como `Connection`, `PreparedStatement` e `ResultSet`, da biblioteca JDBC, para executar consultas e operações no banco de dados.
-
-## 6. Organização dos arquivos
-
-Com base nos arquivos enviados, a organização identificada é:
-
-```text
-src/
-├── Control/
-│   ├── FuncionarioController.java
-│   ├── CargosController.java
-│   ├── SetoresController.java
-│   ├── TurnosController.java
-│   ├── EscalaController.java
-│   ├── PontoController.java
-│   ├── AfastamentosController.java
-│   └── MetasController.java
-│
-├── Model/
-│   ├── Cargos.java
-│   ├── Setores.java
-│   ├── Turnos.java
-│   ├── Escala.java
-│   ├── Ponto.java
-│   ├── Afastamentos.java
-│   └── Metas.java
-│
-├── Conection/
-│   └── Conexao.java
-│
-└── View/
-    └── Tela_Funcionarios_RH.java
-```
-
-*Observação: a estrutura acima representa os arquivos identificados e os pacotes utilizados nos códigos enviados. A localização exata da classe de conexão e da tela deve ser conferida na estrutura completa do projeto.*
-
-## 7. Tecnologias utilizadas
-
-- **Java:** linguagem de programação utilizada no desenvolvimento.
-- **Java Swing:** biblioteca utilizada para construir a interface gráfica.
-- **NetBeans:** ambiente de desenvolvimento integrado utilizado no projeto.
-- **MySQL:** sistema gerenciador de banco de dados.
-- **JDBC:** tecnologia utilizada para realizar a comunicação entre Java e MySQL.
-
-## 8. Considerações finais
-
-O módulo de Recursos Humanos centraliza diferentes operações administrativas relacionadas aos funcionários do supermercado.
-
-Sua estrutura permite organizar informações de funcionários, cargos, setores e turnos, além de disponibilizar funcionalidades relacionadas a escalas, ponto, afastamentos, férias e metas.
-
-A separação entre interface, Controllers e Models contribui para a organização do código, facilita a manutenção e permite que cada parte do sistema tenha uma responsabilidade específica.
+| `Funcionario` | Armazena os dados dos funcionários. |
+| `cargos` | Armazena os cargos e suas características. |
+| `setores` | Armazena os setores do supermercado. |
+| `turnos` | Armazena os horários e características dos turnos. |
+| `escala` | Registra os períodos de escala dos funcionários. |
+| `ponto` | Armazena os registros de ponto. |
+| `ferias` | Armazena os períodos e situações das férias. |
+| `Funcionario_has_ferias` | Relaciona funcionários aos registros de férias. |
+| `afastamentos` | Armazena os registros de afastamentos. |
+| `metas` | Armazena as metas relacionadas aos funcionários. |
+| `diasTrabalhados` | Armazena os dias da semana. |
+| `Funcionario_has_diasTrabalhados` | Relaciona funcionários aos dias trabalhados. |
+| `usuario` | Armazena os dados dos usuários do sistema. |
+| `permissoes` | Define as permissões disponíveis para as telas do sistema. |
+| `usuario_has_permissoes` | Relaciona usuários às permissões. |
+| `historicoAcessos` | Armazena informações sobre os acessos dos usuários. |
+
+## 6. Relacionamentos entre as tabelas
+
+A estrutura do banco
 
 # Perfil de Usuários
 Funcionamento da Tela Perfil dos Usuários
