@@ -819,6 +819,9 @@ Apresenta uma mensagem informando o resultado da operação.
 ## Botão Voltar ao Login
 
 Retorna à tela de login sem realizar alterações na senha.
+Campo	Utilização
+idusuario	Identifica o usuário que está realizando a alteração.
+senha	Armazena a senha atual e recebe a nova senha após a validação.
 # Recuperação de Senha
 1. Model e Controller necessários
 Classe	Responsabilidade
