@@ -759,11 +759,19 @@ Usuario	UsuarioController	Cadastrar, listar, atualizar e bloquear usuários.
 Funcionario	FuncionarioController	Consultar funcionários e preencher as ComboBoxes.
 Permissoes	PermissoesController	Consultar, cadastrar e atualizar permissões de acesso.
 HistoricoAcessos	HistoricoAcessosController	Registrar, listar e filtrar o histórico de acessos.
-Tabela: usuario
-Campo	Utilização
-idusuario	Identifica o usuário cadastrado.
-cpf	Localiza a conta do usuário.
-senha	Armazena a nova senha após a recuperação.
+1. Tabelas utilizadas
+Tabela	Campos utilizados	Finalidade
+usuario	idusuario, nome, cpf, email, senha, bloqueio, Funcionario_idFuncionario	Cadastro, consulta, atualização e bloqueio dos usuários.
+Funcionario	idFuncionario, nome	Identificação e consulta dos funcionários vinculados aos usuários.
+permissoes	idpermissoes, tipo, telaProdutos, telaEstoque, telaCompras, telaClientes, telaPromocoes, telaCaixa, telaVendas, telaPDV, telaPedidos, telaEntregas, telaRh, telaFinaceiro, telaRelatorios	Controle das permissões de acesso aos módulos do sistema.
+historicoAcessos	idhistoricoAcessos, dataAcesso, horarioAcesso, terminal_ip, dispositivo, usuario_idusuario	Registro e consulta dos acessos realizados pelos usuários.
+
+2. Utilização das tabelas por área
+Área da tela	Tabelas utilizadas
+Cadastro de Usuários	usuario, Funcionario
+Perfil do Usuário	usuario, Funcionario
+Permissões de Acesso	permissoes, usuario, Funcionario
+Histórico de Acessos	historicoAcessos, usuario, Funcionario
 # Solicitações
 A Tela de Solicitação de Compras é responsável pelo gerenciamento das compras do supermercado, permitindo cadastrar, consultar, editar e excluir solicitações. Ela utiliza principalmente cinco tabelas do MySQL: compras, itensCompra, produtos, fornecedores e Funcionario. Sua implementação segue uma separação entre interface gráfica, Models e Controllers, utilizando Java Swing, JDBC e MySQL para realizar as operações de CRUD e manter a integridade dos dados.
 
